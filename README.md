@@ -1,4 +1,4 @@
-B1;2802;0cPartisk
+Partisk
 =======
 
 Partisk - the political party opinion visualizer
@@ -23,5 +23,4 @@ Existing users in the system (user:password):
 Links
 ----------------
 [CakePHP](http://www.cakephp.org) - The rapid development PHP framework
-
 [Cookbook](http://book.cakephp.org) - THE Cake user documentation; start learning here!
