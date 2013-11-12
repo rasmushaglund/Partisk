@@ -1,0 +1,361 @@
+/** 
+ * Main css
+ *
+ * Partisk : Political Party Opinion Visualizer
+ * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+ *
+ * Partisk is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Partisk is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Partisk. If not, see http://www.gnu.org/licenses/.
+ *
+ * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+ * @link        https://www.partisk.nu
+ * @package     app.Webroot.css
+ * @license     http://www.gnu.org/licenses/ GPLv2
+ */
+
+body { 
+    padding-top: 0px; 
+}
+
+.navbar-default .navbar-nav>li>a.active, .navbar-nav>a:hover.active, .navbar-nav>a:focus.active {
+color: #555;
+background-color: #e7e7e7;
+}
+
+img.logo {
+	max-height: 50px;
+	max-width: 50px;
+	display: inline-block;
+}
+
+img.logo.small {
+	max-height: 25px;
+	max-width: 25px;
+	margin-right: 5px;
+}
+
+.table-nonfluid {
+   width: auto;
+}
+
+h1 {
+	display: inline-block;
+}
+
+h1 a {
+	color: black;
+}
+
+h1 a:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
+h1 img {
+	margin-right: 8px;
+}
+
+.table.table-nonfluid tbody > tr > th {
+	vertical-align: middle;
+}
+
+tr.disabled {
+	background-color: lightgray;
+}
+
+#partyMenu {
+	width: 50px;
+}
+
+#partyMenu button {
+	background-color: transparent;
+	border: none;
+}
+
+table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
+	vertical-align: middle;
+}
+
+.qa-table td {
+	text-align: center;
+}
+
+.party-table tr {
+	height: 16px;
+}
+
+.party-table > tbody > tr > th {
+	width: 10px;
+	border-top: none;
+	padding: 2px;
+}
+
+.party-table > tbody > tr > td {
+	border-top: none;
+	padding: 10px 3px;
+}
+
+.yes {
+	background-color: #ddffdd !important;
+}
+
+.no  {
+	background-color: #ffdddd !important;
+}
+
+.narrow-table {
+	width: auto;
+}
+
+#question-agree-rate-graph svg {
+  height: 400px;
+}
+
+#points-percentage-graph svg {
+  height: 400px;
+}
+
+.graph {
+    margin-top: 80px;
+}
+
+.quiz-answers {
+    margin: 15px 0px;
+}
+
+.quiz-answers label {
+    margin-left: 6px;
+}
+
+td.category {
+    text-align: left;
+    border-left: none;
+    border-right: none;
+    background-color: transparent !important; 
+}
+
+td.category h3 {
+    margin-bottom: 0px;
+}
+
+table .header-fixed {
+    top: 50px;
+}
+
+table.table-bordered > thead.header-fixed {
+    border-bottom: none;
+}
+
+
+table.table-bordered > thead.header-copy > tr > th:last-child {
+    border-right: none;
+    
+}
+
+.alert thead {
+    background-color: transparent;
+}
+
+.alert tbody {
+    background-color: transparent;
+}
+
+.label a {
+    color: white;
+}
+
+form {
+    position: relative;
+    margin: 0 0px 15px;
+    margin: 0;
+    border: none;
+    padding-bottom: 0px;
+}
+
+.modal form {
+    
+    padding: 0px 15px 15px;
+}
+
+.form-box {
+    max-width: 400px;
+}
+
+.admin-box {
+    margin-top: 60px;
+}
+
+tr .btn {
+    margin-left: 5px;
+}
+
+.data-table td > i, .data-table td > a {
+    margin-left: 5px;
+}
+
+.table-header-text {
+    width: 300px;
+}
+
+table.qa-table thead th, table.qa-table tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table {
+    margin-bottom: 60px;
+}
+
+tr {
+    border-radius: 4px;
+}
+
+table .tools {
+    border-bottom: none;
+    margin: 0px;
+}
+
+.table-bordered>thead>tr>th, .table-bordered>thead>tr>td {
+    border-bottom-width: 1px;
+}
+
+.error {
+    color: #ff2222;
+}
+
+.navbar-fixed-top {
+    top: 100px;
+}
+
+#logo {
+    position: relative;
+    top: 29px;
+    width: 400px;
+    margin-left: auto;
+    z-index: 9;
+    right: 20px;
+}
+
+#logo p {
+    font-size: 60px;
+    display: inline-block;
+    font-weight: bold;
+    top: -42px;
+    font-size: 50px;
+    font-weight: bold;
+    letter-spacing: -6px;
+    text-shadow: 0 0 2px #000;
+    color: #f8f8f8;
+    z-index: 0;
+}
+
+.navbar-brand i {
+    margin-right: 2px;
+}
+
+.modal .modal-footer {
+    margin-top: 0px;
+}
+
+#feedbacksModalLink {
+    opacity: 0.8;
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+}
+
+#feedbacksModalLink:hover {
+    opacity: 1;
+}
+
+.datepicker {
+    z-index: 1151 !important;
+}
+
+select.form-control {
+    padding: 6px 7px;
+    max-width: 200px;
+}
+
+/* Hack to solve https://github.com/twbs/bootstrap/issues/9855 */
+.modal-open #feedbacksModalLink {
+    right: 20px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+input.datepicker {
+    padding-left: 12px;
+}
+
+.navbar-collapse .navbar-nav.navbar-left:first-child {
+    margin-left: 0px;
+}
+
+.description {
+    font-size: 11px;
+    color: #777;
+    text-align: center;
+}
+
+h1.deleted, h2.deleted {
+    text-decoration: line-through;
+}
+
+p.deleted {
+    display: inline;
+    color: #777;
+}
+
+.btn-group > form + .btn {
+    border-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
+    border-top-right-radius: 3px !important;
+}
+
+.admin-toolbox {
+    width: 50px;
+}
+
+h1 .admin-toolbox {
+    margin-left: 7px;
+}
+
+#footer {
+    margin-top: 60px;
+    color: #777;
+}
+
+.tools {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.history {
+    margin-top: 60px;
+}
+
+.tags {
+    margin-bottom: 10px;
+}
+
+.matching-answer {
+    font-weight: bold;
+}
+
+.party-result-table {
+    max-width: 600px;
+}

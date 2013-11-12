@@ -1,0 +1,171 @@
+<?php
+/** 
+ * Controller for managing parties
+ *
+ * Partisk : Political Party Opinion Visualizer
+ * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+ *
+ * Partisk is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Partisk is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Partisk. If not, see http://www.gnu.org/licenses/.
+ *
+ * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+ * @link        https://www.partisk.nu
+ * @package     app.Controller
+ * @license     http://www.gnu.org/licenses/ GPLv2
+ */
+
+App::uses('UserLogger', 'Log');
+
+class PartiesController extends AppController {
+    public $helpers = array('Html', 'Form');
+
+    public $components = array('Session');
+
+    public function beforeRender() {
+        parent::beforeRender();
+        $this->set("currentPage", "parties");
+    }
+
+    public function index() {
+        $this->Party->recursive = -1;
+        $this->set('parties', $this->getPartiesOrdered());
+
+        $this->set('title_for_layout', 'Partier');
+    }
+
+    public function view($id = null) { 
+        if (!$id) {
+            throw new NotFoundException("Ogiltigt parti");
+        }
+$this->loadModel('Answer');
+        $this->Party->recursive = -1;
+        $this->Party->contain(array('CreatedBy', 'UpdatedBy'));
+        $party = $this->Party->findById($id);
+
+        if (empty($party)) {
+            throw new NotFoundException("Ogiltigt parti");
+        }
+
+        $this->Party->Answer->recursive = -1;
+        $this->Party->contain();
+        $this->Party->Answer->contain(array('Party', 'Question'));
+        $party["Answer"] = $this->Answer->getAnswers($id, null, true, true, false);
+
+        $this->set('party', $party);
+        $this->set('title_for_layout', ucfirst($party['Party']['name']));
+    }
+
+     public function add() {
+        if (!$this->canAddParty) {
+            $this->abuse("Not authorized to add party");
+            return $this->redirect($this->referer());
+        }
+
+        if ($this->request->is('post')) {
+            $this->Party->create();
+            $this->request->data['Party']['created_by'] = $this->Auth->user('id');
+            $this->request->data['Party']['created_date'] = date('c');
+            if ($this->Party->save($this->request->data)) {
+                $this->customFlash(__('Partiet skapat.'));
+                $this->logUser('add', $this->Party->getLastInsertId(), $this->request->data['Party']['name']);
+            } else {
+                $this->customFlash(__('Kunde inte skapa partiet.'), 'danger');
+                $this->Session->write('validationErrors', $this->Party->validationErrors);
+            }
+
+            return $this->redirect($this->referer());
+        }
+     }
+
+     public function delete($id = null) {
+        if (!$this->canDeleteParty) {
+            $this->abuse("Not authorized to delete party with id " . $id);
+            return $this->redirect($this->referer());
+        }
+
+        $this->Party->set(
+            array('id' => $id,
+                  'deleted' => true,
+                  'updated_by' => $this->Auth->user('id'),
+                  'update_date' => date('c')));
+
+        if ($this->Party->save()) {
+            $this->customFlash(__('Tog bort partiet med id: %s.', h($id)));
+            $this->logUser('delete', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort partiet.'), 'danger');
+        }
+
+        return $this->redirect($this->referer());
+     }
+
+     public function all() {
+        $this->Party->recursive = -1;
+        $parties = $this->Party->find('all', 
+                array('conditions' => array('Party.deleted' => false),
+                      'order' => 'name'));
+        return $parties;
+     }
+
+     public function edit($id = null) {
+        if (!$this->canEditParty) {
+            $this->abuse("Not authorized to edit party with id " . $id);
+            return $this->redirect($this->referer());
+        }
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->request->data['Party']['updated_by'] = $this->Auth->user('id');
+            $this->request->data['Party']['updated_date'] = date('c');
+
+            if ($this->Party->save($this->request->data)) {
+                $this->customFlash(__('Partiet har sparats.'));
+                $this->logUser('edit', $this->request->data['Party']['id']);
+            } else {
+                $this->customFlash(__('Partiet kunde inte sparas.')); 
+            }
+            
+            return $this->redirect($this->referer());
+        }
+
+        if (!$id) {
+            throw new NotFoundException("Ogiltigt parti");
+        }
+
+        $party = $this->Party->findById($id);
+
+        if (empty($party)) {
+            throw new NotFoundException("Ogiltigt parti");
+        }
+        
+        if (!$this->request->data) {
+            $this->request->data = $party;
+        }
+
+        $this->Party->recursive = -1;
+        $this->set('party', $this->Party->findById($id));
+
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->set('edit', true);
+            $this->set('modal', true);
+            $this->set('ajax', true);
+            $this->render('/Elements/saveParty');
+        }
+    }
+
+    public function logUser($action, $object_id, $text = "") {
+        UserLogger::write(array('model' => 'party', 'action' => $action,
+                                'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
+    }
+}
+
