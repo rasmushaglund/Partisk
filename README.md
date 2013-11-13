@@ -15,8 +15,7 @@ Install
 * [Setup CakePHP](http://book.cakephp.org/2.0/en/installation.html)
 * Rename app/Config/database.php.default to database.php and edit the file to point to your database
 * Rename app/Config/core.php.default to core.php and edit the file to suit your needs
-* Create the directory app/tmp and make sure the web server has read/write access to it
-* Create the sub folders needed by CakePHP in app/tmp
+* Make sure the web server has read/write access to app/tmp and all its sub folders
 * Create the database using partisk.sql
 
 Usage
