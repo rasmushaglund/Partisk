@@ -28,6 +28,7 @@ class QuizController extends AppController {
     public $helpers = array('Html', 'Form');
 
     const DEFAULT_IMPORTANCE = 2;
+    const QUIZ_VERSION = 2;
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -129,6 +130,7 @@ class QuizController extends AppController {
 
         $ownQuiz = false;
         $data = null;
+        $quizVersion = 0;
 
         if (isset($quiz['Quiz']) && $quiz['Quiz']['id'] == $guid) {
             $points = $this->Quiz->calculatePoints($quiz);
@@ -141,10 +143,20 @@ class QuizController extends AppController {
 
         if (!empty($quizResult)) {
             $data = $quizResult['QuizResult']['data'];
+            $quizVersion = $quizResult['QuizResult']['version'];
         }
 
         if (empty($quizResult) && !empty($guid) && !empty($data)) {
-            $this->QuizResult->save(array('id' => $guid, 'data' => $data));
+            $this->QuizResult->save(array('id' => $guid, 'data' => $data, 'version' => self::QUIZ_VERSION));
+            $quizVersion = self::QUIZ_VERSION;
+        }
+
+        if (intval($quizVersion) !== intval(self::QUIZ_VERSION)) {
+            $this->customFlash(__('Denna Quiz är inte längre tillgänglig på grund av att poängsystemet ändrat så pass mycket sedan 
+                                   resultatet genererades. Gör gärna om testet igen för att få ett nytt resultat.
+                                   Vi ber om ursäkt för besväret. Sidan är fortfarande under kraftig uppbygnad och vi gör snabbt ändringar
+                                   för att förbättra sidan med den feedback vi får in.'), 'danger');
+            return $this->redirect(array('controller' => 'quiz','action' => 'index'));
         }
 
         $this->Party->recursive = -1;

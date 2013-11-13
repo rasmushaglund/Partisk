@@ -158,7 +158,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', arr
     <td><?php echo $partyPoints['matched_questions']; ?> st</td>
     <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
     <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
-    <td><span class="result"><?php echo $pointsPrefix . $partyPoints['points']; ?>p</span></td>
+    <td><span class="result"><?php echo $pointsPrefix . $partyPoints['points']; ?>p</span>  </td>
     </tr>
 <?php } ?>
 </tbody>

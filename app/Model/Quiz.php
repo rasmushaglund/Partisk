@@ -26,11 +26,7 @@
 
 class Quiz extends AppModel {
 	var $useTable = false;
-
-	const QUIZ_MISSMATCHED_ANSWER_POINTS = 0;
-	const QUIZ_NO_ANSWER_POINTS = 1;
-	const QUIZ_MATCHED_ANSWER_POINTS = 2;
-
+    
 	public function calculatePoints($quiz) {
 		$answerModel = ClassRegistry::init('Answer');
 		$questionModel = ClassRegistry::init('Question');
