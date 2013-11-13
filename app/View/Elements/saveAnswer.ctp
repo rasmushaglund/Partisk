@@ -36,8 +36,8 @@ if ($canAddAnswer) { ?>
     	$partyId = $answer['Answer']['party_id'];
     }
 
-    if (!isset($questionId) && isset($answer['Question']['id'])) {
-    	$questionId = $answer['Question']['id'];
+    if (!isset($questionId) && isset($answer['Answer']['question_id'])) {
+    	$questionId = $answer['Answer']['question_id'];
     }
     
     $ajaxMode = isset($ajax) && $ajax;

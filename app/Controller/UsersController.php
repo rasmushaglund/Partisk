@@ -168,7 +168,7 @@ class UsersController extends AppController {
         }
     }
 
-    public function delete($object_id) {
+    public function delete($id) {
         if (!$this->canDeleteUser) {
             $this->abuse("Not authorized to delete user with id " . $id);
             return $this->redirect($this->referer());

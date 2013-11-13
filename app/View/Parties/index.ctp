@@ -37,9 +37,9 @@ $this->Html->addCrumb('Partier');
     <thead>
         <th></th>
         <th>Parti</th>
-        <th>Bästa valresultat</th>
-        <th>Resultat senaste riksdagsval</th>
-        <th>Resultat senaste EU-val</th>
+        <th>Bästa resultat senaste valen (riksdag, EU)</th>
+        <th>Resultat senaste riksdagsval (2010)</th>
+        <th>Resultat senaste EU-val (2009)</th>
         <?php if ($isLoggedIn) { ?>
         <th>Verktyg</th>
         <?php } ?>

@@ -34,7 +34,7 @@ $this->Html->addCrumb('Resultat');
 
 <div id="points-percentage-graph" class="graph">
   <svg></svg>
-  <p class="description">Hur många poäng partierna fått relativt varandra.</p>
+  <p class="description">Hur många poäng partierna fått relativt varandra. Partier med en negativ poängsumma visas ej.</p>
 </div>
 <div id="question-agree-rate-graph" class="graph">
   <svg></svg>
@@ -52,8 +52,9 @@ $this->Html->addCrumb('Resultat');
     var agree_rate = data["question_agree_rate"];
 
     for (var value in agree_rate) {
-      result.values.push({value: agree_rate[value],
-                                        label: capitalizeFirstLetter(parties[value].name), color: parties[value].color});      
+      result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
+                                        label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'], 
+                                        color: parties[value].color});      
     }
 
    return [result];
@@ -65,8 +66,9 @@ $this->Html->addCrumb('Resultat');
     var points_percentage = data['points_percentage'];
 
     for (var value in points_percentage) {
-      result.values.push({value: points_percentage[value],
-                                        label: capitalizeFirstLetter(parties[value].name), color: parties[value].color});
+      result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'], 
+                          points:points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name), 
+                          color: parties[value].color});
     }
 
    return [result];
@@ -79,8 +81,10 @@ $this->Html->addCrumb('Resultat');
         .tooltips(true)
         .color(function (item) {  return item.data.color; })
         .labelThreshold(.06)
-        .tooltipContent(function (key, value, e, graph) {
-          return '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>' ;
+        .tooltipContent(function (key, value, item, graph) {
+          var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
+          result += '<p>' + item.point.points + 'p' + '</p>';
+          return result;
         })
         .showLabels(true);
 
@@ -100,8 +104,11 @@ $this->Html->addCrumb('Resultat');
       .y(function(d) { return d.value })
       .staggerLabels(true)
       .tooltips(true)
-      .tooltipContent(function (e, key, value, graph) {
-        return '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>' ;
+      .tooltipContent(function (id, key, value, item) {
+        var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
+        result += '<p>För: ' + item.point.plus_points + 'p</p>';
+        result += '<p>Emot: ' + item.point.minus_points + 'p</p>';
+        return result;
       })
       .valueFormat(function (value) { return Math.round(value) + "%"; })
       .showValues(true);
@@ -140,13 +147,18 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', arr
   <tbody>
 <?php foreach ($parties as $party) { 
     $partyPoints = $points['parties'][$party['id']];
-  ?>
-    <tr>
+
+    $pointsClass = "";
+    $pointsPrefix = "";
+    if ($partyPoints['points'] > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
+    if ($partyPoints['points'] < 0) { $pointsClass = "minus-points"; } ?>
+  
+    <tr class="<?php echo $pointsClass; ?>">
     <td><?php echo ucfirst($party['name']); ?></td>
     <td><?php echo $partyPoints['matched_questions']; ?> st</td>
     <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
     <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
-    <td><?php echo $partyPoints['points']; ?> poäng</td>
+    <td><span class="result"><?php echo $pointsPrefix . $partyPoints['points']; ?>p</span></td>
     </tr>
 <?php } ?>
 </tbody>
@@ -176,8 +188,6 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', arr
           $sameAnswer = null; 
           $partyPoints = 0; ?>
 
-          <tr>
-              <td><?php echo ucfirst($party['name']); ?></td>
             
           <?php 
 
@@ -187,17 +197,21 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', arr
             $pointsClass = "";
             $pointsPrefix = "";
             if ($partyPoints > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
-            if ($partyPoints < 0) { $pointsClass = "minus-points"; }
+            if ($partyPoints < 0) { $pointsClass = "minus-points"; } ?>
 
+            <tr class="<?php echo $pointsClass; ?>">
+              <td><?php echo ucfirst($party['name']); ?></td>
 
-            if ($userAnswer === null) { ?>
+            <?php if ($userAnswer === null) { ?>
               <td>Inget svar</td>
-              <td><?php echo $partyPoints . 'p'; ?></td>
+              <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
             <?php } else if ($question['parties'][$partyId]['answer'] != null) {
             $sameAnswer = $partyAnswer == $userAnswer;
             ?>
-              <td class="<?php echo $sameAnswer ? 'matching-answer' : '' ?>"><?php echo ucfirst($partyAnswer); ?></td>
-              <td class="<?php echo $pointsClass; ?>">
+              <td class="<?php echo $sameAnswer ? 'matching-answer' : '' ?>">
+                <span class="answer"><?php echo ucfirst($partyAnswer); ?></span>
+              </td>
+              <td>
                 <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></td>
             <?php } else { ?>
               <td>Inget svar</td>

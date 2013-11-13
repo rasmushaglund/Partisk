@@ -142,41 +142,31 @@ class Quiz extends AppModel {
 
     	$maxPoints = null;
     	$totalPoints = 0;
-		
-		/*foreach ($partyPoints as $partyPoint) {
-    		if ($maxPoints == null || $partyPoint['points'] > $maxPoints) $maxPoints = $partyPoint['points'];
-    		if ($partyPoint['points'] > 0) { $totalPoints += $partyPoint['points']; } 
-    	}*/
         
         foreach ($partyPoints as $partyPoint) {
             if ($maxPoints > 0) $maxPoints = $partyPoint['points'];
             if ($partyPoint['points'] > 0) { $totalPoints += $partyPoint['points']; } 
         }
 
-
-    	/*foreach ($partyPoints as $id => $partyPoint) {
-    		$questions_to_match = $partyPoint['no_questions'] - $partyPoint['unanswered_questions'];
-
-    		if ($questions_to_match != 0) {
-    			$question_agree_rate[$id] = round(($partyPoint['matched_questions'] / $questions_to_match) * 100);
-    		} else {
-    			$question_agree_rate[$id] = 0;
-    		}
-
-    		$points_percentage[$id] = $partyPoint['points'] >= 0 ? round(($partyPoint['points'] / $totalPoints) * 100) : 0;
-    	}*/
-
         foreach ($partyPoints as $id => $partyPoint) {
             $questions_to_match = $partyPoint['no_questions'] - $partyPoint['unanswered_questions'];
+            $question_agree_rate[$id] = array();
+            $points_percentage[$id] = array();
 
             $range = abs($partyPoint['minus_points']) + $partyPoint['plus_points'];
             if ($range != 0) {
-                $question_agree_rate[$id] = round(($partyPoint['plus_points'] / $range) * 100);
+                $question_agree_rate[$id]['result'] = round(($partyPoint['plus_points'] / $range) * 100);
             } else {
-                $question_agree_rate[$id] = 0;
+                $question_agree_rate[$id]['result'] = 0;
             }
 
-            $points_percentage[$id] = $partyPoint['points'] > 0 ? round(($partyPoint['points'] / $totalPoints) * 100) : 0;
+            $question_agree_rate[$id]['range'] = $range;
+            $question_agree_rate[$id]['plus_points'] = $partyPoint['plus_points'];
+            $question_agree_rate[$id]['minus_points'] = $partyPoint['minus_points'];
+
+            $points_percentage[$id]['result'] = $partyPoint['points'] > 0 ? round(($partyPoint['points'] / $totalPoints) * 100) : 0;
+            $points_percentage[$id]['range'] = $totalPoints;
+            $points_percentage[$id]['points'] = $partyPoint['points']; 
         }
 
     	$result['question_agree_rate'] = $question_agree_rate;

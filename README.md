@@ -3,6 +3,8 @@ Partisk
 
 Partisk - the political party opinion visualizer
 
+A test version of the page can be found [here](http://test.partisk.nu)
+
 Requirements
 ------------
 * PHP 5.4

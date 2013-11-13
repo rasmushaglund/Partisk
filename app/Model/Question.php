@@ -111,7 +111,7 @@ class Question extends AppModel {
             'order' => 'Question.title',
             'conditions' => $conditions,
             'joins' => $joins,
-            'fields' => array('id', 'title', 'type', 'approved', 'created_by')
+            'fields' => array('id', 'title', 'type', 'approved', 'created_by', 'description')
             ));
 
         return $questions;

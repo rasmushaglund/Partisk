@@ -33,6 +33,7 @@ $this->Html->addCrumb('Frågor');
 echo $this->Form->create(null, array('url' => '/quiz/next'));
 ?>
 <h3><?php echo "Fråga " . ($quiz['Quiz']['index'] +1) . " av " . $quiz['Quiz']['questions'] . ": " . $question['Question']['title']; ?></h3>
+<p><?php echo $question['Question']['description']; ?></p>
 <div class="quiz-answers">
 <?php
 	if ($answer == null) { $answer = 'NO_OPINION'; }

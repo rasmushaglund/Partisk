@@ -364,17 +364,23 @@ h1 .admin-toolbox {
     max-width: 600px;
 }
 
-.plus-points .result {
+.plus-points .result, .plus-points .answer {
     color: #0a0;
 }
 
-.minus-points .result {
+.minus-points .result, .minus-points .answer {
     color: #f00;
 }
 
-.result {
+.result{
     font-weight: bold;
-    text-align: right;
-    display: block;
-    width: 25px;
+    margin-left: 7px;
+}
+
+.plus-points .result {
+    margin-left: 0px;
+}
+
+.minus-points .result {
+    margin-left: 2px;
 }

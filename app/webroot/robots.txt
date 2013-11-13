@@ -1,0 +1,12 @@
+User-agent: *
+
+# Don't index user specific content
+Disallow: /quiz/questions
+Disallow: /quiz/results/
+Disallow: /quiz/close
+Disallow: /quiz/prev
+Disallow: /quiz/next
+Disallow: /quiz/restart
+Disallow: /users/login
+Disallow: /users/logout
+Disallow: /users/start
