@@ -28,7 +28,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<h2>Partisk.nu</h2>
-		<p>Välkommen till Partisk.nu med den stora uppgiften att hjälpa er att hitta rätt bland alla partier åsikter. 
+		<p>Välkommen till Partisk.nu med den stora uppgiften att hjälpa er att hitta rätt bland alla partiers åsikter. 
 		Här kan du söka runt bland 
 		<?php echo $this->Html->link('frågor/svar',
 		                  array('controller' => 'questions', 'action' => 'index')); ?> och dessutom göra en 
@@ -38,7 +38,7 @@
 
 	<div class="col-md-6">
 		<h2>Senaste frågorna</h2>
-		<ul class="list-unstyled">
+		<ul>
 		<?php foreach ($questions as $question): ?>
 		    <li>
 		        <?php echo $this->Html->link($question['Question']['title'],

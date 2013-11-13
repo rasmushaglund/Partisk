@@ -32,7 +32,6 @@
 
 		<h3>Sortering av Parier</h3>
 		<p>Eftersom valåret 2014 består av både ett riksdagsval och ett EU-val baseras partiernas inbördes sortering på det bästa uppnådda resultatet av de två tidigare valen.</p>
-
 		<h2></h2>
 	</div>
 </div>

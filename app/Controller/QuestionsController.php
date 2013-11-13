@@ -47,10 +47,13 @@ class QuestionsController extends AppController {
         $this->Question->Answer->recursive = -1;
         $this->Question->Answer->Party->recursive = -1;
 
-        $questions = $this->Question->find('all', 
-            array('order' => 'Question.title',
-                  'conditions' => array('Question.deleted' => false),
-                  'fields' => array('id', 'title', 'type', 'approved', 'created_by')));
+        $conditions = array('deleted' => false);
+
+        if(!$this->isLoggedIn) {
+            $conditions['approved'] = true;
+        }   
+
+        $questions = $this->Question->getQuestions($conditions);
 
         $parties = $this->getPartiesOrdered();
 
@@ -65,7 +68,7 @@ class QuestionsController extends AppController {
             array_push($partyIds, $party['Party']['id']);
         }
 
-        $answers = $this->Answer->getAnswers($partyIds, $questionIds);
+        $answers = $this->Answer->getAnswers(array('partyId' => $partyIds, 'questionId' => $questionIds));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
         $this->set('questions', $questions);
@@ -79,7 +82,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-$this->loadModel('Answer');
+        $this->loadModel('Answer');
 
         $this->Question->recursive = -1;
         $this->Question->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
@@ -97,7 +100,7 @@ $this->loadModel('Answer');
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $answers = $this->Answer->getAnswers(null, $id, true);
+        $answers = $this->Answer->getAnswers(array('questionId' => $id, 'includeParty' => true));
 
         $this->set('question', $question);
         $this->set('answers', $answers);

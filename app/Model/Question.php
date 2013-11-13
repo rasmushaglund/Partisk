@@ -83,15 +83,47 @@ class Question extends AppModel {
         return $choices;
     }
 
-    public function getVisibleQuestionsById($id) {
-        $this->recursive = -1;
-        $this->contain(array('Answer'));
+    public function getQuestions($args) {
+        $this->recursive = -1; 
+
+        $id = isset($args['id']) ? $args['id'] : null;
+        $deleted = isset($args['deleted']) ? $args['deleted'] : false;
+        $approved = isset($args['approved']) ? $args['approved'] : null;
+        $tagId = isset($args['tagId']) ? $args['tagId'] : null;
+
+        $conditions = array();
+        $joins = array();
+
+        if (isset($id)) { $conditions['id'] = $id; }
+        if (isset($approved)) { $conditions['approved'] = $approved; }
+        if (isset($deleted)) { $conditions['deleted'] = $deleted; }
+        if (isset($partyId)) { $conditions['party_id'] = $partyId; }
+
+        if (isset($tagId)) {
+            array_push($joins, array(
+                                'table' => 'question_tags as QuestionTag',
+                                'conditions' => array('QuestionTag.tag_id' => $tagId,
+                                                      'Question.id = QuestionTag.question_id')
+                            ));
+        }
+
         $questions = $this->find('all', array(
-            'conditions' => array('id' => $id,
-                                  'approved' => true,
-                                  'deleted' => false)
+            'order' => 'Question.title',
+            'conditions' => $conditions,
+            'joins' => $joins,
+            'fields' => array('id', 'title', 'type', 'approved', 'created_by')
             ));
-        return array_pop($questions);
+
+        return $questions;
+    }
+
+    public function getLatest() {
+        return $this->find('all', array(
+                'fields' => 'id, title',
+                'conditions' => array('deleted' => false, 'approved' => true),
+                'limit' => '5',
+                'order' => 'created_date DESC'
+            ));
     }
 }
 

@@ -93,37 +93,49 @@ class Answer extends AppModel {
     }
 
     // Refactor this shit
-    public function getAnswers($partyIds, $questionIds, $includeParty = false, $includeQuestion = false, $bestResult = false) {
+    //public function getAnswers($partyId, $questionIds, $includeParty = false, $includeQuestion = false, $bestResult = false) {
+    public function getAnswers($args) {
+        //$this->recursive = -1;
+        //$this->contain();
+        
+        $partyId = isset($args['partyId']) ? $args['partyId'] : null;
+        $questionId = isset($args['questionId']) ? $args['questionId'] : null;
+        $includeParty = isset($args['includeParty']) ? $args['includeParty'] : false;
+        $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
+        $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
+        $includeBestResult = isset($args['includeBestResult']) ? $args['includeBestResult'] : false;
+
         $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by');
         $groupBy = 'party_id';
         $order = '';
-        $conditions = array(
-                        array('Answer.deleted' => false)
-                    );
+
+        $conditions = array(array('Answer.deleted' => false));
 
         if ($includeParty) {
+            //$this->contain(array('Party'));
             array_push($fields, 'Party.id, Party.name, (greatest(Party.last_result_parliment, Party.last_result_eu)) as Party__best_result');
             $groupBy = 'question_id, ' . $groupBy;
             array_push($conditions, array('Party.deleted' => false));
             $order = 'Party__best_result DESC';
         }
 
-        if ($bestResult) {
+        if ($includeBestResult) {
             array_push($fields, 'Question.best_result');
             $order = 'best_result DESC';
         }
 
         if ($includeQuestion) {
+            //$this->contain(array('Question'));
             $order = 'Question.title';
             array_push($fields, 'Question.id, Question.title');
         }
 
-        if (isset($partyIds)) {
-            array_push($conditions, array('Answer.party_id' => $partyIds));
+        if (isset($partyId)) {
+            array_push($conditions, array('Answer.party_id' => $partyId));
         }
 
-        if (isset($questionIds)) {
-            array_push($conditions, array('Answer.question_id' => $questionIds));
+        if (isset($questionId)) {
+            array_push($conditions, array('Answer.question_id' => $questionId));
         }
 
         return $this->find('all', array(

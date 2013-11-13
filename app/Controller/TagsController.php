@@ -59,16 +59,14 @@ class TagsController extends AppController {
             throw new NotFoundException("Ogiltig tagg");
         }
 
-        $questions = $this->Tag->Question->find('all', 
-            array('order' => 'Question.title',
-                  'conditions' => array('Question.deleted' => false),
-                  'joins' => array(
-                        array(
-                                'table' => 'question_tags as QuestionTag',
-                                'conditions' => array('QuestionTag.tag_id' => $id,
-                                                      'Question.id = QuestionTag.question_id')
-                            )
-                    )));
+        $conditions = array('deleted' => false, 'tagId' => $id);
+
+        if(!$this->isLoggedIn) {
+            $conditions['approved'] = true;
+        }   
+
+        $questions = $this->Tag->Question->getQuestions($conditions);
+
         $parties = $this->Tag->Question->Answer->Party->find('all', array(
                 'conditions' => array('Party.deleted' => false)
             ));
@@ -103,27 +101,13 @@ class TagsController extends AppController {
 
     public function index() {
         $this->Tag->recursive = -1;
-        $this->set('tags', $this->Tag->find('all', array(
+        
+        $conditions = array();
+        if(!$this->isLoggedIn) {
+            $conditions['approved'] = true;
+        }   
 
-                'conditions' => array(
-                    'Tag.deleted' => false
-                    ),
-                'fields' => array(
-                    'Tag.*'
-                    ),
-                'joins' => array(
-                    array(
-                            'table' => 'question_tags as QuestionTag',
-                            'conditions' => 'QuestionTag.tag_id = Tag.id'
-                        ),
-                    array(
-                            'table' => 'questions as Question',
-                            'conditions' => 'Question.id = QuestionTag.question_id'
-                        )
-                    ),
-                'order' => array('Tag.name'),
-                'group' => array('Tag.id')
-            )));
+        $this->set('tags', $this->Tag->getTags($conditions));
 
         $this->set('title_for_layout', 'Taggar');
     }   

@@ -43,11 +43,7 @@ class PagesController extends AppController {
         $this->loadModel('Question');
 
         $this->Question->recursive = -1;
-        $questions = $this->Question->find('all', array(
-                'fields' => 'id, title',
-                'limit' => '5',
-                'order' => 'created_date DESC'
-            ));
+        $questions = $this->Question->getLatest();
 
         $this->set('questions', $questions);
         $this->set('title_for_layout', 'Hem');

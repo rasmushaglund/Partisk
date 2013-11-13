@@ -57,6 +57,38 @@ class Tag extends AppModel {
     );
 
     public $virtualFields = array('number_of_questions' => "count(Question.id)");
+
+    public function getTags($args) {
+        $id = isset($args['id']) ? $args['id'] : null;
+        $tagDeleted = isset($args['tagDeleted']) ? $args['tagDeleted'] : false;
+        $questionDeleted = isset($args['questionDeleted']) ? $args['questionDeleted'] : false;
+        $approved = isset($args['approved']) ? $args['approved'] : null;
+
+        $conditions = array();
+
+        if (isset($tagDeleted)) { $conditions['Tag.deleted'] = $tagDeleted; }
+        if (isset($questionDeleted)) { $conditions['Question.deleted'] = $questionDeleted; }
+        if (isset($approved)) { $conditions['Question.approved'] = $approved; }
+                    
+        return $this->find('all', array(
+                'conditions' => $conditions,
+                'fields' => array(
+                    'Tag.*'
+                    ),
+                'joins' => array(
+                    array(
+                            'table' => 'question_tags as QuestionTag',
+                            'conditions' => 'QuestionTag.tag_id = Tag.id'
+                        ),
+                    array(
+                            'table' => 'questions as Question',
+                            'conditions' => 'Question.id = QuestionTag.question_id'
+                        )
+                    ),
+                'order' => array('Tag.name'),
+                'group' => array('Tag.id')
+            ));
+    }
 }
 
 ?>

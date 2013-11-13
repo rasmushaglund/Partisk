@@ -38,7 +38,7 @@ $this->Html->addCrumb('Resultat');
 </div>
 <div id="question-agree-rate-graph" class="graph">
   <svg></svg>
-  <p class="description">Hur stor andel av svaren stämmer överens med respetive partis svar.</p>
+  <p class="description">Hur stor andel av svaren stämmer överens med respektive partis svar.</p>
 </div>
 
 <script type="text/javascript">
@@ -184,6 +184,12 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', arr
             $partyAnswer = $question['parties'][$partyId]['answer'];
             $partyPoints = $question['parties'][$partyId]['points'];
 
+            $pointsClass = "";
+            $pointsPrefix = "";
+            if ($partyPoints > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
+            if ($partyPoints < 0) { $pointsClass = "minus-points"; }
+
+
             if ($userAnswer === null) { ?>
               <td>Inget svar</td>
               <td><?php echo $partyPoints . 'p'; ?></td>
@@ -191,10 +197,11 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', arr
             $sameAnswer = $partyAnswer == $userAnswer;
             ?>
               <td class="<?php echo $sameAnswer ? 'matching-answer' : '' ?>"><?php echo ucfirst($partyAnswer); ?></td>
-              <td><?php echo (intval($partyPoints)/intval($importance)) . '*' . $importance . '=' . $partyPoints . 'p'; ?></td>
+              <td class="<?php echo $pointsClass; ?>">
+                <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></td>
             <?php } else { ?>
               <td>Inget svar</td>
-              <td><?php echo $partyPoints . 'p'; ?></td>
+              <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
             <?php } ?>
             </tr>
         <?php } ?>

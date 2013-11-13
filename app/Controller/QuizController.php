@@ -66,7 +66,8 @@ class QuizController extends AppController {
         $index = $quiz['Quiz']['index'];
 
         $this->loadModel('Question');
-        $question = $this->Question->getVisibleQuestionsById($quiz[$index]['Question']['id']);
+        $questions = $this->Question->getQuestions(array('id' => $quiz[$index]['Question']['id']));
+        $question = array_pop($questions);
         $choices = $this->Question->getChoicesFromQuestion($question);
 
         $answer = $this->getCurrentAnswer($quiz, $index);

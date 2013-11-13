@@ -47,7 +47,7 @@ class PartiesController extends AppController {
         if (!$id) {
             throw new NotFoundException("Ogiltigt parti");
         }
-$this->loadModel('Answer');
+        $this->loadModel('Answer');
         $this->Party->recursive = -1;
         $this->Party->contain(array('CreatedBy', 'UpdatedBy'));
         $party = $this->Party->findById($id);
@@ -56,10 +56,23 @@ $this->loadModel('Answer');
             throw new NotFoundException("Ogiltigt parti");
         }
 
+        $conditions = array('deleted' => false);
+
+        if(!$this->isLoggedIn) {
+            $conditions['approved'] = true;
+        }
+        $questions = $this->Party->Answer->Question->getQuestions($conditions);
+        $questionIds = array();
+
+        foreach ($questions as $question) {
+            array_push($questionIds, $question['Question']['id']);  
+        }
+
         $this->Party->Answer->recursive = -1;
         $this->Party->contain();
         $this->Party->Answer->contain(array('Party', 'Question'));
-        $party["Answer"] = $this->Answer->getAnswers($id, null, true, true, false);
+        $party["Answer"] = $this->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
+                                    'includeQuestion' => true));
 
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));

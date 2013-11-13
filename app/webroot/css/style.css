@@ -28,8 +28,8 @@ body {
 }
 
 .navbar-default .navbar-nav>li>a.active, .navbar-nav>a:hover.active, .navbar-nav>a:focus.active {
-color: #555;
-background-color: #e7e7e7;
+    color: #555;
+    background-color: #e7e7e7;
 }
 
 img.logo {
@@ -310,6 +310,10 @@ input.datepicker {
     text-align: center;
 }
 
+.author-info .description {
+    text-align: left;
+}
+
 h1.deleted, h2.deleted {
     text-decoration: line-through;
 }
@@ -358,4 +362,19 @@ h1 .admin-toolbox {
 
 .party-result-table {
     max-width: 600px;
+}
+
+.plus-points .result {
+    color: #0a0;
+}
+
+.minus-points .result {
+    color: #f00;
+}
+
+.result {
+    font-weight: bold;
+    text-align: right;
+    display: block;
+    width: 25px;
 }
