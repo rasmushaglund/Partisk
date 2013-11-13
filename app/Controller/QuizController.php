@@ -226,6 +226,22 @@ class QuizController extends AppController {
 
         return $importance;
     }
+
+    public function admin() {
+        $this->loadModel('QuizResult');
+
+        $this->set('results', $this->QuizResult->find('all'));
+    }
+
+    public function isAuthorized($user) {
+        $role = $user['Role']['name'];
+
+        if ($role == 'admin' && in_array($this->action, array('admin'))) {
+            return true;
+        }
+
+        return parent::isAuthorized($user);
+    }
 }
 
 ?>
