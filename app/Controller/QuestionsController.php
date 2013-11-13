@@ -23,7 +23,7 @@
  * @package     app.Controller
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
-
+App::uses('AppController', 'Controller');
 App::uses('UserLogger', 'Log');
 
 class QuestionsController extends AppController {

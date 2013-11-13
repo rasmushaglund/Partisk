@@ -159,9 +159,6 @@ class QuizController extends AppController {
         }
 
         if (intval($quizVersion) !== intval(self::QUIZ_VERSION)) {
-            $this->secho($quizResult);
-            $this->secho($generatedData);
-
             $this->customFlash(__('Denna Quiz är inte längre tillgänglig på grund av att poängsystemet ändrat så pass mycket sedan 
                                    resultatet genererades. Gör gärna om testet igen för att få ett nytt resultat.
                                    Vi ber om ursäkt för besväret. Sidan är fortfarande under kraftig uppbygnad och vi gör snabbt ändringar
