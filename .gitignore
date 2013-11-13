@@ -2,7 +2,7 @@ B1;2802;0c# User specific & automatically generated files #
 #################################################
 /app/Config/database.php
 database.php
-/app/tmp
+/app/tmp/*/myapp*
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors
@@ -23,9 +23,11 @@ Thumbs.db
 *.sublime-workspace
 
 tmp/*
+myapp*
 [Cc]onfig/core.php
 [Cc]onfig/database.php
-app/tmp/*
+app/tmp/*/myapp*
 app/[Cc]onfig/core.php
 app/[Cc]onfig/database.php
 !empty
+*.log
