@@ -30,7 +30,7 @@
 		<h2>Om Partisk.nu</h2>
 		<p>Sidan skapades av Rasmus Haglund 2013 med syfte att göra Sveriges största partiers åsikter tillgängliga på ett lätt sätt.</p>
 
-		<h3>Sortering av Parier</h3>
+		<h3>Sortering av Partier</h3>
 		<p>Eftersom valåret 2014 består av både ett riksdagsval och ett EU-val baseras partiernas inbördes sortering på det bästa uppnådda resultatet av de två tidigare valen.</p>
 		<h2></h2>
 	</div>
