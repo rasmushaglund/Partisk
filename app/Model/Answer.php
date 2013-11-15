@@ -92,11 +92,7 @@ class Answer extends AppModel {
         return $answersMatrix;
     }
 
-    // Refactor this shit
-    //public function getAnswers($partyId, $questionIds, $includeParty = false, $includeQuestion = false, $bestResult = false) {
     public function getAnswers($args) {
-        //$this->recursive = -1;
-        //$this->contain();
         
         $partyId = isset($args['partyId']) ? $args['partyId'] : null;
         $questionId = isset($args['questionId']) ? $args['questionId'] : null;
@@ -137,14 +133,14 @@ class Answer extends AppModel {
         if (isset($questionId)) {
             array_push($conditions, array('Answer.question_id' => $questionId));
         }
-
         return $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => $fields,
                 'groupBy' => $groupBy,
                 'joins' => array(
                     array('type' => 'inner',
-                    'table' => '(select max(date) as latest, b.id, b.party_id, b.question_id from answers b group by b.party_id, b.question_id)',
+                    'table' => '(select max(date) as latest, b.id, b.party_id, b.question_id from answers b where b.deleted = false
+                                 group by b.party_id, b.question_id)',
                     'alias' => 'current',
                     'conditions' => array(
                             'Answer.question_id = current.question_id',

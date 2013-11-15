@@ -3,12 +3,21 @@ App::uses('AppController', 'Controller', 'QuestionController', 'Model', 'Questio
 
 class QuestionsControllerTest extends ControllerTestCase {
 
-  public $fixtures = array('app.question');
+  public $fixtures = array('app.question', 'app.answer', 'app.party');
 
   public $testQuestionData = array('title' => 'test', 'tags' => '');
 
  	public function testIndex() {
-      $result = $this->testAction('/questions/index', array('return' => 'contents'));
+      $result = $this->testAction('/questions/index', array('return' => 'vars'));
+
+      $this->assertTrue(sizeof($result['parties']) == 3);
+      $this->assertTrue(sizeof($result['answers']) == 2);
+
+      // The multiple answers that belong to the same party and question should be reduced to one
+      $this->assertTrue(sizeof($result['answers'][1]['answers']) == 1);
+      $this->assertTrue(sizeof($result['answers'][2]['answers']) == 2);
+      $this->assertTrue(sizeof($result['parties']) == 3);
+      $this->assertTrue(sizeof($result['questions']) == 3);
       debug($result);
   }
 
@@ -32,11 +41,13 @@ class QuestionsControllerTest extends ControllerTestCase {
 
   public function testAddNotLoggedIn() {
     $this->Controller = $this->generate('Questions', array(
+        'methods' => array('abuse'),
         'models' => array('Question' => array('save', 'create'))
     ));
 
     $this->controller->Question->expects($this->never())->method('save');
     $this->controller->Question->expects($this->never())->method('create');
+    $this->controller->expects($this->once())->method('abuse');
     
     $result = $this->testAction('/questions/add', array('return' => 'contents', 'method' => 'post', 'data' => array(
       'Question' => $this->testQuestionData
@@ -64,10 +75,12 @@ class QuestionsControllerTest extends ControllerTestCase {
 
   public function testDeleteNotLoggedIn() {
     $this->Controller = $this->generate('Questions', array(
+        'methods' => array('abuse'),
         'models' => array('Question' => array('delete'))
     ));
 
     $this->controller->Question->expects($this->never())->method('delete');
+    $this->controller->expects($this->once())->method('abuse');
     
     $result = $this->testAction('/questions/delete/1', array('return' => 'contents'));
     debug($result);
