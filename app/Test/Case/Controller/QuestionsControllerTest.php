@@ -1,7 +1,8 @@
 <?php
 App::uses('AppController', 'Controller', 'QuestionController', 'Model', 'Question');
+App::uses('PartiskControllerTest', 'Test');
 
-class QuestionsControllerTest extends ControllerTestCase {
+class QuestionsControllerTest extends PartiskControllerTest {
 
   public $fixtures = array('app.question', 'app.answer', 'app.party');
 
@@ -10,20 +11,30 @@ class QuestionsControllerTest extends ControllerTestCase {
  	public function testIndex() {
       $result = $this->testAction('/questions/index', array('return' => 'vars'));
 
-      $this->assertTrue(sizeof($result['parties']) == 3);
       $this->assertTrue(sizeof($result['answers']) == 2);
+      $this->assertTrue(sizeof($result['parties']) == 3);
+      $this->assertTrue(sizeof($result['questions']) == 3);
 
       // The multiple answers that belong to the same party and question should be reduced to one
       $this->assertTrue(sizeof($result['answers'][1]['answers']) == 1);
       $this->assertTrue(sizeof($result['answers'][2]['answers']) == 2);
-      $this->assertTrue(sizeof($result['parties']) == 3);
-      $this->assertTrue(sizeof($result['questions']) == 3);
-      debug($result);
+      //debug($result);
   }
 
   public function testViewWithoutId() {
+    $result = null;
     try {
-      $result = $this->testAction('/questions/view', array('return' => 'contents'));
+      $result = $this->testAction('/questions/view', array('return' => 'vars'));
+      $this->fail('Calling a question view without id should rise an exception');
+    } catch (NotFoundException $e) {
+      debug($e);
+    }
+  }
+
+  public function testViewWithNonExistentId() {
+    $result = null;
+    try {
+      $result = $this->testAction('/questions/view/1337', array('return' => 'vars'));
       $this->fail('Calling a question view without id should rise an exception');
     } catch (NotFoundException $e) {
       debug($e);
@@ -39,8 +50,22 @@ class QuestionsControllerTest extends ControllerTestCase {
     }
   }
 
+  public function testViewNotLoggedIn() {
+    $result = $this->testAction('/questions/view/3', array('return' => 'vars'));
+    $this->assertFalse(empty($result['answers']));
+    $this->assertFalse(empty($result['question']));
+    $this->assertTrue(sizeof($result['answers']) == 1);
+    //debug($result);
+  }
+
+  public function testViewWithNoAnswers() {
+    $result = $this->testAction('/questions/view/4', array('return' => 'vars'));
+    $this->assertTrue(empty($result['answers']));
+    $this->assertFalse(empty($result['question']));
+  }
+
   public function testAddNotLoggedIn() {
-    $this->Controller = $this->generate('Questions', array(
+    $this->init('Questions', array(
         'methods' => array('abuse'),
         'models' => array('Question' => array('save', 'create'))
     ));
@@ -52,17 +77,14 @@ class QuestionsControllerTest extends ControllerTestCase {
     $result = $this->testAction('/questions/add', array('return' => 'contents', 'method' => 'post', 'data' => array(
       'Question' => $this->testQuestionData
       )));
-
-    debug($result);
   }
 
   public function testAddAdminLoggedIn() {
-    $this->Controller = $this->generate('Questions', array(
+    $this->init('Questions', array(
         'components' => array('Auth' => array('user')),
         'models' => array('Question' => array('save', 'create'))
         ));
-
-    $this->Controller->Auth->staticExpects($this->any())->method('user')->will($this->returnCallback(array($this, 'authUserCallback')));
+    $this->login();
 
     $this->controller->Question->expects($this->once())->method('save');
     $this->controller->Question->expects($this->once())->method('create');
@@ -73,8 +95,41 @@ class QuestionsControllerTest extends ControllerTestCase {
     debug($result);
   }
 
-  public function testDeleteNotLoggedIn() {
-    $this->Controller = $this->generate('Questions', array(
+  public function testAddAndLoad() {
+    $this->init('Questions', array(
+        'components' => array('Auth' => array('user'))
+        ));
+    $this->login();
+
+    $questionData = $this->testQuestionData;
+
+    $this->testAction('/questions/add', array('return' => 'contents', 'method' => 'post', 'data' => array(
+      'Question' => $questionData
+      )));
+
+    $this->Controller->Question->recursive = -1;
+    $question = $this->Controller->Question->findById($this->Controller->Question->getLastInsertId());
+
+    $this->assertEquals($question['Question']['title'], $questionData['title']);
+  }
+
+  public function testSaveError() {
+    $this->init('Questions', array(
+        'methods' => array('addTags'),
+        'components' => array('Auth' => array('user')),
+        'models' => array('Question' => array('save'))
+        ));
+    $this->login();
+
+    $this->testAction('/questions/add', array('return' => 'contents', 'method' => 'post', 'data' => array(
+      'Question' => array()
+      )));
+
+    $this->controller->expects($this->never())->method('addTags');
+  }
+
+  public function testDeleteNotLoggedIn() {    
+    $this->init('Questions', array(
         'methods' => array('abuse'),
         'models' => array('Question' => array('delete'))
     ));
@@ -87,30 +142,25 @@ class QuestionsControllerTest extends ControllerTestCase {
   }
 
   public function testDeleteAdminLoggedIn() {
-    $this->Controller = $this->generate('Questions', array(
-        'components' => array('Auth' => array('user')),
-        'models' => array('Question' => array('save'))
-        ));
+    $this->init('Questions', array('models' => array('Question' => array('save'))));
+    $this->login();
 
-    $this->Controller->Auth->staticExpects($this->any())->method('user')->will($this->returnCallback(array($this, 'authUserCallback')));
     $this->controller->Question->expects($this->once())->method('save');
+    $this->controller->expects($this->never())->method('abuse');
     
     $result = $this->testAction('/questions/delete/1', array('return' => 'contents'));
     debug($result);
   }
 
-  public function authUserCallback($param){
-    $user = array(
-        'id' => 1,
-        'username' => 'test',
-        'Role' => array('name' => 'admin')
-    );
+  public function testDelete() {
+    $this->init('Questions');
+    $this->login();
 
-        if(empty($param)){
-            return $user;
-        } else {
-            return $user[$param];
-        }
-    }
+    $result = $this->testAction('/questions/delete/1', array('return' => 'contents'));
+
+    $this->Controller->Question->recursive = -1;
+    $question = $this->Controller->Question->findById(1);
+    $this->assertEquals($question['Question']['deleted'], 1);
+  }
 }
 ?>	
