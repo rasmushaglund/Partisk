@@ -60,6 +60,19 @@
 		?>
 	</head>
 	<body>
+
+		<div class="super-message row"> 
+			<div class="col-md-3">
+			<h3>Din hjälp behövs!</h3>
+			</div>
+			<div class="col-md-9">
+			<p>Vi behöver hjälp med att lägga in <b>frågor</b>, <b>svar</b>, <b>texter</b>, skapa en <b>design</b>, <b>programmera</b> 
+			systemet och komma med <b>förslag</b> och <b>feedback</b>.
+			Intresserad? Kontakta <a href="mailto:rasmus.haglund@gmail.com">rasmus.haglund@gmail.com</a> och/eller bidra till koden på 
+			<a href="https://github.com/rasmushaglund/Partisk">github</a>.
+			</p>
+			</div>
+		</div>
 		<nav class="navbar navbar-default" role="navigation">
 	      	<div class="navbar-header">
 	      	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">

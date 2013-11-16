@@ -189,6 +189,7 @@ class AppController extends Controller {
                     'fields' => array('created_by', 'approved'),
                     'conditions' => array('id' => $question)
                 ));
+
             $question = array_pop($questions);
         }
 

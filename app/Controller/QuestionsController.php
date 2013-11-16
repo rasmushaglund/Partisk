@@ -96,6 +96,7 @@ class QuestionsController extends AppController {
                                    Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
             ));
         $question = array_pop($questions);
+
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
         }
@@ -119,7 +120,6 @@ class QuestionsController extends AppController {
             $this->request->data['Question']['created_date'] = date('c');
             $this->request->data['Question']['type'] = "YESNO";
             if ($this->Question->save($this->request->data)) {
-
                 $this->addTags($this->request, $this->Question->getLastInsertId());
                 $this->customFlash(__('Frågan skapad.'));
                 $this->logUser('add', $this->Question->getLastInsertId(), $this->request->data['Question']['title']);

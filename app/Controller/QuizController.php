@@ -230,7 +230,10 @@ class QuizController extends AppController {
     public function admin() {
         $this->loadModel('QuizResult');
 
-        $this->set('results', $this->QuizResult->find('all'));
+        $this->set('results', $this->QuizResult->find('all', array(
+                'limit' => 40,
+                'order' => 'created desc'
+            )));
     }
 
     public function isAuthorized($user) {
