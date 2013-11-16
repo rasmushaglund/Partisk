@@ -29,7 +29,7 @@
 ?>
 
 <?php if ($modal && !$ajax) { ?>
- <a data-toggle="modal" id="<?php echo $modalId; ?>ModalLink" href="#<?php echo $modalId; ?>Modal" class="btn btn-primary btn-small">
+ <a data-toggle="modal" id="<?php echo $modalId; ?>ModalLink" href="#<?php echo $modalId; ?>Modal" class="<?php echo $class?> btn-small">
  	<i class="<?php echo $icon; ?>"></i> <?php echo $modalLabel; ?></a>
 <?php } ?>
 

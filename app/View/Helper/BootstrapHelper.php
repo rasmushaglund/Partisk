@@ -111,6 +111,7 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['model'])) { $args['model'] = $this->model; }
 		if (!isset($args['selected'])) { $args['selected'] = null; }
 		if (!isset($args['titleField'])) { $args['titleField'] = 'name'; }
+		if (!isset($args['class'])) { $args['class'] = 'btn btn-primary';}
 
     	return $this->_View->element('bootstrap/dropdown', $args);
     }
