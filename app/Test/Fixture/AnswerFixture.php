@@ -48,7 +48,10 @@ class AnswerFixture extends CakeTestFixture {
             'approved' => '0', 'approved_by' => '0', 'approved_date' => '2013-01-01'),
 
       // Answer for deleted question
-      array('id' => 8, 'party_id' => 4, 'answer' => 'no', 'question_id' => '4', 'date' => '2010-01-01', 'created_by' => '1', 'deleted' => '0', 
+      array('id' => 8, 'party_id' => 2, 'answer' => 'no', 'question_id' => '4', 'date' => '2010-01-01', 'created_by' => '1', 'deleted' => '0', 
+            'updated_by' => '0', 'updated_date' => '2012-03-18', 'created_date' => '2012-01-18', 'description' => 'Nice answer', 
+            'approved' => '1', 'approved_by' => '0', 'approved_date' => '2013-01-01'),
+      array('id' => 9, 'party_id' => 3, 'answer' => 'no', 'question_id' => '4', 'date' => '2010-01-01', 'created_by' => '1', 'deleted' => '1', 
             'updated_by' => '0', 'updated_date' => '2012-03-18', 'created_date' => '2012-01-18', 'description' => 'Nice answer', 
             'approved' => '1', 'approved_by' => '0', 'approved_date' => '2013-01-01')
   );

@@ -49,7 +49,7 @@ class UsersController extends AppController {
             }
 
             CakeLog::write('abuse', $this->request->clientIp() . ' - Wrong password for user ' . $this->request->data['User']['username']);
-            $this->Session->setFlash(__('Invalid username or password, try again'));
+            $this->customFlash(__('Fel användarnamn eller lösenord.'), 'danger');
         }
 
         $this->currentPage = "login";

@@ -28,5 +28,25 @@ class PartiskControllerTest extends ControllerTestCase {
     $this->Controller = $this->generate($model, $generateArgs);
   }
 
+
+  //http://stackoverflow.com/questions/1019076/how-to-search-by-key-value-in-a-multidimensional-array-in-php/1019126#1019126
+  public function search($array, $key, $value) {
+    $results = array();
+
+    $this->search_r($array, $key, $value, $results);
+
+    return empty($results) ? null : $results;
+  }
+
+  public function search_r($array, $key, $value, &$results) {
+    if (!is_array($array))
+        return;
+
+    if (isset($array[$key]) && $array[$key] == $value)
+        $results[] = $array;
+
+    foreach ($array as $subarray)
+        $this->search_r($subarray, $key, $value, $results);
+  }
 }
 ?>	

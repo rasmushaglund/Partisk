@@ -101,7 +101,7 @@ class Answer extends AppModel {
         $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
         $includeBestResult = isset($args['includeBestResult']) ? $args['includeBestResult'] : false;
 
-        $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by');
+        $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by', 'deleted');
         $groupBy = 'party_id';
         $order = '';
 

@@ -11,9 +11,15 @@ class QuestionsControllerTest extends PartiskControllerTest {
  	public function testIndex() {
       $result = $this->testAction('/questions/index', array('return' => 'vars'));
 
-      $this->assertTrue(sizeof($result['answers']) == 2);
+      $this->assertNotEquals($this->search($result['answers'], 'id', 2), null);
+
+      // No deleted answers/questions should be displayed unless the user is logged in
+      $this->assertEquals($this->search($result['answers'], 'deleted', 1), null);
+      $this->assertEquals($this->search($result['questions'], 'deleted', 1), null);
+
+      $this->assertTrue(sizeof($result['answers']) == 3);
       $this->assertTrue(sizeof($result['parties']) == 3);
-      $this->assertTrue(sizeof($result['questions']) == 3);
+      $this->assertTrue(sizeof($result['questions']) == 4);
 
       // The multiple answers that belong to the same party and question should be reduced to one
       $this->assertTrue(sizeof($result['answers'][1]['answers']) == 1);
@@ -54,12 +60,23 @@ class QuestionsControllerTest extends PartiskControllerTest {
     $result = $this->testAction('/questions/view/3', array('return' => 'vars'));
     $this->assertFalse(empty($result['answers']));
     $this->assertFalse(empty($result['question']));
+    $this->assertEquals($this->search($result['answers'], 'deleted', 1), null);
     $this->assertTrue(sizeof($result['answers']) == 1);
     //debug($result);
   }
 
-  public function testViewWithNoAnswers() {
+  public function testViewLoggedIn() {
+    $this->init('Questions');
+    $this->login();
     $result = $this->testAction('/questions/view/4', array('return' => 'vars'));
+    $this->assertFalse(empty($result['answers']));
+    $this->assertFalse(empty($result['question']));
+    $this->assertNotEquals($this->search($result['question'], 'deleted', 1), null);
+    $this->assertTrue(sizeof($result['answers']) == 1);
+  }
+
+  public function testViewWithNoAnswers() {
+    $result = $this->testAction('/questions/view/5', array('return' => 'vars'));
     $this->assertTrue(empty($result['answers']));
     $this->assertFalse(empty($result['question']));
   }
