@@ -40,3 +40,5 @@ $this->Html->addCrumb('Logga in');
      <input name="data[User][password]" type="password" id="UserPassword" required="required" class="form-control"></div>    
      <input type="submit" value="Logga in" class="btn btn-default">
 </form>
+
+<?php  echo $this->element('apply'); ?>
