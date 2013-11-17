@@ -39,7 +39,7 @@ if (isset($party)) {
 
 	if (isset($link) && isset($party['id']) && $link) {
 		echo $this->Html->link($image . $titleString,
-	    	array('controller' => 'parties', 'action' => 'view', $party['id']), array('escape' => false));
+	    	array('controller' => 'parties', 'action' => 'view', $party['id']), array('escape' => false, 'class' => isset($linkClass) ? $linkClass : null));
 	} else {
 		echo $image . $title;
 	}

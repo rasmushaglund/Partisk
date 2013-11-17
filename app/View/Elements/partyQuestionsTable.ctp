@@ -32,7 +32,8 @@
         <?php echo $this->Html->link($answer['Question']['title'],
                   array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
       </th>
-      <?php echo $this->element('answerCell', array('answer' => $answer)); ?>
+      <?php echo $this->element('answerCell', array('answer' => $answer, 
+                          'question' => $answer)); ?>
       <?php if ($current_user) { ?>
         <td>
           <p><?php echo $answer['Answer']['approved'] ? "Godkänd" : "Ej godkänd"; ?></p>

@@ -38,7 +38,7 @@ class PartiesController extends AppController {
 
     public function index() {
         $this->Party->recursive = -1;
-        $this->set('parties', $this->getPartiesOrdered());
+        $this->set('parties', $this->Party->getPartiesOrdered());
 
         $this->set('title_for_layout', 'Partier');
     }
@@ -68,9 +68,6 @@ class PartiesController extends AppController {
             array_push($questionIds, $question['Question']['id']);  
         }
 
-        $this->Party->Answer->recursive = -1;
-        $this->Party->contain();
-        $this->Party->Answer->contain(array('Party', 'Question'));
         $party["Answer"] = $this->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
                                     'includeQuestion' => true));
 

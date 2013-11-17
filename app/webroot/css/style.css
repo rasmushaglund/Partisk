@@ -413,3 +413,29 @@ h1 .admin-toolbox {
 .super-message p {
     margin-top: 10px;
 }
+
+.popover-data {
+    display: none;
+}
+
+.popover-link {
+    cursor: pointer;
+    color: #428bca;
+}
+
+.popover-link:hover {
+    color: #2a6496;
+text-decoration: underline;
+}
+
+.popover {
+  max-width: 600px;
+}
+
+.popover-description {
+    margin-top: 8px;
+}
+
+.qa-table th a {
+    display: inline-block;
+}

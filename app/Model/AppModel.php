@@ -27,6 +27,7 @@
 App::uses('Model', 'Model');
 
 class AppModel extends Model {
+    public $actsAs = array('Containable');
 	var $inserted_ids = array();
 	
 	function afterSave($created) {
@@ -34,5 +35,15 @@ class AppModel extends Model {
             $this->inserted_ids[] = $this->getInsertID();
         }
         return true;
+    }
+
+    public function getIdsFromModel($model, $parties) {
+        $partyIds = array();
+
+        foreach ($parties as $party) {
+            array_push($partyIds, $party[$model]['id']);
+        }
+
+        return $partyIds;
     }
 }
