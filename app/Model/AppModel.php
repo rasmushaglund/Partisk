@@ -27,6 +27,7 @@
 App::uses('Model', 'Model');
 
 class AppModel extends Model {
+    public $actsAs = array('Containable');
 	var $inserted_ids = array();
 	
 	function afterSave($created) {

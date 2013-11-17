@@ -66,30 +66,9 @@ class TagsController extends AppController {
         }   
 
         $questions = $this->Tag->Question->getQuestions($conditions);
+        $parties = $this->getPartiesOrdered();
 
-        $parties = $this->Tag->Question->Answer->Party->find('all', array(
-                'conditions' => array('Party.deleted' => false)
-            ));
-        $questionIds = array();
-        $partyIds = array();
-
-        foreach ($questions as $question) {
-            array_push($questionIds, $question['Question']['id']);
-        }
-
-        foreach ($parties as $party) {
-            array_push($partyIds, $party['Party']['id']);
-        }
-
-        $answers = $this->Tag->Question->Answer->find('all', array(
-                'conditions' => array(
-                        array('Answer.deleted' => false),
-                        array('Answer.party_id' => $partyIds),
-                        array('Answer.question_id' => $questionIds) 
-                    )
-            )
-        );
-
+        $answers = $this->Answer->getAnswers(array('tagId' => $id, 'includeParty' => true));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
         $this->set('tag', $tag);

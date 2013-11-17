@@ -25,8 +25,6 @@
  */
 
 class Tag extends AppModel {
-    public $actsAs = array('Containable');
-
 	public $validate = array(
         'name' => array(
             'required' => array(

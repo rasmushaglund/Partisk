@@ -26,9 +26,7 @@
 
 App::uses('AuthComponent', 'Controller/Component');
 
-class User extends AppModel {
-    public $actsAs = array('Containable');
-    
+class User extends AppModel {    
     public $validate = array(
         'username' => array(
             'required' => array(

@@ -25,8 +25,6 @@
  */
 
 class Answer extends AppModel {
-    public $actsAs = array('Containable');
-
 	public $validate = array(
         'answer' => array(
             'rule' => 'notEmpty'
@@ -94,6 +92,7 @@ class Answer extends AppModel {
 
     public function getAnswers($args) {
         
+        $tagId = isset($args['tagId']) ? $args['tagId'] : null;
         $partyId = isset($args['partyId']) ? $args['partyId'] : null;
         $questionId = isset($args['questionId']) ? $args['questionId'] : null;
         $includeParty = isset($args['includeParty']) ? $args['includeParty'] : false;
@@ -101,14 +100,27 @@ class Answer extends AppModel {
         $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
         $includeBestResult = isset($args['includeBestResult']) ? $args['includeBestResult'] : false;
 
-        $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by', 'deleted');
+        $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by', 'deleted', 'description', 'source');
         $groupBy = 'party_id';
         $order = '';
+        $contain = array();
 
         $conditions = array(array('Answer.deleted' => false));
 
+        $joins = array(
+                    array('type' => 'inner',
+                    'table' => '(select max(date) as latest, b.id, b.party_id, b.question_id from answers b where b.deleted = false
+                                 group by b.party_id, b.question_id)',
+                    'alias' => 'current',
+                    'conditions' => array(
+                            'Answer.question_id = current.question_id',
+                            'Answer.party_id = current.party_id',
+                            'current.latest = Answer.date'
+                        )
+                    ));
+
         if ($includeParty) {
-            //$this->contain(array('Party'));
+            array_push($contain, 'Party');
             array_push($fields, 'Party.id, Party.name, (greatest(Party.last_result_parliment, Party.last_result_eu)) as Party__best_result');
             $groupBy = 'question_id, ' . $groupBy;
             array_push($conditions, array('Party.deleted' => false));
@@ -121,7 +133,7 @@ class Answer extends AppModel {
         }
 
         if ($includeQuestion) {
-            //$this->contain(array('Question'));
+            array_push($contain, 'Question');
             $order = 'Question.title';
             array_push($fields, 'Question.id, Question.title');
         }
@@ -130,24 +142,24 @@ class Answer extends AppModel {
             array_push($conditions, array('Answer.party_id' => $partyId));
         }
 
+        if (isset($tagId)) {
+            array_push($conditions, array('Tag.id' => $tagId));
+            array_push($joins, array('type' => 'inner',
+                                     'table' => 'tags as Tag',
+                                    'conditions' => array('Tag.id' => $tagId)));
+        }
+
         if (isset($questionId)) {
             array_push($conditions, array('Answer.question_id' => $questionId));
         }
+
+        $this->contain($contain);
+
         return $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => $fields,
                 'groupBy' => $groupBy,
-                'joins' => array(
-                    array('type' => 'inner',
-                    'table' => '(select max(date) as latest, b.id, b.party_id, b.question_id from answers b where b.deleted = false
-                                 group by b.party_id, b.question_id)',
-                    'alias' => 'current',
-                    'conditions' => array(
-                            'Answer.question_id = current.question_id',
-                            'Answer.party_id = current.party_id',
-                            'current.latest = Answer.date'
-                        )
-                    )),
+                'joins' => $joins,
                 'order' => $order
             )
         );

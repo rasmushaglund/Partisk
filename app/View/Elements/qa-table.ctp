@@ -35,7 +35,9 @@
       </th>
       <?php foreach ($parties as $party): ?>
       <th>
-        <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => false)); ?>
+        <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => false, 
+                      'linkClass' => 'popover-hover-link')); ?>
+        <div class="popover-data"><?php echo ucfirst($party['Party']['name']); ?></div>
       </th>
       <?php endforeach; ?>
       <?php if ($current_user) { ?>
@@ -56,7 +58,8 @@
       <?php 
 
         if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
-          echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]]));
+          echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
+                                                  'question' => $question));
         } else { ?>
           <td></td>
         <?php }?>

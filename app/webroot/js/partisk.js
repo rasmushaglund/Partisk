@@ -53,3 +53,26 @@ var openEditModal = function(controller, id) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+$(document).ready(function() {
+	$('.popover-link').popover({ 
+	    html : true,
+	    placement: "auto",
+	    content: function() {
+	      return $(this).next('.popover-data').html();
+	    }
+	 });
+
+	$('.popover-hover-link').popover({ 
+	    html : true,
+	    placement: "auto",
+	    trigger: 'hover',
+	    content: function() {
+	      return $(this).next('.popover-data').html();
+	    }
+	 });
+
+	$('body').on('click', function (e) {
+    	$('.popover.in').prev().not(e.target).popover('toggle');
+	});
+});

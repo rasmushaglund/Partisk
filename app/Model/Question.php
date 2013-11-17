@@ -25,8 +25,6 @@
  */
 
 class Question extends AppModel {
-    public $actsAs = array('Containable');
-
 	public $validate = array(
         'title' => array(
             'required' => array(
