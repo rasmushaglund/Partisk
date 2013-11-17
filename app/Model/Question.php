@@ -88,6 +88,7 @@ class Question extends AppModel {
         $deleted = isset($args['deleted']) ? $args['deleted'] : false;
         $approved = isset($args['approved']) ? $args['approved'] : null;
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
+        $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted');
 
         $conditions = array();
         $joins = array();
@@ -109,7 +110,7 @@ class Question extends AppModel {
             'order' => 'Question.title',
             'conditions' => $conditions,
             'joins' => $joins,
-            'fields' => array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted')
+            'fields' => $fields
             ));
 
         return $questions;
@@ -121,6 +122,27 @@ class Question extends AppModel {
                 'conditions' => array('deleted' => false, 'approved' => true),
                 'limit' => '5',
                 'order' => 'created_date DESC'
+            ));
+    }
+
+    public function getQuestionById($id) {
+        $this->recursive = -1;
+        $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
+        $this->Tag->virtualFields['number_of_questions'] = 0;
+        $questions = $this->find('all', array(
+                'conditions' => array(
+                        'Question.id' => $id
+                    ),
+                'contain' => 'Tag.deleted = false',
+                'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, 
+                                   Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+            ));
+        return array_pop($questions);
+    }
+
+    public function getAllQuestionsList() {
+        return $this->getQuestions(array(
+                'fields' => array('Question.id', 'Question.title')
             ));
     }
 }

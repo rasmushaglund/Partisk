@@ -58,7 +58,7 @@ class UsersController extends AppController {
     
     public function logout() {
         $this->Auth->logout();
-        return $this->redirect(array('controller'=>'pages', 'action'=>'index'));
+        return $this->redirect($this->referer());
     }
     
     public function index() {

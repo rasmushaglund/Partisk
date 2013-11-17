@@ -36,4 +36,14 @@ class AppModel extends Model {
         }
         return true;
     }
+
+    public function getIdsFromModel($model, $parties) {
+        $partyIds = array();
+
+        foreach ($parties as $party) {
+            array_push($partyIds, $party[$model]['id']);
+        }
+
+        return $partyIds;
+    }
 }

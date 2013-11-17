@@ -43,9 +43,6 @@ class QuestionsController extends AppController {
     public function index() {
         $this->loadModel('Party');
         $this->loadModel('Answer');
-        $this->Question->recursive = -1;
-        $this->Question->Answer->recursive = -1;
-        $this->Question->Answer->Party->recursive = -1;
 
         $conditions = array('deleted' => false);
 
@@ -54,19 +51,10 @@ class QuestionsController extends AppController {
         }   
 
         $questions = $this->Question->getQuestions($conditions);
-
-        $parties = $this->getPartiesOrdered();
-
-        $questionIds = array();
-        $partyIds = array();
-
-        foreach ($questions as $question) {
-            array_push($questionIds, $question['Question']['id']);  
-        }
-
-        foreach ($parties as $party) {
-            array_push($partyIds, $party['Party']['id']);
-        }
+        $parties = $this->Party->getPartiesOrdered();
+        
+        $questionIds = $this->Question->getIdsFromModel('Question', $questions);
+        $partyIds = $this->Party->getIdsFromModel('Party', $parties);
 
         $answers = $this->Answer->getAnswers(array('partyId' => $partyIds, 'questionId' => $questionIds));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
@@ -82,26 +70,13 @@ class QuestionsController extends AppController {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-        $this->loadModel('Answer');
-
-        $this->Question->recursive = -1;
-        $this->Question->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
-        $this->Question->Tag->virtualFields['number_of_questions'] = 0;
-        $questions = $this->Question->find('all', array(
-                'conditions' => array(
-                        'Question.id' => $id
-                    ),
-                'contain' => 'Tag.deleted = false',
-                'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, 
-                                   Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
-            ));
-        $question = array_pop($questions);
+        $question = $this->Question->getQuestionById($id);
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $answers = $this->Answer->getAnswers(array('questionId' => $id, 'includeParty' => true));
+        $answers = $this->Question->Answer->getAnswers(array('questionId' => $id, 'includeParty' => true));
 
         $this->set('question', $question);
         $this->set('answers', $answers);
@@ -115,19 +90,7 @@ class QuestionsController extends AppController {
         }
 
         if ($this->request->is('post')) {
-            $this->Question->create();
-            $this->request->data['Question']['created_by'] = $this->Auth->user('id');
-            $this->request->data['Question']['created_date'] = date('c');
-            $this->request->data['Question']['type'] = "YESNO";
-            if ($this->Question->save($this->request->data)) {
-                $this->addTags($this->request, $this->Question->getLastInsertId());
-                $this->customFlash(__('Frågan skapad.'));
-                $this->logUser('add', $this->Question->getLastInsertId(), $this->request->data['Question']['title']);
-            } else {
-                $this->customFlash(__('Kunde inte skapa frågan.'), 'danger');
-                $this->Session->write('validationErrors', $this->Question->validationErrors);
-            }
-
+            $this->createQuestion($this->request->data);
             return $this->redirect($this->referer());
         }
      }
@@ -138,92 +101,34 @@ class QuestionsController extends AppController {
             return $this->redirect($this->referer());
         }
 
-        $this->Question->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
-
-        if ($this->Question->save()) {
-            $this->customFlash(__('Tog bort frågan med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
-        }
+        $this->deleteQuestion($id);
 
         return $this->redirect($this->referer());
      }
 
      public function edit($id = null) {
-        if (empty($id)) {
-            $id = $this->request->data['Question']['id'];
-        }
-
         if (!$this->userCanEditQuestion($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to edit question with id " . $id);
             return $this->redirect($this->referer());
         }
 
-        $this->loadModel('Tag');
-
         if ($this->request->is('post') || $this->request->is('put')) {
-
-            $this->addTags($this->request, $id);
-
-            $this->request->data['Question']['updated_by'] = $this->Auth->user('id');
-            $this->request->data['Question']['updated_date'] = date('c');
-            if (isset($this->request->data['Question']['approved'])) {
-                $this->request->data['Question']['approved'] = true;
-                $this->request->data['Question']['approved_by'] = $this->Auth->user('id');
-                $this->request->data['Question']['approved_date'] = date('c');
-            } else {
-                $this->request->data['Question']['approved'] = false;
-            }
-
-            if ($this->Question->save($this->request->data)) {
-                $this->customFlash(__('Frågan har uppdaterats.'));
-                $this->logUser('edit', $id);
-            } else {
-                $this->customFlash(__('Kunde inte uppdatera frågan.'), 'danger');
-            }
-
+            $this->saveQuestion($this->request->data);
             return $this->redirect($this->referer());
-        }
+        } 
 
         if (!$id) {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $this->Question->recursive = -1;
-        $questions = $this->Question->find('all', array(
-                'conditions' => array('Question.id' => $id),
-                'fields' => array('Question.id', 'Question.title', 'Question.description', 'Question.approved')));
-        $question = array_pop($questions);
+        $question = $this->Question->getQuestionById($id);
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        if (!$this->request->data) {
-            $this->request->data = $question;
-        }
+        $question['Question']['tags'] = $this->Question->Tag->getTagStringByQuestionid($id);
 
-        $this->Tag->recursive = -1;
-        $tags = $this->Tag->find('list', array(
-                'conditions' => array('Tag.deleted = false', 'Tag.id = QuestionTag.tag_id '),
-                'joins' => array(
-                        array(
-                            'type' => 'left',
-                            'table' => 'question_tags as QuestionTag',
-                            'conditions' => array('QuestionTag.question_id' => $id)
-                            )
-                    ),
-                'fields' => array('Tag.name')
-            ));
-
-        $question['Question']['tags'] = implode($tags, ', ');
-
-        $this->set('tags', $tags);
         $this->set('question', $question);
 
         if ($this->request->is('ajax')) {
@@ -235,9 +140,9 @@ class QuestionsController extends AppController {
         }
     }
 
-    // Refactor this :(
-    private function addTags($request, $questionId) {
-            $tagsString = $request->data['Question']['tags'];
+    // TODO: Refactor this :(
+    private function addTags($data, $questionId) {
+            $tagsString = $data['Question']['tags'];
             $tagsArray = array_map('trim', explode(',', strtolower($tagsString)));
 
             if (!empty($tagsArray)) {
@@ -286,11 +191,7 @@ class QuestionsController extends AppController {
     }
 
     public function all() {
-        $this->Question->recursive = -1;
-        return $this->Question->find('all', 
-                array('conditions' => array('Question.deleted' => false),
-                      'order' => 'title',
-                      'fields' => array('Question.id', 'Question.title')));        
+        return $this->Question->getAllQuestionsList();
     }
 
     public function isAuthorized($user) {
@@ -305,6 +206,60 @@ class QuestionsController extends AppController {
         }
 
         return parent::isAuthorized($user);
+    }
+
+    private function createQuestion($data) {
+        $this->Question->create();
+        $data['Question']['created_by'] = $this->Auth->user('id');
+        $data['Question']['created_date'] = date('c');
+        $data['Question']['type'] = "YESNO";
+
+        if ($this->Question->save($data)) {
+            $this->addTags($data, $this->Question->getLastInsertId());
+            $this->customFlash(__('Frågan skapad.'));
+            $this->logUser('add', $this->Question->getLastInsertId(), $data['Question']['title']);
+        } else {
+            $this->customFlash(__('Kunde inte skapa frågan.'), 'danger');
+            $this->Session->write('validationErrors', $this->Question->validationErrors);
+        }
+    }
+
+    private function saveQuestion($data) {
+        $id = $data['Question']['id'];
+        $this->addTags($data, $id);
+
+        $data['Question']['updated_by'] = $this->Auth->user('id');
+        $data['Question']['updated_date'] = date('c');
+
+        if (isset($data['Question']['approved'])) {
+            $data['Question']['approved'] = true;
+            $data['Question']['approved_by'] = $this->Auth->user('id');
+            $data['Question']['approved_date'] = date('c');
+        } else {
+            $data['Question']['approved'] = false;
+        }
+
+        if ($this->Question->save($data)) {
+            $this->customFlash(__('Frågan har uppdaterats.'));
+            $this->logUser('edit', $id);
+        } else {
+            $this->customFlash(__('Kunde inte uppdatera frågan.'), 'danger');
+        }
+    }
+
+    private function deleteQuestion($id) {
+        $this->Question->set(
+            array('id' => $id,
+                  'deleted' => true,
+                  'updated_by' => $this->Auth->user('id'),
+                  'update_date' => date('c')));
+
+        if ($this->Question->save()) {
+            $this->customFlash(__('Tog bort frågan med id: %s.', h($id)));
+            $this->logUser('delete', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
+        }
     }
 
     public function logUser($action, $object_id, $text = "") {

@@ -87,6 +87,22 @@ class Tag extends AppModel {
                 'group' => array('Tag.id')
             ));
     }
+
+    public function getTagStringByQuestionId($id) {
+        $tagIds = $this->find('list', array(
+                'conditions' => array('Tag.deleted = false', 'Tag.id = QuestionTag.tag_id '),
+                'joins' => array(
+                        array(
+                            'type' => 'left',
+                            'table' => 'question_tags as QuestionTag',
+                            'conditions' => array('QuestionTag.question_id' => $id)
+                            )
+                    ),
+                'fields' => array('Tag.name')
+            ));
+
+        return implode($tagIds, ', ');
+    }
 }
 
 ?>

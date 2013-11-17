@@ -38,7 +38,7 @@ class PartiesController extends AppController {
 
     public function index() {
         $this->Party->recursive = -1;
-        $this->set('parties', $this->getPartiesOrdered());
+        $this->set('parties', $this->Party->getPartiesOrdered());
 
         $this->set('title_for_layout', 'Partier');
     }

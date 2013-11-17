@@ -161,16 +161,6 @@ class AppController extends Controller {
                        ', Url:' . $url . ', Referer:' . $this->referer() . ", Message:" . $message);
     }
 
-    public function getPartiesOrdered() {
-        $this->loadModel('Party');
-        $this->Party->recursive = -1;
-        return $this->Party->find('all', array(
-                'conditions' => array('Party.deleted' => false),
-                'fields' => array('id', 'name', 'best_result', 'last_result_parliment', 'last_result_eu'),
-                'order' => 'Party__best_result DESC')
-            );
-    }
-
     
 
     public function userCanEditQuestion($userId, $question = null) {
