@@ -24,16 +24,23 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
  ?>
-
-
-    <?php echo $this->Bootstrap->create('user', array('modal' => true, 'label' => "Ansök om konto", 'icon' => 'null', 'class' => "btn btn-link" )); ?>
+<?php
+    $roles = $this->requestAction('roles/all');
+?>
+    <?php echo $this->Bootstrap->create('User', 
+            array('modal' => true, 'label' => "Ansök om konto", 'icon' => 'null', 'class' => "btn btn-link" )); ?>
     
 	
-	<?php echo $this->Bootstrap->input('username', array('label' => 'Användarnamn', 'placeholder' => 'Användarnamn')); ?>
-	<?php echo $this->Bootstrap->input('email', array('label' => 'E-postadress', 'placeholder' => 'E-postadress')); ?>   
-	<?php echo $this->Bootstrap->input('password', array('label' => 'Lösenord', 'type' => 'password', 'placeholder' => 'Lösenord')); ?>
-	<?php echo $this->Bootstrap->input('confimPassword', array('label' => 'Bekräfta Lösenord', 'type' => 'password', 'placeholder' => 'Bekräfta Lösenord')); ?>
-	<?php echo $this->Bootstrap->textarea('presentation', array('label' => 'Motivering', 'placeholder' => 'Här kan du skriva en kort presentation av dig själv och om hur du kan bidra till partisk.nu.')); ?>
+	<?php echo $this->Bootstrap->input('username', 
+                array('label' => 'Användarnamn' , 'placeholder' => 'Användarnamn')); ?>
+	<?php echo $this->Bootstrap->input('email', 
+                array('label' => 'E-postadress', 'placeholder' => 'E-postadress')); ?>   
+	<?php echo $this->Bootstrap->input('password', 
+                array('label' => 'Lösenord', 'type' => 'password', 'placeholder' => 'Lösenord')); ?>
+	<?php echo $this->Bootstrap->input('confimPassword', 
+                array('label' => 'Bekräfta Lösenord', 'type' => 'password', 'placeholder' => 'Bekräfta Lösenord')); ?>
+	<?php echo $this->Bootstrap->textarea('description', 
+                array('label' => 'Motivering', 'placeholder' => 'Här kan du skriva en kort presentation av dig själv och om hur du kan bidra till partisk.nu.')); ?>
 
 
     <?php echo $this->Bootstrap->end($editMode = "Skicka", array('modal' => true)); ?>
