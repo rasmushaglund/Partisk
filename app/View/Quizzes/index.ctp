@@ -25,12 +25,36 @@
  */
 
 $this->Html->addCrumb('Quiz');
-
 ?>
 
 <h1>Quiz</h1>
+<?php if ($current_user) { ?>
+<div class="tools">
+<?php echo $this->element('saveQuiz'); ?>
+  </div>
+ <?php } ?>
+
 <p>Här kan du testa dig på de frågor som lagts in på Partisk.nu och få en indikation på vilka partier du håller med mest i olika frågor.</p>
 <br />
+
+<ul class="list-unstyled">
+<?php foreach ($quizzes as $quiz) { ?>
+	<li>
+	<h2><?php echo $quiz['Quiz']['name']; ?></h2>
+	<p><?php echo $quiz['Quiz']['description']; ?></p>
+	<?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Starta quizen', 
+					array('controller' => 'quizzes', 'action' => 'questions', $quiz['Quiz']['id']), 
+					array('class' => 'btn btn-info', 'escape' => false)); ?>
+	<?php echo $this->Html->link('<i class="fa fa-edit"></i> Administrera', 
+					array('controller' => 'quizzes', 'action' => 'admin', $quiz['Quiz']['id']), 
+					array('class' => 'btn btn-warning', 'escape' => false)); ?>
+	<?php echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
+					array('controller' => 'quizzes', 'action' => 'delete', $quiz['Quiz']['id']), 
+					array('class' => 'btn btn-danger', 'escape' => false)); ?>
+	</li>
+<?php } ?>
+</ul>
+
 <?php if ($ongoingQuiz) {
 	if ($quizIsDone) {
 		echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Till resultatet', array('controller' => 'quiz', 'action' => 'results', $quizId), 
@@ -41,9 +65,6 @@ $this->Html->addCrumb('Quiz');
 	}
 	echo $this->Html->link('<i class="fa fa-refresh"></i> Starta om quizen', array('controller' => 'quiz', 'action' => 'restart'), 
 				array('class' => 'btn btn-danger', 'escape' => false)); 
-} else {
-	echo $this->Html->link('<i class="fa fa-check-square-o"></i> Starta quizen', array('controller' => 'quiz', 'action' => 'questions'), 
-				array('class' => 'btn btn-info', 'escape' => false)); 
-}
+	} 
 ?>
 

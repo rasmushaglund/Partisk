@@ -24,6 +24,8 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
+App::uses('UserLogger', 'Log');
+
 class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form');
 
@@ -47,7 +49,12 @@ class QuizzesController extends AppController {
             $this->set('quizId', $quiz['Quiz']['id']);
         }
 
+        $quizzes = $this->Quiz->find('all', array(
+                'conditions' => array('deleted' => false, 'approved' => true)
+            ));
+
         $this->set('ongoingQuiz', !empty($quiz));
+        $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
         $this->set('title_for_layout', 'Quiz');
     }
@@ -64,7 +71,7 @@ class QuizzesController extends AppController {
             $this->request->data['Quiz']['created_date'] = date('c');
             if ($this->Quiz->save($this->request->data)) {
                 $this->customFlash(__('Quizen har skapats.'));
-                $this->logUser('add', $this->Quiz->getLastInsertId(), $this->request->data['User']['username']);
+                $this->logUser('add', $this->Quiz->getLastInsertId(), $this->request->data['Quiz']['name']);
             } else {
                 $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');
                 $this->Session->write('validationErrors', $this->Quiz->validationErrors);
@@ -74,7 +81,7 @@ class QuizzesController extends AppController {
         }
     }
 
-    public function questions() {
+    public function questions($id = null) {
         if ($this->quizIsDone()) {
             return $this->redirect(array('action' => 'results'));   
         }
@@ -82,7 +89,7 @@ class QuizzesController extends AppController {
         $quiz = $this->Session->read('quiz');
 
         if (!isset($quiz) || !isset($quiz['Quiz'])) {
-            $quiz = $this->Quiz->generateQuiz();
+            $quiz = $this->Quiz->generateQuiz($id);
             $this->Session->write('quiz', $quiz);
         }
 
@@ -249,7 +256,13 @@ class QuizzesController extends AppController {
         return $importance;
     }
 
-    public function admin() {
+    public function admin($id) {
+        $questions = $this->Quiz->Question->getQuestionsByQuizId($id);
+        $this->set('questions', $questions);
+        $this->set('quizId', $id);
+    }
+
+    public function overview() {
         $this->loadModel('QuizResult');
 
         $this->set('results', $this->QuizResult->find('all', array(
@@ -258,14 +271,65 @@ class QuizzesController extends AppController {
             )));
     }
 
+    // TODO: remove the nasty conversion from Quiz to QuestionQioz
+    // TODO: Log something meaninful in logUser
+    public function addQuestion() {
+        if (!$this->canEditQuiz) {
+            $this->abuse("Not authorized to edit quiz");
+            return $this->redirect($this->referer());
+        }
+
+        if ($this->request->is('post')) {
+            $this->loadModel('QuestionQuiz');
+            $this->QuestionQuiz->create();
+            $data = array();
+            $data['QuestionQuiz'] = $this->request->data['Quiz'];
+            if ($this->QuestionQuiz->save($data)) {
+                $this->customFlash(__('Frågan har lagts till i quizen.'));
+                $this->logUser('add', $this->QuestionQuiz->getLastInsertId(), "");
+            } else {
+                $this->customFlash(__('Kunde inte lägga till frågan till quizen.'), 'danger');
+                $this->Session->write('validationErrors', $this->QuestionQuiz->validationErrors);
+            }
+
+            return $this->redirect($this->referer());
+        }
+    }
+
+    public function deleteQuestion($id) {
+        if (!$this->canEditQuiz) {
+            $this->abuse("Not authorized to delete relation between question and quiz with id " . $id);
+            return $this->redirect($this->referer());
+        }
+
+        $this->loadModel('QuestionQuiz');
+        $this->QuestionQuiz->set(
+            array('id' => $id,
+                  'deleted' => true));
+
+        if ($this->QuestionQuiz->save()) {
+            $this->customFlash(__('Tog bort frågan i quizen med id: %s.', h($id)));
+            $this->logUser('delete', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort frågan som hör till quizen.'), 'danger');
+        }
+
+        return $this->redirect($this->referer());
+    }
+
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if ($role == 'admin' && in_array($this->action, array('admin'))) {
+        if ($role == 'admin' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion'))) {
             return true;
         }
 
         return parent::isAuthorized($user);
+    }
+
+    public function logUser($action, $object_id, $text = "") {
+        UserLogger::write(array('model' => 'quiz', 'action' => $action,
+                                'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
     }
 }
 

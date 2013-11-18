@@ -34,18 +34,22 @@ class AppController extends Controller {
     var $canAddTag = false;
     var $canAddParty = false;
     var $canAddUser = false;
+    var $canAddQuiz = false;
     var $canEditQuestion = false;
     var $canEditUser = false;
     var $canEditTag = false;
     var $canEditParty = false;
     var $canEditAnswer = false;
+    var $canEditQuiz = false;
     var $canDeleteAnswer = false;
     var $canDeleteTag = false;
     var $canDeleteQuestion = false;
     var $canDeleteParty = false;
     var $canDeleteUser = false;
+    var $canDeleteQuiz = false;
     var $canApproveQuestion = false;
     var $canApproveAnswer = false;
+    var $canApproveQuiz = false;
 
 	public $components = array(
         'Session',
@@ -79,6 +83,7 @@ class AppController extends Controller {
             $this->isLoggedIn = true;
             $this->canAddQuestion = true;
             $this->canAddAnswer = true;
+            $this->canAddQuiz = true;
         }
 
         if (in_array($role, array('moderator', 'admin'))) {
@@ -91,6 +96,8 @@ class AppController extends Controller {
             $this->canEditAnswer = true;
             $this->canApproveQuestion = true;
             $this->canApproveAnswer = true;
+            $this->canEditQuiz = true;
+            $this->canApproveQuiz = true;
         }
 
         if ($role == 'admin') {
@@ -100,6 +107,7 @@ class AppController extends Controller {
             $this->canAddUser = true;
             $this->canEditUser = true;
             $this->canDeleteUser = true;
+            $this->canDeleteQuiz = true;
         } 
     }
 
@@ -123,6 +131,9 @@ class AppController extends Controller {
         $this->set('canAddUser', $this->canAddUser);
         $this->set('canEditUser', $this->canEditUser);
         $this->set('canDeleteUser', $this->canDeleteUser);
+        $this->set('canAddQuiz', $this->canAddQuiz);
+        $this->set('canEditQuiz', $this->canEditQuiz);
+        $this->set('canApproveQuiz', $this->canApproveQuiz);
     }
 
 	

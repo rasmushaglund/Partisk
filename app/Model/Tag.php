@@ -37,7 +37,7 @@ class Tag extends AppModel {
     public $hasAndBelongsToMany = array(
         'Question' => array(
             'joinTable' => "question_tags"
-            )
+            )        
     );
 
     public $belongsTo = array(
@@ -102,6 +102,57 @@ class Tag extends AppModel {
             ));
 
         return implode($tagIds, ', ');
+    }
+
+    // TODO: Refactor this :(
+    public function addTags($data) {
+        $questionId = $data['Question']['id'];
+        $tagsString = $data['Question']['tags'];
+        $tagsArray = array_map('trim', explode(',', strtolower($tagsString)));
+
+        if (!empty($tagsArray)) {
+            $questionTags = array();
+            $this->Question->Tag->recursive = -1;
+            $tagIds = $this->Question->Tag->find('all', 
+                array(
+                        'conditions' => array('name' => $tagsArray),
+                        'fields' => array('Tag.id', 'Tag.name')
+                    )
+            );
+
+            $this->Question->Tag->QuestionTag->deleteAll(array('QuestionTag.question_id' => $questionId), false);
+
+            $tagHash = array();
+            foreach ($tagIds as $tagId) {
+                $id = $tagId['Tag']['id'];
+                $name = $tagId['Tag']['name'];
+                $tagHash[$name] = $tagId['Tag'];
+                array_push($questionTags, array(
+                    "question_id" => $questionId,
+                    "tag_id" => $id));
+            }
+
+            $newTags = array();
+            foreach ($tagsArray as $tag) {
+                if (!isset($tagHash[$tag])) {
+                    array_push($newTags, array(
+                        "name" => $tag
+                        ));
+                }
+            }
+
+            $this->Question->Tag->saveAll($newTags);
+            $newTagIds = $this->Question->Tag->inserted_ids;
+
+            foreach($newTagIds as $id) {
+                array_push($questionTags, array(
+                        "question_id" => $questionId,
+                        "tag_id" => $id
+                    ));
+            }
+
+            $this->Question->QuestionTag->saveAll($questionTags);
+        }
     }
 }
 

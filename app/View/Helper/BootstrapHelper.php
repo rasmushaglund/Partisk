@@ -129,7 +129,9 @@ class BootstrapHelper extends AppHelper {
     	$args['controller'] = strtolower(Inflector::pluralize($model));
     	$args['model'] = $model; 
 		if (!isset($args['id'])) { $args['id'] = null; }
+        if (!isset($args['action'])) { $args['action'] = $args['id'] ? "edit" : "add"; }
         if (!isset($args['modal'])) { $args['modal'] = false; }
+        if (!isset($args['action'])) { $args['modal'] = false; }
         if (!isset($args['label'])) { $args['label'] = ''; }   
         if (!isset($args['icon'])) { $args['icon'] = 'fa fa-plus-square'; }   
         if (!isset($args['ajax'])) { $args['ajax'] = false; }   

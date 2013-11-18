@@ -62,6 +62,9 @@ class Question extends AppModel {
     public $hasAndBelongsToMany = array(
         'Tag'=> array(
             'joinTable' => "question_tags"
+            ),
+        'Quiz'=> array(
+            'joinTable' => "question_quizzes"
             )
     );
 
@@ -143,6 +146,18 @@ class Question extends AppModel {
     public function getAllQuestionsList() {
         return $this->getQuestions(array(
                 'fields' => array('Question.id', 'Question.title')
+            ));
+    }
+
+    public function getQuestionsByQuizId($id) {
+        $this->recursive = -1;
+        return $this->find('all', array(
+                'conditions' => array('deleted' => false, 'approved' => true),
+                'joins' => array(array(
+                                'table' => 'question_quizzes as QuestionQuiz',
+                                'conditions' => array('QuestionQuiz.quiz_id' => $id,
+                                                      'Question.id = QuestionQuiz.question_id')
+                            ))
             ));
     }
 }
