@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-class QuizController extends AppController {
+class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form');
 
     const DEFAULT_IMPORTANCE = 2;
@@ -50,6 +50,28 @@ class QuizController extends AppController {
         $this->set('ongoingQuiz', !empty($quiz));
         $this->set('quizIsDone', $this->quizIsDone());
         $this->set('title_for_layout', 'Quiz');
+    }
+
+    public function add() {
+        if (!$this->canAddQuiz) {
+            $this->abuse("Not authorized to add quiz");
+            return $this->redirect($this->referer());
+        }
+
+        if ($this->request->is('post')) {
+            $this->Quiz->create();
+            $this->request->data['Quiz']['created_by'] = $this->Auth->user('id');
+            $this->request->data['Quiz']['created_date'] = date('c');
+            if ($this->Quiz->save($this->request->data)) {
+                $this->customFlash(__('Quizen har skapats.'));
+                $this->logUser('add', $this->Quiz->getLastInsertId(), $this->request->data['User']['username']);
+            } else {
+                $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');
+                $this->Session->write('validationErrors', $this->Quiz->validationErrors);
+            }
+
+            return $this->redirect($this->referer());
+        }
     }
 
     public function questions() {

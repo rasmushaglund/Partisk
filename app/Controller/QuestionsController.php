@@ -140,56 +140,6 @@ class QuestionsController extends AppController {
         }
     }
 
-    // TODO: Refactor this :(
-    private function addTags($data, $questionId) {
-            $tagsString = $data['Question']['tags'];
-            $tagsArray = array_map('trim', explode(',', strtolower($tagsString)));
-
-            if (!empty($tagsArray)) {
-                $questionTags = array();
-                $this->Question->Tag->recursive = -1;
-                $tagIds = $this->Question->Tag->find('all', 
-                    array(
-                            'conditions' => array('name' => $tagsArray),
-                            'fields' => array('Tag.id', 'Tag.name')
-                        )
-                );
-
-                $this->Question->Tag->QuestionTag->deleteAll(array('QuestionTag.question_id' => $questionId), false);
-
-                $tagHash = array();
-                foreach ($tagIds as $tagId) {
-                    $id = $tagId['Tag']['id'];
-                    $name = $tagId['Tag']['name'];
-                    $tagHash[$name] = $tagId['Tag'];
-                    array_push($questionTags, array(
-                        "question_id" => $questionId,
-                        "tag_id" => $id));
-                }
-
-                $newTags = array();
-                foreach ($tagsArray as $tag) {
-                    if (!isset($tagHash[$tag])) {
-                        array_push($newTags, array(
-                            "name" => $tag
-                            ));
-                    }
-                }
-
-                $this->Question->Tag->saveAll($newTags);
-                $newTagIds = $this->Question->Tag->inserted_ids;
-
-                foreach($newTagIds as $id) {
-                    array_push($questionTags, array(
-                            "question_id" => $questionId,
-                            "tag_id" => $id
-                        ));
-                }
-
-                $this->Question->QuestionTag->saveAll($questionTags);
-            }
-    }
-
     public function all() {
         return $this->Question->getAllQuestionsList();
     }
@@ -226,7 +176,7 @@ class QuestionsController extends AppController {
 
     private function saveQuestion($data) {
         $id = $data['Question']['id'];
-        $this->addTags($data, $id);
+        $this->Question->Tag->addTags($data, $id);
 
         $data['Question']['updated_by'] = $this->Auth->user('id');
         $data['Question']['updated_date'] = date('c');

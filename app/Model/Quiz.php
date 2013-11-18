@@ -25,8 +25,13 @@
  */
 
 class Quiz extends AppModel {
-	var $useTable = false;
     
+    public $hasAndBelongsToMany = array(
+        'Question' => array(
+            'joinTable' => "question_quizzes"
+            )
+    );
+
 	public function calculatePoints($quiz) {
 		$answerModel = ClassRegistry::init('Answer');
 		$questionModel = ClassRegistry::init('Question');
