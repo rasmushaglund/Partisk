@@ -49,8 +49,14 @@ class QuizzesController extends AppController {
             $this->set('quizId', $quiz['Quiz']['id']);
         }
 
+        $conditions = array('deleted' => false);
+
+        if(!$this->isLoggedIn) {
+            $conditions['approved'] = true;
+        }   
+
         $quizzes = $this->Quiz->find('all', array(
-                'conditions' => array('deleted' => false, 'approved' => true)
+                'conditions' => $conditions
             ));
 
         $this->set('ongoingQuiz', !empty($quiz));
@@ -78,6 +84,32 @@ class QuizzesController extends AppController {
             }
 
             return $this->redirect($this->referer());
+        }
+    }
+
+    public function delete($id) {
+        if (!$this->userCanDeleteQuiz($this->Auth->user('id'), $id)) {
+            $this->abuse("Not authorized to delete quiz with id " . $id);
+            return $this->redirect($this->referer());
+        }
+
+        $this->deleteQuiz($id);
+
+        return $this->redirect($this->referer());
+     }
+
+    private function deleteQuiz($id) {
+        $this->Quiz->set(
+            array('id' => $id,
+                  'deleted' => true,
+                  'updated_by' => $this->Auth->user('id'),
+                  'update_date' => date('c')));
+
+        if ($this->Quiz->save()) {
+            $this->customFlash(__('Tog bort quizzen med id: %s.', h($id)));
+            $this->logUser('delete', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort Quizen.'), 'danger');
         }
     }
 
@@ -257,9 +289,12 @@ class QuizzesController extends AppController {
     }
 
     public function admin($id) {
-        $questions = $this->Quiz->Question->getQuestionsByQuizId($id);
+
+        $questions = $this->Quiz->Question->getQuestionsByQuizId($id, array(
+
+            ));
         $this->set('questions', $questions);
-        $this->set('quizId', $id);
+        $this->set('quiz', $this->Quiz->findById($id));
     }
 
     public function overview() {

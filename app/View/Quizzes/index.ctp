@@ -45,12 +45,9 @@ $this->Html->addCrumb('Quiz');
 	<?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Starta quizen', 
 					array('controller' => 'quizzes', 'action' => 'questions', $quiz['Quiz']['id']), 
 					array('class' => 'btn btn-info', 'escape' => false)); ?>
-	<?php echo $this->Html->link('<i class="fa fa-edit"></i> Administrera', 
-					array('controller' => 'quizzes', 'action' => 'admin', $quiz['Quiz']['id']), 
-					array('class' => 'btn btn-warning', 'escape' => false)); ?>
-	<?php echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
-					array('controller' => 'quizzes', 'action' => 'delete', $quiz['Quiz']['id']), 
-					array('class' => 'btn btn-danger', 'escape' => false)); ?>
+
+	<?php  echo $this->element('administerQuiz', array('quiz' => $quiz['Quiz'])); ?>
+	<?php  echo $this->element('deleteQuiz', array('quiz' => $quiz['Quiz'])); ?>				
 	</li>
 <?php } ?>
 </ul>

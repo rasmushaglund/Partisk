@@ -133,6 +133,7 @@ class AppController extends Controller {
         $this->set('canDeleteUser', $this->canDeleteUser);
         $this->set('canAddQuiz', $this->canAddQuiz);
         $this->set('canEditQuiz', $this->canEditQuiz);
+        $this->set('canDeleteQuiz', $this->canDeleteQuiz);
         $this->set('canApproveQuiz', $this->canApproveQuiz);
     }
 
@@ -214,7 +215,7 @@ class AppController extends Controller {
     }
 
     private function userCanModifyAnswer($userId, $answer = null, $type) {
-        if (!isset($question['Answer'])) {
+        if (!isset($answer['Answer'])) {
             $this->loadModel('Answer');
             $this->Answer->recursive = -1;
             $answers = $this->Answer->find('all', array(
@@ -232,6 +233,36 @@ class AppController extends Controller {
             return $this->canEditAnswer;
         } else {
             return $this->canDeleteAnswer;
+        }
+    }
+
+    public function userCanEditQuiz($userId, $quiz = null) {
+        return $this->userCanModifyQuiz($userId, $quiz, "edit");
+    }
+
+    public function userCanDeleteQuiz($userId, $quiz = null) {
+        return $this->userCanModifyQuiz($userId, $quiz, "delete");
+    }
+
+    private function userCanModifyQuiz($userId, $quiz = null, $type) {
+        if (!isset($quiz['Quiz'])) {
+            $this->loadModel('Quiz');
+            $this->Quiz->recursive = -1;
+            $quizzes = $this->Quiz->find('all', array(
+                    'fields' => array('created_by', 'approved'),
+                    'conditions' => array('id' => $quiz)
+                ));
+            $quiz = array_pop($quizzes);
+        }
+
+        if ($quiz['Quiz']['created_by'] == $userId && $quiz['Quiz']['approved'] == 0) {
+            return true;
+        }
+
+        if ($type == "edit") {
+            return $this->canEditQuiz;
+        } else {
+            return $this->canDeleteQuiz;
         }
     }
 }
