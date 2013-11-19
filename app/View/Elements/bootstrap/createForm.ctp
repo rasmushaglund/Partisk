@@ -29,14 +29,14 @@
 ?>
 
 <?php if ($modal && !$ajax) { ?>
- <a data-toggle="modal" id="<?php echo $modalId; ?>ModalLink" href="#<?php echo $modalId; ?>Modal" class="btn btn-primary btn-small">
+ <a data-toggle="modal" id="<?php echo $modalId; ?>ModalLink" href="#<?php echo $modalId; ?>Modal" class="<?php echo $class; ?>">
  	<i class="<?php echo $icon; ?>"></i> <?php echo $modalLabel; ?></a>
 <?php } ?>
 
 <?php if ($modal) { ?>
 <div class="modal fade" id="<?php echo $modalId; ?>Modal" tabindex="-1" role="dialog" 
 	aria-labelledby="<?php echo $modalId; ?>ModalLabel" aria-hidden="true">
-	<form action="<?php echo Router::url('/', false) . $controller; ?>/<?php echo $id ? "edit" : "add"; ?>" role="form" id="<?php echo $modalId; ?>AdminForm" method="post" accept-charset="utf-8">
+	<form action="<?php echo Router::url('/', false) . $controller; ?>/<?php echo $action; ?>" role="form" id="<?php echo $modalId; ?>AdminForm" method="post" accept-charset="utf-8">
 	    <div class="modal-dialog">
 	      <div class="modal-content">
 	        <div class="modal-header">

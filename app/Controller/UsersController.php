@@ -34,7 +34,7 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('login', 'logout'));
+        $this->Auth->allow(array('login', 'logout', 'add'));
     }
 
     public function beforeRender() {
@@ -89,29 +89,33 @@ class UsersController extends AppController {
             throw new NotFoundException("Ogiltig användare");
         }
 
+        
+        
         $this->set('user', $user);
         $this->set('title_for_layout', $user['User']['username']);
     }
 
     public function add() {
-        if (!$this->canAddUser) {
-            $this->abuse("Not authorized to add user");
-            return $this->redirect($this->referer());
-        }
 
         if ($this->request->is('post')) {
             $this->User->create();
             $this->request->data['User']['created_by'] = $this->Auth->user('id');
-            $this->request->data['User']['created_date'] = date('c');
-            if ($this->User->save($this->request->data)) {
+            $this->request->data['User']['created_date'] = date("Y-m-d");
+            if ($this->User->save($this->request->data )&& $this->request->data['User']['password'] == $this->request->data['User']['confimPassword']) {
                 $this->customFlash(__('Användaren har skapats.'));
-                $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);
+            
+                if ($this->Auth->loggedIn()){
+                    $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);
+               
+                }
+                   
             } else {
-                $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
-                $this->Session->write('validationErrors', $this->User->validationErrors);
+            $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
+            $this->Session->write('validationErrors', $this->User->validationErrors);
             }
-
+            
             return $this->redirect($this->referer());
+            
         }
     }
 
