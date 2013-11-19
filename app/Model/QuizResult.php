@@ -25,6 +25,12 @@
  */
 
 class QuizResult extends AppModel {
+	public $belongsTo = array(
+        'Quiz' => array(
+            'className' => 'Quiz', 
+            'foreignKey' => 'quiz_id'
+        )
+    );
 }
 
 ?>

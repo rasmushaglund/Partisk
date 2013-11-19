@@ -40,28 +40,32 @@ $this->Html->addCrumb('Quiz');
 <ul class="list-unstyled">
 <?php foreach ($quizzes as $quiz) { ?>
 	<li>
-	<h2><?php echo $quiz['Quiz']['name']; ?></h2>
+	<h2><?php echo $quiz['Quiz']['name']; echo $this->element('editQuiz', array('quiz' => $quiz['Quiz'])); ?></h2>
 	<p><?php echo $quiz['Quiz']['description']; ?></p>
-	<?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Starta quizen', 
+	<?php 
+	if ($ongoingQuiz && $quizId == $quiz['Quiz']['id']) { 
+		if ($quizIsDone) {
+			echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Till resultatet', 
+						array('controller' => 'quizzes', 'action' => 'results', $quizId), 
+						array('class' => 'btn btn-success', 'escape' => false)); 
+		} else {
+			echo $this->Html->link('<i class="fa fa-repeat"></i> Fortsätt quizen', 
+						array('controller' => 'quizzes', 'action' => 'questions', $quizId), 
+						array('class' => 'btn btn-info', 'escape' => false)); 
+		}
+
+		echo $this->Html->link('<i class="fa fa-refresh"></i> Starta om quizen', array('controller' => 'quizzes', 'action' => 'restart', $quizId), 
+			array('class' => 'btn btn-danger', 'escape' => false)); 
+		
+	} else { 
+		echo $this->Html->link('<i class="fa fa-check-square-o"></i> Starta quizen', 
 					array('controller' => 'quizzes', 'action' => 'questions', $quiz['Quiz']['id']), 
-					array('class' => 'btn btn-info', 'escape' => false)); ?>
+					array('class' => 'btn btn-info', 'escape' => false)); 
+	} ?>
 
 	<?php  echo $this->element('administerQuiz', array('quiz' => $quiz['Quiz'])); ?>
 	<?php  echo $this->element('deleteQuiz', array('quiz' => $quiz['Quiz'])); ?>				
 	</li>
 <?php } ?>
 </ul>
-
-<?php if ($ongoingQuiz) {
-	if ($quizIsDone) {
-		echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Till resultatet', array('controller' => 'quiz', 'action' => 'results', $quizId), 
-				array('class' => 'btn btn-success', 'escape' => false)); 
-	} else {
-		echo $this->Html->link('<i class="fa fa-repeat"></i> Fortsätt quizen', array('controller' => 'quiz', 'action' => 'questions'), 
-				array('class' => 'btn btn-info', 'escape' => false)); 
-	}
-	echo $this->Html->link('<i class="fa fa-refresh"></i> Starta om quizen', array('controller' => 'quiz', 'action' => 'restart'), 
-				array('class' => 'btn btn-danger', 'escape' => false)); 
-	} 
-?>
 

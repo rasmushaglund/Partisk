@@ -92,8 +92,8 @@ class Question extends AppModel {
         $approved = isset($args['approved']) ? $args['approved'] : null;
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
         $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted');
+        $conditions = isset($args['conditions']) ? $args['conditions'] : array();
 
-        $conditions = array();
         $joins = array();
 
         if (isset($id)) { $conditions['id'] = $id; }
@@ -145,6 +145,7 @@ class Question extends AppModel {
 
     public function getAllQuestionsList() {
         return $this->getQuestions(array(
+                'conditions' => array('Question.deleted' => false, 'Question.approved' => true),
                 'fields' => array('Question.id', 'Question.title')
             ));
     }

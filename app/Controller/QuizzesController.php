@@ -55,11 +55,13 @@ class QuizzesController extends AppController {
             $conditions['approved'] = true;
         }   
 
+        $this->Quiz->recursive = -1;
         $quizzes = $this->Quiz->find('all', array(
                 'conditions' => $conditions
             ));
 
         $this->set('ongoingQuiz', !empty($quiz));
+        $this->set('quizId', !empty($quiz) ? $quiz['Quiz']['quiz_id'] : null);
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
         $this->set('title_for_layout', 'Quiz');
@@ -182,7 +184,7 @@ class QuizzesController extends AppController {
         $quiz = $this->Session->read('quiz');
 
         if (empty($quiz) && empty($guid) || empty($guid)) {
-            return $this->redirect(array('controller' => 'quiz','action' => 'index'));
+            return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
         }
 
         $this->loadModel('QuizResult');
@@ -210,13 +212,14 @@ class QuizzesController extends AppController {
         }
 
         if (empty($quizResult) && !empty($guid) && !empty($data)) {
-            $this->QuizResult->save(array('id' => $guid, 'data' => $data, 'version' => self::QUIZ_VERSION));
+            $this->QuizResult->save(array('id' => $guid, 'data' => $data, 'version' => self::QUIZ_VERSION,
+                                          'quiz_id' => $quiz['Quiz']['quiz_id']));
             $quizVersion = self::QUIZ_VERSION;
         }
 
         if (empty($quizResult) && empty($data)) {
             $this->customFlash(__('Kunde inte hitta quizen.'), 'danger');
-            return $this->redirect(array('controller' => 'quiz','action' => 'index'));
+            return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
         }
 
         if (intval($quizVersion) !== intval(self::QUIZ_VERSION)) {
@@ -224,13 +227,17 @@ class QuizzesController extends AppController {
                                    resultatet genererades. Gör gärna om testet igen för att få ett nytt resultat.
                                    Vi ber om ursäkt för besväret. Sidan är fortfarande under kraftig uppbygnad och vi gör snabbt ändringar
                                    för att förbättra sidan med den feedback vi får in.'), 'danger');
-            return $this->redirect(array('controller' => 'quiz','action' => 'index'));
+            return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
         }
 
         $this->Party->recursive = -1;
         $parties = $this->Party->getPartiesHash();
 
+        $this->Quiz->recursive = -1;
+        $quiz = $this->Quiz->findById($quizResult['QuizResult']['quiz_id']);
+
         $this->set('data', $data);
+        $this->set('quiz', $quiz);
         $this->set('parties', $parties);
         $this->set('ownQuiz', $ownQuiz);
         $this->set('title_for_layout', 'Resultat');
@@ -255,12 +262,12 @@ class QuizzesController extends AppController {
 
     public function close() {
         $this->Session->delete('quiz');
-        return $this->redirect(array('controller' => 'quiz','action' => 'index'));
+        return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
     }
 
     public function restart() {
         $this->Session->delete('quiz');
-        return $this->redirect(array('controller' => 'quiz','action' => 'questions'));
+        return $this->redirect(array('controller' => 'quizzes','action' => 'questions'));
     }
 
     private function quizIsDone() {
@@ -289,7 +296,7 @@ class QuizzesController extends AppController {
     }
 
     public function admin($id) {
-
+        $this->Quiz->recursive = -1;
         $questions = $this->Quiz->Question->getQuestionsByQuizId($id, array(
 
             ));
@@ -328,6 +335,60 @@ class QuizzesController extends AppController {
             }
 
             return $this->redirect($this->referer());
+        }
+    }
+    
+    public function edit($id = null) {
+        if (!$this->userCanEditQuiz($this->Auth->user('id'), $id)) {
+            $this->abuse("Not authorized to edit quiz with id " . $id);
+            return $this->redirect($this->referer());
+        }
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->saveQuiz($this->request->data);
+            return $this->redirect($this->referer());
+        } 
+
+        if (!$id) {
+            throw new NotFoundException("Ogiltig quiz");
+        }
+
+        $quiz = $this->Quiz->getQuizById($id);
+
+        if (empty($quiz)) {
+            throw new NotFoundException("Ogiltig quiz");
+        }
+
+        $this->set('quiz', $quiz);
+
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->set('edit', true);
+            $this->set('modal', true);
+            $this->set('ajax', true);
+            $this->render('/Elements/saveQuiz');
+        }
+    }
+
+    private function saveQuiz($data) {
+        $id = $data['Quiz']['id'];
+
+        $data['Quiz']['updated_by'] = $this->Auth->user('id');
+        $data['Quiz']['updated_date'] = date('c');
+
+        if (isset($data['Quiz']['approved'])) {
+            $data['Quiz']['approved'] = true;
+            $data['Quiz']['approved_by'] = $this->Auth->user('id');
+            $data['Quiz']['approved_date'] = date('c');
+        } else {
+            $data['Quiz']['approved'] = false;
+        }
+
+        if ($this->Quiz->save($data)) {
+            $this->customFlash(__('Quizen har uppdaterats.'));
+            $this->logUser('edit', $id);
+        } else {
+            $this->customFlash(__('Kunde inte uppdatera quizen.'), 'danger');
         }
     }
 

@@ -32,6 +32,25 @@ class Quiz extends AppModel {
             )
     );
 
+    public $belongsTo = array(
+        'CreatedBy' => array(
+            'className' => 'User', 
+            'foreignKey' => 'created_by',
+            'fields' => array('id', 'username')
+        ),
+        'UpdatedBy' => array(
+            'className' => 'User',
+            'foreignKey' => 'updated_by',
+            'fields' => array('id', 'username')
+        ),
+        'ApprovedBy' => array(
+            'className' => 'User',
+            'foreignKey' => 'approved_by',
+            'fields' => array('id', 'username')
+        ),
+        'QuestionTag'
+    );
+
 	public function calculatePoints($quiz) {
 		$answerModel = ClassRegistry::init('Answer');
 		$questionModel = ClassRegistry::init('Question');
@@ -136,6 +155,19 @@ class Quiz extends AppModel {
         return $result;
     }
 
+    public function getQuizById($id) {
+        $this->recursive = -1;
+        $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy"));
+        $quiz = $this->find('all', array(
+                'conditions' => array(
+                        'Quiz.id' => $id
+                    ),
+                'fields' => array('Quiz.id, Quiz.name, Quiz.created_date, Quiz.updated_date, Quiz.description, 
+                                   Quiz.deleted, Quiz.approved, Quiz.created_by, Quiz.approved_by, Quiz.approved_date')
+            ));
+        return array_pop($quiz);
+    }
+
     public function generateGraphData($partyPoints) {
     	$result = array();
     	$question_agree_rate = array();
@@ -182,20 +214,30 @@ class Quiz extends AppModel {
         }
     }
 
-    public function generateQuiz() {
+    public function generateQuiz($id) {
 		$questionModel = ClassRegistry::init('Question');
 
         $questionModel->recursive = -1;
         $quiz = $questionModel->find('all', array(
                 'conditions' => array('Question.deleted' => false, 
                                       'Question.approved' => true),
-                'fields' => array('Question.id')
+                'fields' => array('Question.id'),
+                'joins' => array(
+                        array(
+                                'table' => 'question_quizzes as QuestionQuiz',
+                                'conditions' => array(
+                                        'QuestionQuiz.quiz_id' => $id,
+                                        'QuestionQuiz.question_id = Question.id'
+                                    )
+                            )
+                    )
             )
         );
 
         $quiz["Quiz"] = array(
             'index' => 0,
             'id' => String::uuid(),
+            'quiz_id' => $id, 
             'questions' => sizeof($quiz)
         );
 
