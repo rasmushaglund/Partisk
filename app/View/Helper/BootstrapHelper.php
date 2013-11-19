@@ -120,11 +120,15 @@ class BootstrapHelper extends AppHelper {
     	$args['modelField'] = $modelField;
     	$args['id'] = ucfirst($this->model).ucfirst($field);
     	
+		
+		
+		
 		if (!isset($args['options'])) { $args['options'] = array(); }
         if (!isset($args['label'])) { $args['label'] = $field; }
         if (!isset($args['model'])) { $args['model'] = $this->model; }
 		if (!isset($args['selected'])) { $args['selected'] = null; }
 		if (!isset($args['titleField'])) { $args['titleField'] = 'name'; }
+		
 
     	return $this->_View->element('bootstrap/dropdown', $args);
     }
@@ -146,7 +150,8 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['icon'])) { $args['icon'] = 'fa fa-plus-square'; }   
         if (!isset($args['ajax'])) { $args['ajax'] = false; }   
         if (!isset($args['modalLabel'])) { $args['modalLabel'] = $args['label']; }	
-
+		if (!isset($args['class'])) { $args['class'] = 'btn btn-primary'; }
+		
     	return $this->_View->element('bootstrap/createForm', $args);
     }
 
