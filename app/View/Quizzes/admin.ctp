@@ -24,12 +24,13 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz');
+$this->Html->addCrumb('Quiz', '/quizzes/');
+$this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
 ?>
 
 <?php if ($current_user) { ?>
 	<div class="tools">
-	<?php  echo $this->element('addQuizQuestion', array('quizId' => $quizId)); ?>
+	<?php  echo $this->element('addQuizQuestion', array('quizId' => $quiz['Quiz']['id'])); ?>
 	</div>
 
 <?php } ?>

@@ -47,6 +47,20 @@ class BootstrapHelper extends AppHelper {
         return $this->_View->element('bootstrap/input', $args);
     }
 
+    public function hidden($field, $args = null) {
+        if ($args == null) {
+            $args = array();
+        }
+        
+        $args['field'] = $field;
+        $args['model'] = $this->model;
+        $args['id'] = ucfirst($this->model).ucfirst($field);
+        
+        if (!isset($args['value'])) { $args['value'] = ''; }
+
+        return $this->_View->element('bootstrap/hidden', $args);
+    }
+
     public function checkbox($field, $args = null) {
         if ($args == null) {
             $args = array();

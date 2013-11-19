@@ -1,6 +1,6 @@
-<?php 
+<?php
 /** 
- * Edit quiz view
+ * Delete tag view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -24,8 +24,9 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-if ($canEditQuiz || (!$quiz['approved'] && $quiz['created_by'] == $current_user['id'])) {
-	echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-    		array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openEditModal(\'quiz\',' . $quiz['id'] . ');return false;')); 
+if ($canDeleteQuiz) {
+	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
+					array('controller' => 'quizzes', 'action' => 'delete', $quiz['id']), 
+					array('class' => 'btn btn-danger', 'escape' => false));
 }
 ?>

@@ -32,7 +32,7 @@ if ($canEditQuiz) { ?>
 	?>
 
     <?php echo $this->Bootstrap->create('Quiz', array('modal' => true, 'label' => "Lägg till fråga till quiz", 'action' => 'addQuestion')); ?>
-    <?php echo $this->Bootstrap->input('quiz_id', array('type' => 'hidden', 'value' => $quizId)); ?>
+    <?php echo $this->Bootstrap->hidden('quiz_id', array('value' => $quizId)); ?>
     <?php echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $questions, 'titleField' => 'title')); ?>
     <?php echo $this->Bootstrap->end("Lägg till", array('modal' => true)); ?>
 <?php } ?>

@@ -35,6 +35,8 @@ class UsersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(array('login', 'logout'));
+        $this->Auth->loginError = "Fel användarnamn eller lösenord. Försök gärna igen.";  
+        $this->Auth->authError = "Du har inte rättigheter att se denna sida.";
     }
 
     public function beforeRender() {

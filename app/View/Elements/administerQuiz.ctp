@@ -1,6 +1,6 @@
 <?php 
 /** 
- * Edit quiz view
+ * Administer quiz view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -25,7 +25,8 @@
  */
 
 if ($canEditQuiz || (!$quiz['approved'] && $quiz['created_by'] == $current_user['id'])) {
-	echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-    		array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openEditModal(\'quiz\',' . $quiz['id'] . ');return false;')); 
+	echo $this->Html->link('<i class="fa fa-edit"></i> Administrera', 
+					array('controller' => 'quizzes', 'action' => 'admin', $quiz['id']), 
+					array('class' => 'btn btn-warning', 'escape' => false)); 
 }
 ?>
