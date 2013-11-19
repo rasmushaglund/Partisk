@@ -93,30 +93,51 @@ class UsersController extends AppController {
         
         $this->set('user', $user);
         $this->set('title_for_layout', $user['User']['username']);
+        
+        
     }
-
+    
+  
+    
+    private function checkUserEmailPassword(){
+        if($this->User->findByusername($this->request->data['User']['username'])){
+            $this->customFlash(__('Användarnamnet finns redan.'), 'danger'); 
+            return false;
+        }
+        if($this->User->findByemail($this->request->data['User']['email'])){
+            $this->customFlash(__('E-Postadressen finns redan.'), 'danger'); 
+            return false;
+        }
+        if ($this->request->data['User']['password'] != $this->request->data['User']['confirmPassword']){
+            $this->customFlash(__('Fel vid bekräfta lösenordet'), 'danger'); 
+            return false;
+        }
+        return TRUE;
+    }
+    
     public function add() {
 
-        if ($this->request->is('post')) {
-            $this->User->create();
-            $this->request->data['User']['created_by'] = $this->Auth->user('id');
-            $this->request->data['User']['created_date'] = date("Y-m-d");
-            if ($this->User->save($this->request->data )&& $this->request->data['User']['password'] == $this->request->data['User']['confimPassword']) {
+   
+        if($this->checkUserEmailPassword())
+        {
+        
+            $this->request->data['User']['created_by'] = $this->Auth->user('id') ? $this->Auth->user('id') : 1 ;
+            $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
+            if ($this->User->save($this->request->data )) {
                 $this->customFlash(__('Användaren har skapats.'));
             
                 if ($this->Auth->loggedIn()){
-                    $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);
-               
+                    $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
                 }
                    
             } else {
             $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
             $this->Session->write('validationErrors', $this->User->validationErrors);
             }
-            
+        }  
+     
             return $this->redirect($this->referer());
-            
-        }
+   
     }
 
     public function edit($id = null) {
@@ -204,7 +225,7 @@ class UsersController extends AppController {
         if ($role == 'contributor' && in_array($this->action, array('start'))) {
             return true;
         }
-
+        
         return parent::isAuthorized($user);
     }
 
