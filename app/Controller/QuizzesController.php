@@ -34,7 +34,8 @@ class QuizzesController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart'));
+        $this->quizSession = $this->Session->read('quiz');
+        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume'));
     }
 
     public function beforeRender() {
@@ -43,25 +44,14 @@ class QuizzesController extends AppController {
     }
 
     public function index() {
-        $quiz = $this->Session->read('quiz');
-
+        $quizzes = $this->Quiz->getAllQuizzes($this->isLoggedIn);
+        
         if (!empty($quiz)) {
             $this->set('quizId', $quiz['Quiz']['id']);
         }
-
-        $conditions = array('deleted' => false);
-
-        if(!$this->isLoggedIn) {
-            $conditions['approved'] = true;
-        }   
-
-        $this->Quiz->recursive = -1;
-        $quizzes = $this->Quiz->find('all', array(
-                'conditions' => $conditions
-            ));
-
-        $this->set('ongoingQuiz', !empty($quiz));
-        $this->set('quizId', !empty($quiz) ? $quiz['Quiz']['quiz_id'] : null);
+        
+        $this->set('ongoingQuiz', !empty($this->quizSession));
+        $this->set('quizSession', $this->quizSession);
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
         $this->set('title_for_layout', 'Quiz');
@@ -115,24 +105,33 @@ class QuizzesController extends AppController {
         }
     }
 
-    public function questions($id = null) {
+    public function start($id) {
+        $quiz = $this->Quiz->generateQuiz($id);
+        $this->Session->write('quiz', $quiz);
+        return $this->redirect(array('action' => 'questions'));  
+    }
+
+    public function resume($id) {
+        $quiz = $this->quizSession;
+        if (!isset($quiz['Quiz']) || $quiz['Quiz']['quiz_id'] !== $id) {
+            $this->customFlash(__('Kunde inte fortsätta quizen.'), 'danger');
+            return $this->redirect(array('action' => 'index'));   
+        } else {
+            return $this->redirect(array('action' => 'questions'));   
+        }
+    }
+
+    public function questions() {
         if ($this->quizIsDone()) {
             return $this->redirect(array('action' => 'results'));   
         }
 
-        $quiz = $this->Session->read('quiz');
-
-        if (!isset($quiz) || !isset($quiz['Quiz'])) {
-            $quiz = $this->Quiz->generateQuiz($id);
-            $this->Session->write('quiz', $quiz);
-        }
-
+        $quiz = $this->quizSession;
         $index = $quiz['Quiz']['index'];
 
-        $this->loadModel('Question');
-        $questions = $this->Question->getQuestions(array('id' => $quiz[$index]['Question']['id']));
+        $questions = $this->Quiz->Question->getQuestions(array('id' => $quiz[$index]['Question']['id']));
         $question = array_pop($questions);
-        $choices = $this->Question->getChoicesFromQuestion($question);
+        $choices = $this->Quiz->Question->getChoicesFromQuestion($question);
 
         $answer = $this->getCurrentAnswer($quiz, $index);
         $importance = $this->getCurrentImportance($quiz, $index);
@@ -142,7 +141,7 @@ class QuizzesController extends AppController {
         $this->set('importance', $importance);
         $this->set('choices', $choices);
         $this->set('quiz', $quiz);
-        $this->set('title_for_layout', 'Frågor');
+        $this->set('title_for_layout', 'Quiz');
     }
 
     public function next() {
@@ -151,20 +150,12 @@ class QuizzesController extends AppController {
         }
 
         if ($this->request->is('post')) {
-            $quiz = $this->Session->read('quiz');
+            $quiz = $this->quizSession;
             $index = $quiz['Quiz']['index'];
 
-            $quiz[$index]['Question']['answer'] = null;
-            $quiz[$index]['Question']['importance'] = null;
-
-            if (isset($this->request->data['Quiz'])) {
-                $answer = $this->request->data['Quiz']['answer'];
-                $quiz[$index]['Question']['answer'] = ($answer === 'NO_OPINION' ? null : $answer);
-                $quiz[$index]['Question']['importance'] = $this->request->data['Quiz']['importance'];
-            }
+            $quiz[$index]['Question'] = $this->getQuestionFromRequestData($this->request->data);
 
             $index++;
-
             $quiz['Quiz']['index'] = $index;
 
             if ($quiz['Quiz']['index'] >= $quiz['Quiz']['questions']) {
@@ -179,9 +170,24 @@ class QuizzesController extends AppController {
             return $this->redirect(array('action' => 'index'));
         }
     }
+    
+    private function getQuestionFromRequestData($data) {
+        $question = array();
+
+        $question['answer'] = null;
+        $question['importance'] = null;
+
+        if (isset($data['Quiz'])) {
+            $answer = $data['Quiz']['answer'];
+            $question['answer'] = ($answer === 'NO_OPINION' ? null : $answer);
+            $question['importance'] = $data['Quiz']['importance'];
+        }
+        
+        return $question;
+    }
 
     public function results($guid = null) {
-        $quiz = $this->Session->read('quiz');
+        $quiz = $this->quizSession;
 
         if (empty($quiz) && empty($guid) || empty($guid)) {
             return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
@@ -191,7 +197,7 @@ class QuizzesController extends AppController {
         $this->loadModel('Party');
 
         $quizResult = $this->QuizResult->findById($guid);
-        $quiz = $this->Session->read('quiz');
+        $quiz = $this->quizSession;
 
         $ownQuiz = false;
         $data = null;
@@ -234,10 +240,13 @@ class QuizzesController extends AppController {
         $parties = $this->Party->getPartiesHash();
 
         $this->Quiz->recursive = -1;
-        $quiz = $this->Quiz->findById($quizResult['QuizResult']['quiz_id']);
 
-        $this->set('data', $data);
+        $quizId = isset($quizResult['QuizResult']) ? $quizResult['QuizResult']['quiz_id'] : $quiz['Quiz']['quiz_id'];
+
+        $quiz = $this->Quiz->findById($quizId);
+        
         $this->set('quiz', $quiz);
+        $this->set('data', $data);
         $this->set('parties', $parties);
         $this->set('ownQuiz', $ownQuiz);
         $this->set('title_for_layout', 'Resultat');
@@ -248,13 +257,12 @@ class QuizzesController extends AppController {
             return $this->redirect(array('action' => 'results'));   
         }
 
-        $quiz = $this->Session->read('quiz');
         $index = $quiz['Quiz']['index'];
 
         if ($index >= 0) {
             $index--;
-            $quiz['Quiz']['index'] = $index;
-            $this->Session->write('quiz', $quiz);
+            $this->quizSession['Quiz']['index'] = $index;
+            $this->Session->write('quiz', $this->quizSession);
         }
 
         return $this->redirect(array('action' => 'questions'));
@@ -265,14 +273,14 @@ class QuizzesController extends AppController {
         return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
     }
 
-    public function restart() {
+    public function restart($id) {
         $this->Session->delete('quiz');
-        return $this->redirect(array('controller' => 'quizzes','action' => 'questions'));
+        return $this->redirect(array('controller' => 'quizzes','action' => 'start', $id));
     }
 
-    private function quizIsDone() {
-        $quiz = $this->Session->read('quiz');
-        return isset($quiz['Quiz']) && isset($quiz['Quiz']['done']) && $quiz['Quiz']['done'];
+    private function quizIsDone($id = null) {
+        $quiz = $this->quizSession;
+        return isset($quiz['Quiz']) && isset($quiz['Quiz']['done']) && $quiz['Quiz']['done'] && $id == null || $quiz['Quiz']['id'] == $id;
     }
     
     private function getCurrentAnswer($quiz, $index) {
@@ -297,20 +305,14 @@ class QuizzesController extends AppController {
 
     public function admin($id) {
         $this->Quiz->recursive = -1;
-        $questions = $this->Quiz->Question->getQuestionsByQuizId($id, array(
-
-            ));
+        $questions = $this->Quiz->Question->getQuestionsByQuizId($id);
         $this->set('questions', $questions);
         $this->set('quiz', $this->Quiz->findById($id));
     }
 
     public function overview() {
         $this->loadModel('QuizResult');
-
-        $this->set('results', $this->QuizResult->find('all', array(
-                'limit' => 40,
-                'order' => 'created desc'
-            )));
+        $this->set('results', $this->QuizResult->getQuizResults());
     }
 
     // TODO: remove the nasty conversion from Quiz to QuestionQioz

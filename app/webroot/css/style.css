@@ -197,6 +197,11 @@ form {
 
 tr .btn {
     margin-left: 5px;
+    margin-right: 0px;
+}
+
+.btn {
+    margin-right: 6px;
 }
 
 .data-table td > i, .data-table td > a {
