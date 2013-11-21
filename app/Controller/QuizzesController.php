@@ -50,7 +50,6 @@ class QuizzesController extends AppController {
             $this->set('quizId', $quiz['Quiz']['id']);
         }
         
-        $this->set('ongoingQuiz', !empty($this->quizSession));
         $this->set('quizSession', $this->quizSession);
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
@@ -64,21 +63,26 @@ class QuizzesController extends AppController {
         }
 
         if ($this->request->is('post')) {
-            $this->Quiz->create();
-            $this->request->data['Quiz']['created_by'] = $this->Auth->user('id');
-            $this->request->data['Quiz']['created_date'] = date('c');
-            if ($this->Quiz->save($this->request->data)) {
-                $this->customFlash(__('Quizen har skapats.'));
-                $this->logUser('add', $this->Quiz->getLastInsertId(), $this->request->data['Quiz']['name']);
-            } else {
-                $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');
-                $this->Session->write('validationErrors', $this->Quiz->validationErrors);
-            }
-
-            return $this->redirect($this->referer());
+            $this->createQuiz($this->request->data);
         }
     }
 
+    private function createQuiz($data) {
+        $this->Quiz->create();
+        $data['Quiz']['created_by'] = $this->Auth->user('id');
+        $data['Quiz']['created_date'] = date('c');
+        
+        if ($this->Quiz->save($data)) {
+            $this->customFlash(__('Quizen har skapats.'));
+            $this->logUser('add', $this->Quiz->getLastInsertId(), $data['Quiz']['name']);
+        } else {
+            $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');
+            $this->Session->write('validationErrors', $this->Quiz->validationErrors);
+        }
+
+        return $this->redirect($this->referer());
+    }
+    
     public function delete($id) {
         if (!$this->userCanDeleteQuiz($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to delete quiz with id " . $id);
@@ -113,11 +117,13 @@ class QuizzesController extends AppController {
 
     public function resume($id) {
         $quiz = $this->quizSession;
-        if (!isset($quiz['Quiz']) || $quiz['Quiz']['quiz_id'] !== $id) {
-            $this->customFlash(__('Kunde inte fortsätta quizen.'), 'danger');
-            return $this->redirect(array('action' => 'index'));   
+        $ableToResumeQuiz = isset($quiz['Quiz']) && $quiz['Quiz']['quiz_id'] !== $id;
+        
+        if ($ableToResumeQuiz) {
+            return $this->redirect(array('action' => 'questions'));
         } else {
-            return $this->redirect(array('action' => 'questions'));   
+            $this->customFlash(__('Kunde inte fortsätta quizen.'), 'danger');
+            return $this->redirect(array('action' => 'index'));      
         }
     }
 
@@ -129,8 +135,7 @@ class QuizzesController extends AppController {
         $quiz = $this->quizSession;
         $index = $quiz['Quiz']['index'];
 
-        $questions = $this->Quiz->Question->getQuestions(array('id' => $quiz[$index]['Question']['id']));
-        $question = array_pop($questions);
+        $question = $this->Quiz->Question->getQuestion(array('id' => $quiz[$index]['Question']['id']));
         $choices = $this->Quiz->Question->getChoicesFromQuestion($question);
 
         $answer = $this->getCurrentAnswer($quiz, $index);
@@ -153,7 +158,8 @@ class QuizzesController extends AppController {
             $quiz = $this->quizSession;
             $index = $quiz['Quiz']['index'];
 
-            $quiz[$index]['Question'] = $this->getQuestionFromRequestData($this->request->data);
+            $quiz[$index]['Question'] = $this->attachQuestionData($this->request->data, 
+                                                                  $quiz[$index]['Question']);
 
             $index++;
             $quiz['Quiz']['index'] = $index;
@@ -171,7 +177,7 @@ class QuizzesController extends AppController {
         }
     }
     
-    private function getQuestionFromRequestData($data) {
+    private function attachQuestionData($data, $question) {
         $question = array();
 
         $question['answer'] = null;
@@ -183,7 +189,7 @@ class QuizzesController extends AppController {
             $question['importance'] = $data['Quiz']['importance'];
         }
         
-        return $question;
+        return array_merge($question, $this->getQuestionFromRequestData($this->request->data));
     }
 
     public function results($guid = null) {
@@ -199,14 +205,13 @@ class QuizzesController extends AppController {
         $quizResult = $this->QuizResult->findById($guid);
         $quiz = $this->quizSession;
 
-        $ownQuiz = false;
         $data = null;
         $quizVersion = 0;
 
-        if (isset($quiz['Quiz']) && $quiz['Quiz']['id'] == $guid) {
+        $quizInSession = isset($quiz['Quiz']) && $quiz['Quiz']['id'] == $guid;
+        if ($quizInSession) {
             $points = $this->Quiz->calculatePoints($quiz);
             $this->set('points', $points);
-            $ownQuiz = true;
 
             $generatedData = $this->Quiz->generateGraphData($points['parties']);
             $data = json_encode($generatedData);
@@ -215,9 +220,7 @@ class QuizzesController extends AppController {
         if (!empty($quizResult)) {
             $data = $quizResult['QuizResult']['data'];
             $quizVersion = $quizResult['QuizResult']['version'];
-        }
-
-        if (empty($quizResult) && !empty($guid) && !empty($data)) {
+        } else {
             $this->QuizResult->save(array('id' => $guid, 'data' => $data, 'version' => self::QUIZ_VERSION,
                                           'quiz_id' => $quiz['Quiz']['quiz_id']));
             $quizVersion = self::QUIZ_VERSION;
@@ -248,7 +251,7 @@ class QuizzesController extends AppController {
         $this->set('quiz', $quiz);
         $this->set('data', $data);
         $this->set('parties', $parties);
-        $this->set('ownQuiz', $ownQuiz);
+        $this->set('ownQuiz', $quizInSession);
         $this->set('title_for_layout', 'Resultat');
     }
 

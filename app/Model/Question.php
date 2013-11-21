@@ -118,6 +118,11 @@ class Question extends AppModel {
 
         return $questions;
     }
+    
+    public function getQuestion($args) {
+        $questions = $this->getQuestions($args);
+        return !empty($questions) ? array_pop($questions) : null; 
+    }
 
     public function getLatest() {
         return $this->find('all', array(

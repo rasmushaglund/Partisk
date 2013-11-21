@@ -43,9 +43,9 @@ $this->Html->addCrumb('Quiz');
     <h2><?php echo $quiz['Quiz']['name']; echo $this->element('editQuiz', array('quiz' => $quiz['Quiz'])); ?></h2>
     <p><?php echo $quiz['Quiz']['description']; ?></p>
     <?php 
-    $quizInSession = $quizSession['Quiz']['quiz_id'] == $quiz['Quiz']['id'];
+    $quizInSession = !empty($quizSession) && $quizSession['Quiz']['quiz_id'] == $quiz['Quiz']['id'];
     
-    if ($ongoingQuiz && $quizInSession) { 
+    if ($quizInSession) { 
         if ($quizIsDone) {
             echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Till resultatet', 
                                     array('controller' => 'quizzes', 'action' => 'results', $quizSession['Quiz']['id']), 
