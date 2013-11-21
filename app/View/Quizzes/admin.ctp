@@ -38,8 +38,10 @@ $this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
 <ul>
 <?php if (!empty($questions)) { 
 	foreach ($questions as $question) { ?>
-	<li><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view'), 
-					$question['Question']['id']); ?></li>	
+	<li><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+					$question['Question']['id'])); ?>
+            <?php echo $this->element('deleteQuizQuestion', array('questionQuiz' => $question['QuestionQuiz'])); ?>
+        </li>	
 <?php }
 } ?>
 </ul>

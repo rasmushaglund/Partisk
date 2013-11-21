@@ -24,8 +24,8 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-    if ($canEditQuestion || (!$question['approved'] && $question['created_by'] == $current_user['id'])) {
-		echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-	        	array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openEditModal(\'questions\',' . $question['id'] . ');return false;')); 
-	}
+if ($canEditQuestion || (!$question['approved'] && $question['created_by'] == $current_user['id'])) {
+	echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
+        	array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openEditModal(\'questions\',' . $question['id'] . ');return false;')); 
+}
 ?>
