@@ -163,7 +163,8 @@ class Question extends AppModel {
                                 'table' => 'question_quizzes as QuestionQuiz',
                                 'conditions' => array('QuestionQuiz.quiz_id' => $id,
                                                       'Question.id = QuestionQuiz.question_id')
-                            ))
+                            )),
+                'fields' => array('Question.*, QuestionQuiz.id')
             ));
     }
 }

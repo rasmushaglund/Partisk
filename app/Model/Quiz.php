@@ -273,6 +273,7 @@ class Quiz extends AppModel {
             'index' => 0,
             'id' => String::uuid(),
             'quiz_id' => $id, 
+            'has_answers' => false,
             'questions' => sizeof($quiz)
         );
 

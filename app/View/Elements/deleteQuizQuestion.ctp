@@ -1,6 +1,6 @@
 <?php
 /** 
- * Quiz index view
+ * Delete quiz question view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,29 +20,13 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Quiz
+ * @package     app.View.Elements
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz', '/quizzes/');
-$this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
+if ($canEditQuiz) {
+	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
+					array('controller' => 'quizzes', 'action' => 'deleteQuestion', $questionQuiz['id']), 
+					array('class' => 'btn btn-danger', 'escape' => false));
+}
 ?>
-
-<?php if ($current_user) { ?>
-	<div class="tools">
-	<?php  echo $this->element('addQuizQuestion', array('quizId' => $quiz['Quiz']['id'])); ?>
-	</div>
-
-<?php } ?>
-
-<ul>
-<?php if (!empty($questions)) { 
-	foreach ($questions as $question) { ?>
-	<li><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
-					$question['Question']['id'])); ?>
-            <?php echo $this->element('deleteQuizQuestion', array('questionQuiz' => $question['QuestionQuiz'])); ?>
-        </li>	
-<?php }
-} ?>
-</ul>
-

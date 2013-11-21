@@ -163,7 +163,8 @@ class QuizzesController extends AppController {
 
             $index++;
             $quiz['Quiz']['index'] = $index;
-
+            $quiz['Quiz']['has_answers'] = $this->request->data['Quiz']['answer'] !== 'NO_OPINION';
+            
             if ($quiz['Quiz']['index'] >= $quiz['Quiz']['questions']) {
                 $quiz['Quiz']['done'] = true;
                 $this->Session->write('quiz', $quiz);
@@ -178,8 +179,6 @@ class QuizzesController extends AppController {
     }
     
     private function attachQuestionData($data, $question) {
-        $question = array();
-
         $question['answer'] = null;
         $question['importance'] = null;
 
@@ -189,14 +188,21 @@ class QuizzesController extends AppController {
             $question['importance'] = $data['Quiz']['importance'];
         }
         
-        return array_merge($question, $this->getQuestionFromRequestData($this->request->data));
+        return $question;
     }
 
+    // TODO: Refactor me! Please?
     public function results($guid = null) {
         $quiz = $this->quizSession;
-
+        
         if (empty($quiz) && empty($guid) || empty($guid)) {
             return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
+        }
+        
+        if (!$quiz['Quiz']['has_answers']) {
+            $this->Session->delete('quiz');
+            $this->customFlash(__('Du har inte svarat på någon fråga i quizen, försök igen.'), 'danger');
+            return $this->redirect(array('action' => 'index'));      
         }
 
         $this->loadModel('QuizResult');
@@ -404,11 +410,8 @@ class QuizzesController extends AppController {
         }
 
         $this->loadModel('QuestionQuiz');
-        $this->QuestionQuiz->set(
-            array('id' => $id,
-                  'deleted' => true));
 
-        if ($this->QuestionQuiz->save()) {
+        if ($this->QuestionQuiz->delete($id)) {
             $this->customFlash(__('Tog bort frågan i quizen med id: %s.', h($id)));
             $this->logUser('delete', $id);
         } else {
