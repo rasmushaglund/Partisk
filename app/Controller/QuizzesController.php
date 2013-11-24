@@ -169,6 +169,7 @@ class QuizzesController extends AppController {
             
             if ($quizSession['QuizSession']['index'] >= $quizSession['QuizSession']['questions']) {
                 $quizSession['QuizSession']['done'] = true;
+                $quizSession['QuizSession']['saved'] = false;
                 $this->Session->write('quizSession', $quizSession);
                 return $this->redirect(array('action' => 'results', $quizSession['QuizSession']['id']));    
             } else {
@@ -206,8 +207,10 @@ class QuizzesController extends AppController {
             return $this->redirect(array('action' => 'index'));      
         }
         
-        if ($quizSession['QuizSession']['done']) {
+        if ($quizSession['QuizSession']['done'] && !$quizSession['QuizSession']['saved']) {
             $quizResults = $this->getNewQuizResults($guid, $quizSession);
+            $quizSession['QuizSession']['saved'] = true;
+            $this->Session->write('quizSession', $quizSession);
         } else {
             $quizResults = $this->getQuizResults($guid);
         }
@@ -276,7 +279,7 @@ class QuizzesController extends AppController {
                                       'quiz_id' => $quizSession['QuizSession']['quiz_id']));
         $quizResults = array();
         $quizResults['QuizResult'] = array('version' => self::QUIZ_VERSION,
-                                           'date' => date('c'));
+                                           'created' => date('c'));
         
         return $quizResults;
     }

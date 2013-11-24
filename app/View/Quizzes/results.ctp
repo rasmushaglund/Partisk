@@ -31,8 +31,8 @@ $this->Html->addCrumb('Resultat');
 ?>
 
 
-<h3>Resultat för quizen <?php echo $quiz['Quiz']['name']; ?>, 
-    <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['date'])); ?></h3>
+<h3>Resultat för <?php echo $quiz['Quiz']['name']; ?>, 
+    <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></h3>
 
 <div id="points-percentage-graph" class="graph">
   <svg></svg>
