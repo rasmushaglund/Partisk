@@ -83,7 +83,6 @@ class AppController extends Controller {
             $this->isLoggedIn = true;
             $this->canAddQuestion = true;
             $this->canAddAnswer = true;
-            $this->canAddQuiz = true;
         }
 
         if (in_array($role, array('moderator', 'admin'))) {
@@ -97,6 +96,7 @@ class AppController extends Controller {
             $this->canApproveQuestion = true;
             $this->canApproveAnswer = true;
             $this->canEditQuiz = true;
+            $this->canAddQuiz = true;
             $this->canApproveQuiz = true;
         }
 
@@ -137,17 +137,9 @@ class AppController extends Controller {
         $this->set('canApproveQuiz', $this->canApproveQuiz);
     }
 
-	
-
-	public function secho($content) {
-    	echo "<pre><code>";
-    	print_r($content);
-    	echo "</code></pre>";
-	}
-
-	public function customFlash($message, $status = 'success') {
-		$this->Session->setFlash(__($message), 'flash', array('status' => $status));
-	}
+    public function customFlash($message, $status = 'success') {
+            $this->Session->setFlash(__($message), 'flash', array('status' => $status));
+    }
 
     public function isAuthorized($user) {
         $role = $user['Role']['name'];

@@ -25,11 +25,9 @@
  */
 ?>
 
-<h2><?php echo $quiz['Quiz']['name']; 
-
-if ($adminTools) {
-    echo $this->element('editQuiz', array('quiz' => $quiz['Quiz']));
-} ?></h2>
+<h2><?php echo $quiz['Quiz']['name']; ?>
+<span class="no-questions">(<?php echo $quiz['Quiz']['questions']; ?> frågor)</span>
+</h2>
 <p><?php echo $quiz['Quiz']['description']; ?></p>
 <?php 
 $quizInSession = !empty($quizSession) && $quizSession['QuizSession']['quiz_id'] == $quiz['Quiz']['id'];
@@ -57,6 +55,7 @@ if ($quizInSession) {
 
 if ($adminTools) {
     echo $this->element('administerQuiz', array('quiz' => $quiz['Quiz'])); 
+    echo $this->element('editQuiz', array('quiz' => $quiz['Quiz']));
     echo $this->element('deleteQuiz', array('quiz' => $quiz['Quiz'])); 
 }
 ?>

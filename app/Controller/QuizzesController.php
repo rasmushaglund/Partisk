@@ -44,7 +44,7 @@ class QuizzesController extends AppController {
     }
 
     public function index() {
-        $quizzes = $this->Quiz->getAllQuizzes($this->isLoggedIn);
+        $quizzes = $this->Quiz->getQuizzes($this->isLoggedIn);
         
         if (!empty($quiz)) {
             $this->set('quizId', $quiz['Quiz']['id']);
@@ -448,7 +448,7 @@ class QuizzesController extends AppController {
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if ($role == 'admin' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion'))) {
+        if ($role == 'moderator' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion', 'add', 'delete'))) {
             return true;
         }
 

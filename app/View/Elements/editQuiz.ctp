@@ -25,7 +25,7 @@
  */
 
 if ($canEditQuiz || (!$quiz['approved'] && $quiz['created_by'] == $current_user['id'])) {
-	echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-    		array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openEditModal(\'quizzes\',' . $quiz['id'] . ');return false;')); 
+	echo $this->Html->link('<i class="fa fa-edit"></i> Ändra','#',	
+    		array('class' => 'btn btn-info', 'escape' => false, 'onclick' => 'openEditModal(\'quizzes\',' . $quiz['id'] . ');return false;')); 
 }
 ?>

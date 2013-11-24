@@ -55,7 +55,14 @@ class Quiz extends AppModel {
         ),
         'QuestionTag'
     );
-
+    
+    public $virtualFields = array(
+        'questions' => 'select count(QuestionQuiz.id) from question_quizzes as QuestionQuiz
+                join questions as Question on Question.id = QuestionQuiz.question_id
+                and Question.deleted = false and Question.approved = true
+                where QuestionQuiz.quiz_id = Quiz.id'
+    );
+    
     public function calculatePoints($quizSession) {
         $answerModel = ClassRegistry::init('Answer');
         $questionModel = ClassRegistry::init('Question');
@@ -187,17 +194,19 @@ class Quiz extends AppModel {
         return array_pop($quiz);
     }
     
-    public function getAllQuizzes($loggedIn) {
+    public function getQuizzes($loggedIn) {
         $conditions = array('deleted' => false);
         
         if(!$loggedIn) {
             $conditions['approved'] = true;
         }   
-
+        
         $this->recursive = -1;
+        // TODO: Make a subquery of the count sub-query
         return $this->find('all', array(
-                'conditions' => $conditions
-            ));
+            'conditions' => $conditions
+            
+        ));
     }
 
     public function generateGraphData($partyPoints) {
@@ -290,10 +299,14 @@ class Quiz extends AppModel {
     }
     
     public function getAllQuiz() {
+        $this->Question->recursive = -1;
         return array('Quiz' => array(
             'id' => 'all',
             'name' => 'Stora quizen',
-            'description' => 'Alla tillgängliga frågor'
+            'description' => 'Ett stort quiz med alla sidans frågor.',
+            'questions' => $this->Question->find('count', array(
+                'conditions' => array('deleted' => false, 'approved' => true)
+            ))
         ));
     }
 }
