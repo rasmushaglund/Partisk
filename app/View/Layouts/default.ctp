@@ -47,6 +47,7 @@
 			echo $this->Html->css('datepicker');
 			echo $this->Html->css('style');
 			echo $this->Html->script('jquery');
+			echo $this->Html->script('jquery.dataTables');
 			echo $this->Html->script('bootstrap');
 			echo $this->Html->script('bootstrap-datepicker');
 			echo $this->Html->script('bootstrap-datepicker.sv.js', false);
