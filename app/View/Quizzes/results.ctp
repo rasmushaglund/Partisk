@@ -31,8 +31,8 @@ $this->Html->addCrumb('Resultat');
 ?>
 
 
-<h3>Resultat för quizen <?php echo $quiz['Quiz']['name']; ?>, 
-    <?php echo date('Y-m-d', strtotime($quiz['Quiz']['date'])); ?></h3>
+<h3>Resultat för <?php echo $quiz['Quiz']['name']; ?>, 
+    <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></h3>
 
 <div id="points-percentage-graph" class="graph">
   <svg></svg>
@@ -46,7 +46,7 @@ $this->Html->addCrumb('Resultat');
 <script type="text/javascript">
 
   var parties = <?php echo json_encode($parties); ?>;
-  var data = <?php echo $data; ?>;
+  var data = <?php echo $quizSession['QuizSession']['data']; ?>;
 
   function getQuestionAgreeRate() {
     var result = {key: 'questionAgreeRate', values: []};
@@ -131,7 +131,7 @@ $this->Html->addCrumb('Resultat');
  
 </script>
 
-<?php if ($ownQuiz) { ?>
+<?php if ($quizSession) { ?>
 
 <?php 
 echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', array('class' => 'btn btn-danger', 'escape' => false));
@@ -148,7 +148,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
   </thead>
   <tbody>
 <?php foreach ($parties as $party) { 
-    $partyPoints = $points['parties'][$party['id']];
+    $partyPoints = $quizSession['QuizSession']['points']['parties'][$party['id']];
 
     $pointsClass = "";
     $pointsPrefix = "";
@@ -170,7 +170,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
 
 <h2>Resultat per fråga</h2>
 <ul class="list-unstyled">
-<?php foreach ($points['questions'] as $question) { 
+<?php foreach ($quizSession['QuizSession']['points']['questions'] as $question) { 
   $userAnswer = $question['answer'];
   $importance = $question['importance'];
   $title = $question['title'];

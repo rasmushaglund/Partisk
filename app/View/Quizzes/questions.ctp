@@ -30,9 +30,10 @@ $this->Html->addCrumb('Frågor');
 ?>
 
 <?php 
-echo $this->Form->create(null, array('url' => '/quizzes/next'));
+echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
 ?>
-<h3><?php echo "Fråga " . ($quiz['Quiz']['index'] +1) . " av " . $quiz['Quiz']['questions'] . ": " . $question['Question']['title']; ?></h3>
+<h3><?php echo "Fråga " . ($quizSession['QuizSession']['index'] +1) . " av " . 
+                           $quizSession['QuizSession']['questions'] . ": " . $question['Question']['title']; ?></h3>
 <p><?php echo $question['Question']['description']; ?></p>
 <div class="quiz-answers">
 <?php
@@ -48,19 +49,19 @@ echo $this->Form->create(null, array('url' => '/quizzes/next'));
 									   array('Quiz' => array('id' => 2, 'name' => 'Ganska viktigt')), 
 							           array('Quiz' => array('id' => 3, 'name' => 'Väldigt viktig'))),
     				'selected' => $importance,
-    				'model' => 'Quiz')); ?>
+    				'model' => 'QuizSession')); ?>
 
 </div>
 <?php
 
-	if ($quiz['Quiz']['index'] != 0) {
+	if ($quizSession['QuizSession']['index'] != 0) {
 		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary', 'escape' => false));
 	} else {
 		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary disabled', 'escape' => false));
     }
 
 
-	if ($quiz['Quiz']['index'] < $quiz['Quiz']['questions'] - 1) {
+	if ($quizSession['QuizSession']['index'] < $quizSession['QuizSession']['questions'] - 1) {
 ?>
         <button type="submit" class="btn btn-primary"><i class="fa fa-chevron-right"></i> Nästa</button>
 <?php

@@ -58,6 +58,7 @@ class Party extends AppModel {
     );
 
     public function getPartiesHash() {
+        $this->recursive = -1;
         $result = array();
 
         $parties = $this->find('all', array(

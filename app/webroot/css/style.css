@@ -444,3 +444,13 @@ text-decoration: underline;
 .qa-table th a {
     display: inline-block;
 }
+
+.no-questions {
+    font-size: 14px;
+    color: #999;
+    margin-left: 6px;
+}
+
+.list-unstyled li {
+    margin-bottom: 30px;
+}

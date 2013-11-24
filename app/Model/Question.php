@@ -25,7 +25,7 @@
  */
 
 class Question extends AppModel {
-	public $validate = array(
+    public $validate = array(
         'title' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
@@ -34,7 +34,7 @@ class Question extends AppModel {
         )
     );
 
-	public $hasMany = array(
+    public $hasMany = array(
         'Answer' => array(
             'className' => 'Answer'
         )

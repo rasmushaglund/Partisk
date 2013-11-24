@@ -55,13 +55,20 @@ class Quiz extends AppModel {
         ),
         'QuestionTag'
     );
-
-    public function calculatePoints($quiz) {
+    
+    public $virtualFields = array(
+        'questions' => 'select count(QuestionQuiz.id) from question_quizzes as QuestionQuiz
+                join questions as Question on Question.id = QuestionQuiz.question_id
+                and Question.deleted = false and Question.approved = true
+                where QuestionQuiz.quiz_id = Quiz.id'
+    );
+    
+    public function calculatePoints($quizSession) {
         $answerModel = ClassRegistry::init('Answer');
         $questionModel = ClassRegistry::init('Question');
         $partiesModel = ClassRegistry::init('Party');
 
-        $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quiz);
+        $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quizSession);
         $answers = $answerModel->getAnswers(null, $questionIds, false, false); 
 
         $questionModel->recursive = -1;  
@@ -79,8 +86,8 @@ class Quiz extends AppModel {
 
         $partiesResult = array();
         $questionsResult = array();
-
-		foreach ($quiz as $qResult) {
+        
+        foreach ($quizSession as $qResult) {
             if (empty($qResult['Question'])) continue;
 
             $questionId = $qResult['Question']['id'];
@@ -170,7 +177,7 @@ class Quiz extends AppModel {
 
         $result['questions'] = $questionsResult;
         $result['parties'] = $partiesResult;
-
+        
         return $result;
     }
 
@@ -187,17 +194,19 @@ class Quiz extends AppModel {
         return array_pop($quiz);
     }
     
-    public function getAllQuizzes($loggedIn) {
+    public function getQuizzes($loggedIn) {
         $conditions = array('deleted' => false);
         
         if(!$loggedIn) {
             $conditions['approved'] = true;
         }   
-
+        
         $this->recursive = -1;
+        // TODO: Make a subquery of the count sub-query
         return $this->find('all', array(
-                'conditions' => $conditions
-            ));
+            'conditions' => $conditions
+            
+        ));
     }
 
     public function generateGraphData($partyPoints) {
@@ -239,45 +248,66 @@ class Quiz extends AppModel {
     	return $result;
     }
 
-    private function getQuestionIdFromQuiz($quiz) {
-        if (!empty($quiz['Question'])) {
-            return $quiz['Question']['id'];
+    private function getQuestionIdFromQuiz($quizSession) {
+        if (!empty($quizSession['Question'])) {
+            return $quizSession['Question']['id'];
         }
     }
 
-    public function generateQuiz($id) {
-		$questionModel = ClassRegistry::init('Question');
+    public function generateQuizSession($id) {
+	$questionModel = ClassRegistry::init('Question');
 
         $questionModel->recursive = -1;
-        $quiz = $questionModel->find('all', array(
+        
+        if ($id === 'all') {
+            $quizSession = $questionModel->find('all', array(
+                 'conditions' => array('Question.deleted' => false, 
+                                       'Question.approved' => true),
+                 'fields' => array('Question.id')
+                )
+            );
+        } else {
+            $quizSession = $questionModel->find('all', array(
                 'conditions' => array('Question.deleted' => false, 
                                       'Question.approved' => true),
                 'fields' => array('Question.id'),
                 'joins' => array(
-                        array(
-                                'table' => 'question_quizzes as QuestionQuiz',
-                                'conditions' => array(
-                                        'QuestionQuiz.quiz_id' => $id,
-                                        'QuestionQuiz.question_id = Question.id'
-                                    )
-                            )
+                    array(
+                        'table' => 'question_quizzes as QuestionQuiz',
+                        'conditions' => array(
+                                'QuestionQuiz.quiz_id' => $id,
+                                'QuestionQuiz.question_id = Question.id'
+                        )
                     )
-            )
-        );
-
-        if (sizeof($quiz) < 1) {
+                 )
+             )); 
+        }
+        
+        if (sizeof($quizSession) < 1) {
             throw new InvalidArgumentException('A quiz has to have at least 1 question');
         }
 
-        $quiz["Quiz"] = array(
+        $quizSession["QuizSession"] = array(
             'index' => 0,
             'id' => String::uuid(),
             'quiz_id' => $id, 
             'has_answers' => false,
-            'questions' => sizeof($quiz)
+            'questions' => sizeof($quizSession)
         );
 
-        return $quiz;
+        return $quizSession;
+    }
+    
+    public function getAllQuiz() {
+        $this->Question->recursive = -1;
+        return array('Quiz' => array(
+            'id' => 'all',
+            'name' => 'Stora quizen',
+            'description' => 'Ett stort quiz med alla sidans frågor.',
+            'questions' => $this->Question->find('count', array(
+                'conditions' => array('deleted' => false, 'approved' => true)
+            ))
+        ));
     }
 }
 
