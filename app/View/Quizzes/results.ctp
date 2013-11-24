@@ -24,13 +24,15 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz', array('controller' => 'quiz', 'action' => 'index'));
+$this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'index'));
+$this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
 $this->Html->addCrumb('Resultat');
 
 ?>
 
 
-<h3>Resultat</h3>
+<h3>Resultat för quizen <?php echo $quiz['Quiz']['name']; ?>, 
+    <?php echo date('Y-m-d', strtotime($quiz['Quiz']['date'])); ?></h3>
 
 <div id="points-percentage-graph" class="graph">
   <svg></svg>
@@ -132,7 +134,7 @@ $this->Html->addCrumb('Resultat');
 <?php if ($ownQuiz) { ?>
 
 <?php 
-echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', array('class' => 'btn btn-danger', 'escape' => false));
+echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', array('class' => 'btn btn-danger', 'escape' => false));
 ?>
 
 <h2>Sammanställning av resultatet</h2>

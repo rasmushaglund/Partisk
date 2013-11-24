@@ -26,21 +26,45 @@
 
 class Quiz extends AppModel {
     
+    
+    const NOT_IMPORTANT_POINTS = 1;
+    const IMPORTANT_POINTS = 3;
+    const VERY_IMPORTANT_POINTS = 9;
+    
     public $hasAndBelongsToMany = array(
         'Question' => array(
             'joinTable' => "question_quizzes"
             )
     );
 
-	public function calculatePoints($quiz) {
-		$answerModel = ClassRegistry::init('Answer');
-		$questionModel = ClassRegistry::init('Question');
-		$partiesModel = ClassRegistry::init('Party');
+    public $belongsTo = array(
+        'CreatedBy' => array(
+            'className' => 'User', 
+            'foreignKey' => 'created_by',
+            'fields' => array('id', 'username')
+        ),
+        'UpdatedBy' => array(
+            'className' => 'User',
+            'foreignKey' => 'updated_by',
+            'fields' => array('id', 'username')
+        ),
+        'ApprovedBy' => array(
+            'className' => 'User',
+            'foreignKey' => 'approved_by',
+            'fields' => array('id', 'username')
+        ),
+        'QuestionTag'
+    );
 
-		$questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quiz);
-		$answers = $answerModel->getAnswers(null, $questionIds, false, false); 
+    public function calculatePoints($quiz) {
+        $answerModel = ClassRegistry::init('Answer');
+        $questionModel = ClassRegistry::init('Question');
+        $partiesModel = ClassRegistry::init('Party');
 
-		$questionModel->recursive = -1;  
+        $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quiz);
+        $answers = $answerModel->getAnswers(null, $questionIds, false, false); 
+
+        $questionModel->recursive = -1;  
         $questions = $questionModel->find('all', array('conditions' => array('Question.id' => $questionIds)));
         $answersMatrix = $answerModel->getAnswersMatrix($questions, $answers);
 
@@ -83,8 +107,22 @@ class Quiz extends AppModel {
             $questionId = $question['Question']['id'];
             $matrixQuestion = $answersMatrix[$questionId];
             $userAnswer = $matrixQuestion['answer'];
-            $importance = $matrixQuestion['importance'];
-
+            $importanceIndex = $matrixQuestion['importance'];
+            $importance = 0;
+            
+            switch ($importanceIndex) {
+                case 1: 
+                    $importance = self::NOT_IMPORTANT_POINTS;
+                    break;
+                case 2:
+                    $importance = self::IMPORTANT_POINTS;
+                    break;
+                case 3:
+                    $importance = self::VERY_IMPORTANT_POINTS;
+                    break;
+                    
+            }
+            
             $questionsResult[$questionId] = array();
             $questionsResult[$questionId]['title'] = $question['Question']['title'];
             $questionsResult[$questionId]['parties'] = array();
@@ -136,6 +174,32 @@ class Quiz extends AppModel {
         return $result;
     }
 
+    public function getQuizById($id) {
+        $this->recursive = -1;
+        $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy"));
+        $quiz = $this->find('all', array(
+                'conditions' => array(
+                        'Quiz.id' => $id
+                    ),
+                'fields' => array('Quiz.id, Quiz.name, Quiz.created_date, Quiz.updated_date, Quiz.description, 
+                                   Quiz.deleted, Quiz.approved, Quiz.created_by, Quiz.approved_by, Quiz.approved_date')
+            ));
+        return array_pop($quiz);
+    }
+    
+    public function getAllQuizzes($loggedIn) {
+        $conditions = array('deleted' => false);
+        
+        if(!$loggedIn) {
+            $conditions['approved'] = true;
+        }   
+
+        $this->recursive = -1;
+        return $this->find('all', array(
+                'conditions' => $conditions
+            ));
+    }
+
     public function generateGraphData($partyPoints) {
     	$result = array();
     	$question_agree_rate = array();
@@ -143,7 +207,6 @@ class Quiz extends AppModel {
 
     	$maxPoints = null;
     	$totalPoints = 0;
-        
         foreach ($partyPoints as $partyPoint) {
             if ($maxPoints > 0) $maxPoints = $partyPoint['points'];
             if ($partyPoint['points'] > 0) { $totalPoints += $partyPoint['points']; } 
@@ -182,20 +245,35 @@ class Quiz extends AppModel {
         }
     }
 
-    public function generateQuiz() {
+    public function generateQuiz($id) {
 		$questionModel = ClassRegistry::init('Question');
 
         $questionModel->recursive = -1;
         $quiz = $questionModel->find('all', array(
                 'conditions' => array('Question.deleted' => false, 
                                       'Question.approved' => true),
-                'fields' => array('Question.id')
+                'fields' => array('Question.id'),
+                'joins' => array(
+                        array(
+                                'table' => 'question_quizzes as QuestionQuiz',
+                                'conditions' => array(
+                                        'QuestionQuiz.quiz_id' => $id,
+                                        'QuestionQuiz.question_id = Question.id'
+                                    )
+                            )
+                    )
             )
         );
+
+        if (sizeof($quiz) < 1) {
+            throw new InvalidArgumentException('A quiz has to have at least 1 question');
+        }
 
         $quiz["Quiz"] = array(
             'index' => 0,
             'id' => String::uuid(),
+            'quiz_id' => $id, 
+            'has_answers' => false,
             'questions' => sizeof($quiz)
         );
 

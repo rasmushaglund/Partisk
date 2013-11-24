@@ -30,7 +30,7 @@ $this->Html->addCrumb('Frågor');
 ?>
 
 <?php 
-echo $this->Form->create(null, array('url' => '/quiz/next'));
+echo $this->Form->create(null, array('url' => '/quizzes/next'));
 ?>
 <h3><?php echo "Fråga " . ($quiz['Quiz']['index'] +1) . " av " . $quiz['Quiz']['questions'] . ": " . $question['Question']['title']; ?></h3>
 <p><?php echo $question['Question']['description']; ?></p>
@@ -54,9 +54,9 @@ echo $this->Form->create(null, array('url' => '/quiz/next'));
 <?php
 
 	if ($quiz['Quiz']['index'] != 0) {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quiz/prev', array('class' => 'btn btn-primary', 'escape' => false));
+		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary', 'escape' => false));
 	} else {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quiz/prev', array('class' => 'btn btn-primary disabled', 'escape' => false));
+		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary disabled', 'escape' => false));
     }
 
 
@@ -70,7 +70,7 @@ echo $this->Form->create(null, array('url' => '/quiz/next'));
         <button type="submit" class="btn btn-success"><i class="fa fa-bar-chart-o"></i> Till resultatet</button>
 <?php
 	}
-echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quiz/close', array('class' => 'btn btn-danger', 'escape' => false));
+echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', array('class' => 'btn btn-danger', 'escape' => false));
 
 ?>
 
