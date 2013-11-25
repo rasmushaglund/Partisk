@@ -25,6 +25,19 @@
  */
 
 class QuizResult extends AppModel {
+    public $belongsTo = array(
+    'Quiz' => array(
+        'className' => 'Quiz', 
+        'foreignKey' => 'quiz_id'
+    )
+    );
+        
+    public function getQuizResults() {
+        return $this->find('all', array(
+                'limit' => 40,
+                'order' => 'created desc'
+            ));
+    }
 }
 
 ?>

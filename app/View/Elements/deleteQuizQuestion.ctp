@@ -1,6 +1,6 @@
-<?php 
+<?php
 /** 
- * Administer quiz view
+ * Delete quiz question view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -24,9 +24,9 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-if ($canEditQuiz || (!$quiz['approved'] && $quiz['created_by'] == $current_user['id'])) {
-	echo $this->Html->link('<i class="fa fa-edit"></i> Administrera frågor', 
-					array('controller' => 'quizzes', 'action' => 'admin', $quiz['id']), 
-					array('class' => 'btn btn-warning', 'escape' => false)); 
+if ($canEditQuiz) {
+	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
+					array('controller' => 'quizzes', 'action' => 'deleteQuestion', $questionQuiz['id']), 
+					array('class' => 'btn btn-danger', 'escape' => false));
 }
 ?>
