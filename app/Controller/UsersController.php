@@ -123,8 +123,9 @@ class UsersController extends AppController {
         if($this->checkUserEmailPassword())
         {
         
-            $this->request->data['User']['created_by'] = $this->Auth->user('id') ? $this->Auth->user('id') : 1 ;
+            $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
             $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
+            $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
             if ($this->User->save($this->request->data )) {
                 $this->customFlash(__('Användaren har skapats.'));
             
