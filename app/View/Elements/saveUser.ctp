@@ -41,7 +41,10 @@ if ($canAddUser) { ?>
     <?php echo $this->Bootstrap->create('User', array('modal' => true, 'label' => $editMode ? "Ändra användare" : "Lägg till användare", 
                     'id' => $editMode ? $user['User']['id'] : null, 'ajax' => $ajaxMode)); ?>
     <?php echo $this->Bootstrap->input('username', array('label' => 'Användarnamn', 'placeholder' => 'Användarens namn', 'value' => $editMode ? $user['User']['username'] : '')); ?>
+    <?php echo $this->Bootstrap->input('email', array('label' => 'E-postadress', 'placeholder' => 'Användarens E-postadress', 'value' => $editMode ? $user['User']['email'] : '')); ?>
     <?php echo $this->Bootstrap->input('password', array('label' => $editMode?'Nytt lösenord':'Lösenord',  'placeholder' => 'Användarens lösenord',
+        'type' => 'password')); ?>
+    <?php echo $this->Bootstrap->input('confirmPassword', array('label' => $editMode?'Bekräfta nytt lösenord':'Bekräfta lösenord',  'placeholder' => 'Bekräfta användarens lösenord',
         'type' => 'password')); ?>
     <?php echo $this->Bootstrap->dropdown('role_id', 'Role', array('label' => 'Roll', 'options' => $roles, 
                     'selected' => isset($roleId) ? $roleId : null)); ?>

@@ -37,7 +37,7 @@
                 array('label' => 'E-postadress', 'placeholder' => 'E-postadress')); ?>   
 	<?php echo $this->Bootstrap->input('password', 
                 array('label' => 'Lösenord', 'type' => 'password', 'placeholder' => 'Lösenord')); ?>
-	<?php echo $this->Bootstrap->input('confimPassword', 
+	<?php echo $this->Bootstrap->input('confirmPassword', 
                 array('label' => 'Bekräfta Lösenord', 'type' => 'password', 'placeholder' => 'Bekräfta Lösenord')); ?>
 	<?php echo $this->Bootstrap->textarea('description', 
                 array('label' => 'Motivering', 'placeholder' => 'Här kan du skriva en kort presentation av dig själv och om hur du kan bidra till partisk.nu.')); ?>
