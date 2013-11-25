@@ -170,7 +170,8 @@ class QuestionsController extends AppController {
             $this->logUser('add', $this->Question->getLastInsertId(), $data['Question']['title']);
         } else {
             $this->customFlash(__('Kunde inte skapa frågan.'), 'danger');
-            $this->Session->write('validationErrors', $this->Question->validationErrors);
+            $this->Session->write('validationErrors', array('Question' => $this->Question->validationErrors));
+            $this->Session->write('formData', $this->data);
         }
     }
 
@@ -194,6 +195,8 @@ class QuestionsController extends AppController {
             $this->logUser('edit', $id);
         } else {
             $this->customFlash(__('Kunde inte uppdatera frågan.'), 'danger');
+            $this->Session->write('validationErrors', array('Question' => $this->Question->validationErrors));
+            $this->Session->write('formData', $this->data);
         }
     }
 

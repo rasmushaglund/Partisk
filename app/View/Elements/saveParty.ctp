@@ -35,11 +35,11 @@ if ($canAddParty) { ?>
 	<?php echo $this->Bootstrap->create('Party', array('modal' => true, 'label' => $editMode ? "Ändra parti" : "Lägg till parti", 
 	              'id' => $editMode ? $party['Party']['id'] : null, 'ajax' => $ajaxMode)); ?>
 	<?php echo $this->Bootstrap->input('name', array('label' => 'Namn', 'placeholder' => 'Namnet på partiet',
-				 'value' => $editMode ? $party['Party']['name'] : '')); ?>
+				 'value' => $editMode ? $party['Party']['name'] : null)); ?>
 	<?php echo $this->Bootstrap->input('website', array('label' => 'Hemsida', 'placeholder' => 'http://www.exempelparti.se', 
-				'value' => $editMode ? $party['Party']['website'] : '')); ?>
+				'value' => $editMode ? $party['Party']['website'] : null)); ?>
 	<?php echo $this->Bootstrap->textarea('description', array('label' => 'Beskrivning', 
 				'placeholder' => 'Här kan du skriva in en kort beskrivning av partiet', 
-				'value' => $editMode ? $party['Party']['description'] : '')); ?>
+				'value' => $editMode ? $party['Party']['description'] : null)); ?>
 	<?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>
 <?php } ?>

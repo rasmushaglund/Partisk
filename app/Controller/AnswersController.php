@@ -82,7 +82,8 @@ class AnswersController extends AppController {
                 $this->logUser('add', $this->Answer->getLastInsertId(), $this->request->data['Answer']['answer']);
             } else {
                 $this->customFlash(__('Kunde inte skapa svaret.'), 'danger');
-                $this->Session->write('validationErrors', $this->Answer->validationErrors);
+                $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
         }
 

@@ -70,6 +70,11 @@ class AppController extends Controller {
             $this->set('validationErrors', $this->Session->read('validationErrors'));
             $this->Session->delete('validationErrors');
         }
+        
+        if ($this->Session->check('formData')) {
+            $this->set('formData', $this->Session->read('formData'));
+            $this->Session->delete('formData');
+        }
 
         $this->set('current_user', $this->Auth->user());
         $this->setAccessInView($this->Auth->user());

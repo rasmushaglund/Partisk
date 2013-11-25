@@ -90,7 +90,8 @@ class PartiesController extends AppController {
                 $this->logUser('add', $this->Party->getLastInsertId(), $this->request->data['Party']['name']);
             } else {
                 $this->customFlash(__('Kunde inte skapa partiet.'), 'danger');
-                $this->Session->write('validationErrors', $this->Party->validationErrors);
+                $this->Session->write('validationErrors', array('Party' => $this->Party->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
 
             return $this->redirect($this->referer());
@@ -142,6 +143,8 @@ class PartiesController extends AppController {
                 $this->logUser('edit', $this->request->data['Party']['id']);
             } else {
                 $this->customFlash(__('Partiet kunde inte sparas.')); 
+                $this->Session->write('validationErrors', array('Party' => $this->Party->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
             
             return $this->redirect($this->referer());

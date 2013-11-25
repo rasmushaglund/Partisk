@@ -40,15 +40,15 @@ if ($canAddQuestion) { ?>
     <?php echo $this->Bootstrap->create('Question', array('modal' => true, 'label' => $editMode ? "Ändra fråga" : "Lägg till fråga", 
                     'id' => $editMode ? $question['Question']['id'] : null, 'ajax' => $ajaxMode)); ?>
     <?php echo $this->Bootstrap->input('title', array('label' => 'Fråga', 'placeholder' => 'Frågan',
-                    'value' => $editMode ? $question['Question']['title'] : '')); ?>
+                    'value' => $editMode ? $question['Question']['title'] : null)); ?>
     <?php echo $this->Bootstrap->input('tags', array('label' => 'Taggar', 'placeholder' => 'Frågans taggar',
-                    'value' => $editMode ? $question['Question']['tags'] : '')); ?>
+                    'value' => $editMode ? $question['Question']['tags'] : null)); ?>
     <?php if ($canApproveQuestion && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
-                    'value' => $editMode ? $question['Question']['approved'] : '')); 
+                    'value' => $editMode ? $question['Question']['approved'] : null)); 
     } ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Beskrivning av frågan', 
     				'placeholder' => 'Här kan du beskriva frågan mer i detalj',
-    				'value' => $editMode ? $question['Question']['description'] : '')); ?>
+    				'value' => $editMode ? $question['Question']['description'] : null)); ?>
     <?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>
 <?php } ?>

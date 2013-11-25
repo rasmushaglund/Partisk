@@ -47,21 +47,21 @@ if ($canAddAnswer) { ?>
     <?php echo $this->Bootstrap->create('Answer', array('modal' => true, 'label' => $editMode ? "Ändra svar" : "Lägg till svar", 
                     'id' => $editMode ? $answer['Answer']['id'] : null, 'ajax' => $ajaxMode)); ?>
     <?php echo $this->Bootstrap->input('answer', array('label' => 'Svar', 'placeholder' => 'Svaret',
-                     'value' => $editMode ? $answer['Answer']['answer'] : '')); ?>
+                     'value' => $editMode ? $answer['Answer']['answer'] : null)); ?>
     <?php echo $this->Bootstrap->input('source', array('label' => 'Källa', 'placeholder' => 'Källan där svaret hämtades ifrån',
-                     'value' => $editMode ? $answer['Answer']['source'] : '')); ?>
+                     'value' => $editMode ? $answer['Answer']['source'] : null)); ?>
     <?php echo $this->Bootstrap->date('date', array('label' => 'Datum för källa', 'placeholder' => 'Datumet källan är ifrån',
-                     'value' => $editMode ? $answer['Answer']['date'] : '')); ?>
+                     'value' => $editMode ? $answer['Answer']['date'] : null)); ?>
     <?php echo $this->Bootstrap->dropdown('party_id', 'Party', array('label' => 'Parti', 'options' => $parties, 
     				'selected' => isset($partyId) ? $partyId : null)); ?>
     <?php if ($canApproveAnswer && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
-                    'value' => $editMode ? $answer['Answer']['approved'] : '')); 
+                    'value' => $editMode ? $answer['Answer']['approved'] : null)); 
     } ?>
     <?php echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $questions, 
     				'selected' => isset($questionId) ? $questionId : null, 'titleField' => 'title')); ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Beskrivning', 
                     'placeholder' => 'Här kan du skriva mer om svaret, t ex ett citat från källan',
-                    'value' => $editMode ? $answer['Answer']['description'] : '')); ?>
+                    'value' => $editMode ? $answer['Answer']['description'] : null)); ?>
     <?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>
 <?php } ?>
