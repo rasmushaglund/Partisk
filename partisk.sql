@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.8.1deb1
+-- version 4.0.6deb1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 19, 2013 at 08:49 PM
--- Server version: 5.5.32-0ubuntu0.13.04.1
--- PHP Version: 5.4.9-4ubuntu2.3
+-- Generation Time: Nov 25, 2013 at 12:01 PM
+-- Server version: 5.5.34-0ubuntu0.13.10.1
+-- PHP Version: 5.5.3-1ubuntu2
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `referer` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -617,7 +617,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `roles`
@@ -626,7 +626,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
 INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'admin'),
 (2, 'moderator'),
-(3, 'contributor');
+(3, 'contributor'),
+(4, 'unactivated');
 
 -- --------------------------------------------------------
 
@@ -731,7 +732,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `description` text,
   `email` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `users`
@@ -740,9 +741,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `role_id`, `created_date`, `updated_date`, `deleted`, `created_by`, `updated_by`, `description`, `email`) VALUES
 (2, 'admin', '$2a$10$WPL9Lf1FgFR5uXX32VSceeWjAzv2enWjFWs6vxC9SXpzZmwm/oBwC', 1, '2013-11-12 21:17:07', NULL, 0, 2, NULL, '', ''),
 (5, 'moderator', '$2a$10$IoMnoMbaeqYEKmjrRos7P.wYXIafF09thSlLxrHCIto2cCRAB69IS', 2, '2013-10-17 13:40:11', NULL, 0, 2, NULL, NULL, ''),
-(6, 'contributor', '$2a$10$K1L48./n05.eBugWMCWD8.sRI61gdHWJfJsMGsQToeAognQEmSt1y', 3, '2013-10-17 13:40:27', '0000-00-00 00:00:00', 0, 2, 0, NULL, ''),
-(8, 'bla2', '$2a$10$beMpDZBhAljWJFuH7pbMa.Nrsv6qZGuIxCdnCOV8156vaPNPpfyAm', 2, '2013-11-13 12:37:52', '2013-11-13 12:37:59', 1, 2, 2, '', ''),
-(9, NULL, NULL, NULL, NULL, NULL, 1, NULL, 2, NULL, '');
+(6, 'contributor', '$2a$10$K1L48./n05.eBugWMCWD8.sRI61gdHWJfJsMGsQToeAognQEmSt1y', 3, '2013-10-17 13:40:27', '0000-00-00 00:00:00', 0, 2, 0, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -760,7 +759,7 @@ CREATE TABLE IF NOT EXISTS `user_logs` (
   `text` text NOT NULL,
   `ip` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `user_logs`
@@ -805,7 +804,10 @@ INSERT INTO `user_logs` (`id`, `user_id`, `model`, `action`, `object_id`, `date`
 (36, 2, 'quiz', 'add', 12, '2013-11-19 19:19:08', '', '127.0.0.1'),
 (37, 2, 'quiz', 'add', 13, '2013-11-19 19:19:12', '', '127.0.0.1'),
 (38, 2, 'quiz', 'add', 14, '2013-11-19 19:19:21', '', '127.0.0.1'),
-(39, 2, 'quiz', 'add', 15, '2013-11-19 19:19:31', '', '127.0.0.1');
+(39, 2, 'quiz', 'add', 15, '2013-11-19 19:19:31', '', '127.0.0.1'),
+(40, 2, 'user', 'add', 17, '2013-11-25 11:58:55', 'hej', '127.0.0.1'),
+(41, 2, 'user', 'delete', 17, '2013-11-25 12:00:07', '', '127.0.0.1'),
+(42, 2, 'user', 'delete', 16, '2013-11-25 12:00:10', '', '127.0.0.1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
