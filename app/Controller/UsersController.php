@@ -101,43 +101,26 @@ class UsersController extends AppController {
     
   
     
-    private function checkUserEmailPassword(){
-        if($this->User->findByusername($this->request->data['User']['username'])){
-            $this->customFlash(__('Användarnamnet finns redan.'), 'danger'); 
-            return false;
-        }
-        if($this->User->findByemail($this->request->data['User']['email'])){
-            $this->customFlash(__('E-Postadressen finns redan.'), 'danger'); 
-            return false;
-        }
-        if ($this->request->data['User']['password'] != $this->request->data['User']['confirmPassword']){
-            $this->customFlash(__('Fel vid bekräfta lösenordet'), 'danger'); 
-            return false;
-        }
-        return TRUE;
-    }
+  
     
     public function add() {
-   
-        if($this->checkUserEmailPassword())
-        {
-        
-            $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
-            $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
-            $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
-            if ($this->User->save($this->request->data )) {
-                $this->customFlash(__('Användaren har skapats.'));
-            
-                if ($this->Auth->loggedIn()){
-                    $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
-                }
-                   
-            } else {
-                $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
-                $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
-                $this->Session->write('formData', $this->data);
+      
+        $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
+        $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
+        $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
+        if ($this->User->save($this->request->data )) {
+            $this->customFlash(__('Användaren har skapats.'));
+
+            if ($this->Auth->loggedIn()){
+                $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
             }
-        }  
+
+        } else {
+            $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
+            $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
+            $this->Session->write('formData', $this->data);
+        }
+        
         
         return $this->redirect($this->referer());
     }
