@@ -40,8 +40,8 @@ if ($canAddUser) { ?>
 
     <?php echo $this->Bootstrap->create('User', array('modal' => true, 'label' => $editMode ? "Ändra användare" : "Lägg till användare", 
                     'id' => $editMode ? $user['User']['id'] : null, 'ajax' => $ajaxMode)); ?>
-    <?php echo $this->Bootstrap->input('username', array('label' => 'Användarnamn', 'placeholder' => 'Användarens namn', 'value' => $editMode ? $user['User']['username'] : '')); ?>
-    <?php echo $this->Bootstrap->input('email', array('label' => 'E-postadress', 'placeholder' => 'Användarens E-postadress', 'value' => $editMode ? $user['User']['email'] : '')); ?>
+    <?php echo $this->Bootstrap->input('username', array('label' => 'Användarnamn', 'placeholder' => 'Användarens namn', 'value' => $editMode ? $user['User']['username'] : null)); ?>
+    <?php echo $this->Bootstrap->input('email', array('label' => 'E-postadress', 'placeholder' => 'Användarens E-postadress', 'value' => $editMode ? $user['User']['email'] : null)); ?>
     <?php echo $this->Bootstrap->input('password', array('label' => $editMode?'Nytt lösenord':'Lösenord',  'placeholder' => 'Användarens lösenord',
         'type' => 'password')); ?>
     <?php echo $this->Bootstrap->input('confirmPassword', array('label' => $editMode?'Bekräfta nytt lösenord':'Bekräfta lösenord',  'placeholder' => 'Bekräfta användarens lösenord',
@@ -50,6 +50,6 @@ if ($canAddUser) { ?>
                     'selected' => isset($roleId) ? $roleId : null)); ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Presentation',  
                     'placeholder' => 'Här kan du skriva in en kort presentation om användaren', 
-                    'value' => $editMode ? $user['User']['description'] : '')); ?>
+                    'value' => $editMode ? $user['User']['description'] : null)); ?>
     <?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>
 <?php } ?>

@@ -39,7 +39,7 @@ class BootstrapHelper extends AppHelper {
         $args['model'] = $this->model;
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
-        if (!isset($args['value'])) { $args['value'] = ''; }
+        if (!isset($args['value'])) { $args['value'] = null; }
         if (!isset($args['type'])) { $args['type'] = 'text'; }
         if (!isset($args['placeholder'])) { $args['placeholder'] = ''; }
         if (!isset($args['label'])) { $args['label'] = $field; }
@@ -85,7 +85,7 @@ class BootstrapHelper extends AppHelper {
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (empty($args['value'])) { 
-            $args['date'] = ''; 
+            $args['date'] = null; 
         } else { 
             $args['date'] = date('Y-m-d', strtotime($args['value']));
         }
@@ -104,7 +104,7 @@ class BootstrapHelper extends AppHelper {
         $args['model'] = $this->model;
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
-        if (!isset($args['value'])) { $args['value'] = ''; }
+        if (!isset($args['value'])) { $args['value'] = null; }
         if (!isset($args['placeholder'])) { $args['placeholder'] = ''; }
         if (!isset($args['label'])) { $args['label'] = $field; }
 
