@@ -164,6 +164,14 @@ class Answer extends AppModel {
             )
         );
     }
+    
+    public function getUserAnswers($userId) {
+        $this->recursive = -1;
+        $this->contain('Question');
+        return $this->find('all', array(
+           'conditions' => array('Answer.created_by' => $userId) 
+        ));
+    }
 }
 
 ?>

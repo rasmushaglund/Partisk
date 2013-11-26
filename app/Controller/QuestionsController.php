@@ -141,17 +141,17 @@ class QuestionsController extends AppController {
     }
 
     public function all() {
-        return $this->Question->getAllQuestionsList();
+        return $this->Question->getAllQuestionsList($this->Auth->loggedIn());
     }
 
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete'))) {
+        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
 
-        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete'))) {
+        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
 
@@ -215,6 +215,10 @@ class QuestionsController extends AppController {
     public function logUser($action, $object_id, $text = "") {
         UserLogger::write(array('model' => 'question', 'action' => $action,
                                 'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
+    }
+    
+    public function status() {
+        $this->set('questions', $this->Question->getUserQuestions($this->Auth->user('id')));
     }
 }
 

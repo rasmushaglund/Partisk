@@ -185,6 +185,10 @@ class AnswersController extends AppController {
         UserLogger::write(array('model' => 'answer', 'action' => $action,
                                 'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
     }
+    
+    public function status() {
+        $this->set('answers', $this->Answer->getUserAnswers($this->Auth->user('id')));
+    }
 }
 
 ?>

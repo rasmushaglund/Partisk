@@ -88,7 +88,7 @@ class Question extends AppModel {
         $this->recursive = -1; 
 
         $id = isset($args['id']) ? $args['id'] : null;
-        $deleted = isset($args['deleted']) ? $args['deleted'] : false;
+        $deleted = isset($args['deleted']) ? $args['deleted'] : null;
         $approved = isset($args['approved']) ? $args['approved'] : null;
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
         $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted');
@@ -148,10 +148,16 @@ class Question extends AppModel {
         return array_pop($questions);
     }
 
-    public function getAllQuestionsList() {
+    public function getAllQuestionsList($loggedIn = false) {
+        if (!$loggedIn) {
+            $conditions = array('Question.deleted' => false, 'Question.approved' => true);
+        } else {
+            $conditions = array();
+        }
+        debug($conditions);
         return $this->getQuestions(array(
-                'conditions' => array('Question.deleted' => false, 'Question.approved' => true),
-                'fields' => array('Question.id', 'Question.title')
+                'conditions' => $conditions,
+                'fields' => array('Question.id', 'Question.title', 'Question.approved', 'Question.deleted')
             ));
     }
 
@@ -166,6 +172,13 @@ class Question extends AppModel {
                             )),
                 'fields' => array('Question.*, QuestionQuiz.id')
             ));
+    }
+    
+    public function getUserQuestions($userId) {
+        $this->recursive = -1;
+        return $this->find('all', array(
+           'conditions' => array('created_by' => $userId) 
+        ));
     }
 }
 

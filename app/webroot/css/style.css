@@ -289,7 +289,8 @@ table .tools {
 
 select.form-control {
     padding: 6px 7px;
-    max-width: 200px;
+    /*max-width: 200px;*/
+    width: auto;
 }
 
 /* Hack to solve https://github.com/twbs/bootstrap/issues/9855 */
@@ -453,4 +454,12 @@ text-decoration: underline;
 
 .list-unstyled li {
     margin-bottom: 30px;
+}
+
+.dropdown-deleted {
+    color: red;
+}
+
+.dropdown-not-approved {
+    color: #bbb;
 }
