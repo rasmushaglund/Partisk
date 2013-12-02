@@ -24,19 +24,31 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-   	$error = isset($validationErrors) && isset($validationErrors[$field]) ? $validationErrors[$field][0] : null;
+   	$error = isset($validationErrors) && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
+        $postData = isset($formData) && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
+        
+        $value = isset($value) ? $value : $postData;
+        //debug($value);
+        //debug($options);
+        //debug($selected);
 ?>
 
 <div class="input select form-group">
 	<label for="<?php echo $id; ?>"><?php echo $label; ?></label>
 	<select name="<?php echo "data[$model][$field]"; ?>" id="<?php echo $id; ?>" class="form-control">
 	<?php  foreach ($options as $option) { 
+<<<<<<< HEAD
 		$isSelected = isset($selected) && $selected == $option[$modelField]['id']; 
                 $isDeleted = isset($option[$modelField]['deleted']) && $option[$modelField]['deleted'];
                 $isNotApproved = isset($option[$modelField]['approved']) && !$option[$modelField]['approved'];
                 $classString = ($isDeleted ? 'dropdown-deleted ' : '') . ($isNotApproved ? 'dropdown-not-approved' : '');
                 ?>
 	    <option value="<?php echo $option[$modelField]['id']; ?>" class="<?php echo $classString; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
+=======
+            $isSelected = isset($selected) && $selected == $option[$modelField]['id'] ||
+                          $value == $option[$modelField]['id']; ?>
+	    <option value="<?php echo $option[$modelField]['id']; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
+>>>>>>> 958c0c9274ff625a68321635d3f8bae4fa51cce2
 	    	<?php echo ucfirst($option[$modelField][$titleField]); ?>
 	    </option>
 	<?php } ?>

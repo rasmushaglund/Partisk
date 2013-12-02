@@ -118,7 +118,6 @@ class UsersController extends AppController {
     }
     
     public function add() {
-
    
         if($this->checkUserEmailPassword())
         {
@@ -134,13 +133,13 @@ class UsersController extends AppController {
                 }
                    
             } else {
-            $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
-            $this->Session->write('validationErrors', $this->User->validationErrors);
+                $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
+                $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
         }  
-     
-            return $this->redirect($this->referer());
-   
+        
+        return $this->redirect($this->referer());
     }
 
     public function edit($id = null) {
@@ -162,7 +161,8 @@ class UsersController extends AppController {
                 $this->logUser('edit', $this->request->data['User']['id']);
             } else {
                 $this->customFlash(__('Användaren kunde inte sparas.')); 
-                $this->Session->write('validationErrors', $this->User->validationErrors);
+                $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
             
             return $this->redirect($this->referer());

@@ -44,7 +44,7 @@ var openEditModal = function(controller, id) {
 
 			$modal.on('hidden.bs.modal', function(){
     			$modal.remove();
-			});
+		});
 	    }
 	});
 };
@@ -75,4 +75,19 @@ $(document).ready(function() {
 	$('body').on('click', function (e) {
             $('.popover.in').prev().not(e.target).popover('toggle');
 	});
+        
+        // Open modal without fade if it contains an error
+        $('.modal').each(function (index, modal) {
+            if ($(modal).find('p.error').size() > 0) {
+                $(modal).removeClass('fade');
+                $(modal).on('shown.bs.modal', function () {
+                    $(this).addClass('fade in');
+                    $('.modal-backdrop').addClass('fade in');
+                });
+                $(modal).modal('show');
+                
+            }
+        });
+            
+        
 });

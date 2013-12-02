@@ -77,8 +77,9 @@ class QuizzesController extends AppController {
             $this->customFlash(__('Quizen har skapats.'));
             $this->logUser('add', $this->Quiz->getLastInsertId(), $data['Quiz']['name']);
         } else {
-            $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');
-            $this->Session->write('validationErrors', $this->Quiz->validationErrors);
+            $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');            
+            $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors));
+            $this->Session->write('formData', $this->data);
         }
 
         return $this->redirect($this->referer());
@@ -367,6 +368,7 @@ class QuizzesController extends AppController {
             } else {
                 $this->customFlash(__('Kunde inte lägga till frågan till quizen.'), 'danger');
                 $this->Session->write('validationErrors', $this->QuestionQuiz->validationErrors);
+                $this->Session->write('formData', $this->data);
             }
 
             return $this->redirect($this->referer());
@@ -423,7 +425,9 @@ class QuizzesController extends AppController {
             $this->customFlash(__('Quizen har uppdaterats.'));
             $this->logUser('edit', $id);
         } else {
-            $this->customFlash(__('Kunde inte uppdatera quizen.'), 'danger');
+            $this->customFlash(__('Kunde inte uppdatera quizen.'), 'danger');            
+            $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors));
+            $this->Session->write('formData', $this->data);
         }
     }
 

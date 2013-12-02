@@ -24,7 +24,10 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-   	$error = isset($validationErrors) && isset($validationErrors[$field]) ? $validationErrors[$field][0] : null;
+   	$error = isset($validationErrors) && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
+   	$postData = isset($formData) && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
+        
+        $value = ($type === 'password' || isset($value)) ? $value : $postData;
 ?>
 
 <div class="input text required form-group">

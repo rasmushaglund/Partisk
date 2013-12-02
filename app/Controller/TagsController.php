@@ -105,8 +105,9 @@ class TagsController extends AppController {
                 $this->customFlash(__('Taggen är skapad.'));
                 $this->logUser('add', $this->Tag->getLastInsertId(), $this->request->data['Tag']['name']);
             } else {
-                $this->customFlash(__('Kunde inte skapa taggen.'), 'danger');
-                $this->Session->write('validationErrors', $this->Tag->validationErrors);
+                $this->customFlash(__('Kunde inte skapa taggen.'), 'danger');        
+                $this->Session->write('validationErrors', array('Tag' => $this->Tag->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
 
             return $this->redirect($this->referer());
@@ -158,6 +159,8 @@ class TagsController extends AppController {
                 $this->logUser('edit', $this->request->data['Tag']['id']);
             } else {
                 $this->customFlash(__('Taggen kunde inte sparas.')); 
+                $this->Session->write('validationErrors', array('Tag' => $this->Tag->validationErrors));
+                $this->Session->write('formData', $this->data);
             }
             
             return $this->redirect($this->referer());

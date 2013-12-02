@@ -35,13 +35,13 @@ if ($canAddQuiz) { ?>
     <?php echo $this->Bootstrap->create('Quiz', array('modal' => true, 'label' => $editMode ? "Ändra quiz" : "Skapa ny quiz", 
                     'id' => $editMode ? $quiz['Quiz']['id'] : null, 'ajax' => $ajaxMode)); ?>
     <?php echo $this->Bootstrap->input('name', array('label' => 'Namn', 'placeholder' => 'Namnet på quizen',
-                     'value' => $editMode ? $quiz['Quiz']['name'] : '')); ?>
+                     'value' => $editMode ? $quiz['Quiz']['name'] : null)); ?>
     <?php if ($canApproveQuiz && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
-                    'value' => $editMode ? $quiz['Quiz']['approved'] : '')); 
+                    'value' => $editMode ? $quiz['Quiz']['approved'] : null)); 
     } ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Beskrivning', 
                     'placeholder' => 'Skriv in en beskrivning av quizen',
-                    'value' => $editMode ? $quiz['Quiz']['description'] : '')); ?>
+                    'value' => $editMode ? $quiz['Quiz']['description'] : null)); ?>
     <?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>
 <?php } ?>
