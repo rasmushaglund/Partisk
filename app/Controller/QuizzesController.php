@@ -202,21 +202,23 @@ class QuizzesController extends AppController {
             return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
         }
         
-        if (!$quizSession['QuizSession']['has_answers']) {
+        if (!empty($quizSession) && isset($quizSession['QuizSession']['has_answers']) &&
+                !$quizSession['QuizSession']['has_answers']) {
             $this->Session->delete('quizSession');
             $this->customFlash(__('Du har inte svarat på någon fråga i quizen, försök igen.'), 'danger');
             return $this->redirect(array('action' => 'index'));      
         }
-        
-        if ($quizSession['QuizSession']['done'] && !$quizSession['QuizSession']['saved']) {
+      
+        if (!empty($quizSession) && $quizSession['QuizSession']['done'] && !$quizSession['QuizSession']['saved']) {
             $quizResults = $this->getNewQuizResults($guid, $quizSession);
+            $quizResults['QuizResult']['data'] = $quizSession['QuizSession']['data'];
             $quizSession['QuizSession']['saved'] = true;
             $this->Session->write('quizSession', $quizSession);
+            $quiz = $this->getQuiz($quizSession);
         } else {
             $quizResults = $this->getQuizResults($guid);
+            $quiz = $quizResults;
         }
-        
-        $quiz = $this->getQuiz($quizSession);
         
         if (empty($quizResults) && empty($quizResults)) {
             $this->customFlash(__('Kunde inte hitta quizen.'), 'danger');
@@ -255,8 +257,8 @@ class QuizzesController extends AppController {
     
     private function getQuizSession($guid) {
         $quizSession = $this->quizSession;
-        
-        $quizInSession = isset($quizSession['QuizSession']) && $quizSession['QuizSession']['id'] == $guid;
+        $quizInSession = isset($quizSession['QuizSession']) && isset($quizSession['QuizSession']['id'])
+                && $quizSession['QuizSession']['id'] == $guid;
         if ($quizInSession) {
             $points = $this->Quiz->calculatePoints($quizSession);
             $quizSession['QuizSession']['points'] = $points;

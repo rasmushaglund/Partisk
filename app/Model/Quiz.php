@@ -303,7 +303,7 @@ class Quiz extends AppModel {
         return array('Quiz' => array(
             'id' => 'all',
             'name' => 'Stora quizen',
-            'description' => 'Ett stort quiz med alla sidans frågor.',
+            'description' => 'Ett stort quiz med alla sidans frågor',
             'questions' => $this->Question->find('count', array(
                 'conditions' => array('deleted' => false, 'approved' => true)
             ))

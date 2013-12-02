@@ -38,29 +38,12 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
-<<<<<<< HEAD
-        $args['id'] = ucfirst($this->model) . ucfirst($field);
-
-        if (!isset($args['value'])) {
-            $args['value'] = '';
-        }
-        if (!isset($args['type'])) {
-            $args['type'] = 'text';
-        }
-        if (!isset($args['placeholder'])) {
-            $args['placeholder'] = '';
-        }
-        if (!isset($args['label'])) {
-            $args['label'] = $field;
-        }
-=======
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (!isset($args['value'])) { $args['value'] = null; }
         if (!isset($args['type'])) { $args['type'] = 'text'; }
         if (!isset($args['placeholder'])) { $args['placeholder'] = ''; }
         if (!isset($args['label'])) { $args['label'] = $field; }
->>>>>>> 958c0c9274ff625a68321635d3f8bae4fa51cce2
 
         return $this->_View->element('bootstrap/input', $args);
     }
@@ -104,19 +87,11 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
-<<<<<<< HEAD
-        $args['id'] = ucfirst($this->model) . ucfirst($field);
-
-        if (empty($args['value'])) {
-            $args['date'] = '';
-        } else {
-=======
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (empty($args['value'])) { 
             $args['date'] = null; 
         } else { 
->>>>>>> 958c0c9274ff625a68321635d3f8bae4fa51cce2
             $args['date'] = date('Y-m-d', strtotime($args['value']));
         }
 
@@ -134,25 +109,11 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
-<<<<<<< HEAD
-        $args['id'] = ucfirst($this->model) . ucfirst($field);
-
-        if (!isset($args['value'])) {
-            $args['value'] = '';
-        }
-        if (!isset($args['placeholder'])) {
-            $args['placeholder'] = '';
-        }
-        if (!isset($args['label'])) {
-            $args['label'] = $field;
-        }
-=======
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (!isset($args['value'])) { $args['value'] = null; }
         if (!isset($args['placeholder'])) { $args['placeholder'] = ''; }
         if (!isset($args['label'])) { $args['label'] = $field; }
->>>>>>> 958c0c9274ff625a68321635d3f8bae4fa51cce2
 
         return $this->_View->element('bootstrap/textarea', $args);
     }

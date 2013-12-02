@@ -112,7 +112,11 @@ class QuestionsController extends AppController {
         return $this->redirect($this->referer());
      }
 
-     public function edit($id = null) {
+     public function edit($id = null) { 
+        if (empty($id)) {
+            $id = $this->request->data['Question']['id'];
+        }
+        
         if (!$this->userCanEditQuestion($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to edit question with id " . $id);
             return $this->redirect($this->referer());

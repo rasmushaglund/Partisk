@@ -46,7 +46,7 @@ $this->Html->addCrumb('Resultat');
 <script type="text/javascript">
 
   var parties = <?php echo json_encode($parties); ?>;
-  var data = <?php echo $quizSession['QuizSession']['data']; ?>;
+  var data = <?php echo $quizResults['QuizResult']['data']; ?>;
 
   function getQuestionAgreeRate() {
     var result = {key: 'questionAgreeRate', values: []};
@@ -81,7 +81,10 @@ $this->Html->addCrumb('Resultat');
         .x(function(d) { return d.label })
         .y(function(d) { return d.value })
         .tooltips(true)
-        .color(function (item) {  return item.data.color; })
+        .color(function (item) {  
+            if (item.data && item.data.color) return item.data.color;
+            return "#333";
+        })
         .labelThreshold(.06)
         .tooltipContent(function (key, value, item, graph) {
           var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';

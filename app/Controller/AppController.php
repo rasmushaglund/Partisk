@@ -191,6 +191,7 @@ class AppController extends Controller {
 
             $question = array_pop($questions);
         }
+        
 
         if ($question['Question']['created_by'] == $userId && $question['Question']['approved'] == 0) {
             return true;

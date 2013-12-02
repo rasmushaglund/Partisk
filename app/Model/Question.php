@@ -126,10 +126,10 @@ class Question extends AppModel {
 
     public function getLatest() {
         return $this->find('all', array(
-                'fields' => 'id, title',
+                'fields' => 'id, title, approved_date',
                 'conditions' => array('deleted' => false, 'approved' => true),
                 'limit' => '5',
-                'order' => 'created_date DESC'
+                'order' => 'approved_date DESC'
             ));
     }
 
