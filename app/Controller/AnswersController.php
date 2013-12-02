@@ -175,7 +175,7 @@ class AnswersController extends AppController {
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if (in_array($role, array('moderator', 'contributor')) && in_array($this->action, array('edit', 'add', 'delete'))) {
+        if (in_array($role, array('moderator', 'contributor')) && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
 
@@ -185,6 +185,11 @@ class AnswersController extends AppController {
     public function logUser($action, $object_id, $text = "") {
         UserLogger::write(array('model' => 'answer', 'action' => $action,
                                 'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
+    }
+    
+    public function status() {
+        $answers = $this->Answer->getUserAnswers($this->Auth->user('id'));
+        $this->set('answers', $answers);
     }
 }
 

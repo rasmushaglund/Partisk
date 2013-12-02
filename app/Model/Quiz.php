@@ -309,6 +309,13 @@ class Quiz extends AppModel {
             ))
         ));
     }
+    
+    public function getUserQuizzes($userId) {
+        $this->recursive = -1;
+        return $this->find('all', array(
+           'conditions' => array('created_by' => $userId) 
+        ));
+    }
 }
 
 ?>

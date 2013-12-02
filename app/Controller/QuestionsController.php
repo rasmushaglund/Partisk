@@ -44,19 +44,25 @@ class QuestionsController extends AppController {
         $this->loadModel('Party');
         $this->loadModel('Answer');
 
-        $conditions = array('deleted' => false);
+        $questionConditions = array('deleted' => false);
 
         if(!$this->isLoggedIn) {
-            $conditions['approved'] = true;
+            $questionConditions['approved'] = true;
         }   
 
-        $questions = $this->Question->getQuestions($conditions);
+        $questions = $this->Question->getQuestions($questionConditions);
         $parties = $this->Party->getPartiesOrdered();
         
         $questionIds = $this->Question->getIdsFromModel('Question', $questions);
         $partyIds = $this->Party->getIdsFromModel('Party', $parties);
+        
+        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
 
-        $answers = $this->Answer->getAnswers(array('partyId' => $partyIds, 'questionId' => $questionIds));
+        if(!$this->isLoggedIn) {
+            $answersConditions['approved'] = true;
+        }   
+        
+        $answers = $this->Answer->getAnswers($answersConditions);
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
         $this->set('questions', $questions);
@@ -77,7 +83,7 @@ class QuestionsController extends AppController {
         }
 
         $answers = $this->Question->Answer->getAnswers(array('questionId' => $id, 'includeParty' => true));
-
+        
         $this->set('question', $question);
         $this->set('answers', $answers);
         $this->set('title_for_layout', ucfirst($question['Question']['title']));
@@ -141,17 +147,17 @@ class QuestionsController extends AppController {
     }
 
     public function all() {
-        return $this->Question->getAllQuestionsList();
+        return $this->Question->getAllQuestionsList($this->Auth->loggedIn());
     }
 
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete'))) {
+        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'addTags'))) {
             return true;
         }
 
-        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete'))) {
+        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
 
@@ -165,7 +171,9 @@ class QuestionsController extends AppController {
         $data['Question']['type'] = "YESNO";
 
         if ($this->Question->save($data)) {
-            $this->addTags($data, $this->Question->getLastInsertId());
+            if ($this->canAddTag) {
+                $this->addTags($data, $this->Question->getLastInsertId());
+            }
             $this->customFlash(__('Frågan skapad.'));
             $this->logUser('add', $this->Question->getLastInsertId(), $data['Question']['title']);
         } else {
@@ -218,6 +226,10 @@ class QuestionsController extends AppController {
     public function logUser($action, $object_id, $text = "") {
         UserLogger::write(array('model' => 'question', 'action' => $action,
                                 'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
+    }
+    
+    public function status() {
+        $this->set('questions', $this->Question->getUserQuestions($this->Auth->user('id')));
     }
 }
 

@@ -36,9 +36,6 @@
                           'question' => $answer)); ?>
       <?php if ($current_user) { ?>
         <td>
-          <p><?php echo $answer['Answer']['approved'] ? "Godkänd" : "Ej godkänd"; ?></p>
-        </td>
-        <td>
           <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>
         </td>
       <?php } ?>

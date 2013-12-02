@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-if ($current_user) {  ?>
+if ($canEditTag) {  ?>
 <div class="admin-toolbox btn-group">
 	<?php echo $this->element('deleteTag', array('tagId' => $tag['Tag']['id'], 'tag' => $tag['Tag']['name'])); 
       echo $this->element('editTag', array('tagId' => $tag['Tag']['id'])); ?>
