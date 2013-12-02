@@ -463,3 +463,16 @@ text-decoration: underline;
 .dropdown-not-approved {
     color: #bbb;
 }
+
+.answer-not-approved {
+    color: #aaa;
+    font-weight: bold;
+}
+
+.question-not-approved {
+    color: #aaa;
+}
+
+.popover-content .admin-toolbox {
+    float: right;
+}

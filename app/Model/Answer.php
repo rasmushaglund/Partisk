@@ -91,25 +91,28 @@ class Answer extends AppModel {
     }
 
     public function getAnswers($args) {
-        
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
         $partyId = isset($args['partyId']) ? $args['partyId'] : null;
         $questionId = isset($args['questionId']) ? $args['questionId'] : null;
+        $deleted = isset($args['deleted']) ? $args['deleted'] : null;
+        $approved = isset($args['approved']) ? $args['approved'] : null;
         $includeParty = isset($args['includeParty']) ? $args['includeParty'] : false;
-        $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
         $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
         $includeBestResult = isset($args['includeBestResult']) ? $args['includeBestResult'] : false;
 
         $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by', 'deleted', 'description', 'source');
-        $groupBy = 'party_id';
+        $groupBy = 'party_id, question_id';
         $order = '';
         $contain = array();
 
-        $conditions = array(array('Answer.deleted' => false));
+        $conditions = array('Answer.deleted' => false);
+        
+        if (isset($deleted)) { $conditions['Answer.deleted'] = $deleted; }
+        if (isset($approved)) { $conditions['Answer.approved'] = $approved; }
 
         $joins = array(
                     array('type' => 'inner',
-                    'table' => '(select max(date) as latest, b.id, b.party_id, b.question_id from answers b where b.deleted = false
+                    'table' => '(select max(date) as latest, b.id, b.party_id, b.question_id from answers b where b.deleted = false 
                                  group by b.party_id, b.question_id)',
                     'alias' => 'current',
                     'conditions' => array(
@@ -122,8 +125,8 @@ class Answer extends AppModel {
         if ($includeParty) {
             array_push($contain, 'Party');
             array_push($fields, 'Party.id, Party.name, (greatest(Party.last_result_parliment, Party.last_result_eu)) as Party__best_result');
-            $groupBy = 'question_id, ' . $groupBy;
-            array_push($conditions, array('Party.deleted' => false));
+            //$groupBy .= ', question_id';
+            $conditions['Party.deleted'] = false;
             $order = 'Party__best_result DESC';
         }
 
@@ -139,18 +142,18 @@ class Answer extends AppModel {
         }
 
         if (isset($partyId)) {
-            array_push($conditions, array('Answer.party_id' => $partyId));
+            $conditions['Answer.party_id'] = $partyId;
         }
 
         if (isset($tagId)) {
-            array_push($conditions, array('Tag.id' => $tagId));
+            $conditions['Tag.id'] = $tagId;
             array_push($joins, array('type' => 'inner',
                                      'table' => 'tags as Tag',
                                     'conditions' => array('Tag.id' => $tagId)));
         }
 
         if (isset($questionId)) {
-            array_push($conditions, array('Answer.question_id' => $questionId));
+            $conditions['Answer.question_id'] = $questionId;
         }
 
         $this->contain($contain);
@@ -158,7 +161,7 @@ class Answer extends AppModel {
         return $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => $fields,
-                'groupBy' => $groupBy,
+                'group' => $groupBy,
                 'joins' => $joins,
                 'order' => $order
             )
@@ -167,9 +170,9 @@ class Answer extends AppModel {
     
     public function getUserAnswers($userId) {
         $this->recursive = -1;
-        $this->contain('Question');
+        $this->contain(array('Question', 'Party'));
         return $this->find('all', array(
-           'conditions' => array('Answer.created_by' => $userId) 
+           'conditions' => array('Answer.created_by' => $userId)
         ));
     }
 }

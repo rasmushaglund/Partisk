@@ -41,7 +41,6 @@
       </th>
       <?php endforeach; ?>
       <?php if ($current_user) { ?>
-      <th>Status</th>
       <th>Verktyg</th>
       <?php } ?>
     </tr>
@@ -51,7 +50,9 @@
     <tr>
       <th class="table-header-text">
         <?php 
-        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id']));  
+        $notApproved = !$question['Question']['approved'];
+        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id']),
+                array('class' => $notApproved ? 'question-not-approved':''));  
         ?>
       </th>
       <?php foreach ($parties as $party): ?>
@@ -65,9 +66,6 @@
         <?php }?>
       <?php endforeach; ?>
       <?php if ($current_user) { ?>
-        <td>
-          <p><?php echo $question['Question']['approved'] ? "Godkänd" : "Ej godkänd"; ?></p>
-        </td>
         <td>
           <div class="tools">
              <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>

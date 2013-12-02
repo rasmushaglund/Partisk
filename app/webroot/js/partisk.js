@@ -73,6 +73,6 @@ $(document).ready(function() {
 	 });
 
 	$('body').on('click', function (e) {
-    	$('.popover.in').prev().not(e.target).popover('toggle');
+            $('.popover.in').prev().not(e.target).popover('toggle');
 	});
 });

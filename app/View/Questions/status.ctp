@@ -31,13 +31,23 @@ $this->Html->addCrumb('Status');
 
 <h2>Ej godkända frågor</h2>
 <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Fråga</th>
+            <th>Verktyg</th>
+        </tr>
+    </thead>
+    <tbody>
     <?php foreach ($questions as $question) { 
         if (!$question['Question']['approved'] && !$question['Question']['deleted']) { ?>
             <tr><td><?php 
             echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id'])); ?>
-            </td></tr>
+            </td>
+            <td><?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?></td>
+            </tr>
     <?php }
     } ?>
+    </tbody>
 </table>
 
 <h2>Godkända frågor</h2>

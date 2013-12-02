@@ -31,11 +31,24 @@ $this->Html->addCrumb('Status');
 
 <h2>Ej godkända quizzer</h2>
 <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <td>Quiz</td>
+            <td>Verktyg</td>
+        </tr>
+    </thead>
     <?php foreach ($quizzes as $quiz) { 
         if (!$quiz['Quiz']['approved'] && !$quiz['Quiz']['deleted']) { ?>
             <tr>
                 <td>
                     <?php echo $this->Html->link($quiz['Quiz']['name'], array('controller' => 'quizzes', 'action' => 'admin', $quiz['Quiz']['id'])); ?>
+                </td>
+                <td>
+                    <?php
+                    echo $this->element('administerQuiz', array('quiz' => $quiz['Quiz'])); 
+    echo $this->element('editQuiz', array('quiz' => $quiz['Quiz']));
+    echo $this->element('deleteQuiz', array('quiz' => $quiz['Quiz'])); 
+    ?>
                 </td>
             </tr>
     <?php }

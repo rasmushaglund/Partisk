@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Answer user status view
  *
  * Partisk : Political Party Opinion Visualizer
@@ -23,65 +23,98 @@
  * @package     app.View.Tags
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
-
 $this->Html->addCrumb('Answer');
 $this->Html->addCrumb('Status');
-
 ?>
 
 <h2>Ej godkända svar</h2>
 <table class="table table-bordered table-striped">
-    <?php foreach ($answers as $answer) { 
-        if (!$answer['Answer']['approved'] && !$answer['Answer']['deleted']) { ?>
-            <tr>
-                <td>
-                    <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
-                </td>
-                <td><?php 
-                    echo $this->Html->link($answer['Answer']['answer'], array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id'])); ?>
-                </td>
-                <td>
-                    <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>
-                </td>
-            </tr>
-    <?php }
-    } ?>
+    <thead>
+        <tr>
+            <th>Fråga</th>
+            <th>Parti</th>
+            <th>Svar</th>
+            <th>Verktyg</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($answers as $answer) {
+            if (!$answer['Answer']['approved'] && !$answer['Answer']['deleted']) {
+                ?>
+                <tr>
+                    <td><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?></td>
+                    <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?></td>
+                    <?php echo $this->element('answerCell', array('answer' => $answer,
+                        'question' => $answer));
+                    ?>
+                    <td><?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?></td>
+                </tr>
+                <?php
+            }
+        }
+        ?>
+    </tbody>
 </table>
 
 <h2>Godkända svar</h2>
 <table class="table table-bordered table-striped">
-    <?php foreach ($answers as $answer) { 
-        if ($answer['Answer']['approved'] && !$answer['Answer']['deleted']) { ?>
-            <tr>
-                <td>
-                    <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
-                </td>
-                <td><?php 
-                    echo $this->Html->link($answer['Answer']['answer'], array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id'])); ?>
-                </td>
-                <td>
-                    <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>
-                </td>
-            </tr>
-    <?php }
-    } ?>
+    <thead>
+        <tr>
+            <th>Fråga</th>
+            <th>Parti</th>
+            <th>Svar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($answers as $answer) {
+            if ($answer['Answer']['approved'] && !$answer['Answer']['deleted']) {
+                ?>
+                <tr>
+                    <td>
+        <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
+                    </td>
+                    <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?>
+                    </td>
+                    <?php echo $this->element('answerCell', array('answer' => $answer,
+                        'question' => $answer));
+                    ?>
+                </tr>
+                <?php
+            }
+        }
+        ?>
+    </tbody>
 </table>
 
 <h2>Borttagna svar</h2>
 <table class="table table-bordered table-striped">
-    <?php foreach ($answers as $answer) { 
-        if ($answer['Answer']['deleted']) { ?>
-            <tr>
-                <td>
-                    <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
-                </td>
-                <td><?php 
-                    echo $this->Html->link($answer['Answer']['answer'], array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id'])); ?>
-                </td>
-                <td>
-                    <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>
-                </td>
-            </tr>
-    <?php }
-    } ?>
+    <thead>
+        <tr>
+            <th>Fråga</th>
+            <th>Parti</th>
+            <th>Svar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($answers as $answer) {
+            if ($answer['Answer']['deleted']) {
+                ?>
+                <tr>
+                    <td>
+        <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
+                    </td>
+                    <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?>
+                    </td>
+                <?php echo $this->element('answerCell', array('answer' => $answer,
+                    'question' => $answer));
+                ?>
+                </tr>
+                <?php
+            }
+        }
+        ?>
+    </tbody>
 </table>

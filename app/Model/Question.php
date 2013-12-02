@@ -154,7 +154,7 @@ class Question extends AppModel {
         } else {
             $conditions = array();
         }
-        debug($conditions);
+        
         return $this->getQuestions(array(
                 'conditions' => $conditions,
                 'fields' => array('Question.id', 'Question.title', 'Question.approved', 'Question.deleted')

@@ -174,7 +174,7 @@ class AnswersController extends AppController {
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if (in_array($role, array('moderator', 'contributor')) && in_array($this->action, array('edit', 'add', 'delete'))) {
+        if (in_array($role, array('moderator', 'contributor')) && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
 
@@ -187,7 +187,8 @@ class AnswersController extends AppController {
     }
     
     public function status() {
-        $this->set('answers', $this->Answer->getUserAnswers($this->Auth->user('id')));
+        $answers = $this->Answer->getUserAnswers($this->Auth->user('id'));
+        $this->set('answers', $answers);
     }
 }
 
