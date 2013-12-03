@@ -102,7 +102,7 @@ $(document).ready(function() {
          
          $('.popover-link').bind('click',function() {
              var $popover = $(this);
-             $.ajax({url:appRoot + "/answers/info/" + $popover.attr('data-id'),success:function(data){
+             $.ajax({url:appRoot + "answers/info/" + $popover.attr('data-id'),success:function(data){
                 $popover.unbind('click');
                 $popover.popover({ 
                     html : true,
