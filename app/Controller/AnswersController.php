@@ -181,6 +181,15 @@ class AnswersController extends AppController {
 
         return parent::isAuthorized($user);
     }
+    
+    public function info($id) {
+        
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->set('answer', $this->Answer->findById($id));
+            $this->render('/Elements/answerInfo');
+        }
+    }
 
     public function logUser($action, $object_id, $text = "") {
         UserLogger::write(array('model' => 'answer', 'action' => $action,

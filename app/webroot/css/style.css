@@ -105,7 +105,6 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 }
 
 .party-table > tbody > tr > td {
-	border-top: none;
 	padding: 10px 3px;
 }
 

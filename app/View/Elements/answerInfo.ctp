@@ -1,6 +1,6 @@
 <?php 
 /** 
- * Answer table cell view
+ * Info about one answer view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -24,19 +24,11 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$answerClass = null;
-
-$answerHtml = $this->Html->link($answer['Answer']['answer'],
-      array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link'));
-
-$notApproved = !$answer['Answer']['approved'];
-
-if($answer['Answer']['answer'] == "ja") { $answerClass = 'class="yes"'; } 
-else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="no"'; } 
 ?>
 
-<td <?php echo $answerClass ?>>
-  <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
-    echo $answer['Answer']['answer'];
-  ?></span>
-</td>
+  <b><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id']));?></b>:
+  	<?php echo $this->Html->link($answer['Answer']['answer'],
+      array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link')); ?>
+      <p class="popover-description"><?php echo $answer['Answer']['description']; ?></p>
+      <a href="<?php echo $answer['Answer']['source']; ?>">Källa</a>
+      <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>

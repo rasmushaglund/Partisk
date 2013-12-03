@@ -90,13 +90,6 @@ function capitalizeFirstLetter(string) {
 }
 
 $(document).ready(function() {
-	$('.popover-link').popover({ 
-	    html : true,
-	    placement: "auto",
-	    content: function() {
-	      return $(this).next('.popover-data').html();
-	    }
-	 });
 
 	$('.popover-hover-link').popover({ 
 	    html : true,
@@ -106,6 +99,20 @@ $(document).ready(function() {
 	      return $(this).next('.popover-data').html();
 	    }
 	 });
+         
+         $('.popover-link').bind('click',function() {
+             var $popover = $(this);
+             $.ajax({url:appRoot + "/answers/info/" + $popover.attr('data-id'),success:function(data){
+                $popover.unbind('click');
+                $popover.popover({ 
+                    html : true,
+                    placement: "auto",
+                    content: function() {
+                      return data;
+                    }
+                }).popover('show');
+             }});
+        });
 
 	$('body').on('click', function (e) {
             $('.popover.in').prev().not(e.target).popover('toggle');

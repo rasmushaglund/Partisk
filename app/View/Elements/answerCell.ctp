@@ -36,15 +36,7 @@ else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="table-cel
 else { $answerClass = 'class="table-cell"'; }?>
 
 <div <?php echo $answerClass ?>>
-  <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" href="#"><?php 
+  <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
     echo $answer['Answer']['answer'];
   ?></span>
-  <div class="popover-data">
-  <b><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id']));?></b>:
-  	<?php echo $this->Html->link($answer['Answer']['answer'],
-      array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link')); ?>
-      <p class="popover-description"><?php echo $answer['Answer']['description']; ?></p>
-      <a href="<?php echo $answer['Answer']['source']; ?>">Källa</a>
-      <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $question['Question']['title'])); ?>
-  </div>
 </div>

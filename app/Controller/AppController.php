@@ -61,7 +61,7 @@ class AppController extends Controller {
         $this->Auth->authenticate = 'Blowfish';
 
         $this->Auth->authorize = 'Controller';
-        $this->Auth->allow(array('index', 'view', 'all', '/'));
+        $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
         $this->setAccess($this->Auth->user());
     }
 
