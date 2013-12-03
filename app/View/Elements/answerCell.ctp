@@ -33,7 +33,7 @@ $notApproved = !$answer['Answer']['approved'];
 
 if($answer['Answer']['answer'] == "ja") { $answerClass = 'class="table-cell yes"'; } 
 else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="table-cell no"'; } 
-else { $answerCell = 'class="table-cell"'; }?>
+else { $answerClass = 'class="table-cell"'; }?>
 
 <div <?php echo $answerClass ?>>
   <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" href="#"><?php 
