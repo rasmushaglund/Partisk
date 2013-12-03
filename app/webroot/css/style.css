@@ -86,15 +86,19 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 	vertical-align: middle;
 }
 
-.qa-table td {
+.qa-table .table-head.table-row .table-header {
+    text-align: center;
+}
+
+.qa-table .table-cell {
 	text-align: center;
 }
 
-.party-table tr {
+.party-table .table-row {
 	height: 16px;
 }
 
-.party-table > tbody > tr > th {
+.party-table .table-row .table-header {
 	width: 10px;
 	border-top: none;
 	padding: 2px;
@@ -208,13 +212,9 @@ tr .btn {
     margin-left: 5px;
 }
 
-.table-header-text {
-    width: 300px;
-}
 
 table.qa-table thead th, table.qa-table tbody td {
     text-align: center;
-    vertical-align: middle;
 }
 
 .table {
@@ -475,4 +475,117 @@ text-decoration: underline;
 
 .popover-content .admin-toolbox {
     float: right;
+}
+
+.table {
+    display: table;
+  max-width: 100%;
+  background-color: transparent;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.table-header {
+  text-align: left;
+    display: table-cell;
+}
+
+.table-head.table-row .table-cell {
+    border: 1px solid #ddd;
+    border-top: 0;
+    border-bottom-width: 1px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 2px solid #ddd;
+    padding: 8px;
+}
+
+.table-bordered {
+    border-left: 0;
+    border-right: 0;
+}
+
+.table-striped .table-row:nth-child(even)>.table-cell {
+    background-color: #f9f9f9;
+}
+
+.table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    line-height: 1.428571429;
+}
+
+.qa-table.table-bordered {
+    border-right: none;
+    border-left: 1px solid #ddd;
+}
+
+.qa-table .table-header, .qa-table .table-cell {
+    width: 93px;
+}
+
+.qa-table .table-header-text {
+    width: 300px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table-fixed .table {
+    top: 0px;
+    position: fixed;
+}
+
+.qa-table {
+    margin-bottom: 0px;
+}
+
+.qa-table .table-row.table-head {
+    position: relative;
+    height: 68px;
+}
+
+.table-fixed-header {
+    margin-top: 68px;
+}
+
+.table-head-container .table-bordered  .table-header {
+    border-bottom: 0px;
+}
+
+.table-head-container.table-fixed .table-bordered {
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.table-header-bg {
+    left: 0px;
+    top: 0px;
+    position: fixed;
+    height: 68px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 2px 17px #999;
+    opacity: 0.93;
+}
+
+
+.table-head-container .table-header-bg {
+    display: none;
+    z-index: 100001;
+}
+
+.table-head-container .table {
+    z-index: 100002;
+}
+
+.table-head-container.table-fixed .table-header-bg {
+    display: block;
 }

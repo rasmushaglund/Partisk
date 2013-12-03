@@ -31,6 +31,41 @@ $(document).ready(function() {
 		$(this).find("input:visible").first().focus();
 	});
 	$('.datepicker').datepicker(datepickerArgs);
+        
+        var table = $('.table-with-fixed-header'); 
+        console.log(table.find('.table-row.table-head').height());
+        console.log($(".table-row.table-head").height());
+        var qaTableHead = $('<div class="table-head-container"></div>');
+        var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>'); 
+        var qaTableHeadBg = $('<div class="table-header-bg"></div>');
+        
+        qaTableHead.append(qaTableHeadBg);
+        qaTableHead.append(qaTableHeadRow);
+        
+        table.before(qaTableHead); 
+        $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow); 
+        qaTableHeadRow.find('.table-header-text').innerWidth(table.find('.table-header-text').first().width());
+        var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+        
+        qaTableHeadRow.width(table.width());
+        
+        //table.css({'margin-top': headerHeight -2});
+        console.log(qaTableHeadRow.find('.table-head.table-row'));
+        $(window).scroll(function () {
+            //console.log(qaTableHead.offset());
+            //console.log($(window).scrollTop());
+            
+            if ($(window).scrollTop() >= table.offset().top - headerHeight) {
+                qaTableHead.addClass('table-fixed');
+                table.addClass('table-fixed-header');
+            } else {
+                qaTableHead.removeClass('table-fixed');
+                table.removeClass('table-fixed-header');
+                //console.log("lol");
+            }
+        });
+        
+        console.log($(".table-row.table-head").height());
 });
 
 var openEditModal = function(controller, id) {

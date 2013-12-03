@@ -1,6 +1,6 @@
 <?php 
 /** 
- * Answer cell view
+ * Answer table cell view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -31,11 +31,11 @@ $answerHtml = $this->Html->link($answer['Answer']['answer'],
 
 $notApproved = !$answer['Answer']['approved'];
 
-if($answer['Answer']['answer'] == "ja") { $answerClass = 'class="table-cell yes"'; } 
-else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="table-cell no"'; } 
-else { $answerCell = 'class="table-cell"'; }?>
+if($answer['Answer']['answer'] == "ja") { $answerClass = 'class="yes"'; } 
+else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="no"'; } 
+?>
 
-<div <?php echo $answerClass ?>>
+<td <?php echo $answerClass ?>>
   <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" href="#"><?php 
     echo $answer['Answer']['answer'];
   ?></span>
@@ -47,4 +47,4 @@ else { $answerCell = 'class="table-cell"'; }?>
       <a href="<?php echo $answer['Answer']['source']; ?>">Källa</a>
       <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $question['Question']['title'])); ?>
   </div>
-</div>
+</td>

@@ -47,6 +47,7 @@ if ($current_user) { ?>
 <?php echo $this->element('qa-table', array(
                   'parties' => $parties,
                   'questions' => $questions,
-                  'answers' => $answers
+                  'answers' => $answers,
+                  'fixedHeader' => true
                   )); ?>
 
