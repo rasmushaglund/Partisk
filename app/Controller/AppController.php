@@ -50,6 +50,7 @@ class AppController extends Controller {
     var $canApproveQuestion = false;
     var $canApproveAnswer = false;
     var $canApproveQuiz = false;
+    var $canApproveUser = false;
 
 	public $components = array(
         'Session',
@@ -124,6 +125,7 @@ class AppController extends Controller {
             $this->canEditUser = true;
             $this->canDeleteUser = true;
             $this->canDeleteQuiz = true;
+            $this->canApproveUser = true;
         } 
     }
 
@@ -151,6 +153,7 @@ class AppController extends Controller {
         $this->set('canEditQuiz', $this->canEditQuiz);
         $this->set('canDeleteQuiz', $this->canDeleteQuiz);
         $this->set('canApproveQuiz', $this->canApproveQuiz);
+        $this->set('canApproveUser', $this->canApproveUser);
     }
 
     public function customFlash($message, $status = 'success') {

@@ -176,7 +176,7 @@ class QuestionsController extends AppController {
 
         if ($this->Question->save($data)) {
             if ($this->canAddTag) {
-                $this->addTags($data, $this->Question->getLastInsertId());
+                $this->Question->Tag->addTags($data, $this->Question->getLastInsertId());
             }
             $this->customFlash(__('Frågan skapad.'));
             $this->logUser('add', $this->Question->getLastInsertId(), $data['Question']['title']);

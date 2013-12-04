@@ -29,7 +29,10 @@ $this->Html->addCrumb('Status');
 
 ?>
 
-<h2>Ej godkända frågor</h2>
+<h2>Frågor som väntar på att godkännas</h2>
+<?php if (sizeof($questions) == 0) { ?>
+<p>Du har inga frågor som väntar på att godkännas</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -49,8 +52,12 @@ $this->Html->addCrumb('Status');
     } ?>
     </tbody>
 </table>
+<?php } ?>
 
 <h2>Godkända frågor</h2>
+<?php if (sizeof($questions) == 0) { ?>
+<p>Du har inga ej godkända frågor</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <?php foreach ($questions as $question) { 
         if ($question['Question']['approved'] && !$question['Question']['deleted']) { ?>
@@ -60,8 +67,12 @@ $this->Html->addCrumb('Status');
     <?php }
     } ?>
 </table>
+<?php } ?>
 
 <h2>Borttagna frågor</h2>
+<?php if (sizeof($questions) == 0) { ?>
+<p>Du har inga borttagna frågor</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <?php foreach ($questions as $question) { 
         if ($question['Question']['deleted']) { ?>
@@ -71,3 +82,4 @@ $this->Html->addCrumb('Status');
     <?php }
     } ?>
 </table>
+<?php } ?>

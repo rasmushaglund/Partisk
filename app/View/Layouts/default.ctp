@@ -131,7 +131,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p><i class="fa fa-check-square"></i> Partisk.nu är grundad av <a href="http://www.linkedin.com/in/rasmushaglund">Rasmus Haglund</a> 2013.</p>
+                        <p><i class="fa fa-check-square"></i> Partisk.nu är grundad av <a href="https://github.com/rasmushaglund/">Rasmus Haglund</a> 2013.</p>
                         <p>Läs gärna mer
                             <?php echo $this->Html->link('om sidan',
                                     array('controller' => 'pages', 'action' => 'about')); ?> och

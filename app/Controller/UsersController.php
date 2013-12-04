@@ -105,7 +105,7 @@ class UsersController extends AppController {
         
         $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
         $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
-        $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
+        $this->request->data['User']['role_id'] = 3;
         
         $this->User->set($this->request->data);
         $formValidates = $this->User->validates();
@@ -115,19 +115,33 @@ class UsersController extends AppController {
             $validationErrors = true;
         }
         
-        if(!isset($this->User->validationErrors['username']) && $this->User->findByUsername($this->request->data['User']['username'])){
+        $existingUser = $this->User->find('first', array(
+            'conditions' => array(
+                'User.username' => $this->request->data['User']['username'],
+                'User.deleted' => false
+            )
+        ));
+        
+        if(!isset($this->User->validationErrors['username']) && $existingUser){
             $this->User->validationErrors['username'] = array("Användarnamnet finns redan");
             $validationErrors = true;
         }
         
-        if(!isset($this->User->validationErrors['email']) && $this->User->findByEmail($this->request->data['User']['email'])){
+        $existingMail = $this->User->find('first', array(
+            'conditions' => array(
+                'User.email' => $this->request->data['User']['email'],
+                'User.deleted' => false
+            )
+        ));
+        
+        if(!isset($this->User->validationErrors['email']) && $existingMail){
             $this->User->validationErrors['email'] = array("Mailadressen finns redan");
             $validationErrors = true;
         }
         
         if($formValidates && !$validationErrors) {
             if ($this->User->save($this->request->data)) {
-                $this->customFlash(__('Användaren har skapats.'));
+                $this->customFlash(__('Användaren har skapats och väntar på att godkännas'));
 
                 if ($this->Auth->loggedIn()){
                     $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
@@ -155,12 +169,16 @@ class UsersController extends AppController {
             $this->request->data['User']['updated_by'] = $this->Auth->user('id');
             $this->request->data['User']['updated_date'] = date('c');
 
+            // If no new password is set don't save a empty password
             if ($this->request->is('put') && !$this->request->data['User']['password']) {
                 unset($this->request->data['User']['password']);    
             }
+            
+            // Should not be able to edit username
+            unset($this->request->data['User']['username']);    
 
             if ($this->User->save($this->request->data)) {
-                $this->customFlash(__('Användaren har sparats.'));
+                $this->customFlash(__('Användaren har sparats'));
                 $this->logUser('edit', $this->request->data['User']['id']);
             } else {
                 $this->customFlash(__('Användaren kunde inte sparas.')); 

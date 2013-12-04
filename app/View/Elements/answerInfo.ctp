@@ -25,10 +25,13 @@
  */
 
 ?>
+<?php if (!$answer['Answer']['approved']) { ?>
+<p class="answer-not-approved">Ej godkänd</p>
+<?php } ?>
+<b><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id']));?></b>:
+<?php echo $this->Html->link($answer['Answer']['answer'],
+                array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link')); ?>
+<p class="popover-description"><?php echo $answer['Answer']['description']; ?></p>
+<a href="<?php echo $answer['Answer']['source']; ?>">Källa</a>
+<?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>
 
-  <b><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id']));?></b>:
-  	<?php echo $this->Html->link($answer['Answer']['answer'],
-      array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link')); ?>
-      <p class="popover-description"><?php echo $answer['Answer']['description']; ?></p>
-      <a href="<?php echo $answer['Answer']['source']; ?>">Källa</a>
-      <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>

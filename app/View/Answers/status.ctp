@@ -28,6 +28,9 @@ $this->Html->addCrumb('Status');
 ?>
 
 <h2>Ej godkända svar</h2>
+<?php if (sizeof($answers) == 0) { ?>
+<p>Du har inga svar som väntar på att godkännas</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -45,7 +48,7 @@ $this->Html->addCrumb('Status');
                 <tr>
                     <td><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?></td>
                     <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?></td>
-                    <?php echo $this->element('answerCell', array('answer' => $answer,
+                    <?php echo $this->element('answerTableCell', array('answer' => $answer,
                         'question' => $answer));
                     ?>
                     <td><?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?></td>
@@ -56,8 +59,12 @@ $this->Html->addCrumb('Status');
         ?>
     </tbody>
 </table>
+<?php } ?>
 
 <h2>Godkända svar</h2>
+<?php if (sizeof($answers) == 0) { ?>
+<p>Du har inga godkända svar</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -77,7 +84,7 @@ $this->Html->addCrumb('Status');
                     </td>
                     <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?>
                     </td>
-                    <?php echo $this->element('answerCell', array('answer' => $answer,
+                    <?php echo $this->element('answerTableCell', array('answer' => $answer,
                         'question' => $answer));
                     ?>
                 </tr>
@@ -87,8 +94,12 @@ $this->Html->addCrumb('Status');
         ?>
     </tbody>
 </table>
+<?php } ?>
 
 <h2>Borttagna svar</h2>
+<?php if (sizeof($answers) == 0) { ?>
+<p>Du har inga borttagna svar</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -108,7 +119,7 @@ $this->Html->addCrumb('Status');
                     </td>
                     <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?>
                     </td>
-                <?php echo $this->element('answerCell', array('answer' => $answer,
+                <?php echo $this->element('answerTableCell', array('answer' => $answer,
                     'question' => $answer));
                 ?>
                 </tr>
@@ -118,3 +129,4 @@ $this->Html->addCrumb('Status');
         ?>
     </tbody>
 </table>
+<?php } ?>

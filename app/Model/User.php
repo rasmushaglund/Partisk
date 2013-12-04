@@ -36,8 +36,8 @@ class User extends AppModel {
         ),
         'password' => array(
             'required' => array(
-                'rule' => 'notEmpty',
-                'message' => 'Du måste ange ett lösenord'
+                'rule' => array('minLength', 10),
+                'message' => 'Du måste ange ett lösenord som är minst 10 tecken långt'
             )
         ),
         'email' => array(

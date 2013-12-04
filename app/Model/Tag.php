@@ -105,8 +105,7 @@ class Tag extends AppModel {
     }
 
     // TODO: Refactor this :(
-    public function addTags($data) {
-        $questionId = $data['Question']['id'];
+    public function addTags($data, $questionId) {
         $tagsString = $data['Question']['tags'];
         $tagsArray = array_map('trim', explode(',', strtolower($tagsString)));
 
