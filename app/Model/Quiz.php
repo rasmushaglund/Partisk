@@ -134,6 +134,7 @@ class Quiz extends AppModel {
             
             $questionsResult[$questionId] = array();
             $questionsResult[$questionId]['title'] = $question['Question']['title'];
+            $questionsResult[$questionId]['id'] = $question['Question']['id'];
             $questionsResult[$questionId]['parties'] = array();
 
             $results[$questionId] = array();
@@ -149,11 +150,11 @@ class Quiz extends AppModel {
                 $questionsResult[$questionId]['importance'] = $importance;
 
                 if (isset($matrixQuestion['answers'][$partyId])) {
-                    $partyAnswer = $matrixQuestion['answers'][$partyId]['Answer']['answer'];
+                    $partyAnswer = $matrixQuestion['answers'][$partyId]['Answer'];
      
                     $currentQuestionResult['answer'] = $partyAnswer;
-                    if ($userAnswer !== null && $partyAnswer !== null) {
-                        if ($partyAnswer == $userAnswer) {
+                    if ($userAnswer !== null && $partyAnswer['answer'] !== null) {
+                        if ($partyAnswer['answer'] == $userAnswer) {
                             $currentQuestionResult['points'] = $importance;
                             $partiesResult[$partyId]['points'] += $importance;
                             $partiesResult[$partyId]['plus_points'] += $importance;

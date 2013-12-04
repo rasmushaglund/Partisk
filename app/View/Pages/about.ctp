@@ -28,17 +28,16 @@
 <div class="row">
 	<div class="col-md-6">
 		<h2>Om Partisk.nu</h2>
-                <p>I dag är det väldigt svårt att ta reda på vad ett parti verkligen tycker i en fråga och sedan jämföra det med vad andra partier tycker.
-                    Detta involverar ofta en lång tids unsersökande på partiernas hemsidor, artiklar och politiska manifest. Det kan ta mycket tid och 
+                <p>I dag är det väldigt svårt att ta reda på vad ett parti verkligen tycker i en fråga och sedan jämföra det med vad andra tycker.
+                    Detta involverar ofta en lång tids undersökande på partiernas hemsidor, artiklar och politiska manifest. Det kan ta mycket tid och 
                     energi att själv göra en sammanställning av vad partierna tycker i de frågor man själv tycker är viktiga.</p>
-                <p>Syftet med Partisk.nu är att göra det jobbet åt er. Vi samlar alla stora partiers politiska åsikter och gör de tillgängliga på ett lätt sätt.</p>
-                   
-		<p>Sidan skapades av Rasmus Haglund 2013 med syfte att göra Sveriges största partiers åsikter tillgängliga på ett lätt sätt.
+                    
+		<p>Sidan skapades av Rasmus Haglund 2013 med syfte att göra Sveriges största partiers åsikter tillgängliga på ett överskådligt sätt.
                     Tjänsten drivs helt ideellt och vi har inga planer på att ta betalt för innehåll eller lägga in reklam. Detta för att sidan ska
                     vara så oberoende som möjligt.</p>
 
                 <h3>Öppenhet</h3>
-                <p>Sidan drivs och ägs idag av Rasmus Haglund men all kod är släppt som öppen källkod och kan laddas ner på 
+                <p>Sidan drivs och ägs idag av Rasmus Haglund men tjänsten är släppt som öppen källkod och kan laddas ner på 
                     <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Planen är att även släppa all data i ett öppet format
                 så att vem som helst kan skapa en liknande och eventuellt konkurrerande verksamhet. Datan kommer dels att bli tillgänglig via
                 ett API men så småning om även i andra tillgängliga format.</p>

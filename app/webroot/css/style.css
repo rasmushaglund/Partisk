@@ -365,7 +365,7 @@ h1 .admin-toolbox {
     margin-bottom: 10px;
 }
 
-.matching-answer {
+.matching-answer > span{
     font-weight: bold;
 }
 
@@ -443,6 +443,7 @@ text-decoration: underline;
 
 .popover-description {
     margin-top: 8px;
+    font-weight: 200;
 }
 
 .qa-table th a {

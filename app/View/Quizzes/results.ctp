@@ -159,7 +159,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
     if ($partyPoints['points'] < 0) { $pointsClass = "minus-points"; } ?>
   
     <tr class="<?php echo $pointsClass; ?>">
-    <td><?php echo ucfirst($party['name']); ?></td>
+    <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
     <td><?php echo $partyPoints['matched_questions']; ?> st</td>
     <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
     <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
@@ -178,7 +178,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
   $importance = $question['importance'];
   $title = $question['title'];
   ?>
-  <li><h3><?php echo $title; ?></h3>
+  <li><h3><?php echo $this->Html->link($question['title'], array('controller' => 'questions', 'action' => 'view', $question['id'])); ?></h3>
     <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
     <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
     <table class="table table-striped party-result-table">
@@ -195,7 +195,6 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
 
             
           <?php 
-
             $partyAnswer = $question['parties'][$partyId]['answer'];
             $partyPoints = $question['parties'][$partyId]['points'];
 
@@ -205,16 +204,17 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
             if ($partyPoints < 0) { $pointsClass = "minus-points"; } ?>
 
             <tr class="<?php echo $pointsClass; ?>">
-              <td><?php echo ucfirst($party['name']); ?></td>
+              <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
 
             <?php if ($partyAnswer === null) { ?>
               <td>Inget svar</td>
               <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
             <?php } else if ($question['parties'][$partyId]['answer'] != null) {
-            $sameAnswer = $partyAnswer == $userAnswer;
+            $sameAnswer = $partyAnswer['answer'] == $userAnswer;
             ?>
               <td class="<?php echo $sameAnswer ? 'matching-answer' : '' ?>">
-                <span class="answer"><?php echo ucfirst($partyAnswer); ?></span>
+                  <span class="answer popover-link" data-id="<?php echo $partyAnswer['id']; ?>" href="#"><?php 
+                  echo $partyAnswer['answer'];?></span>
               </td>
               <td>
                 <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></td>
