@@ -30,28 +30,57 @@
 <div class="row">
 	<div class="col-md-6">
 		<h2>Introduktion</h2>
-		<p>Syftet med Partisk.nu är att skapa en objektiv databas över vad Sveriges partier tycker i olika frågor och göra allt tillgängligt på ett överskådligt sätt. Målet är att täcka de viktigaste frågorna och hålla svaren uppdaterade.</p>
-		<p>Vi är alla partiska men målet är att hålla all information på sidan så objektiv som det bara går</p>
-
-		<h2>Bakgrund</h2>
-		<p>Under en lång tid har jag varit intresserad av politik och jag har ofta hört hur vänner och bekanta tycker att politik är svårt eller oåtkomligt. Jag har också fått höra att det är svårt och tidskrävande att ta reda på vad ett parti faktiskt tycker i vissa frågor. Detta har gjort mig motiverad att skapa denna sida och mitt mål är att göra Sveriges partiers åsikter tillgängliga för allmänheten.</p>
+		<p>Vad roligt att du vill hjälpa till att göra Sveriges politik lättare att förstå! Om du ser att det saknas information eller om någonting
+                är oklart hör av dig till oss så ska vi göra allt för att hjälpa till. Vi vill att vi alla lämnar våra politiska övertygelser åt sidan
+                här och försöker skapa en så objektiv bild som möjligt. Alla är vi partiska men vi kan alla göra vårt bästa.</p>
+                <p><b>Vi</b> skapar denna tjänst <b>tillsammans</b>. Detta handlar inte om att vi ska bli kända eller om att tjäna pengar
+                    utan vi vill faktiskt göra världen (i detta fall Sverige) lite bättre. </p>
+                <p>Idag står jag, Rasmus, som ägare av domän och server men om det
+                    i framtiden skulle visa sig att en annan, kanske mer oberoende part vill driva tjänsten är jag öppen för det. Min motivation är
+                    att jag själv vill ha tillgång till tjänsten och att det är roligt.</p>
 
 		<h2>Regler</h2>
-		<p>För att kunna bygga upp denna sida och göra det till en viktig resurs inför valåret 2014 måste vi komma överens om ett antal regler. Att bidra till sidan är ingen rättighet och därför måste alla följa reglerna.</p>
+		<p>För att kunna bygga upp denna sida och göra det till en viktig resurs inför valåret 2014 måste vi komma överens om ett antal regler. 
+                    Att bidra till sidan är ingen rättighet och för att få möjlighet till att göra det måste alla följa reglerna.</p>
 		<ul>
 		    <li>Låna inte ut dina inloggningsuppgifter till någon annan. Om kontot används för att förstöra stängs kontot av, oavsett anledning.</li>
-		    <li>Låt inte en politisk agenda styra hur du formulerar frågor eller svar.</li>
+		    <li>Låt inte en politisk agenda styra hur du formulerar frågor eller svar. </li>
 		</ul>
+                
+                <h2>Frågor</h2>
+                <p>De flesta frågor är skrivna som ett påstående. Detta för att inte alla frågor ska börja på samma sätt, t ex med "Ska". 
+                   Frågorna bör inte vara för långa och bör inte heller ha invecklade negationer eller liknande. Försök att hålla frågorna
+                   relativt enkla och skriv istället en förklarande text till frågan.</p>
+                
+                
+                <h2>Svar</h2>
+                <p>Idag stödjs endast svar på formen ja/nej. Det finns inget kanske eller "ja, men...". Det kan tänkas att det kommer fler alternativ i 
+                   framtiden, men för att göra allt enklare är det löst på det sättet idag.</p>
+                <p>Varje svar måste ha en källa och alla svar ska ha ett citat eller en sammanfattning av källan. Sammanfattningens uppgift är att
+                   visa partiets åsikt i frågan utan att besökaren ska behöva gå in på källan och titta vad som egentligen är sagt.</p>
+                <p>En viktig sak att tänka på är att detta inte är en avhandlig eller ett vetenskapligt verk. Partiet behöver inte explicit sagt ja/nej
+                   för att vi ska lägga in ett svar. Om man förstår av texten att ett parti tycker på ett visst sätt så skriver vi det. Utifall de 
+                   inte håller med om att de har den åsikten får de hänvisa till andra källor som styrker deras egentliga åsikt.</p>
+                <p><b>Exempel:</b> På frågan om Centerpartiet vill att barnkonventionen blir en Svensk lag svarar de: </p>
+                <p><i>"Centerpartiet menar att 
+                        barnkonventionen ska vara den naturliga utgångspunkten i allt arbete som rör barn men att den bästa metoden, än så länge, 
+                        är en anpassning och skärpning av de svenska lagarna d.v.s. den nuvarande transformeringsmetoden."</i></p>
+                        <p>Där skriver de att den bästa lösningen är att skärpa befintliga lagar, och menar alltså implicit ett <b>nej</b> på 
+                        frågan att göra barnkonvantionen till Svensk lag.</p>
+                
+                <h2>Rättigheter</h2>
+                <p>En vanlig användare (contributor) kan skapa frågor och svar, samt ändra och ta bort allt användaren skapat så länge innehållet ännu inte
+                    blivit godkänt. En Contributor kan ej lägga till taggar samt skapa/ändra partier/användare.</p>
+                <p>Moderatorernas uppgift är att godkänna vilka frågor och svar som ska synas för de som ej är inloggade. De granskar alltså alla frågor
+                    och svar innan de skickas ut till alla. De kan även ändra allas frågor/svar och lägga till/ta bort taggar.</p>
+                <p>En administratör kan göra allt, kort och gott. Administratören lägger till och godkänner partier och användare.</p>
+                
+                
 
 		<h2>Ägandeskap</h2>
 		<p>Jag vill vara noga med att poängtera att vi skapar denna sida tillsammans och ska kunna forma den som vi vill. Därför kommer alla som bidrar få tillgång till all data, och i framtiden även källkoden för hela systemet. </p>
-		<h3>Data</h3>
-		<p>Datan som läggs in på sidan ägs av alla vi som bidrar till sidan. Ni kan när som helst begära ut alla data som hör till sidan förutom saker som användaruppgifter, feedback och annan information som hör specifikt till Partisk.nu. För tillfället har endast de som hjälper till access till datan men när sidan lanseras kommer det finnas ett publikt api där vem som helst kan ta del av all data.</p>
-		<h3>Källkod</h3>
-		<p>Hela källkoden för Partisk.nu kommer att släppas fri under en fri licens (exampelvis GPL, MIT eller Apache) efter att sidan lanserats publikt. Detta betyder att alla som vill kan med hjälp av datan skapa en helt egen version av sidan. Anledningen till att källkoden inte släpps redan nu är att fokus ligger på att få igång sidan och se hur den tas emot av allmänheten. När sidan fungerar som vi vill och fungerar mer eller mindre av sig själv kan vi lägga ner energi på att </p>
-		<h3>Övrigt</h3>
-		<p>För tillfället äger jag som initiativtagare domänen Partisk.nu men jag är öppen för att en extern, oberoende part skulle kunna ta över den i framtiden.</p>
-
+		<p>Ni kan läsa mer om sidans öppna källkod och data <?php echo $this->Html->link('här', array('controller' => 'pages', 'action' => 'about')); ?> </p>
+                
 		<h2>Om Rasmus</h2>
 		<p>Jag är en entreprenör/utvecklare som jobbar som IT-konsult i Uppsala. </p>
 		<p>Rent ideologiskt har jag svårt att placera mig i ett fack. Jag har deltagit i 2 riksdagsval och 1 EU-val där jag röstat på 
@@ -59,6 +88,8 @@
 		<?php echo $this->Html->link('Folkpartiet', array('controller' => 'parties', 'action' => 'view', 3)); ?>, 
 		<?php echo $this->Html->link('Piratpartiet', array('controller' => 'parties', 'action' => 'view', 4)); ?>, 
 		<?php echo $this->Html->link('Vänsterpartiet', array('controller' => 'parties', 'action' => 'view', 7)); ?> och 
-		<?php echo $this->Html->link('Socialdemokraterna', array('controller' => 'parties', 'action' => 'view', 1)); ?>. Alla är vi partiska, men jag hoppas att jag kan vara så oberoende som möjligt. Under det senaste året har jag engagerat mig i Piratpartiet i och med de integritetsfrågor som dykt upp under 2013.</p>
+		<?php echo $this->Html->link('Socialdemokraterna', array('controller' => 'parties', 'action' => 'view', 1)); ?>. 
+                Alla är vi partiska, men jag hoppas att jag kan vara så oberoende som möjligt. Under det senaste året har jag engagerat mig i 
+		<?php echo $this->Html->link('Piratpartiet', array('controller' => 'parties', 'action' => 'view', 4)); ?> i och med de integritetsfrågor som dykt upp under 2013.</p>
 	</div>
 </div>

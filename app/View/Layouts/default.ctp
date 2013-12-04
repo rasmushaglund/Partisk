@@ -87,6 +87,8 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#"><i class="fa fa-gears"></i> Administration</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><?php echo $this->Html->link('<i class="fa fa-info-circle"></i> Information', array('controller' => 'users', 'action' => 'start'), array('escape' => false));
+                    ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-group"></i> Användare', array('controller' => 'users', 'action' => 'index'), array('escape' => false));
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-thumbs-o-up"></i> Dina frågor', array('controller' => 'questions', 'action' => 'status'), array('escape' => false));
