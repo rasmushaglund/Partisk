@@ -51,7 +51,7 @@
 		<h2>Nya frågor</h2>
 		<table class="table table-bordered table-striped">
                     <thead>
-                        <tr><th>Datum</th><th>Fråga</th></tr>
+                        <tr><th class="table-date-column">Datum</th><th>Fråga</th></tr>
                     </thead>
                     <tbody>
 		<?php foreach ($questions as $question): ?>

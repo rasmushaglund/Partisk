@@ -180,7 +180,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
   ?>
   <li><h3><?php echo $title; ?></h3>
     <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
-    <p>Viktighet (1-3): <b><?php echo $importance; ?></b></p>
+    <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
     <table class="table table-striped party-result-table">
       <thead>
         <th>Parti</th>
@@ -207,7 +207,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
             <tr class="<?php echo $pointsClass; ?>">
               <td><?php echo ucfirst($party['name']); ?></td>
 
-            <?php if ($userAnswer === null) { ?>
+            <?php if ($partyAnswer === null) { ?>
               <td>Inget svar</td>
               <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
             <?php } else if ($question['parties'][$partyId]['answer'] != null) {

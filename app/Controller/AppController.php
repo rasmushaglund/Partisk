@@ -58,8 +58,19 @@ class AppController extends Controller {
 
     public function beforeFilter() {
         // Enable Blowfish hashing with salt
-        $this->Auth->authenticate = 'Blowfish';
-
+        /*$this->Auth->authenticate = 'Blowfish';
+        
+        $this->Auth->scope = array('User.deleted' => false, 'User.approved' => true);*/
+        $this->Auth->authenticate = array(
+            AuthComponent::ALL => array(
+                'userModel' => 'User',
+                'scope' => array(
+                        'User.approved' => 1,
+                        'User.deleted' => 0
+                )
+            ),
+            'Blowfish'
+        );
         $this->Auth->authorize = 'Controller';
         $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
         $this->setAccess($this->Auth->user());

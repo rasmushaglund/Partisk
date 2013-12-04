@@ -69,7 +69,9 @@ class Quiz extends AppModel {
         $partiesModel = ClassRegistry::init('Party');
 
         $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quizSession);
-        $answers = $answerModel->getAnswers(null, $questionIds, false, false); 
+        
+        $answersConditions = array('deleted' => false, 'approved' => true, 'questionId' => $questionIds);
+        $answers = $answerModel->getAnswers($answersConditions); 
 
         $questionModel->recursive = -1;  
         $questions = $questionModel->find('all', array('conditions' => array('Question.id' => $questionIds)));

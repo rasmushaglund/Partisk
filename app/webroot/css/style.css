@@ -292,6 +292,10 @@ select.form-control {
     width: auto;
 }
 
+select {
+    max-width: 100%;
+}
+
 /* Hack to solve https://github.com/twbs/bootstrap/issues/9855 */
 .modal-open #feedbacksModalLink {
     right: 20px;
@@ -587,4 +591,8 @@ text-decoration: underline;
 
 .table-head-container.table-fixed .table-header-bg {
     display: block;
+}
+
+.table-date-column {
+    width: 108px;
 }

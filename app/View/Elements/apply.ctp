@@ -28,7 +28,7 @@
     $roles = $this->requestAction('roles/all');
 ?>
     <?php echo $this->Bootstrap->create('User', 
-            array('modal' => true, 'label' => "Ansök om konto", 'icon' => 'null', 'class' => "btn btn-link" )); ?>
+            array('modal' => true, 'label' => "Ansök om konto", 'icon' => 'fa fa-plus', 'class' => "btn btn-info" )); ?>
     
 	
 	<?php echo $this->Bootstrap->input('username', 

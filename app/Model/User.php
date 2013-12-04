@@ -30,14 +30,24 @@ class User extends AppModel {
     public $validate = array(
         'username' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => 'notEmpty',
                 'message' => 'Du måste ange ett användarnamn'
             )
         ),
         'password' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => 'notEmpty',
                 'message' => 'Du måste ange ett lösenord'
+            )
+        ),
+        'email' => array(
+            'rule' => array('email', false),
+            'message' => 'Ogiltig email'
+         ),
+        'description' => array(
+            'between' => array(
+                'rule' => array('minLength', 10),
+                'message' => 'Skriv in en lite mer utförlig motivering tack'
             )
         ),
         'role' => array(
