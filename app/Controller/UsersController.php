@@ -99,6 +99,7 @@ class UsersController extends AppController {
         
     }
     
+<<<<<<< HEAD
     public function add() {
         $validationErrors = false;
         
@@ -155,6 +156,30 @@ class UsersController extends AppController {
         $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
         $this->Session->write('formData', $this->data);
 
+=======
+  
+    
+  
+    
+    public function add() {
+      
+        $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
+        $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
+        $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
+        if ($this->User->save($this->request->data )) {
+            $this->customFlash(__('Användaren har skapats.'));
+
+            if ($this->Auth->loggedIn()){
+                $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
+            }
+
+        } else {
+            $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
+            $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
+            $this->Session->write('formData', $this->data);
+        }
+        
+>>>>>>> 4071b99bc9bd839e03889a494a52ba995129728e
         
         return $this->redirect($this->referer());
     }

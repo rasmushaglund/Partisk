@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 25, 2013 at 05:19 PM
+-- Generation Time: Nov 26, 2013 at 08:26 PM
 -- Server version: 5.5.34-0ubuntu0.13.10.1
 -- PHP Version: 5.5.3-1ubuntu2
 
@@ -287,7 +287,7 @@ INSERT INTO `parties` (`id`, `name`, `website`, `color`, `created_by`, `deleted`
 (1, 'socialdemokraterna', 'http://www.socialdemokraterna.se', '#ed1b34', 2, 0, 30.7, 24.4, 2, '2013-10-21 12:58:30', '2013-10-21 20:36:55', ''),
 (2, 'moderaterna', 'http://www.modarat.se', '#66bee6', 2, 0, 30.1, 18.8, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
 (3, 'folkpartiet', 'http://www.folkpartiet.se', '#004990', 2, 0, 7.1, 13.6, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
-(4, 'piratpartiet', 'http://www.piratpartiet.se', '#660087', 2, 0, 0.7, 7.1, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
+(4, 'piratpartiet', 'http://www.piratpartiet.se', '#660087', 2, 0, 0.7, 7.1, 2, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
 (5, 'centerpartiet', 'http://www.centerpartiet.se', '#099a54', 2, 0, 6.6, 5.5, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
 (6, 'kristdemokraterna', 'http://www.kristdemokraterna.se', '#005aa9', 2, 0, 5.6, 4.7, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
 (7, 'vänsterpartiet', 'http://www.vansterpartiet.se', '#ed1c24', 2, 0, 5.6, 5.7, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL),
@@ -629,7 +629,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'admin'),
 (2, 'moderator'),
 (3, 'contributor'),
-(4, 'unactivated');
+(4, 'ej godkänd');
 
 -- --------------------------------------------------------
 
@@ -734,7 +734,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `description` text,
   `email` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `users`
@@ -761,7 +761,7 @@ CREATE TABLE IF NOT EXISTS `user_logs` (
   `text` text NOT NULL,
   `ip` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 --
 -- Dumping data for table `user_logs`
@@ -814,7 +814,16 @@ INSERT INTO `user_logs` (`id`, `user_id`, `model`, `action`, `object_id`, `date`
 (44, 2, 'question', 'delete', 83, '2013-11-25 13:24:32', '', '127.0.0.1'),
 (45, 2, 'user', 'edit', 18, '2013-11-25 17:16:20', '', '127.0.0.1'),
 (46, 2, 'user', 'edit', 18, '2013-11-25 17:17:03', '', '127.0.0.1'),
-(47, 2, 'user', 'add', 19, '2013-11-25 17:17:45', 'test2', '127.0.0.1');
+(47, 2, 'user', 'add', 19, '2013-11-25 17:17:45', 'test2', '127.0.0.1'),
+(48, 2, 'question', 'delete', 68, '2013-11-25 18:08:20', '', '127.0.0.1'),
+(49, 2, 'question', 'delete', 70, '2013-11-25 18:08:29', '', '127.0.0.1'),
+(50, 2, 'party', 'delete', 4, '2013-11-25 18:09:06', '', '127.0.0.1'),
+(51, 2, 'user', 'edit', 7, '2013-11-26 08:38:52', '', '127.0.0.1'),
+(52, 2, 'user', 'edit', 7, '2013-11-26 08:39:17', '', '127.0.0.1'),
+(53, 2, 'user', 'edit', 8, '2013-11-26 19:06:39', '', '127.0.0.1'),
+(54, 2, 'user', 'edit', 8, '2013-11-26 19:07:01', '', '127.0.0.1'),
+(55, 2, 'user', 'delete', 7, '2013-11-26 19:09:35', '', '127.0.0.1'),
+(56, 2, 'user', 'delete', 8, '2013-11-26 19:09:38', '', '127.0.0.1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -26,9 +26,12 @@
 
 App::uses('AuthComponent', 'Controller/Component');
 
-class User extends AppModel {    
+class User extends AppModel {
+    
+    
     public $validate = array(
         'username' => array(
+<<<<<<< HEAD
             'required' => array(
                 'rule' => 'notEmpty',
                 'message' => 'Du måste ange ett användarnamn'
@@ -49,13 +52,39 @@ class User extends AppModel {
                 'rule' => array('minLength', 10),
                 'message' => 'Skriv in en lite mer utförlig motivering tack'
             )
-        ),
-        'role' => array(
-            'valid' => array(
-                'rule' => array('inList', array('admin', 'contributor', 'moderator')),
-                'message' => 'Du måste ange en giltig roll',
-                'allowEmpty' => false
+=======
+            'ruleEmpty' => array(
+                'rule' => 'alphaNumeric',
+                'allowEmpty' => false,
+                'message' => 'Fältet får inte vara tomt'
+            ),
+            'ruleUniqe' => array(
+                'rule' => 'isUnique',
+                'message' => 'Användarnamnet är redan taget'
             )
+        ),
+        'password' => array(
+            'rule' => array('minLength',8),
+            'allowEmpty'=> false,
+            'message' => 'Du måste ange ett lösenord med minst åtta tecken'
+>>>>>>> 4071b99bc9bd839e03889a494a52ba995129728e
+        ),
+        'confirmPassword'  => array(
+           'match' => array(
+               'rule' => array('match','password'),
+               'message' => 'Lösenorden matchar inte'
+           )
+           
+        ),
+        
+        'email' => array(
+            'rule' => array('email',true),
+            'allowEmpty' => false,
+            'message' => 'Du måste ange en giltig E-Postadress'      
+        ),
+        'description' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Fältet får inte vara tomt'
         )
     );
 
@@ -72,6 +101,25 @@ class User extends AppModel {
             'fields' => array('id', 'username')
         )
     );
+    //From Wuilliam Lacruz, http://stackoverflow.com/questions/3760663/cakephp-password-validation/3766745#3766745
+    public function match($check, $with) {
+    // Getting the keys of the parent field
+    foreach ($check as $k => $v) {
+        $$k = $v;
+    }
+
+    // Removing blank fields
+    $check = trim($$k);
+    $with = trim($this->data[$this->name][$with]);
+
+    // If both arent empty we compare and return true or false
+    if (!empty($check) && !empty($with)) {
+        return $check == $with;
+    }
+
+    // Return false, some fields is empty
+    return false;
+}
 
     public function beforeSave($options = array()) {
         if (isset($this->data[$this->alias]['password'])) {
