@@ -99,68 +99,6 @@ class UsersController extends AppController {
         
     }
     
-<<<<<<< HEAD
-    public function add() {
-        $validationErrors = false;
-        
-        
-        $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
-        $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
-        $this->request->data['User']['role_id'] = 3;
-        
-        $this->User->set($this->request->data);
-        $formValidates = $this->User->validates();
-        
-        if($this->data['User']['password'] !== $this->data['User']['confirmPassword']) {
-            $this->User->validationErrors['password'] = array("Lösenorden stämmer inte överens");
-            $validationErrors = true;
-        }
-        
-        $existingUser = $this->User->find('first', array(
-            'conditions' => array(
-                'User.username' => $this->request->data['User']['username'],
-                'User.deleted' => false
-            )
-        ));
-        
-        if(!isset($this->User->validationErrors['username']) && $existingUser){
-            $this->User->validationErrors['username'] = array("Användarnamnet finns redan");
-            $validationErrors = true;
-        }
-        
-        $existingMail = $this->User->find('first', array(
-            'conditions' => array(
-                'User.email' => $this->request->data['User']['email'],
-                'User.deleted' => false
-            )
-        ));
-        
-        if(!isset($this->User->validationErrors['email']) && $existingMail){
-            $this->User->validationErrors['email'] = array("Mailadressen finns redan");
-            $validationErrors = true;
-        }
-        
-        if($formValidates && !$validationErrors) {
-            if ($this->User->save($this->request->data)) {
-                $this->customFlash(__('Användaren har skapats och väntar på att godkännas'));
-
-                if ($this->Auth->loggedIn()){
-                    $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
-                }
-                
-                return $this->redirect($this->referer());
-            }
-        }
-        
-        $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
-        $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
-        $this->Session->write('formData', $this->data);
-
-=======
-  
-    
-  
-    
     public function add() {
       
         $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
@@ -178,8 +116,6 @@ class UsersController extends AppController {
             $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
             $this->Session->write('formData', $this->data);
         }
-        
->>>>>>> 4071b99bc9bd839e03889a494a52ba995129728e
         
         return $this->redirect($this->referer());
     }
