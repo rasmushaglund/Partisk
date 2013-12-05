@@ -100,13 +100,13 @@ class UsersController extends AppController {
     }
    
     public function add() {
-      )
+      
         $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
         $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
         $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
         
         if ($this->User->save($this->request->data )) {
-            $this->customFlash(__('Användaren har skapats.'));
+            $this->customFlash(__('Användaren har skapats och väntar på att bli godkänd.'));
 
             if ($this->Auth->loggedIn()){
                 $this->logUser('add', $this->User->getLastInsertId(), $this->request->data['User']['username']);           
@@ -203,12 +203,7 @@ class UsersController extends AppController {
 
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
-
-        if ($role == 'moderator' && in_array($this->action, array('start'))) {
-            return true;
-        }
-
-        if ($role == 'contributor' && in_array($this->action, array('start'))) {
+        if (($role == 'moderator' || $role == 'contributor' || $role == 'inactive') && in_array($this->action, array('start'))) {
             return true;
         }
         

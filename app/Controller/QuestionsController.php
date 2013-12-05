@@ -164,6 +164,10 @@ class QuestionsController extends AppController {
         if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
+        
+        if ($role == 'inactive' && in_array($this->action, array('status'))) {
+            return true;
+        }
 
         return parent::isAuthorized($user);
     }

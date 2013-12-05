@@ -180,6 +180,10 @@ class AnswersController extends AppController {
         if (in_array($role, array('moderator', 'contributor')) && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
+        
+        if ($role == 'inactive' && in_array($this->action, array('status'))) {
+            return true;
+        }
 
         return parent::isAuthorized($user);
     }

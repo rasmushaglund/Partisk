@@ -461,7 +461,15 @@ class QuizzesController extends AppController {
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if ($role == 'moderator' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion', 'add', 'delete'))) {
+        if ($role == 'moderator' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion', 'add', 'delete', 'status'))) {
+            return true;
+        }
+        
+        if ($role == 'contributor' && in_array($this->action, array('status'))) {
+            return true;
+        }
+        
+        if ($role == 'inactive' && in_array($this->action, array('status'))) {
             return true;
         }
 

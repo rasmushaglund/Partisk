@@ -30,6 +30,9 @@ $this->Html->addCrumb('Status');
 ?>
 
 <h2>Ej godkända quizzer</h2>
+<?php if (sizeof($quizzes) == 0) { ?>
+<p>Du har inga quizzer som väntar på att godkännas</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -54,8 +57,12 @@ $this->Html->addCrumb('Status');
     <?php }
     } ?>
 </table>
+<?php } ?>
 
 <h2>Godkända quizzer</h2>
+<?php if (sizeof($quizzes) == 0) { ?>
+<p>Du har inga godkända quizzer</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <?php foreach ($quizzes as $quiz) { 
         if ($quiz['Quiz']['approved'] && !$quiz['Quiz']['deleted']) { ?>
@@ -65,8 +72,12 @@ $this->Html->addCrumb('Status');
     <?php }
     } ?>
 </table>
+<?php } ?>
 
 <h2>Borttagna quizzer</h2>
+<?php if (sizeof($quizzes) == 0) { ?>
+<p>Du har inga borttagna quizzer</p>
+<?php } else { ?>
 <table class="table table-bordered table-striped">
     <?php foreach ($quizzes as $quiz) { 
         if ($quiz['Quiz']['deleted']) { ?>
@@ -76,3 +87,4 @@ $this->Html->addCrumb('Status');
     <?php }
     } ?>
 </table>
+<?php } ?>
