@@ -30,6 +30,7 @@ class BootstrapHelper extends AppHelper {
 
     var $helpers = array('Session');
     var $model;
+    var $mode;
 
     public function input($field, $args = null) {
         if ($args == null) {
@@ -38,6 +39,7 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
+        $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (!isset($args['value'])) { $args['value'] = null; }
@@ -55,6 +57,7 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
+        $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model) . ucfirst($field);
 
         if (!isset($args['value'])) {
@@ -71,6 +74,7 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
+        $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model) . ucfirst($field);
 
         if (!isset($args['label'])) {
@@ -87,12 +91,13 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
+        $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (empty($args['value'])) { 
-            $args['date'] = null; 
+            $args['value'] = null; 
         } else { 
-            $args['date'] = date('Y-m-d', strtotime($args['value']));
+            $args['value'] = date('Y-m-d', strtotime($args['value']));
         }
 
         if (!isset($args['label'])) {
@@ -109,6 +114,7 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['model'] = $this->model;
+        $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model).ucfirst($field);
         
         if (!isset($args['value'])) { $args['value'] = null; }
@@ -125,6 +131,7 @@ class BootstrapHelper extends AppHelper {
 
         $args['field'] = $field;
         $args['modelField'] = $modelField;
+        $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model) . ucfirst($field);
         
         if (!isset($args['options'])) {
@@ -153,6 +160,7 @@ class BootstrapHelper extends AppHelper {
         }
 
         $this->model = $model;
+        $this->mode = isset($args['editMode']) && $args['editMode'] ? 'update' : 'create';
 
         $args['controller'] = strtolower(Inflector::pluralize($model));
         $args['model'] = $model;

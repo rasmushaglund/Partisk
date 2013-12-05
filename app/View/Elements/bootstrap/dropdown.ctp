@@ -24,8 +24,10 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-   	$error = isset($validationErrors) && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
-        $postData = isset($formData) && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
+   	
+        $sameMode = isset($validationErrors) && $validationErrors['mode'] == $mode;
+   	$error = $sameMode && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
+        $postData = isset($formData) && $sameMode && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
         
         $value = isset($value) ? $value : $postData;
         //debug($value);

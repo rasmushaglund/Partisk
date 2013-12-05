@@ -27,17 +27,34 @@
 class Answer extends AppModel {
 	public $validate = array(
         'answer' => array(
-            'rule' => 'notEmpty'
+            'ruleEmpty' => array(
+                'rule' => 'alphaNumeric',
+                'allowEmpty' => false,
+                'message' => 'Du måste skriva ett svar')
         ),
         'question_id' => array(
-            'rule' => 'notEmpty'
+            'ruleEmpty' => array(
+                'rule' => 'numeric',
+                'allowEmpty' => false,
+                'message' => 'Du måste välja en fråga')
         ),
         'party_id' => array(
-            'rule' => 'notEmpty'
+            'ruleEmpty' => array(
+                'rule' => 'numeric',
+                'allowEmpty' => false,
+                'message' => 'Du måste välja ett parti')
         ),
         'source' => array(
-            'rule' => 'notEmpty'
-        )
+            'ruleEmpty' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Du måste ange källa')
+        ),
+        'date' => array(  
+            'ruleDate' => array(
+                'rule' => 'date',
+                'message' => 'Du måste ange ett datum för källan'
+            )
+        ) 
     );
     
     public $belongsTo = array(

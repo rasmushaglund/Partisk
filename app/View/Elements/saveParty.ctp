@@ -33,7 +33,7 @@ if ($canAddParty) { ?>
 	?>
 
 	<?php echo $this->Bootstrap->create('Party', array('modal' => true, 'label' => $editMode ? "Ändra parti" : "Lägg till parti", 
-	              'id' => $editMode ? $party['Party']['id'] : null, 'ajax' => $ajaxMode)); ?>
+	              'id' => $editMode ? $party['Party']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
 	<?php echo $this->Bootstrap->input('name', array('label' => 'Namn', 'placeholder' => 'Namnet på partiet',
 				 'value' => $editMode ? $party['Party']['name'] : null)); ?>
 	<?php echo $this->Bootstrap->input('website', array('label' => 'Hemsida', 'placeholder' => 'http://www.exempelparti.se', 

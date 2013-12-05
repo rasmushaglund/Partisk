@@ -25,7 +25,20 @@
  */
 
 class Quiz extends AppModel {
-    
+    public $validate = array(
+        'name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Du måste ange ett namn för quizen'
+            )
+        ),
+        'description' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Du måste ange en hemsida för partiet'
+            )
+        )
+    );
     
     const NOT_IMPORTANT_POINTS = 1;
     const IMPORTANT_POINTS = 3;
@@ -79,7 +92,8 @@ class Quiz extends AppModel {
 
         $partiesModel->recursive = -1;
         $parties = $partiesModel->find('all', array(
-        		'fields' => array('id')
+        		'fields' => array('id'),
+                        'conditions' => array('deleted' => false)
         	));
 
         $results = array();

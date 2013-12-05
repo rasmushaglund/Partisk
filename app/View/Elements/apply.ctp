@@ -24,13 +24,10 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
  ?>
-<?php
-    $roles = $this->requestAction('roles/all');
-?>
+
     <?php echo $this->Bootstrap->create('User', 
             array('modal' => true, 'label' => "Ansök om konto", 'icon' => 'fa fa-plus', 'class' => "btn btn-info" )); ?>
     
-	
 	<?php echo $this->Bootstrap->input('username', 
                 array('label' => 'Användarnamn' , 'placeholder' => 'Användarnamn')); ?>
 	<?php echo $this->Bootstrap->input('email', 

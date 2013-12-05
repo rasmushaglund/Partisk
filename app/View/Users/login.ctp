@@ -27,7 +27,10 @@
 $this->Html->addCrumb('Logga in');
 
 ?>
-
+<p>Här kan du logga in för att lägga till frågor och svar till tjänsten. Om du inte har ett konto kan du ansöka om att få tillgång till administrationsdelen
+    av sidan. Tänk på att motivera varför du vill hjälpa till med sidan.</p>
+<?php  echo $this->element('apply'); ?>
+<br /><br />
 <form action="<?php Router::url(array('controller' => 'users', 'action' => 'login')); ?>" class="alert alert-info form-box" id="UserLoginForm" method="post" accept-charset="utf-8" role="form">
      <div style="display:none;">
      <input type="hidden" name="_method" value="POST"></div>    
@@ -40,5 +43,3 @@ $this->Html->addCrumb('Logga in');
      <input name="data[User][password]" type="password" id="UserPassword" required="required" class="form-control"></div>    
      <input type="submit" value="Logga in" class="btn btn-default">
 </form>
-
-<?php  echo $this->element('apply'); ?>

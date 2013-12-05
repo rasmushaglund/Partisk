@@ -33,7 +33,7 @@ if ($canAddTag) { ?>
 	?>
 
     <?php echo $this->Bootstrap->create('Tag', array('modal' => true, 'label' => $editMode ? "Ändra tagg" : "Lägg till tagg", 
-                    'id' => $editMode ? $tag['Tag']['id'] : null, 'ajax' => $ajaxMode)); ?>
+                    'id' => $editMode ? $tag['Tag']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
     <?php echo $this->Bootstrap->input('name', array('label' => 'Taggnamn', 'placeholder' => 'Namnet på taggen',
     				 'value' => $editMode ? $tag['Tag']['name'] : null)); ?>
     <?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>

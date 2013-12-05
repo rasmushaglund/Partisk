@@ -24,8 +24,10 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-   	$error = isset($validationErrors) && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
-        $postData = isset($formData) && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
+   	
+        $sameMode = isset($validationErrors) && $validationErrors['mode'] == $mode;
+   	$error = $sameMode && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
+        $postData = isset($formData) && $sameMode && $sameMode && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
         
         $value = isset($value) ? $value : $postData;
 ?>
@@ -35,7 +37,7 @@
     <?php if ($error) { ?>
     <p class="error"><?php echo $error; ?></p>
     <?php } ?>
-	<input value="<?php echo $date; ?>" name="<?php echo "data[$model][$field]"; ?>" 
+	<input value="<?php echo $value; ?>" name="<?php echo "data[$model][$field]"; ?>" 
 		placeholder="<?php echo $placeholder; ?>" type="text" class="form-control datepicker">
 </div>
 

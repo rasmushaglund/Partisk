@@ -78,7 +78,7 @@ class QuizzesController extends AppController {
             $this->logUser('add', $this->Quiz->getLastInsertId(), $data['Quiz']['name']);
         } else {
             $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');            
-            $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors));
+            $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors, 'mode' => 'create'));
             $this->Session->write('formData', $this->data);
         }
 
@@ -384,7 +384,14 @@ class QuizzesController extends AppController {
         }
 
         if ($this->request->is('post') || $this->request->is('put')) {
-            $this->saveQuiz($this->request->data);
+            if ($this->saveQuiz($this->request->data)) {
+                $this->customFlash(__('Quizzen har sparats.'));
+                $this->logUser('edit', $this->request->data['Quiz']['id']);
+            } else {
+                $this->customFlash(__('Quizzen kunde inte sparas.'), 'danger'); 
+                $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors, 'mode' => 'update'));
+                $this->Session->write('formData', $this->data);   
+            }
             return $this->redirect($this->referer());
         } 
 

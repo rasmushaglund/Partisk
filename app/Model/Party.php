@@ -25,11 +25,17 @@
  */
 
 class Party extends AppModel {
-	public $validate = array(
+    public $validate = array(
         'name' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Du måste ange ett partinamn'
+            )
+        ),
+        'website' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Du måste ange en hemsida'
             )
         )
     );
@@ -62,7 +68,8 @@ class Party extends AppModel {
         $result = array();
 
         $parties = $this->find('all', array(
-                'fields' => array('id', 'name', 'color')
+                'fields' => array('id', 'name', 'color'),
+                'conditions' => array('deleted' => false)
             ));
 
         foreach ($parties as $party) {

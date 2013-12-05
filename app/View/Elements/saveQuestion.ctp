@@ -37,7 +37,7 @@ if ($canAddQuestion) { ?>
 
 	?>
     <?php echo $this->Bootstrap->create('Question', array('modal' => true, 'label' => $editMode ? "Ändra fråga" : "Lägg till fråga", 
-                    'id' => $editMode ? $question['Question']['id'] : null, 'ajax' => $ajaxMode)); ?>
+                    'id' => $editMode ? $question['Question']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
     <?php echo $this->Bootstrap->input('title', array('label' => 'Fråga', 'placeholder' => 'Frågan',
                     'value' => $editMode ? $question['Question']['title'] : '')); ?>
                   

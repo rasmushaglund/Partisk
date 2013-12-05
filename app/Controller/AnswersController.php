@@ -82,7 +82,7 @@ class AnswersController extends AppController {
                 $this->logUser('add', $this->Answer->getLastInsertId(), $this->request->data['Answer']['answer']);
             } else {
                 $this->customFlash(__('Kunde inte skapa svaret.'), 'danger');
-                $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors));
+                $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors, 'mode' => 'create'));
                 $this->Session->write('formData', $this->data);
             }
         }
@@ -117,6 +117,8 @@ class AnswersController extends AppController {
                 $this->logUser('edit', $id);
             } else {
                 $this->customFlash(__('Kunde inte uppdatera svaret.'), 'danger');
+                $this->Session->write('validationErrors', array('Answer' => $this->Question->validationErrors, 'mode' => 'update'));
+                $this->Session->write('formData', $this->data);
             }
 
            return $this->redirect($this->referer());

@@ -98,12 +98,13 @@ class UsersController extends AppController {
         
         
     }
-    
+   
     public function add() {
-      
+      )
         $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
         $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
         $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
+        
         if ($this->User->save($this->request->data )) {
             $this->customFlash(__('Användaren har skapats.'));
 
@@ -113,7 +114,7 @@ class UsersController extends AppController {
 
         } else {
             $this->customFlash(__('Kunde inte skapa användaren.'), 'danger');
-            $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
+            $this->Session->write('validationErrors', array('User' => $this->User->validationErrors, 'mode' => 'create'));
             $this->Session->write('formData', $this->data);
         }
         
@@ -133,17 +134,17 @@ class UsersController extends AppController {
             // If no new password is set don't save a empty password
             if ($this->request->is('put') && !$this->request->data['User']['password']) {
                 unset($this->request->data['User']['password']);    
-            }
-            
-            // Should not be able to edit username
-            unset($this->request->data['User']['username']);    
+                $this->User->validator()->remove('password');   
+                $this->User->validator()->remove('username');  
+                $this->User->validator()->remove('confirmPassword');
+            }   
 
             if ($this->User->save($this->request->data)) {
                 $this->customFlash(__('Användaren har sparats'));
                 $this->logUser('edit', $this->request->data['User']['id']);
             } else {
                 $this->customFlash(__('Användaren kunde inte sparas.')); 
-                $this->Session->write('validationErrors', array('User' => $this->User->validationErrors));
+                $this->Session->write('validationErrors', array('User' => $this->User->validationErrors, 'mode' => 'update'));
                 $this->Session->write('formData', $this->data);
             }
             
