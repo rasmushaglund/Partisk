@@ -130,6 +130,7 @@ class UsersController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->request->data['User']['updated_by'] = $this->Auth->user('id');
             $this->request->data['User']['updated_date'] = date('c');
+            $this->request->data['User']['approved'] = isset($this->request->data['User']['approved']) ? $this->request->data['User']['approved'] : false;
 
             // If no new password is set don't save a empty password
             if ($this->request->is('put') && !$this->request->data['User']['password']) {
