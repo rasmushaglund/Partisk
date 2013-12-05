@@ -92,7 +92,7 @@ class TagsController extends AppController {
     }   
 
     public function add() {
-        if (!$this->canAddTagg) {
+        if (!$this->canAddTag) {
             $this->abuse("Not authorized to add tag");
             return $this->redirect($this->referer());
         }
@@ -106,7 +106,7 @@ class TagsController extends AppController {
                 $this->logUser('add', $this->Tag->getLastInsertId(), $this->request->data['Tag']['name']);
             } else {
                 $this->customFlash(__('Kunde inte skapa taggen.'), 'danger');        
-                $this->Session->write('validationErrors', array('Tag' => $this->Tag->validationErrors));
+                $this->Session->write('validationErrors', array('Tag' => $this->Tag->validationErrors, 'mode' => 'create'));
                 $this->Session->write('formData', $this->data);
             }
 
@@ -158,8 +158,8 @@ class TagsController extends AppController {
                 $this->customFlash(__('Taggen har sparats.'));
                 $this->logUser('edit', $this->request->data['Tag']['id']);
             } else {
-                $this->customFlash(__('Taggen kunde inte sparas.')); 
-                $this->Session->write('validationErrors', array('Tag' => $this->Tag->validationErrors));
+                $this->customFlash(__('Taggen kunde inte sparas.'), 'danger'); 
+                $this->Session->write('validationErrors', array('Tag' => $this->Tag->validationErrors, 'mode' => 'update'));
                 $this->Session->write('formData', $this->data);
             }
             

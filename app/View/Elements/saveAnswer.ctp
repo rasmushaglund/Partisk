@@ -41,11 +41,10 @@ if ($canAddAnswer) { ?>
     }
     
     $ajaxMode = isset($ajax) && $ajax;
-
     ?>
 
     <?php echo $this->Bootstrap->create('Answer', array('modal' => true, 'label' => $editMode ? "Ändra svar" : "Lägg till svar", 
-                    'id' => $editMode ? $answer['Answer']['id'] : null, 'ajax' => $ajaxMode)); ?>
+                    'id' => $editMode ? $answer['Answer']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
     <?php echo $this->Bootstrap->input('answer', array('label' => 'Svar', 'placeholder' => 'Svaret',
                      'value' => $editMode ? $answer['Answer']['answer'] : null)); ?>
     <?php echo $this->Bootstrap->input('source', array('label' => 'Källa', 'placeholder' => 'Källan där svaret hämtades ifrån',

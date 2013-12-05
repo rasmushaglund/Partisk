@@ -39,8 +39,17 @@ if ($canAddUser) { ?>
 	?>
 
     <?php echo $this->Bootstrap->create('User', array('modal' => true, 'label' => $editMode ? "Ändra användare" : "Lägg till användare", 
-                    'id' => $editMode ? $user['User']['id'] : null, 'ajax' => $ajaxMode)); ?>
-    <?php echo $this->Bootstrap->input('username', array('label' => 'Användarnamn', 'placeholder' => 'Användarens namn', 'value' => $editMode ? $user['User']['username'] : null)); ?>
+                    'id' => $editMode ? $user['User']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
+    <?php if ($editMode) { ?>
+        <div class="input text form-group">
+        <label>Användarnamn</label>
+        <p><?php echo $user['User']['username']; ?></p>
+        </div>
+    <?php } else {
+            echo $this->Bootstrap->input('username', array('label' => 'Användarnamn', 'placeholder' => 'Användarens namn', 
+                            'value' => null)); 
+        }
+    ?>
     <?php echo $this->Bootstrap->input('email', array('label' => 'E-postadress', 'placeholder' => 'Användarens E-postadress', 'value' => $editMode ? $user['User']['email'] : null)); ?>
     <?php echo $this->Bootstrap->input('password', array('label' => $editMode?'Nytt lösenord':'Lösenord',  'placeholder' => 'Användarens lösenord',
         'type' => 'password')); ?>

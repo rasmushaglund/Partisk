@@ -164,6 +164,10 @@ class QuestionsController extends AppController {
         if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
             return true;
         }
+        
+        if ($role == 'inactive' && in_array($this->action, array('status'))) {
+            return true;
+        }
 
         return parent::isAuthorized($user);
     }
@@ -182,7 +186,7 @@ class QuestionsController extends AppController {
             $this->logUser('add', $this->Question->getLastInsertId(), $data['Question']['title']);
         } else {
             $this->customFlash(__('Kunde inte skapa frågan.'), 'danger');
-            $this->Session->write('validationErrors', array('Question' => $this->Question->validationErrors));
+            $this->Session->write('validationErrors', array('Question' => $this->Question->validationErrors, 'mode' => 'create'));
             $this->Session->write('formData', $this->data);
         }
     }
@@ -193,21 +197,23 @@ class QuestionsController extends AppController {
 
         $data['Question']['updated_by'] = $this->Auth->user('id');
         $data['Question']['updated_date'] = date('c');
+        $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
+        
+        $existingQuestion = $this->Question->findById($id);
 
-        if (isset($data['Question']['approved'])) {
-            $data['Question']['approved'] = true;
+       
+        if ($existingQuestion['Question']['approved'] !== $data['Question']['approved']) {
+            $data['Question']['approved'] = $data['Question']['approved'];
             $data['Question']['approved_by'] = $this->Auth->user('id');
             $data['Question']['approved_date'] = date('c');
-        } else {
-            $data['Question']['approved'] = false;
-        }
-
+        } 
+        
         if ($this->Question->save($data)) {
             $this->customFlash(__('Frågan har uppdaterats.'));
             $this->logUser('edit', $id);
         } else {
             $this->customFlash(__('Kunde inte uppdatera frågan.'), 'danger');
-            $this->Session->write('validationErrors', array('Question' => $this->Question->validationErrors));
+            $this->Session->write('validationErrors', array('Question' => $this->Question->validationErrors, 'mode' => 'update'));
             $this->Session->write('formData', $this->data);
         }
     }

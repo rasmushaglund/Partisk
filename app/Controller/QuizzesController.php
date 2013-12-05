@@ -78,7 +78,7 @@ class QuizzesController extends AppController {
             $this->logUser('add', $this->Quiz->getLastInsertId(), $data['Quiz']['name']);
         } else {
             $this->customFlash(__('Kunde inte skapa quizen.'), 'danger');            
-            $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors));
+            $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors, 'mode' => 'create'));
             $this->Session->write('formData', $this->data);
         }
 
@@ -384,7 +384,14 @@ class QuizzesController extends AppController {
         }
 
         if ($this->request->is('post') || $this->request->is('put')) {
-            $this->saveQuiz($this->request->data);
+            if ($this->saveQuiz($this->request->data)) {
+                $this->customFlash(__('Quizzen har sparats.'));
+                $this->logUser('edit', $this->request->data['Quiz']['id']);
+            } else {
+                $this->customFlash(__('Quizzen kunde inte sparas.'), 'danger'); 
+                $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors, 'mode' => 'update'));
+                $this->Session->write('formData', $this->data);   
+            }
             return $this->redirect($this->referer());
         } 
 
@@ -454,7 +461,15 @@ class QuizzesController extends AppController {
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
 
-        if ($role == 'moderator' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion', 'add', 'delete'))) {
+        if ($role == 'moderator' && in_array($this->action, array('admin', 'deleteQuestion', 'addQuestion', 'add', 'delete', 'status'))) {
+            return true;
+        }
+        
+        if ($role == 'contributor' && in_array($this->action, array('status'))) {
+            return true;
+        }
+        
+        if ($role == 'inactive' && in_array($this->action, array('status'))) {
             return true;
         }
 

@@ -60,6 +60,13 @@
                             <a href="https://www.facebook.com/rasmus.haglund">Facebook</a>, <a href="https://twitter.com/rasmushaglund">Twitter</a>, 
                             <a href="https://plus.google.com/+RasmusHaglund">Google+</a> och <a href="mailto:rasmus.haglund@gmail.com">mail</a>.</p>
                     </li>
+                    <li>
+                        <b>Rikard Nordström</b>
+                        <p>Studerande på nackademin, sharepointutveckling.</p>
+                        <p>Rikard finns på <a href="https://github.com/RikardNordstrom">GitHub</a>, 
+                            <a href="http://www.linkedin.com/pub/rikard-nordstr%C3%B6m/83/807/213">LinkedIn</a> och 
+                            <a href="https://www.facebook.com/rikard.nordstrom.7">Facebook</a>.</p>
+                    </li>
                 </ul>
 	</div>
 </div>

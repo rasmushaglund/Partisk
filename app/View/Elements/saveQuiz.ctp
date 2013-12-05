@@ -33,7 +33,7 @@ if ($canAddQuiz) { ?>
     ?>
 
     <?php echo $this->Bootstrap->create('Quiz', array('modal' => true, 'label' => $editMode ? "Ändra quiz" : "Skapa ny quiz", 
-                    'id' => $editMode ? $quiz['Quiz']['id'] : null, 'ajax' => $ajaxMode)); ?>
+                    'id' => $editMode ? $quiz['Quiz']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
     <?php echo $this->Bootstrap->input('name', array('label' => 'Namn', 'placeholder' => 'Namnet på quizen',
                      'value' => $editMode ? $quiz['Quiz']['name'] : null)); ?>
     <?php if ($canApproveQuiz && $editMode) {

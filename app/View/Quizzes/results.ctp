@@ -24,14 +24,16 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
+$quizName = isset($quiz['Quiz']['name']) ? $quiz['Quiz']['name'] : 'Stora quizen';
+
 $this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'index'));
-$this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
+$this->Html->addCrumb(ucfirst($quizName));
 $this->Html->addCrumb('Resultat');
 
 ?>
 
 
-<h3>Resultat för <?php echo $quiz['Quiz']['name']; ?>, 
+<h3>Resultat för <?php echo $quizName; ?>, 
     <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></h3>
 
 <div id="points-percentage-graph" class="graph">

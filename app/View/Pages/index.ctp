@@ -33,7 +33,7 @@
 		<?php echo $this->Html->link('frågor/svar',
 		                  array('controller' => 'questions', 'action' => 'index')); ?> och dessutom göra en 
 		<?php echo $this->Html->link('quiz',
-		                  array('controller' => 'quiz', 'action' => 'index')); ?> för att se hur mycket du håller med 
+		                  array('controller' => 'quizzes', 'action' => 'index')); ?> för att se hur mycket du håller med 
                                   de olika partierna.</p>
                 <p>Tjänsten är fortfarande under snabb utveckling så vi hoppas att ni har överseende med att allt kanske
                     inte fungerar som det är tänkt. Om du har några förslag eller hittar ett fel kan du skicka in feedback
