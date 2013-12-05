@@ -29,10 +29,9 @@
    	$error = $sameMode && isset($validationErrors[$model][$field]) ? $validationErrors[$model][$field][0] : null;
         $postData = isset($formData) && $sameMode && isset($formData[$model][$field]) ? $formData[$model][$field] : null;
         
-        $value = isset($value) ? $value : $postData;
-        //debug($value);
-        //debug($options);
-        //debug($selected);
+        $selected = isset($selected) ? $selected : $postData;
+        
+        
 ?>
 
 <div class="input select form-group">
