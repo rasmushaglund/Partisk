@@ -93,7 +93,7 @@
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-thumbs-o-up"></i> Mina frågor', array('controller' => 'questions', 'action' => 'status'), array('escape' => false));
                     ?></li>
-                        <li><?php echo $this->Html->link('<i class="fa fa-check"></i> Mi na svar', array('controller' => 'answers', 'action' => 'status'), array('escape' => false));
+                        <li><?php echo $this->Html->link('<i class="fa fa-check"></i> Mina svar', array('controller' => 'answers', 'action' => 'status'), array('escape' => false));
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Mina quizzar', array('controller' => 'quizzes', 'action' => 'status'), array('escape' => false));
                     ?></li>
