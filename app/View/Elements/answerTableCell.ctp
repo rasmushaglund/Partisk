@@ -1,6 +1,6 @@
-<?php
+<?php 
 /** 
- * Tag view
+ * Answer table cell view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,34 +20,23 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Tags
+ * @package     app.View.Elements
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Taggar', '/tags/');
-$this->Html->addCrumb(ucfirst($tag['Tag']['name']));
+$answerClass = null;
 
+$answerHtml = $this->Html->link($answer['Answer']['answer'],
+      array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link'));
+
+$notApproved = !$answer['Answer']['approved'];
+
+if($answer['Answer']['answer'] == "ja") { $answerClass = 'class="yes"'; } 
+else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="no"'; } 
 ?>
 
-<h1>
-<?php echo ucfirst(h($tag['Tag']['name'])); ?>
-<?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
-</h1>
-
-<?php echo $this->element('authorInfo', array('object' => $tag, 'model' => 'Tag')); ?>
-
-<?php 
-if ($current_user) { ?>
-<div class="tools">
-<?php  echo $this->element('saveTag', array('tagId' => $tag['Tag']['id'])); 
-  echo $this->element('saveQuestion', array('tagId' => $tag['Tag']['id'])); ?>
-  </div>
-<?php } ?>
-
-<?php echo $this->element('qa-table', array(
-                  'parties' => $parties,
-                  'questions' => $questions,
-                  'answers' => $answers,
-                  'fixedHeader' => true
-                  )); ?>
-
+<td <?php echo $answerClass ?>>
+  <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
+    echo $answer['Answer']['answer'];
+  ?></span>
+</td>

@@ -31,6 +31,28 @@ class User extends AppModel {
     
     public $validate = array(
         'username' => array(
+<<<<<<< HEAD
+            'required' => array(
+                'rule' => 'notEmpty',
+                'message' => 'Du måste ange ett användarnamn'
+            )
+        ),
+        'password' => array(
+            'required' => array(
+                'rule' => array('minLength', 10),
+                'message' => 'Du måste ange ett lösenord som är minst 10 tecken långt'
+            )
+        ),
+        'email' => array(
+            'rule' => array('email', false),
+            'message' => 'Ogiltig email'
+         ),
+        'description' => array(
+            'between' => array(
+                'rule' => array('minLength', 10),
+                'message' => 'Skriv in en lite mer utförlig motivering tack'
+            )
+=======
             'ruleEmpty' => array(
                 'rule' => 'alphaNumeric',
                 'allowEmpty' => false,
@@ -45,6 +67,7 @@ class User extends AppModel {
             'rule' => array('minLength',8),
             'allowEmpty'=> false,
             'message' => 'Du måste ange ett lösenord med minst åtta tecken'
+>>>>>>> 4071b99bc9bd839e03889a494a52ba995129728e
         ),
         'confirmPassword'  => array(
            'match' => array(

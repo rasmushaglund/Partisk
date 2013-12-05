@@ -50,6 +50,7 @@ class AppController extends Controller {
     var $canApproveQuestion = false;
     var $canApproveAnswer = false;
     var $canApproveQuiz = false;
+    var $canApproveUser = false;
 
 	public $components = array(
         'Session',
@@ -58,10 +59,21 @@ class AppController extends Controller {
 
     public function beforeFilter() {
         // Enable Blowfish hashing with salt
-        $this->Auth->authenticate = 'Blowfish';
-
+        /*$this->Auth->authenticate = 'Blowfish';
+        
+        $this->Auth->scope = array('User.deleted' => false, 'User.approved' => true);*/
+        $this->Auth->authenticate = array(
+            AuthComponent::ALL => array(
+                'userModel' => 'User',
+                'scope' => array(
+                        'User.approved' => 1,
+                        'User.deleted' => 0
+                )
+            ),
+            'Blowfish'
+        );
         $this->Auth->authorize = 'Controller';
-        $this->Auth->allow(array('index', 'view', 'all', '/'));
+        $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
         $this->setAccess($this->Auth->user());
     }
 
@@ -113,6 +125,7 @@ class AppController extends Controller {
             $this->canEditUser = true;
             $this->canDeleteUser = true;
             $this->canDeleteQuiz = true;
+            $this->canApproveUser = true;
         } 
     }
 
@@ -140,6 +153,7 @@ class AppController extends Controller {
         $this->set('canEditQuiz', $this->canEditQuiz);
         $this->set('canDeleteQuiz', $this->canDeleteQuiz);
         $this->set('canApproveQuiz', $this->canApproveQuiz);
+        $this->set('canApproveUser', $this->canApproveUser);
     }
 
     public function customFlash($message, $status = 'success') {
@@ -191,6 +205,7 @@ class AppController extends Controller {
 
             $question = array_pop($questions);
         }
+        
 
         if ($question['Question']['created_by'] == $userId && $question['Question']['approved'] == 0) {
             return true;

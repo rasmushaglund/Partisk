@@ -37,9 +37,13 @@
 	<label for="<?php echo $id; ?>"><?php echo $label; ?></label>
 	<select name="<?php echo "data[$model][$field]"; ?>" id="<?php echo $id; ?>" class="form-control">
 	<?php  foreach ($options as $option) { 
-            $isSelected = isset($selected) && $selected == $option[$modelField]['id'] ||
-                          $value == $option[$modelField]['id']; ?>
-	    <option value="<?php echo $option[$modelField]['id']; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
+		$isSelected = isset($selected) && $selected == $option[$modelField]['id']; 
+                $isDeleted = isset($option[$modelField]['deleted']) && $option[$modelField]['deleted'];
+                $isNotApproved = isset($option[$modelField]['approved']) && !$option[$modelField]['approved'];
+                $classString = ($isDeleted ? 'dropdown-deleted ' : '') . ($isNotApproved ? 'dropdown-not-approved' : '');
+                ?>
+	    <option value="<?php echo $option[$modelField]['id']; ?>" class="<?php echo $classString; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
+
 	    	<?php echo ucfirst($option[$modelField][$titleField]); ?>
 	    </option>
 	<?php } ?>

@@ -46,6 +46,10 @@ if ($canAddUser) { ?>
         'type' => 'password')); ?>
     <?php echo $this->Bootstrap->input('confirmPassword', array('label' => $editMode?'Bekräfta nytt lösenord':'Bekräfta lösenord',  'placeholder' => 'Bekräfta användarens lösenord',
         'type' => 'password')); ?>
+    <?php if ($canApproveUser && $editMode) {
+        echo $this->Bootstrap->checkbox('approved', array('label' => 'Aktiverad', 'type' => 'checkbox',
+                    'value' => $editMode ? $user['User']['approved'] : null)); 
+    } ?>
     <?php echo $this->Bootstrap->dropdown('role_id', 'Role', array('label' => 'Roll', 'options' => $roles, 
                     'selected' => isset($roleId) ? $roleId : null)); ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Presentation',  

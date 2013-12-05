@@ -46,7 +46,7 @@ $this->Html->addCrumb('Resultat');
 <script type="text/javascript">
 
   var parties = <?php echo json_encode($parties); ?>;
-  var data = <?php echo $quizSession['QuizSession']['data']; ?>;
+  var data = <?php echo $quizResults['QuizResult']['data']; ?>;
 
   function getQuestionAgreeRate() {
     var result = {key: 'questionAgreeRate', values: []};
@@ -81,7 +81,10 @@ $this->Html->addCrumb('Resultat');
         .x(function(d) { return d.label })
         .y(function(d) { return d.value })
         .tooltips(true)
-        .color(function (item) {  return item.data.color; })
+        .color(function (item) {  
+            if (item.data && item.data.color) return item.data.color;
+            return "#333";
+        })
         .labelThreshold(.06)
         .tooltipContent(function (key, value, item, graph) {
           var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
@@ -156,7 +159,7 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
     if ($partyPoints['points'] < 0) { $pointsClass = "minus-points"; } ?>
   
     <tr class="<?php echo $pointsClass; ?>">
-    <td><?php echo ucfirst($party['name']); ?></td>
+    <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
     <td><?php echo $partyPoints['matched_questions']; ?> st</td>
     <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
     <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
@@ -175,9 +178,9 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
   $importance = $question['importance'];
   $title = $question['title'];
   ?>
-  <li><h3><?php echo $title; ?></h3>
+  <li><h3><?php echo $this->Html->link($question['title'], array('controller' => 'questions', 'action' => 'view', $question['id'])); ?></h3>
     <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
-    <p>Viktighet (1-3): <b><?php echo $importance; ?></b></p>
+    <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
     <table class="table table-striped party-result-table">
       <thead>
         <th>Parti</th>
@@ -192,7 +195,6 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
 
             
           <?php 
-
             $partyAnswer = $question['parties'][$partyId]['answer'];
             $partyPoints = $question['parties'][$partyId]['points'];
 
@@ -202,16 +204,17 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
             if ($partyPoints < 0) { $pointsClass = "minus-points"; } ?>
 
             <tr class="<?php echo $pointsClass; ?>">
-              <td><?php echo ucfirst($party['name']); ?></td>
+              <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
 
-            <?php if ($userAnswer === null) { ?>
+            <?php if ($partyAnswer === null) { ?>
               <td>Inget svar</td>
               <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
             <?php } else if ($question['parties'][$partyId]['answer'] != null) {
-            $sameAnswer = $partyAnswer == $userAnswer;
+            $sameAnswer = $partyAnswer['answer'] == $userAnswer;
             ?>
               <td class="<?php echo $sameAnswer ? 'matching-answer' : '' ?>">
-                <span class="answer"><?php echo ucfirst($partyAnswer); ?></span>
+                  <span class="answer popover-link" data-id="<?php echo $partyAnswer['id']; ?>" href="#"><?php 
+                  echo $partyAnswer['answer'];?></span>
               </td>
               <td>
                 <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></td>

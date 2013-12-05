@@ -1,6 +1,6 @@
-<?php
+<?php 
 /** 
- * Quiz index view
+ * Info about one answer view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,32 +20,18 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Quiz
+ * @package     app.View.Elements
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz');
-
 ?>
-
-<h1>Alla sparade quiz</h1>
-<br />
-<table class="table table-striped">
-<thead>
-	<tr>
-	<td>GUID</td>
-	<td>Version</td>
-	<td>Skapad</td>
-	</tr>
-</thead>
-<tbody>
-<?php foreach ($results as $result) { ?>
-<tr>
-<td><?php echo $this->Html->link($result['QuizResult']['id'],
-		                  array('controller' => 'quiz', 'action' => 'results', $result['QuizResult']['id'])); ?></td>
-<td><?php echo $result['QuizResult']['version']; ?></td>
-<td><?php echo $result['QuizResult']['created']; ?></td>
-</tr>
+<?php if (!$answer['Answer']['approved']) { ?>
+<p class="answer-not-approved">Ej godkänd</p>
 <?php } ?>
-</tbody>
-</table>
+<b><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id']));?></b>:
+<?php echo $this->Html->link($answer['Answer']['answer'],
+                array('controller' => 'answers', 'action' => 'view', $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link')); ?>
+<p class="popover-description"><?php echo $answer['Answer']['description']; ?></p>
+<a href="<?php echo $answer['Answer']['source']; ?>">Källa</a>
+<?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?>
+

@@ -31,6 +31,41 @@ $(document).ready(function() {
 		$(this).find("input:visible").first().focus();
 	});
 	$('.datepicker').datepicker(datepickerArgs);
+        
+        var table = $('.table-with-fixed-header'); 
+        console.log(table.find('.table-row.table-head').height());
+        console.log($(".table-row.table-head").height());
+        var qaTableHead = $('<div class="table-head-container"></div>');
+        var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>'); 
+        var qaTableHeadBg = $('<div class="table-header-bg"></div>');
+        
+        qaTableHead.append(qaTableHeadBg);
+        qaTableHead.append(qaTableHeadRow);
+        
+        table.before(qaTableHead); 
+        $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow); 
+        qaTableHeadRow.find('.table-header-text').innerWidth(table.find('.table-header-text').first().width());
+        var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+        
+        qaTableHeadRow.width(table.width());
+        
+        //table.css({'margin-top': headerHeight -2});
+        console.log(qaTableHeadRow.find('.table-head.table-row'));
+        $(window).scroll(function () {
+            //console.log(qaTableHead.offset());
+            //console.log($(window).scrollTop());
+            
+            if ($(window).scrollTop() >= table.offset().top - headerHeight) {
+                qaTableHead.addClass('table-fixed');
+                table.addClass('table-fixed-header');
+            } else {
+                qaTableHead.removeClass('table-fixed');
+                table.removeClass('table-fixed-header');
+                //console.log("lol");
+            }
+        });
+        
+        console.log($(".table-row.table-head").height());
 });
 
 var openEditModal = function(controller, id) {
@@ -55,13 +90,6 @@ function capitalizeFirstLetter(string) {
 }
 
 $(document).ready(function() {
-	$('.popover-link').popover({ 
-	    html : true,
-	    placement: "auto",
-	    content: function() {
-	      return $(this).next('.popover-data').html();
-	    }
-	 });
 
 	$('.popover-hover-link').popover({ 
 	    html : true,
@@ -71,6 +99,20 @@ $(document).ready(function() {
 	      return $(this).next('.popover-data').html();
 	    }
 	 });
+         
+         $('.popover-link').bind('click',function() {
+             var $popover = $(this);
+             $.ajax({url:appRoot + "answers/info/" + $popover.attr('data-id'),success:function(data){
+                $popover.unbind('click');
+                $popover.popover({ 
+                    html : true,
+                    placement: "auto",
+                    content: function() {
+                      return data;
+                    }
+                }).popover('show');
+             }});
+        });
 
 	$('body').on('click', function (e) {
             $('.popover.in').prev().not(e.target).popover('toggle');

@@ -25,35 +25,34 @@
  */
 ?>
 
-  <table class="table table-bordered table-striped table-fixed-header qa-table">
-  <thead class="header">
-    <tr>
-      <th>
-        <?php if (isset($label)) { ?>
+<div class="table table-bordered table-striped qa-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
+    <div class="table-row table-head">
+      <div class="table-header">
+        <div class="table-header-text"><?php if (isset($label)) { ?>
           <h3><?php echo $label; ?></h3> 
         <?php } ?>
-      </th>
+        </div>
+      </div>
       <?php foreach ($parties as $party): ?>
-      <th>
+      <div class="table-header">
         <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => false, 
                       'linkClass' => 'popover-hover-link')); ?>
         <div class="popover-data"><?php echo ucfirst($party['Party']['name']); ?></div>
-      </th>
+      </div>
       <?php endforeach; ?>
       <?php if ($current_user) { ?>
-      <th>Status</th>
-      <th>Verktyg</th>
+      <div class="table-header">Verktyg</div>
       <?php } ?>
-    </tr>
-  </thead>
-  <tbody>
+    </div>
     <?php foreach ($questions as $question): ?>
-    <tr>
-      <th class="table-header-text">
+    <div class="table-row">
+      <div class="table-cell table-header table-header-text">
         <?php 
-        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id']));  
+        $notApproved = !$question['Question']['approved'];
+        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id']),
+                array('class' => $notApproved ? 'question-not-approved':''));  
         ?>
-      </th>
+      </div>
       <?php foreach ($parties as $party): ?>
       <?php 
 
@@ -61,20 +60,16 @@
           echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
                                                   'question' => $question));
         } else { ?>
-          <td></td>
+        <div class="table-cell"></div>
         <?php }?>
       <?php endforeach; ?>
       <?php if ($current_user) { ?>
-        <td>
-          <p><?php echo $question['Question']['approved'] ? "Godkänd" : "Ej godkänd"; ?></p>
-        </td>
-        <td>
+        <div class="table-cell">
           <div class="tools">
              <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>
            </div>
-        </td>
+        </div>
       <?php } ?>
-    </tr>
+    </div>
     <?php endforeach; ?>
-  </tbody>
-</table>
+</div>

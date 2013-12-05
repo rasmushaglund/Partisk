@@ -27,6 +27,6 @@
 if ($canEditQuiz) {
 	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
 					array('controller' => 'quizzes', 'action' => 'deleteQuestion', $questionQuiz['id']), 
-					array('class' => 'btn btn-danger', 'escape' => false));
+					array('class' => 'btn btn-danger btn-xs', 'escape' => false));
 }
 ?>

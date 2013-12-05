@@ -58,12 +58,9 @@ $deleted = $question['Question']['deleted'];
       	<?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => true, 'small' => true)); ?>
       </th>
     	<?php 
-        echo $this->element('answerCell', array('answer' => $answer));
+        echo $this->element('answerTableCell', array('answer' => $answer));
       ?>   	
       <?php if ($current_user) { ?>
-            <td>
-              <p><?php echo $answer['Answer']['approved'] ? "Godkänd" : "Ej godkänd"; ?></p>
-            </td>
             <td>
               <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $question['Question']['title'])); ?>
             </td>

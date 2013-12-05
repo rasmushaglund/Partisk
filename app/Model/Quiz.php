@@ -69,7 +69,9 @@ class Quiz extends AppModel {
         $partiesModel = ClassRegistry::init('Party');
 
         $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quizSession);
-        $answers = $answerModel->getAnswers(null, $questionIds, false, false); 
+        
+        $answersConditions = array('deleted' => false, 'approved' => true, 'questionId' => $questionIds);
+        $answers = $answerModel->getAnswers($answersConditions); 
 
         $questionModel->recursive = -1;  
         $questions = $questionModel->find('all', array('conditions' => array('Question.id' => $questionIds)));
@@ -132,6 +134,7 @@ class Quiz extends AppModel {
             
             $questionsResult[$questionId] = array();
             $questionsResult[$questionId]['title'] = $question['Question']['title'];
+            $questionsResult[$questionId]['id'] = $question['Question']['id'];
             $questionsResult[$questionId]['parties'] = array();
 
             $results[$questionId] = array();
@@ -147,11 +150,11 @@ class Quiz extends AppModel {
                 $questionsResult[$questionId]['importance'] = $importance;
 
                 if (isset($matrixQuestion['answers'][$partyId])) {
-                    $partyAnswer = $matrixQuestion['answers'][$partyId]['Answer']['answer'];
+                    $partyAnswer = $matrixQuestion['answers'][$partyId]['Answer'];
      
                     $currentQuestionResult['answer'] = $partyAnswer;
-                    if ($userAnswer !== null && $partyAnswer !== null) {
-                        if ($partyAnswer == $userAnswer) {
+                    if ($userAnswer !== null && $partyAnswer['answer'] !== null) {
+                        if ($partyAnswer['answer'] == $userAnswer) {
                             $currentQuestionResult['points'] = $importance;
                             $partiesResult[$partyId]['points'] += $importance;
                             $partiesResult[$partyId]['plus_points'] += $importance;
@@ -303,10 +306,17 @@ class Quiz extends AppModel {
         return array('Quiz' => array(
             'id' => 'all',
             'name' => 'Stora quizen',
-            'description' => 'Ett stort quiz med alla sidans frågor.',
+            'description' => 'Ett stort quiz med alla sidans frågor',
             'questions' => $this->Question->find('count', array(
                 'conditions' => array('deleted' => false, 'approved' => true)
             ))
+        ));
+    }
+    
+    public function getUserQuizzes($userId) {
+        $this->recursive = -1;
+        return $this->find('all', array(
+           'conditions' => array('created_by' => $userId) 
         ));
     }
 }

@@ -36,13 +36,17 @@ if ($canAddQuestion) { ?>
 	}
 
 	?>
-
     <?php echo $this->Bootstrap->create('Question', array('modal' => true, 'label' => $editMode ? "Ändra fråga" : "Lägg till fråga", 
                     'id' => $editMode ? $question['Question']['id'] : null, 'ajax' => $ajaxMode)); ?>
     <?php echo $this->Bootstrap->input('title', array('label' => 'Fråga', 'placeholder' => 'Frågan',
-                    'value' => $editMode ? $question['Question']['title'] : null)); ?>
-    <?php echo $this->Bootstrap->input('tags', array('label' => 'Taggar', 'placeholder' => 'Frågans taggar',
-                    'value' => $editMode ? $question['Question']['tags'] : null)); ?>
+                    'value' => $editMode ? $question['Question']['title'] : '')); ?>
+                  
+    <?php 
+        if ($canAddTag) {
+            echo $this->Bootstrap->input('tags', array('label' => 'Taggar', 'placeholder' => 'Frågans taggar',
+                    'value' => $editMode ? $question['Question']['tags'] : '')); 
+        } ?>
+
     <?php if ($canApproveQuestion && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $question['Question']['approved'] : null)); 

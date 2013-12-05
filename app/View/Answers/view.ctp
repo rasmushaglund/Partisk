@@ -47,12 +47,11 @@ $deleted = $answer['Answer']['deleted'];
 
 <p><?php echo $answer['Answer']['description']; ?></p>
 
-<b>Källa:</b> 
 <?php 
 	if (filter_var($answer['Answer']['source'], FILTER_VALIDATE_URL)) {
-		echo "<a href='" . $answer['Answer']['source'] . "'>" . $answer['Answer']['source'] . "</a>";
+		echo "<a href='" . $answer['Answer']['source'] . "'>Källa (" . $answer['Answer']['source'] . ")</a>";
 	} else {
-		echo $answer['Answer']['source']; 
+		echo "Källa: " . $answer['Answer']['source']; 
 	}
 ?> <i>(<?php echo date('Y-m-d', strtotime($answer['Answer']['date'])); ?>)</i>
 
