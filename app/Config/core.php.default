@@ -21,6 +21,8 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+Configure::write('PartiskVersion', '0.2');
+
 /**
  * CakePHP Debug Level:
  *
