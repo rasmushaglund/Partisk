@@ -41,7 +41,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')>0) {
+        if (Configure::read('debug')==0) { 
             echo $this->Html->css('bootstrap.min');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
@@ -55,9 +55,15 @@
             echo $this->Html->script('nv.d3');
             echo $this->Html->script('partisk');
         } else {
-            $version = Configure::read('PartiskVersion');
+            $version = Configure::read('PartiskVersion'); 
             echo $this->Html->css("partisk-v$version.min");
-            echo $this->Html->script("partisk-v$version.min");
+            echo $this->Html->script("partisk-v$version.min"); ?>
+            
+            <style>
+                .party-logo, .party-logo-small { background: url('<?php echo Router::url('/', false); ?>img/partisk-v<?php echo Configure::read('PartiskVersion'); ?>-sprite.png') no-repeat; }
+            </style>
+            
+            <?php
         }
 
         echo $this->fetch('meta');
