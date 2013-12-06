@@ -25,12 +25,12 @@
  */
 
 if (isset($party)) {
-	$class = 'logo';
+	$class = 'party-logo';
 	if (isset($small) && $small == true) {
-		$class .= " small";
+		$class .= "-small";
 	}
 
-	$image = $this->Html->image($party['name'] . ".png", array('class' => $class)); 
+	$image = "<div class='" . $class . " " . $class . "-" . $party['id'] . "'></div>"; //$this->Html->image($party['name'] . ".png", array('class' => $class)); 
 
 	$titleString = "";
 	if (isset($title) && $title) {

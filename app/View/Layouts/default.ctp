@@ -41,18 +41,24 @@
         <?php
         echo $this->Html->meta('icon');
 
-        echo $this->Html->css('bootstrap.min');
-        echo $this->Html->css('font-awesome.min');
-        echo $this->Html->css('nv.d3');
-        echo $this->Html->css('datepicker');
-        echo $this->Html->css('style');
-        echo $this->Html->script('jquery');
-        echo $this->Html->script('bootstrap');
-        echo $this->Html->script('bootstrap-datepicker');
-        echo $this->Html->script('bootstrap-datepicker.sv.js', false);
-        echo $this->Html->script('d3.v2');
-        echo $this->Html->script('nv.d3');
-        echo $this->Html->script('partisk');
+        if (Configure::read('debug')>0) {
+            echo $this->Html->css('bootstrap.min');
+            echo $this->Html->css('font-awesome.min');
+            echo $this->Html->css('nv.d3');
+            echo $this->Html->css('datepicker');
+            echo $this->Html->css('style');
+            echo $this->Html->script('jquery');
+            echo $this->Html->script('bootstrap');
+            echo $this->Html->script('bootstrap-datepicker');
+            echo $this->Html->script('bootstrap-datepicker.sv.js', false);
+            echo $this->Html->script('d3.v2');
+            echo $this->Html->script('nv.d3');
+            echo $this->Html->script('partisk');
+        } else {
+            $version = Configure::read('PartiskVersion');
+            echo $this->Html->css("partisk-v$version.min");
+            echo $this->Html->script("partisk-v$version.min");
+        }
 
         echo $this->fetch('meta');
         echo $this->fetch('css');

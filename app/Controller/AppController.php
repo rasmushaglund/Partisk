@@ -52,7 +52,7 @@ class AppController extends Controller {
     var $canApproveQuiz = false;
     var $canApproveUser = false;
 
-	public $components = array(
+    public $components = array(
         'Session',
         'Auth'
     );
@@ -69,6 +69,12 @@ class AppController extends Controller {
             ),
             'Blowfish'
         );
+        
+        $this->Auth->fields = array(
+            'username' => 'email',
+            'password' => 'password'
+        );
+        
         $this->Auth->authorize = 'Controller';
         $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
         $this->setAccess($this->Auth->user());
