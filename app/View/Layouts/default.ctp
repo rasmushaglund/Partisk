@@ -55,8 +55,9 @@
             echo $this->Html->script('nv.d3');
             echo $this->Html->script('partisk');
         } else {
-            echo $this->Html->css('partisk.min');
-            echo $this->Html->script('partisk.min');
+            $version = Configure::read('PartiskVersion');
+            echo $this->Html->css("partisk-v$version.min");
+            echo $this->Html->script("partisk-v$version.min");
         }
 
         echo $this->fetch('meta');
