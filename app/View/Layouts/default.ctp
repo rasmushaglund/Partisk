@@ -41,7 +41,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')==0) {
+        if (Configure::read('debug')>0) {
             echo $this->Html->css('bootstrap.min');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
