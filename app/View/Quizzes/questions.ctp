@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz', array('controller' => 'quiz', 'action' => 'index'));
+$this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'index'));
 $this->Html->addCrumb('Frågor');
 
 ?>
