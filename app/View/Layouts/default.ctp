@@ -41,7 +41,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')>0) { ?>
+        if (Configure::read('debug')<0) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap.min');
@@ -65,7 +65,7 @@
             echo $this->fetch('meta');
             ?>
         
-            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-v<?php echo Configure::read('PartiskVersion'); ?>-sprite.png') no-repeat;}</style>
+            <style>.party-logo,.party-logo-small{background:url('http://static.partisk.nu/img/partisk-v<?php echo $version; ?>-sprite.png') no-repeat;}</style>
             <link rel="stylesheet" type="text/css" href="http://static.partisk.nu/css/partisk-v<?php echo $version; ?>.min.css" />
             <script type="text/javascript" src="http://static.partisk.nu/js/partisk-v<?php echo $version; ?>.min.js"></script>
         <?php } ?>
