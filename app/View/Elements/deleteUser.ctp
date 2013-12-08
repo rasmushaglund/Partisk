@@ -24,9 +24,10 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-	if ($canDeleteUser) {
-		echo $this->Form->postLink('<i class="fa fa-times"></i>',
-        	    array('action' => 'delete', $userId),
-            	array('confirm' => 'Är du säker på att du vill ta bort användaren "' . $user . '"?', 'class' => 'btn btn-danger btn-xs', 'escape' => false));
-	}
+    if ($canDeleteUser) {              
+        echo $this->Bootstrap->create('User',
+            array('action' => 'delete/'. $userId ,  "id" => "delete" . $userId, 'label2' => "Ta bort användare", 'modal' => true, 'icon' => 'fa fa-times', 'class' => "btn btn-danger btn-xs" ));      
+        echo '<p>Är du säker att du vill ta bort ' . $user . '?</p>';             
+        echo $this->Bootstrap->end("Ta bort", array('modal' => TRUE));           
+    }
 ?>
