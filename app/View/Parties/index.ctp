@@ -66,3 +66,4 @@ $this->Html->addCrumb('Partier');
         <?php endforeach; ?>
     </tbody>
 </table>
+<a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>

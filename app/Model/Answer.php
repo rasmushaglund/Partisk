@@ -192,6 +192,40 @@ class Answer extends AppModel {
            'conditions' => array('Answer.created_by' => $userId)
         ));
     }
+    
+    public function getById($id) {
+        $result = Cache::read('answer_' . $id, 'answer');
+        if (!$result) {
+            $this->recursive = 1;
+            $this->contain(array("CreatedBy", "UpdatedBy", 'ApprovedBy', 'Party', 'Question'));
+            $result = $this->findById($id);
+
+            $this->Question->recursive = -1;
+            $this->contain();
+            $result['history'] = $this->find('all',array(
+                    'conditions' => array(
+                        'Answer.deleted' => false,
+                        'party_id' => $result['Party']['id'],
+                        'question_id' => $result['Answer']['question_id']),
+                    'fields' => array('Answer.*'),
+                    'order' => 'Answer.date DESC'
+                )
+            );
+            Cache::write('answer_' . $id, $result, 'answer');
+        }
+        
+        return $result;
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'answer');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'answer');
+    }
 }
 
 ?>

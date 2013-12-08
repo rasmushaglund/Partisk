@@ -41,33 +41,26 @@ class TagsController extends AppController {
             throw new NotFoundException("Ogiltig tagg");
         }
 
-        $this->loadModel('Party');
-        $this->loadModel('Answer');
-        $this->Tag->recursive = -1;
-        $this->Tag->Question->recursive = -1;
-        $this->Tag->Question->Answer->recursive = -1;
-        $this->Tag->Question->Answer->Party->recursive = -1;
-
-        $this->Tag->contain(array("CreatedBy", "UpdatedBy"));
-        $tags = $this->Tag->find('all', array(
-                'conditions' => array('Tag.id' => $id),
-                'fields' => array('Tag.id', 'Tag.name' ,'Tag.created_date' ,'Tag.updated_date')
-            ));
-
-        $tag = array_pop($tags);
+        $tag = $this->Tag->getById($id);
         if (empty($tag)) {
             throw new NotFoundException("Ogiltig tagg");
         }
 
-        $conditions = array('deleted' => false, 'tagId' => $id);
+        //$conditions = array('deleted' => false, 'tagId' => $id);
 
         if(!$this->isLoggedIn) {
-            $conditions['approved'] = true;
-        }   
+            //$conditions['approved'] = true;
+            $questions = $this->Tag->Question->getVisibleTagQuestions($id);
+        } else {
+            $questions = $this->Tag->Question->getLoggedInTagQuestions($id);
+        }
 
-        $questions = $this->Tag->Question->getQuestions($conditions);
+        //$questions = $this->Tag->Question->getQuestions($conditions);
+        
+        $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
 
+        $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers(array('tagId' => $id, 'includeParty' => true));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
@@ -79,15 +72,13 @@ class TagsController extends AppController {
     }
 
     public function index() {
-        $this->Tag->recursive = -1;
+         if(!$this->isLoggedIn) {
+            $tags = $this->Tag->getAllApprovedTags();
+        } else {
+            $tags = $this->Tag->getAllTags();
+        }
         
-        $conditions = array();
-        if(!$this->isLoggedIn) {
-            $conditions['approved'] = true;
-        }   
-
-        $this->set('tags', $this->Tag->getTags($conditions));
-
+        $this->set('tags', $tags);
         $this->set('title_for_layout', 'Taggar');
     }   
 
@@ -137,12 +128,7 @@ class TagsController extends AppController {
     }
 
      public function all() {
-        $this->Tag->recursive = -1;
-        $categories = $this->Tag->find('all', 
-                array('conditions' => array('Tag.deleted' => false),
-                      'order' => 'name',
-                      'fields' => array('Tag.id', 'Tag.name')));
-        return $categories;
+        return $this->Tag->getAll();
      }
 
      public function edit($id = null) { 
@@ -169,12 +155,8 @@ class TagsController extends AppController {
         if (!$id) {
             throw new NotFoundException("Ogiltig tagg");
         }
-        $this->Tag->recursive = -1; 
-        $tags = $this->Tag->find('all', array (
-                'conditions' => array('Tag.id' => $id),
-                'fields' => array('Tag.id', 'Tag.name')
-            ));
-        $tag = array_pop($tags);
+        
+        $tag = $this->Tag->getById($id);
 
         if (empty($tag)) {
             throw new NotFoundException("Ogiltig kategori");

@@ -44,7 +44,11 @@ class QuizzesController extends AppController {
     }
 
     public function index() {
-        $quizzes = $this->Quiz->getQuizzes($this->isLoggedIn);
+        if(!$this->Auth->loggedIn()) {
+            $quizzes = $this->Quiz->getVisibleQuizzes();
+        } else {
+            $quizzes = $this->Quiz->getLoggedInQuizzes();
+        } 
         
         if (!empty($quiz)) {
             $this->set('quizId', $quiz['Quiz']['id']);
@@ -272,7 +276,7 @@ class QuizzesController extends AppController {
     
     private function getQuizResults($guid) {
         $this->loadModel('QuizResult');
-        return $this->QuizResult->findById($guid);
+        return $this->QuizResult->getById($guid);
     }
     
     private function getNewQuizResults($guid, $quizSession) {
@@ -343,7 +347,7 @@ class QuizzesController extends AppController {
         $this->Quiz->recursive = -1;
         $questions = $this->Quiz->Question->getQuestionsByQuizId($id);
         $this->set('questions', $questions);
-        $this->set('quiz', $this->Quiz->findById($id));
+        $this->set('quiz', $this->Quiz->getById($id));
     }
 
     public function overview() {
@@ -399,7 +403,7 @@ class QuizzesController extends AppController {
             throw new NotFoundException("Ogiltig quiz");
         }
 
-        $quiz = $this->Quiz->getQuizById($id);
+        $quiz = $this->Quiz->getById($id);
 
         if (empty($quiz)) {
             throw new NotFoundException("Ogiltig quiz");

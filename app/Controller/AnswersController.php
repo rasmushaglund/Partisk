@@ -41,30 +41,16 @@ class AnswersController extends AppController {
             throw new NotFoundException(__('Ogiltigt svar'));
         }
 
-    	$this->Answer->recursive = 1;
-        $this->Answer->contain(array("CreatedBy", "UpdatedBy", 'ApprovedBy', 'Party', 'Question'));
-        $answer = $this->Answer->findById($id);
-
-        $this->Answer->Question->recursive = -1;
-        $this->Answer->contain();
-        $history = $this->Answer->find('all',array(
-                'conditions' => array(
-                    'Answer.deleted' => false,
-                    'party_id' => $answer['Party']['id'],
-                    'question_id' => $answer['Answer']['question_id']),
-                'fields' => array('Answer.*'),
-                'order' => 'Answer.date DESC'
-            )
-        );
+    	$answer = $this->Answer->getById($id);
         
         if (!$answer) {
             throw new NotFoundException(__('Ogiltigt svar'));
         }
 
         $this->set('answer', $answer);
-        $this->set('history', $history);
+        $this->set('history', $answer['history']);
         $this->set('title_for_layout', ucfirst($answer['Party']['name']) . " / " . $answer['Question']['title'] . " / " . 
-            ucfirst($answer['Answer']['answer']));
+        ucfirst($answer['Answer']['answer']));
     }
 
     public function add() {
@@ -128,7 +114,7 @@ class AnswersController extends AppController {
             throw new NotFoundException("Ogiltigt svar");
         }
 
-        $answer = $this->Answer->findById($id);
+        $answer = $this->Answer->getById($id);
 
         if (empty($answer)) {
             throw new NotFoundException("Ogiltigt svar");
@@ -138,9 +124,6 @@ class AnswersController extends AppController {
             $this->request->data = $answer;
         }
 
-        $this->Answer->recursive = 1;
-        $this->Answer->Party->recursive = -1;
-        $this->Answer->Question->recursive = -1;
         $this->set('answer', $answer);
 
         if ($this->request->is('ajax')) {
@@ -192,7 +175,7 @@ class AnswersController extends AppController {
         
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
-            $this->set('answer', $this->Answer->findById($id));
+            $this->set('answer', $this->Answer->getById($id));
             $this->render('/Elements/answerInfo');
         }
     }

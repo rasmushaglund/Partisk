@@ -125,40 +125,60 @@ class Question extends AppModel {
     }
 
     public function getLatest() {
-        return $this->find('all', array(
+        $result = Cache::read('latest', 'question');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', array(
                 'fields' => 'id, title, approved_date',
                 'conditions' => array('deleted' => false, 'approved' => true),
                 'limit' => '5',
                 'order' => 'approved_date DESC'
             ));
+            Cache::write('latest', $result, 'question');
+        }
+        
+        return $result;
     }
 
-    public function getQuestionById($id) {
-        $this->recursive = -1;
-        $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
-        $this->Tag->virtualFields['number_of_questions'] = 0;
-        $questions = $this->find('all', array(
-                'conditions' => array(
-                        'Question.id' => $id
-                    ),
-                'contain' => 'Tag.deleted = false',
-                'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, 
-                                   Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
-            ));
-        return array_pop($questions);
+    public function getById($id) {
+        $result = Cache::read('question_' . $id, 'question');
+        if (!$result) {
+            $this->recursive = -1;
+            $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
+            $this->Tag->virtualFields['number_of_questions'] = 0;
+            $questions = $this->find('all', array(
+                    'conditions' => array(
+                            'Question.id' => $id
+                        ),
+                    'contain' => 'Tag.deleted = false',
+                    'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
+                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+                ));
+            $result = array_pop($questions);
+            Cache::write('question_' . $id, $result, 'question');
+        }
+        
+        return $result;
     }
 
     public function getAllQuestionsList($loggedIn = false) {
-        if (!$loggedIn) {
-            $conditions = array('Question.deleted' => false, 'Question.approved' => true);
-        } else {
-            $conditions = array();
+        $result = Cache::read('all_questions_list_' . $loggedIn ? 'logged_in' : '', 'question');
+        if (!$result) {
+            if (!$loggedIn) {
+                $conditions = array('Question.deleted' => false, 'Question.approved' => true);
+            } else {
+                $conditions = array();
+            }
+
+            $result = $this->getQuestions(array(
+                    'conditions' => $conditions,
+                    'fields' => array('Question.id', 'Question.title', 'Question.approved', 'Question.deleted')
+                ));
+            
+            Cache::write('all_questions_list_' . $loggedIn ? 'logged_in' : '', $result, 'question');
         }
         
-        return $this->getQuestions(array(
-                'conditions' => $conditions,
-                'fields' => array('Question.id', 'Question.title', 'Question.approved', 'Question.deleted')
-            ));
+        return $result;
     }
 
     public function getQuestionsByQuizId($id) {
@@ -179,6 +199,98 @@ class Question extends AppModel {
         return $this->find('all', array(
            'conditions' => array('created_by' => $userId) 
         ));
+    }
+    
+    public function getVisibleQuestions() {
+        $result = Cache::read('visible_questions', 'question');
+        if (!$result) {
+            $result = $this->getQuestions(array('deleted' => false, 'approved' => true));
+            Cache::write('visible_questions', $result, 'question');
+        }
+        
+        return $result;
+    }
+    
+    public function getLoggedInQuestions() {
+        $result = Cache::read('loggedin_questions', 'question');
+        if (!$result) {
+            $result = $this->getQuestions(array('deleted' => false));
+            Cache::write('loggedin_questions', $result, 'question');
+        }
+        
+        return $result;
+    }
+    
+    public function getAllVisibleQuestionIds() {
+        $result = Cache::read('visible_question_ids', 'question');
+        if (!$result) {
+            $result = $this->find('all', array(
+                 'conditions' => array('Question.deleted' => false, 
+                                       'Question.approved' => true),
+                 'fields' => array('Question.id')
+                ));
+            Cache::write('visible_question_ids', $result, 'question');
+        }
+        
+        return $result;
+    }
+    
+     
+    public function getAllQuizQuestions($id) {
+        $result = Cache::read('quiz_questions_' . $id, 'question');
+        if (!$result) {
+            $result = $this->find('all', array(
+                'conditions' => array('Question.deleted' => false, 
+                                      'Question.approved' => true),
+                'fields' => array('Question.id'),
+                'joins' => array(
+                    array(
+                        'table' => 'question_quizzes as QuestionQuiz',
+                        'conditions' => array(
+                                'QuestionQuiz.quiz_id' => $id,
+                                'QuestionQuiz.question_id = Question.id'
+                        )
+                    )
+                 )
+             )); 
+            Cache::write('quiz_questions_' . $id, $result, 'question');
+        }
+        
+        return $result;
+    }
+    
+    
+    
+    
+    public function getVisibleTagQuestions($id) {
+        $result = Cache::read('visible_tag_questions_' . $id, 'question');
+        if (!$result) {
+            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id));
+            Cache::write('visible_tag_questions_' . $id, $result, 'question');
+        }
+        
+        return $result;
+    }
+    
+    public function getLoggedInTagQuestions($id) {
+        $result = Cache::read('loggedin_tag_questions_' . $id, 'question');
+        if (!$result) {
+            $result = $this->getQuestions(array('deleted' => false, 'tagId' => $id));
+            Cache::write('loggedin_tag_questions_' . $id, $result, 'question');
+        }
+        
+        return $result;
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'question');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'question');
+        Cache::clear(false, 'tag');
     }
 }
 

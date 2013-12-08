@@ -41,7 +41,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')<0) { ?>
+        if (Configure::read('debug')>0) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap.min');
@@ -157,6 +157,27 @@
             </div>
         </div>
         <?php echo $this->element('feedback'); ?>
+        <div class="modal fade" id="parties-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="myModalLabel">Information om partier</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Synliga partier</h4>
+                    <p>För att göra sidan enklare och inte visa för mycket information samtidigt visas endast partier som har fått minst 1% av de Svenska 
+                        rösterna i det senaste EU-parlamentsvalet eller senaste riksdagsvalet.</p><br />
+                    <h4>Sortering av partier</h4>
+                    <p>Partierna är sorterade efter deras bästa resultat i senaste EU-parlementsvalet eller riksdagsvalet. Det partiet med
+                       bäst resultat hamnar till vänster, och partiet med sämst resultat av de som visas hamnar till höger.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                </div>
+              </div>
+            </div>
+         </div>
     </body>
 
 </html>

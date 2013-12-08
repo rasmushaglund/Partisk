@@ -58,9 +58,10 @@ $this->Html->addCrumb('Resultat');
     for (var value in agree_rate) {
       result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
                                         label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'], 
-                                        color: parties[value].color});      
+                                        color: parties[value].color, order: parties[value].order});      
     }
 
+   result.values.sort(function (a, b) { return a.order - b.order; });
    return [result];
  }
 
@@ -72,9 +73,10 @@ $this->Html->addCrumb('Resultat');
     for (var value in points_percentage) {
       result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'], 
                           points:points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name), 
-                          color: parties[value].color});
+                          color: parties[value].color, order: parties[value].order});
     }
 
+   result.values.sort(function (a, b) { return a.order - b.order; });
    return [result];
  }
 

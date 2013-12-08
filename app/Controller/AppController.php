@@ -25,7 +25,6 @@
  */
 
 class AppController extends Controller {
-
     var $helpers = array('Session');
 
     var $isLoggedIn = false;
@@ -200,13 +199,14 @@ class AppController extends Controller {
     private function userCanModifyQuestion($userId, $question, $type) {
         if (!isset($question['Question'])) {
             $this->loadModel('Question');
-            $this->Question->recursive = -1;
+            /*$this->Question->recursive = -1;
             $questions = $this->Question->find('all', array(
                     'fields' => array('created_by', 'approved'),
                     'conditions' => array('id' => $question)
                 ));
 
-            $question = array_pop($questions);
+            $question = array_pop($questions);*/
+            $question = $this->Question->getById($question);
         }
         
 
@@ -232,12 +232,13 @@ class AppController extends Controller {
     private function userCanModifyAnswer($userId, $answer = null, $type) {
         if (!isset($answer['Answer'])) {
             $this->loadModel('Answer');
-            $this->Answer->recursive = -1;
+            /*$this->Answer->recursive = -1;
             $answers = $this->Answer->find('all', array(
                     'fields' => array('created_by', 'approved'),
                     'conditions' => array('id' => $answer)
                 ));
-            $answer = array_pop($answers);
+            $answer = array_pop($answers);*/
+            $answer = $this->Answer->getById($answer);
         }
 
         if ($answer['Answer']['created_by'] == $userId && $answer['Answer']['approved'] == 0) {
@@ -262,12 +263,13 @@ class AppController extends Controller {
     private function userCanModifyQuiz($userId, $quiz = null, $type) {
         if (!isset($quiz['Quiz'])) {
             $this->loadModel('Quiz');
-            $this->Quiz->recursive = -1;
+            /*$this->Quiz->recursive = -1;
             $quizzes = $this->Quiz->find('all', array(
                     'fields' => array('created_by', 'approved'),
                     'conditions' => array('id' => $quiz)
                 ));
-            $quiz = array_pop($quizzes);
+            $quiz = array_pop($quizzes);*/
+            $quiz = $this->Quiz->getById($quiz);
         }
 
         if ($quiz['Quiz']['created_by'] == $userId && $quiz['Quiz']['approved'] == 0) {

@@ -26,9 +26,7 @@
 
 class RolesController extends AppController {
      public function all() {
-        $this->Role->recursive = -1;
-        $roles = $this->Role->find('all', array('order' => 'name'));
-        return $roles;
+        return $this->Role->getAll();
      }
 }
 

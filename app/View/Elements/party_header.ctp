@@ -34,7 +34,7 @@ if (isset($party)) {
 
 	$titleString = "";
 	if (isset($title) && $title) {
-		$titleString = ucfirst($party['name']); 
+		$titleString = "<div class='party-title'>" . ucfirst($party['name']) . "</div>"; 
 	}
 
 	if (isset($link) && isset($party['id']) && $link) {

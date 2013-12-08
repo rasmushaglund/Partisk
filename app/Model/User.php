@@ -27,8 +27,6 @@
 App::uses('AuthComponent', 'Controller/Component');
 
 class User extends AppModel {
-    
-    
     public $validate = array(
         'username' => array(
             'required' => array(
@@ -78,6 +76,33 @@ class User extends AppModel {
             'fields' => array('id', 'username')
         )
     );
+    
+    public function getAll() {
+        $result = Cache::read('all_users', 'user');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', array(
+                'conditions' => array('deleted' => false),
+                'order' => array('username')
+            ));
+            Cache::write('all_users', $result, 'user');
+        }
+        
+        return $result;
+    }
+    
+    public function getById($id) {
+        $result = Cache::read('user_' . $id, 'user');
+        if (!$result) {
+            $this->recursive = -1;
+            $this->contain(array("CreatedBy", "UpdatedBy", "Role"));
+            $result = $this->findById($id);
+            Cache::write('user_' . $id, $result, 'user');
+        }
+        
+        return $result;
+    }
+    
     //From Wuilliam Lacruz, http://stackoverflow.com/questions/3760663/cakephp-password-validation/3766745#3766745
     public function match($check, $with) {
     // Getting the keys of the parent field
@@ -103,6 +128,16 @@ class User extends AppModel {
             $this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'],'blowfish');
         }
         return true;
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'user');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'user');
     }
 }
 ?>

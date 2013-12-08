@@ -68,3 +68,5 @@ $deleted = $question['Question']['deleted'];
   </tr>
 <?php endforeach; ?>
 </table>
+
+<a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
