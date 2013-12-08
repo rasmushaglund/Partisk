@@ -144,7 +144,7 @@ class UsersController extends AppController {
                 $this->customFlash(__('Användaren har sparats'));
                 $this->logUser('edit', $this->request->data['User']['id']);
             } else {
-                $this->customFlash(__('Användaren kunde inte sparas.')); 
+                $this->customFlash(__('Användaren kunde inte sparas.'), 'danger'); 
                 $this->Session->write('validationErrors', array('User' => $this->User->validationErrors, 'mode' => 'update'));
                 $this->Session->write('formData', $this->data);
             }
@@ -180,7 +180,7 @@ class UsersController extends AppController {
         }
     }
 
-    public function delete($id) {
+    public function delete($id = null) {
         if (!$this->canDeleteUser) {
             $this->abuse("Not authorized to delete user with id " . $id);
             return $this->redirect($this->referer());
