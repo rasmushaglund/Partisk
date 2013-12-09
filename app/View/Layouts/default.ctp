@@ -69,6 +69,7 @@
         
             <style>.party-logo,.party-logo-small{background:url('http://static.partisk.nu/img/partisk-sprite-v<?php echo $version; ?>.png') no-repeat;}</style>
             <link rel="stylesheet" type="text/css" href="http://static.partisk.nu/css/partisk-v<?php echo $version; ?>.min.css" />
+            <script type="text/javascript" src="http://static.partisk.nu/js/graph-v<?php echo $version; ?>.min.js"></script>
             <script type="text/javascript" src="http://static.partisk.nu/js/partisk-v<?php echo $version; ?>.min.js"></script>
         <?php } ?>
     </head>
