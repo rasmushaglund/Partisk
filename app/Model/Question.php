@@ -248,12 +248,13 @@ class Question extends AppModel {
         return $result;
     }
     
-    public function searchQuestion($what) {
-        $result = Cache::read('search_' . $what, 'question');
+    public function searchQuestion($what, $loggedIn = false) {
+        $loggedInString = isset($loggedIn) && $loggedIn ? 'logged_in_' : '';
+        $result = Cache::read('search_' . $loggedInString . $what, 'question');
         
         if (strlen($what) < 3) {
             $result = array();
-            Cache::write('search_' . $what, $result, 'question');
+            Cache::write('search_' . $loggedInString . $what, $result, 'question');
             return $result;
         }
         
@@ -277,7 +278,7 @@ class Question extends AppModel {
                 $result = array(array('value' => 'Ingen fråga matchade ditt svar'));
             }
             
-            Cache::write('search_' . $what, $result, 'question');
+            Cache::write('search_' . $loggedInString . $what, $result, 'question');
         }
         
         return $result;
