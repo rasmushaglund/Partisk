@@ -25,8 +25,11 @@
  */
 
 if ($canDeleteQuiz) {
-	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
-					array('controller' => 'quizzes', 'action' => 'delete', $quiz['id']), 
-					array('class' => 'btn btn-danger', 'escape' => false));
+    
+    echo $this->Bootstrap->delete('Quiz', $quiz['id'], array( 'class' => 'btn btn-danger', 'modalLabel' => "Ta bort Quiz", 'label' => "Ta bort Quiz", 'modelItem' => $quiz['name']));
+    
+//	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
+//					array('controller' => 'quizzes', 'action' => 'delete', $quiz['id']), 
+//					array('class' => 'btn btn-danger', 'escape' => false));
 }
 ?>

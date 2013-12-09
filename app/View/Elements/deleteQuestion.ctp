@@ -24,10 +24,20 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-	if ($canDeleteQuestion || (!$question['approved'] && $question['created_by'] == $current_user['id'])) {
-		echo $this->Form->postLink('<i class="fa fa-times"></i>',
-            array('action' => 'delete', $question['id']),
-    	    array('confirm' => 'Är du säker på att du vill ta bort frågan "' . $question['title'] . '"?', 
-    	    		'class' => 'btn btn-danger btn-xs', 'escape' => false));
+	if ($canDeleteQuestion || (!$question['approved'] && $question['created_by'] == $current_user['id'])) {    
+  
+            echo $this->Bootstrap->delete('Question', $question['id'], array('label' => "Ta bort fråga", 'modelItem' => $question['title']));  
+            
+//             echo $this->Bootstrap->create('Question',
+//            array('action' => 'delete/'. $question['id'] ,  "id" => "delete" . $question['id'],  'modal' => true, 'icon' => 'fa fa-times', 'class' => "btn btn-danger btn-xs" ));      
+//        echo '<p>Är du säker att du vill ta bort ' .  '?</p>';             
+//        echo $this->Bootstrap->end("Ta bort", array('modal' => TRUE));
+        
+        
+        
+//            echo $this->Form->postLink('<i class="fa fa-times"></i>',
+//            array('action' => 'delete', $question['id']),
+//    	    array('confirm' => 'Är du säker på att du vill ta bort frågan "' . $question['title'] . '"?', 
+//    	    		'class' => 'btn btn-danger btn-xs', 'escape' => false));
 	}
 ?>
