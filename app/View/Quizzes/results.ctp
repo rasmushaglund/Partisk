@@ -31,7 +31,6 @@ $this->Html->addCrumb(ucfirst($quizName));
 $this->Html->addCrumb('Resultat');
 
 if (Configure::read('debug')==0) { ?>
-?>
     <script type="text/javascript" src="http://static.partisk.nu/js/graph-v<?php echo Configure::read('PartiskVersion'); ?>.min.js"></script>
 <?php } ?>
 
