@@ -236,7 +236,7 @@ class QuizzesController extends AppController {
                                    för att förbättra sidan med den feedback vi får in.'), 'danger');
             return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
         }
-
+        
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesHash();
         

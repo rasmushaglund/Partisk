@@ -182,16 +182,29 @@ class Question extends AppModel {
     }
 
     public function getQuestionsByQuizId($id) {
-        $this->recursive = -1;
-        return $this->find('all', array(
-                'conditions' => array('deleted' => false, 'approved' => true),
-                'joins' => array(array(
-                                'table' => 'question_quizzes as QuestionQuiz',
-                                'conditions' => array('QuestionQuiz.quiz_id' => $id,
-                                                      'Question.id = QuestionQuiz.question_id')
-                            )),
-                'fields' => array('Question.*, QuestionQuiz.id')
-            ));
+        $result = Cache::read('visible_questions', 'question');
+        if (!$result) {
+            $this->recursive = -1; 
+            
+            if ($id === 'all') {
+                $result = $this->find('all', array(
+                    'conditions' => array('deleted' => false, 'approved' => true)));
+            } else {
+                $result = $this->find('all', array(
+                    'conditions' => array('deleted' => false, 'approved' => true),
+                    'joins' => array(array(
+                                    'table' => 'question_quizzes as QuestionQuiz',
+                                    'conditions' => array('QuestionQuiz.quiz_id' => $id,
+                                                          'Question.id = QuestionQuiz.question_id')
+                                )),
+                    'fields' => array('Question.*, QuestionQuiz.id')
+                ));
+            }
+           
+            Cache::write('visible_questions', $result, 'question');
+        }
+        
+        return $result;
     }
     
     public function getUserQuestions($userId) {

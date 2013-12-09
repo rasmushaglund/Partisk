@@ -89,7 +89,6 @@ class Quiz extends AppModel {
         $questionModel->recursive = -1;  
         //$questions = $questionModel->find('all', array('conditions' => array('Question.id' => $questionIds)));
         $questions = $questionModel->getQuestionsByQuizId($quizSession['QuizSession']['quiz_id']);
-        
         $answersMatrix = $answerModel->getAnswersMatrix($questions, $answers);
 
         $partiesModel->recursive = -1;
