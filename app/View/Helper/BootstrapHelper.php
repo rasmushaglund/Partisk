@@ -179,9 +179,6 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['label'])) {
             $args['label'] = '';
         }
-        if (!isset($args['label2'])) {
-            $args['label2'] = '';
-        }
         if (!isset($args['icon'])) {
             $args['icon'] = 'fa fa-plus-square';
         }
@@ -211,6 +208,43 @@ class BootstrapHelper extends AppHelper {
         return $this->_View->element('bootstrap/endForm', $args);
     }
 
+    public function delete($model, $modelId, $args = null) {
+
+        $args['model'] = $model;        
+        $args['id'] = 'delete' . $modelId;  
+  
+        if (!isset($args['action'])) {
+            $args['action'] = 'delete/' . $modelId;
+        }
+        if (!isset($args['label'])) {
+            $args['label'] = "Ta bort";
+        }
+        
+        if (!isset($args['modalLabel'])) {
+            $args['modalLabel'] = "";
+        }
+        
+        if (!isset($args['modelItem'])) {
+            $args['modelItem'] = null;
+        }else{
+            $args['modelItem'] = ' "' . $args['modelItem'] . '"';
+        }     
+        if (!isset($args['icon'])) {
+            $args['icon'] = 'fa fa-times';
+        }
+        if (!isset($args['class'])) {
+            $args['class'] = 'btn btn-danger btn-xs';
+        }        
+        if (!isset($args['modal'])) {
+            $args['modal'] = true;
+        }
+        if (!isset($args['end'])) {
+            $args['end'] = "Ta bort";
+        }
+        
+        
+        return $this->_View->element('bootstrap/delete', $args);
+    }
 }
 
 ?>

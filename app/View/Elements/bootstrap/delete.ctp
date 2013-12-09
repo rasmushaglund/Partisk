@@ -1,6 +1,6 @@
-<?php 
+<?php
 /** 
- * Delete user view
+ * Bootstrap checkbox view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,11 +20,13 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-    if ($canDeleteUser) {   
-        echo $this->Bootstrap->delete('User', $userId, array('label' => "Ta bort användare", 'modelItem' => $user));       
-    }             
+    echo $this->Bootstrap->create($model,
+        array('action' => $action,  "id" => $id , 'modalLabel' => $modalLabel,  'label' => $label, 'modal' => $modal, 'icon' => $icon, 'class' => $class ));      
+    echo '<p>Är du säker att du vill ta bort'. $modelItem .'?</p>';             
+    echo $this->Bootstrap->end($end, array('modal' => $modal)); 
+        
 ?>

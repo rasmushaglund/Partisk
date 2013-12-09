@@ -25,8 +25,10 @@
  */
 
 if ($canEditQuiz) {
-	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
-					array('controller' => 'quizzes', 'action' => 'deleteQuestion', $questionQuiz['id']), 
-					array('class' => 'btn btn-danger btn-xs', 'escape' => false));
+    
+    echo $this->Bootstrap->delete('Quiz', $questionQuiz['id'], array('action' => 'deleteQuestion/' . $questionQuiz['id'] , 'label' => "Ta bort fråga")); 
+//	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
+//					array('controller' => 'quizzes', 'action' => 'deleteQuestion', $questionQuiz['id']), 
+//					array('class' => 'btn btn-danger btn-xs', 'escape' => false));
 }
 ?>

@@ -25,9 +25,6 @@
  */
 
 if ($canDeleteTag) {
-	echo $this->Form->postLink('<i class="fa fa-times"></i>',
-		array('controller' => 'tags', 'action' => 'delete', $tagId),	
-    	array('confirm' => 'Är du säker på att du vill ta bort taggen "' . $tag . '"?',
-    		  'class' => 'btn btn-xs btn-danger', 'escape' => false)); 
+    echo $this->Bootstrap->delete('Tag', $tagId, array('label' => "Ta bort tag", 'modelItem' => $tag));
 }
 ?>

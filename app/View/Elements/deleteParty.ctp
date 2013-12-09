@@ -25,8 +25,6 @@
  */
 
 	if ($canDeleteParty) {
-		echo $this->Form->postLink('<i class="fa fa-times"></i>',
-            array('action' => 'delete', $partyId),
-            array('confirm' => 'Är du säker på att du vill ta bort partiet "' . $party . '"?', 'class' => 'btn btn-danger btn-xs', 'escape' => false));
+            echo $this->Bootstrap->delete('Party', $partyId, array('label' => "Ta bort parti", 'modelItem' => $party)); 
 	}
 ?>
