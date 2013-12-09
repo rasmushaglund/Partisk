@@ -1,6 +1,6 @@
 <?php
 /** 
- * Bootstrap checkbox view
+ * Bootstrap delete view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
