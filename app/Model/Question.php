@@ -259,11 +259,16 @@ class Question extends AppModel {
         }
         
         if (!$result) {
+            $conditions = array('title LIKE' => "%$what%",
+                                      'deleted' => false);
+            
+            if (!$loggedIn) {
+                $conditions['approved'] = true;
+            }
+            
             $this->recursive = -1;	            
             $questions = $this->find('list', array(
-                'conditions' => array('title LIKE' => "%$what%",
-                                      'deleted' => false,
-                                      'approved' => true),
+                'conditions' => $conditions,
                 'fields' => array('title'),
                 'limit' => '5'
             ));

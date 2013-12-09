@@ -236,7 +236,7 @@ class QuestionsController extends AppController {
         $this->layout = 'ajax';
         $this->autoRender=false;
         
-        echo json_encode($this->Question->searchQuestion($what));
+        echo json_encode($this->Question->searchQuestion($what, $this->isLoggedIn));
 
     }
 
