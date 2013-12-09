@@ -663,3 +663,15 @@ text-decoration: underline;
 .party-logo-small-9 { background-position: -75px -175px; }
 .party-logo-small-10 { background-position: -225px -175px; }
 .party-logo-small-11 { background-position: -250px -175px; }
+
+.tt-hint {
+    visibility:hidden;
+}
+
+#partisk-search {
+    margin-bottom: 20px;
+}
+
+#partisk-search input, .tt-dropdown-menu {
+    width: 300px;
+}

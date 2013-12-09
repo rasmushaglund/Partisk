@@ -38,6 +38,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->Auth->allow(array('search'));
     }
 
     public function index() {
@@ -228,6 +229,15 @@ class QuestionsController extends AppController {
         } else {
             $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
         }
+    }
+    
+    public function search($what) {
+        
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        echo json_encode($this->Question->searchQuestion($what));
+
     }
 
     public function logUser($action, $object_id, $text = "") {

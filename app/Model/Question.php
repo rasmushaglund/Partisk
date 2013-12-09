@@ -248,6 +248,37 @@ class Question extends AppModel {
         return $result;
     }
     
+    public function searchQuestion($what) {
+        $result = Cache::read('search_' . $what, 'question');
+        
+        if (strlen($what) < 3) {
+            $result = array();
+            Cache::write('search_' . $what, $result, 'question');
+            return $result;
+        }
+        
+        if (!$result) {
+            $this->recursive = -1;	            
+            $questions = $this->find('list', array(
+                'conditions' => array('title LIKE' => "%$what%",
+                                      'deleted' => false,
+                                      'approved' => true),
+                'fields' => array('title'),
+                'limit' => '5'
+            ));
+            
+            $result = array();
+            
+            foreach ($questions as $key=>$value) {
+                $result[] = array('key' => $key, 'value' => $value);
+            }
+            
+            Cache::write('search_' . $what, $result, 'question');
+        }
+        
+        return $result;
+    }
+    
      
     public function getAllQuizQuestions($id) {
         $result = Cache::read('quiz_questions_' . $id, 'question');

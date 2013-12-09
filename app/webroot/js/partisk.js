@@ -65,7 +65,15 @@ $(document).ready(function() {
             }
         });
         
-        console.log($(".table-row.table-head").height());
+        $('#partisk-search input').typeahead([
+            {
+            name: 'questions',
+            remote: appRoot + 'questions/search/%QUERY',
+            minLength: 3
+            }
+        ]).bind('typeahead:selected', function(event, obj) {      
+            window.location = appRoot + "questions/view/" + obj.key;
+        }).focus();
 });
 
 var openEditModal = function(controller, id) {

@@ -45,6 +45,7 @@
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap.min');
+            echo $this->Html->css('typeahead.js-bootstrap');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
             echo $this->Html->css('datepicker');
@@ -53,6 +54,7 @@
             echo $this->Html->script('bootstrap');
             echo $this->Html->script('bootstrap-datepicker');
             echo $this->Html->script('bootstrap-datepicker.sv.js', false);
+            echo $this->Html->script('typeahead');
             echo $this->Html->script('d3.v2');
             echo $this->Html->script('nv.d3');
             echo $this->Html->script('partisk');
@@ -119,6 +121,16 @@
             </div><!-- /.navbar-collapse -->
         </nav>
         <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="partisk-search">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Sök fråga"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $this->Html->getCrumbList(array('class' => 'breadcrumb'), 'Hem'); ?>
