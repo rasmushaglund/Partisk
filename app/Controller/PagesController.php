@@ -27,7 +27,12 @@
 App::uses('AppController', 'Controller');
 
 class PagesController extends AppController {
-    private $currentPage = "default2";
+    
+    var $helpers = array('Cache');
+    public $cacheAction = array(
+        'index' => array('callbacks' => true, 'duration' => '1 week'));
+    
+    private $currentPage = "default";
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -39,21 +44,20 @@ class PagesController extends AppController {
         $this->set("currentPage", $this->currentPage);
     }
 
-	public function index() {
+    public function index() {
         $this->loadModel('Question');
 
-        $this->Question->recursive = -1;
         $questions = $this->Question->getLatest();
 
         $this->set('questions', $questions);
         $this->set('title_for_layout', 'Hem');
         $this->currentPage = "home";
-	}
+    }
 
-	public function about() {
+    public function about() {
         $this->set('title_for_layout', 'Om sidan');
         $this->currentPage = "about";
-	}
+    }
 
     public function contact() {
         $this->set('title_for_layout', 'Kontakt');

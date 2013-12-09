@@ -21,7 +21,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-Configure::write('PartiskVersion', '0.2');
+Configure::write('PartiskVersion', '0.2.1');
 
 /**
  * CakePHP Debug Level:
@@ -231,12 +231,12 @@ Configure::write('PartiskVersion', '0.2');
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'askfljLFlisfLIHF8912hHDHSUiH829139DKaskksadkKD');
+	Configure::write('Security.salt', 'hjgHGYT78IUghjgfyu7879UYhjgHJgkjGKUYGkhjghjKGHGDGhgdkiwiubBBD897');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '123804219801952039532095097109247092183834834');
+	Configure::write('Security.cipherSeed', '51985320986519826532098172430981720436093285710');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -296,16 +296,63 @@ Configure::write('PartiskVersion', '0.2');
  * 		'mask' => 0664, //[optional]
  *	));
  *
- * APC (http://pecl.php.net/package/APC)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Apc', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
- *
- * Xcache (http://xcache.lighttpd.net/)
+  APC (http://pecl.php.net/package/APC) */
+ 
+        if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost') {
+	    // debug
+	} else {	
+	    // production
+            Cache::config('party', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'party', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('question', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'question', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('answer', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'answer', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('user', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'user', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('quiz', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'quiz', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('role', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'role', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('tag', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'tag', //[optional]  prefix every cache file with this string
+            ));
+             Cache::config('result', array(
+                    'engine' => 'Apc', //[required]
+                    'duration' => 216000, //[optional]
+                    'probability' => 100, //[optional]
+                    'prefix' => 'result', //[optional]  prefix every cache file with this string
+            ));
+        }
+ 
+ /* Xcache (http://xcache.lighttpd.net/)
  *
  * 	 Cache::config('default', array(
  *		'engine' => 'Xcache', //[required]

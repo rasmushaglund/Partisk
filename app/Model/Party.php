@@ -67,12 +67,10 @@ class Party extends AppModel {
         $this->recursive = -1;
         $result = array();
 
-        $parties = $this->find('all', array(
-                'fields' => array('id', 'name', 'color'),
-                'conditions' => array('deleted' => false)
-            ));
-
+        $parties = $this->getPartiesOrdered();
+        $index = 0;
         foreach ($parties as $party) {
+            $party['Party']['order'] = $index++;
             $result[$party['Party']['id']] = $party['Party'];
         }
 
@@ -80,12 +78,29 @@ class Party extends AppModel {
     }
 
     public function getPartiesOrdered() {
-        $this->recursive = -1;
-        return $this->find('all', array(
-                'conditions' => array('Party.deleted' => false),
-                'fields' => array('id', 'name', 'best_result', 'last_result_parliment', 'last_result_eu'),
-                'order' => 'Party__best_result DESC')
-            );
+        $result = Cache::read('parties_ordered', 'party');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', array(
+                    'conditions' => array('Party.deleted' => false),
+                    'fields' => array('id', 'name', 'best_result', 'last_result_parliment', 'last_result_eu', 'color'),
+                    'order' => 'Party__best_result DESC')
+                );
+            Cache::write('parties_ordered', $result, 'party');
+        }
+        return $result;
+    }
+    
+    
+    public function getById($id) {
+        $result = Cache::read('party_' . $id, 'party');
+        if (!$result) {
+            $this->recursive = -1;
+            $this->contain(array('CreatedBy', 'UpdatedBy'));
+            $result = $this->findById($id);
+            Cache::write('party_' . $id, $result, 'party');
+        }
+        return $result;
     }
 
     public function getIdsFromParties($parties) {
@@ -96,6 +111,16 @@ class Party extends AppModel {
         }
 
         return $partyIds;
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'party');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'party');
     }
 }
 

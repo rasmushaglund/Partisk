@@ -38,19 +38,17 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->Auth->allow(array('search'));
     }
 
     public function index() {
-        $this->loadModel('Party');
-        $this->loadModel('Answer');
-
-        $questionConditions = array('deleted' => false);
-
         if(!$this->isLoggedIn) {
-            $questionConditions['approved'] = true;
-        }   
+            $questions = $this->Question->getVisibleQuestions();
+        }  else {  
+            $questions = $this->Question->getLoggedInQuestions();
+        }
 
-        $questions = $this->Question->getQuestions($questionConditions);
+        $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
         
         $questionIds = $this->Question->getIdsFromModel('Question', $questions);
@@ -62,6 +60,7 @@ class QuestionsController extends AppController {
             $answersConditions['approved'] = true;
         }   
         
+        $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
@@ -76,7 +75,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-        $question = $this->Question->getQuestionById($id);
+        $question = $this->Question->getById($id);
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
@@ -131,7 +130,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $question = $this->Question->getQuestionById($id);
+        $question = $this->Question->getById($id);
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
@@ -199,8 +198,7 @@ class QuestionsController extends AppController {
         $data['Question']['updated_date'] = date('c');
         $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
         
-        $existingQuestion = $this->Question->findById($id);
-
+        $existingQuestion = $this->Question->getById($id);
        
         if ($existingQuestion['Question']['approved'] !== $data['Question']['approved']) {
             $data['Question']['approved'] = $data['Question']['approved'];
@@ -231,6 +229,15 @@ class QuestionsController extends AppController {
         } else {
             $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
         }
+    }
+    
+    public function search($what) {
+        
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        echo json_encode($this->Question->searchQuestion($what));
+
     }
 
     public function logUser($action, $object_id, $text = "") {

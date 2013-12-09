@@ -32,13 +32,7 @@ body {
     background-color: #e7e7e7;
 }
 
-img.logo {
-	max-height: 50px;
-	max-width: 50px;
-	display: inline-block;
-}
-
-img.logo.small {
+div.logo.small {
 	max-height: 25px;
 	max-width: 25px;
 	margin-right: 5px;
@@ -61,8 +55,13 @@ h1 a:hover {
 	color: inherit;
 }
 
-h1 img {
+h1 .party-logo {
 	margin-right: 8px;
+}
+
+h1 .party-title {
+    top: -10px;
+    position: relative;
 }
 
 .table.table-nonfluid tbody > tr > th {
@@ -92,6 +91,12 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 
 .qa-table .table-cell {
 	text-align: center;
+}
+
+.table .party-title {
+    position: relative;
+    margin-left: 6px;
+    top: -6px;
 }
 
 .party-table .table-row {
@@ -217,7 +222,7 @@ table.qa-table thead th, table.qa-table tbody td {
 }
 
 .table {
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 tr {
@@ -533,13 +538,24 @@ text-decoration: underline;
 }
 
 .qa-table .table-header, .qa-table .table-cell {
-    width: 93px;
+    width: 76px;
 }
 
 .qa-table .table-header-text {
     width: 300px;
     text-align: left;
     font-weight: bold;
+}
+
+.table-head-container .qa-table .table-header-text {
+    position: relative;
+}
+
+
+.table-head-container .table-header-text a {
+    padding: 0px;
+    right: 0;
+    position: absolute;
 }
 
 .table-fixed .table {
@@ -549,6 +565,12 @@ text-decoration: underline;
 
 .qa-table {
     margin-bottom: 0px;
+}
+
+.qa-table .popover-hover-link {
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 
 .qa-table .table-row.table-head {
@@ -573,7 +595,7 @@ text-decoration: underline;
     left: 0px;
     top: 0px;
     position: fixed;
-    height: 68px;
+    height: 71px;
     width: 100%;
     background-color: white;
     box-shadow: 0px 2px 17px #999;
@@ -583,11 +605,11 @@ text-decoration: underline;
 
 .table-head-container .table-header-bg {
     display: none;
-    z-index: 100001;
+    z-index: 501;
 }
 
 .table-head-container .table {
-    z-index: 100002;
+    z-index: 502;
 }
 
 .table-head-container.table-fixed .table-header-bg {
@@ -599,13 +621,17 @@ text-decoration: underline;
 }
 
 .party-logo {
-    background: url('../img/partisk-sprite.png') no-repeat;
+    display: inline-block;
     width: 50px;
     height: 50px;
 }
 
+.party-title {
+    display: inline-block;
+}
+
 .party-logo-small {
-    background: url('../img/partisk-sprite.png') no-repeat;
+    display: inline-block;
     width: 25px;
     height: 25px;
 }
@@ -623,6 +649,8 @@ text-decoration: underline;
 .party-logo-7 { background-position: -100px 0px; }
 .party-logo-8 { background-position: -150px -50px; }
 .party-logo-9 { background-position: -150px -0px; }
+.party-logo-10 { background-position: -50px -100px; }
+.party-logo-11 { background-position: -100px -100px; }
 
 .party-logo-small-1 { background-position: -150px -175px; }
 .party-logo-small-2 { background-position: -100px -175px; }
@@ -633,3 +661,17 @@ text-decoration: underline;
 .party-logo-small-7 { background-position: -200px -175px; }
 .party-logo-small-8 { background-position: -175px -175px; }
 .party-logo-small-9 { background-position: -75px -175px; }
+.party-logo-small-10 { background-position: -225px -175px; }
+.party-logo-small-11 { background-position: -250px -175px; }
+
+.tt-hint {
+    visibility:hidden;
+}
+
+#partisk-search {
+    margin-bottom: 20px;
+}
+
+#partisk-search input, .tt-dropdown-menu {
+    width: 300px;
+}

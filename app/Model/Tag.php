@@ -56,7 +56,7 @@ class Tag extends AppModel {
 
     public $virtualFields = array('number_of_questions' => "count(Question.id)");
 
-    public function getTags($args) {
+    public function getTags($args = null) {
         $id = isset($args['id']) ? $args['id'] : null;
         $tagDeleted = isset($args['tagDeleted']) ? $args['tagDeleted'] : false;
         $questionDeleted = isset($args['questionDeleted']) ? $args['questionDeleted'] : false;
@@ -87,6 +87,29 @@ class Tag extends AppModel {
                 'group' => array('Tag.id')
             ));
     }
+    
+    public function getAllTags() {
+        $result = Cache::read('all_tags', 'tag');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->getTags();
+            Cache::write('all_tags', $result, 'tag');
+        }
+        
+        return $result;
+    }
+    
+    public function getAllApprovedTags() {
+        $result = Cache::read('all_approved_tags', 'tag');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->getTags(array('approved' => true));
+            Cache::write('all_approved_tags', $result, 'tag');
+        }
+        
+        return $result;
+        
+    }
 
     public function getTagStringByQuestionId($id) {
         $tagIds = $this->find('list', array(
@@ -106,6 +129,8 @@ class Tag extends AppModel {
 
     // TODO: Refactor this :(
     public function addTags($data, $questionId) {
+        Cache::clear(false, 'tag');
+        
         $tagsString = $data['Question']['tags'];
         $tagsArray = array_map('trim', explode(',', strtolower($tagsString)));
 
@@ -149,9 +174,51 @@ class Tag extends AppModel {
                         "tag_id" => $id
                     ));
             }
-
+            
             $this->Question->QuestionTag->saveAll($questionTags);
         }
+    }
+    
+    public function getAll() {
+        $result = Cache::read('all_tags', 'tag');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', 
+                    array('conditions' => array('Tag.deleted' => false),
+                          'order' => 'name',
+                          'fields' => array('Tag.id', 'Tag.name')));
+            Cache::write('all_tags', $result, 'tag');
+        }
+        
+        return $result;
+    }
+    
+    public function getById($id) {
+        $result = Cache::read('tag_' . $id, 'tag');
+        if (!$result) {
+            $this->contain(array("CreatedBy", "UpdatedBy"));
+            $tags = $this->find('all', array(
+                    'conditions' => array('Tag.id' => $id),
+                    'fields' => array('Tag.id', 'Tag.name' ,'Tag.created_date' ,'Tag.updated_date')
+                ));
+
+            $result = array_pop($tags);
+            Cache::write('tag_' .$id, $result, 'tag');
+        }
+        
+        return $result;
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'tag');
+        Cache::clear(false, 'question');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'tag');
+        Cache::clear(false, 'question');
     }
 }
 

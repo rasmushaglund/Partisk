@@ -64,13 +64,7 @@ class UsersController extends AppController {
     }
     
     public function index() {
-        $this->User->recursive = -1;
-        $users = $this->User->find('all', array(
-            'conditions' => array('deleted' => false),
-            'order' => array('username')
-        ));
-        $this->set('users', $users);
-
+        $this->set('users', $this->User->getAll());
         $this->set('title_for_layout', 'Användare');
     }
 
@@ -83,15 +77,11 @@ class UsersController extends AppController {
             throw new NotFoundException("Ogiltig användare");
         }
 
-        $this->User->recursive = -1;
-        $this->User->contain(array("CreatedBy", "UpdatedBy"));
-        $user = $this->User->findById($id);
+        $user = $this->User->getById($id);
 
         if (empty($user)) {
             throw new NotFoundException("Ogiltig användare");
         }
-
-        
         
         $this->set('user', $user);
         $this->set('title_for_layout', $user['User']['username']);
@@ -156,9 +146,7 @@ class UsersController extends AppController {
             throw new NotFoundException("Ogiltig användare");
         }
 
-        $this->User->recursive = -1;
-        $this->User->contain('Role');
-        $user = $this->User->findById($id);
+        $user = $this->User->getById($id);
 
         if (empty($user)) {
             throw new NotFoundException("Ogiltig användare");
@@ -167,8 +155,7 @@ class UsersController extends AppController {
         if (!$this->request->data) {
             $this->request->data = $user;
         }
-
-        $this->User->recursive = -1;
+        
         $this->set('user', $user);
 
         if ($this->request->is('ajax')) {

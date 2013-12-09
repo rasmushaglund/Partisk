@@ -41,8 +41,11 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')>0) {
+        if (Configure::read('debug')>0) { ?>
+            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
+        <?php
             echo $this->Html->css('bootstrap.min');
+            echo $this->Html->css('typeahead.js-bootstrap');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
             echo $this->Html->css('datepicker');
@@ -51,19 +54,23 @@
             echo $this->Html->script('bootstrap');
             echo $this->Html->script('bootstrap-datepicker');
             echo $this->Html->script('bootstrap-datepicker.sv.js', false);
+            echo $this->Html->script('typeahead');
             echo $this->Html->script('d3.v2');
             echo $this->Html->script('nv.d3');
             echo $this->Html->script('partisk');
-        } else {
-            $version = Configure::read('PartiskVersion');
-            echo $this->Html->css("partisk-v$version.min");
-            echo $this->Html->script("partisk-v$version.min");
-        }
 
-        echo $this->fetch('meta');
-        echo $this->fetch('css');
-        echo $this->fetch('script');
-        ?>
+            echo $this->fetch('meta');
+            echo $this->fetch('css');
+            echo $this->fetch('script');
+        } else { 
+            $version = Configure::read('PartiskVersion'); 
+            echo $this->fetch('meta');
+            ?>
+        
+            <style>.party-logo,.party-logo-small{background:url('http://static.partisk.nu/img/partisk-sprite-v<?php echo $version; ?>.png') no-repeat;}</style>
+            <link rel="stylesheet" type="text/css" href="http://static.partisk.nu/css/partisk-v<?php echo $version; ?>.min.css" />
+            <script type="text/javascript" src="http://static.partisk.nu/js/partisk-v<?php echo $version; ?>.min.js"></script>
+        <?php } ?>
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -116,6 +123,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                    <div id="partisk-search">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Sök fråga"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <?php echo $this->Html->getCrumbList(array('class' => 'breadcrumb'), 'Hem'); ?>
                     <?php echo $this->Session->flash(); ?>
                 </div>
@@ -152,6 +169,27 @@
             </div>
         </div>
         <?php echo $this->element('feedback'); ?>
+        <div class="modal fade" id="parties-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="myModalLabel">Information om partier</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Synliga partier</h4>
+                    <p>För att göra sidan enklare och inte visa för mycket information samtidigt visas endast partier som har fått minst 1% av de Svenska 
+                        rösterna i det senaste EU-parlamentsvalet eller senaste riksdagsvalet.</p><br />
+                    <h4>Sortering av partier</h4>
+                    <p>Partierna är sorterade efter deras bästa resultat i senaste EU-parlementsvalet eller riksdagsvalet. Det partiet med
+                       bäst resultat hamnar till vänster, och partiet med sämst resultat av de som visas hamnar till höger.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                </div>
+              </div>
+            </div>
+         </div>
     </body>
 
 </html>

@@ -31,6 +31,7 @@
         <div class="table-header-text"><?php if (isset($label)) { ?>
           <h3><?php echo $label; ?></h3> 
         <?php } ?>
+          <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
         </div>
       </div>
       <?php foreach ($parties as $party): ?>

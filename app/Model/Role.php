@@ -31,5 +31,26 @@ class Role extends AppModel {
             'foreignKey' => 'role'
         ),
     );
+    
+    public function getAll() {
+        $result = Cache::read('all_roles', 'role');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', array('order' => 'name'));
+            Cache::write('all_roles', $result, 'role');
+        }
+        
+        return $result;
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'role');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'role');
+    }
 }
 ?>

@@ -37,9 +37,7 @@ class PartiesController extends AppController {
     }
 
     public function index() {
-        $this->Party->recursive = -1;
         $this->set('parties', $this->Party->getPartiesOrdered());
-
         $this->set('title_for_layout', 'Partier');
     }
 
@@ -47,10 +45,8 @@ class PartiesController extends AppController {
         if (!$id) {
             throw new NotFoundException("Ogiltigt parti");
         }
-        $this->loadModel('Answer');
-        $this->Party->recursive = -1;
-        $this->Party->contain(array('CreatedBy', 'UpdatedBy'));
-        $party = $this->Party->findById($id);
+       
+        $party = $this->Party->getById($id);
 
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
@@ -59,16 +55,18 @@ class PartiesController extends AppController {
         $conditions = array('deleted' => false);
 
         if(!$this->isLoggedIn) {
-            $conditions['approved'] = true;
+            $questions = $this->Party->Answer->Question->getVisibleQuestions();
+        } else {
+            $questions = $this->Party->Answer->Question->getLoggedInQuestions();
         }
-        $questions = $this->Party->Answer->Question->getQuestions($conditions);
+        
         $questionIds = array();
 
         foreach ($questions as $question) {
             array_push($questionIds, $question['Question']['id']);  
         }
 
-        $party["Answer"] = $this->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
+        $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
                                     'includeQuestion' => true));
 
         $this->set('party', $party);
@@ -121,11 +119,7 @@ class PartiesController extends AppController {
      }
 
      public function all() {
-        $this->Party->recursive = -1;
-        $parties = $this->Party->find('all', 
-                array('conditions' => array('Party.deleted' => false),
-                      'order' => 'name'));
-        return $parties;
+        return $this->Party->getPartiesOrdered();
      }
 
      public function edit($id = null) {
@@ -154,7 +148,7 @@ class PartiesController extends AppController {
             throw new NotFoundException("Ogiltigt parti");
         }
 
-        $party = $this->Party->findById($id);
+        $party = $this->Party->getById($id);
 
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
@@ -164,8 +158,7 @@ class PartiesController extends AppController {
             $this->request->data = $party;
         }
 
-        $this->Party->recursive = -1;
-        $this->set('party', $this->Party->findById($id));
+        $this->set('party', $party);
 
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';

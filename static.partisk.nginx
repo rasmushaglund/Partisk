@@ -1,0 +1,19 @@
+server {
+       listen 80;
+
+       root /usr/share/nginx/www/partisk/app/webroot;
+
+       server_name static.partisk.nu;
+
+       rewrite ^/(.)*\.php$ /;
+       rewrite ^/css/partisk\-v.*\.css$ /css/partisk.min.css;
+       rewrite ^/js/partisk\-v.*\.js$ /js/partisk.min.js;
+       rewrite ^/img/partisk\-sprite\-v.*\.png$ /img/partisk-sprite.png;
+
+        location ~* \.(?:ico|css|js|png)$ {
+                 expires 1y;
+                 add_header Pragma public;
+                 add_header Vary "Accept-Encoding";
+                 add_header Cache-Control "public";
+        }
+}

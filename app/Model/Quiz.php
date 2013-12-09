@@ -87,14 +87,13 @@ class Quiz extends AppModel {
         $answers = $answerModel->getAnswers($answersConditions); 
 
         $questionModel->recursive = -1;  
-        $questions = $questionModel->find('all', array('conditions' => array('Question.id' => $questionIds)));
+        //$questions = $questionModel->find('all', array('conditions' => array('Question.id' => $questionIds)));
+        $questions = $questionModel->getQuestionsByQuizId($quizSession['QuizSession']['quiz_id']);
         $answersMatrix = $answerModel->getAnswersMatrix($questions, $answers);
 
         $partiesModel->recursive = -1;
-        $parties = $partiesModel->find('all', array(
-        		'fields' => array('id'),
-                        'conditions' => array('deleted' => false)
-        	));
+        $parties = $partiesModel->getPartiesOrdered();
+        
 
         $results = array();
         $results['parties'] = array();
@@ -198,7 +197,7 @@ class Quiz extends AppModel {
         return $result;
     }
 
-    public function getQuizById($id) {
+    public function getById($id) {
         $this->recursive = -1;
         $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy"));
         $quiz = $this->find('all', array(
@@ -211,19 +210,32 @@ class Quiz extends AppModel {
         return array_pop($quiz);
     }
     
-    public function getQuizzes($loggedIn) {
-        $conditions = array('deleted' => false);
+    public function getVisibleQuizzes() {
+        $result = Cache::read('visible', 'quiz');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', array(
+                'conditions' => array('approved' => true, 'deleted' => false)
+
+            ));
+            Cache::write('visible', $result, 'quiz');
+        }
         
-        if(!$loggedIn) {
-            $conditions['approved'] = true;
-        }   
+        return $result;
+    }
+    
+    public function getLoggedInQuizzes() {
+        $result = Cache::read('loggedin', 'quiz');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all', array(
+                'conditions' => array('deleted' => false)
+
+            ));
+            Cache::write('loggedin', $result, 'quiz');
+        }
         
-        $this->recursive = -1;
-        // TODO: Make a subquery of the count sub-query
-        return $this->find('all', array(
-            'conditions' => $conditions
-            
-        ));
+        return $result;
     }
 
     public function generateGraphData($partyPoints) {
@@ -277,27 +289,9 @@ class Quiz extends AppModel {
         $questionModel->recursive = -1;
         
         if ($id === 'all') {
-            $quizSession = $questionModel->find('all', array(
-                 'conditions' => array('Question.deleted' => false, 
-                                       'Question.approved' => true),
-                 'fields' => array('Question.id')
-                )
-            );
+            $quizSession = $questionModel->getAllVisibleQuestionIds();
         } else {
-            $quizSession = $questionModel->find('all', array(
-                'conditions' => array('Question.deleted' => false, 
-                                      'Question.approved' => true),
-                'fields' => array('Question.id'),
-                'joins' => array(
-                    array(
-                        'table' => 'question_quizzes as QuestionQuiz',
-                        'conditions' => array(
-                                'QuestionQuiz.quiz_id' => $id,
-                                'QuestionQuiz.question_id = Question.id'
-                        )
-                    )
-                 )
-             )); 
+            $quizSession = $questionModel->getAllQuizQuestions($id);
         }
         
         if (sizeof($quizSession) < 1) {
@@ -316,15 +310,21 @@ class Quiz extends AppModel {
     }
     
     public function getAllQuiz() {
-        $this->Question->recursive = -1;
-        return array('Quiz' => array(
-            'id' => 'all',
-            'name' => 'Stora quizen',
-            'description' => 'Ett stort quiz med alla sidans frågor',
-            'questions' => $this->Question->find('count', array(
-                'conditions' => array('deleted' => false, 'approved' => true)
-            ))
-        ));
+        $result = Cache::read('allquiz', 'quiz');
+        if (!$result) {
+            $this->Question->recursive = -1;
+            $result = array('Quiz' => array(
+                'id' => 'all',
+                'name' => 'Stora quizen',
+                'description' => 'Ett stort quiz med alla sidans frågor',
+                'questions' => $this->Question->find('count', array(
+                    'conditions' => array('deleted' => false, 'approved' => true)
+                ))
+            ));            
+            Cache::write('allquiz', $result, 'quiz');
+        }
+        
+        return $result;
     }
     
     public function getUserQuizzes($userId) {
@@ -332,6 +332,16 @@ class Quiz extends AppModel {
         return $this->find('all', array(
            'conditions' => array('created_by' => $userId) 
         ));
+    }
+    
+    public function afterSave($created, $options = array()) {
+        parent::afterSave($created, $options);
+        Cache::clear(false, 'quiz');
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        Cache::clear(false, 'quiz');
     }
 }
 

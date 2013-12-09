@@ -26,17 +26,33 @@
 
 class QuizResult extends AppModel {
     public $belongsTo = array(
-    'Quiz' => array(
-        'className' => 'Quiz', 
-        'foreignKey' => 'quiz_id'
-    )
+        'Quiz' => array(
+            'className' => 'Quiz', 
+            'foreignKey' => 'quiz_id'
+        )
     );
         
     public function getQuizResults() {
-        return $this->find('all', array(
-                'limit' => 40,
-                'order' => 'created desc'
-            ));
+        $result = Cache::read('latest', 'result');
+        if (!$result) {
+            $result = $this->find('all', array(
+                    'limit' => 40,
+                    'order' => 'created desc'
+                ));
+            Cache::write('latest', $result, 'result');
+        }
+        
+        return $result;
+    }
+    
+    public function getById($id) {
+        $result = Cache::read('result_' . $id, 'result');
+        if (!$result) {
+            $result = $this->findById($id);
+            Cache::write('result_' . $id, $result, 'result');
+        }
+        
+        return $result;
     }
 }
 
