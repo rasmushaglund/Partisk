@@ -273,6 +273,10 @@ class Question extends AppModel {
                 $result[] = array('key' => $key, 'value' => $value);
             }
             
+            if (sizeof($result) == 0) {
+                $result = array(array('value' => 'Ingen fråga matchade ditt svar'));
+            }
+            
             Cache::write('search_' . $what, $result, 'question');
         }
         

@@ -675,3 +675,11 @@ text-decoration: underline;
 #partisk-search input, .tt-dropdown-menu {
     width: 300px;
 }
+
+.tt-suggestion {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.tt-suggestions .tt-suggestion:last-child {
+    border-bottom: none;
+}

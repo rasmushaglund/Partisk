@@ -71,8 +71,12 @@ $(document).ready(function() {
             remote: appRoot + 'questions/search/%QUERY',
             minLength: 3
             }
-        ]).bind('typeahead:selected', function(event, obj) {      
-            window.location = appRoot + "questions/view/" + obj.key;
+        ]).bind('typeahead:selected', function(event, obj) {
+            if (obj.key) {
+                window.location = appRoot + "questions/view/" + obj.key;
+            }
+            
+            $(this).val("");
         }).focus();
 });
 
