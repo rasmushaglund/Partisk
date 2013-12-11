@@ -1,6 +1,7 @@
 <?php
-/** 
- * Bootstrap delete view
+
+/**
+ * Bootstrap deleteUserModal view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -23,10 +24,8 @@
  * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
-
-    echo $this->Bootstrap->create($model,
-        array('action' => $action,  "id" => $id , 'modalLabel' => $modalLabel,  'label' => $label, 'modal' => $modal, 'icon' => $icon, 'class' => $class ));      
-    echo '<p>Är du säker att du vill ta bort'. $modelItem .'?</p>';             
-    echo $this->Bootstrap->end($end, array('modal' => $modal)); 
-        
+if ($canDeleteUser) {
+    echo $this->element('deleteModal', array('model' => 'Answer', 'action' => 'delete/' . $answer['Answer']['id'],
+        'label' => "Ta bort svar", 'itemText' => $answer['Answer']['answer']));
+}
 ?>

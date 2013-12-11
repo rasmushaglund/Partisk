@@ -101,21 +101,33 @@ class PartiesController extends AppController {
             $this->abuse("Not authorized to delete party with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->Party->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->Party->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
+            if ($this->Party->save()) {
+                $this->customFlash(__('Tog bort partiet med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort partiet.'), 'danger');
+            }
 
-        if ($this->Party->save()) {
-            $this->customFlash(__('Tog bort partiet med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort partiet.'), 'danger');
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltigt parti");
         }
 
-        return $this->redirect($this->referer());
+        $party = $this->Party->getById($id);
+        
+        $this->setModel($party, 'party');
+
+        
+        $this->renderModal('deletePartyModal', array('setAjax' => true));
      }
 
      public function all() {

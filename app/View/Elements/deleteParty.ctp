@@ -24,7 +24,8 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-	if ($canDeleteParty) {
-            echo $this->Bootstrap->delete('Party', $partyId, array('label' => "Ta bort parti", 'modelItem' => $party)); 
-	}
+    if ($canDeleteParty) {
+        echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
+            array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'parties\',\'delete\',' . $partyId . ');return false;')); 
+    }
 ?>

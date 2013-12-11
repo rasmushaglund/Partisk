@@ -24,14 +24,10 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-//Något FEL!!!!
 
-        if ($canDeleteAnswer || (!$answer['approved'] && $answer['created_by'] == $current_user['id'])) {
-            echo $this->Bootstrap->delete('Answer', $answer['id'], array('label' => "Ta bort svar", 'modelItem' => $answer['answer'])); 
-            
-//                echo $this->Form->postLink('<i class="fa fa-times"></i>',
-//                        array('controller' => 'answers', 'action' => 'delete', $answer['id']),	
-//                        array('confirm' => 'Är du säker på att du vill ta bort svaret "' . $answer['answer'] . '" till frågan "' . $question . '"?',
-//                          'class' => 'btn btn-xs btn-danger', 'escape' => false)); 
-	}
+
+    if ($canDeleteAnswer || (!$answer['approved'] && $answer['created_by'] == $current_user['id'])) {
+        echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
+	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'answers\',\'delete\',' . $answer['id'] . ');return false;')); 
+    }
 ?>

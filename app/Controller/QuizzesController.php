@@ -94,25 +94,38 @@ class QuizzesController extends AppController {
             $this->abuse("Not authorized to delete quiz with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')){ 
+            $this->deleteQuiz($id);
 
-        $this->deleteQuiz($id);
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig quiz");
+        }
 
-        return $this->redirect($this->referer());
+        $quiz = $this->Quiz->getById($id);
+        
+        $this->setModel($quiz, 'quiz');      
+        $this->renderModal('deleteQuizModal', array('setAjax' => true));
+
      }
 
     private function deleteQuiz($id) {
-        $this->Quiz->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
+            $this->Quiz->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        if ($this->Quiz->save()) {
-            $this->customFlash(__('Tog bort quizzen med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort Quizen.'), 'danger');
-        }
+            if ($this->Quiz->save()) {
+                $this->customFlash(__('Tog bort quizzen med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort Quizen.'), 'danger');
+            }
+        
+        
     }
 
     public function start($id) {
@@ -444,22 +457,35 @@ class QuizzesController extends AppController {
         }
     }
 
-    public function deleteQuestion($id) {
+    public function deleteQuestion($id = null) {
         if (!$this->canEditQuiz) {
             $this->abuse("Not authorized to delete relation between question and quiz with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->loadModel('QuestionQuiz');
 
-        $this->loadModel('QuestionQuiz');
+            if ($this->QuestionQuiz->delete($id)) {
+                $this->customFlash(__('Tog bort frågan i quizen med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort frågan som hör till quizen.'), 'danger');
+            }
 
-        if ($this->QuestionQuiz->delete($id)) {
-            $this->customFlash(__('Tog bort frågan i quizen med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort frågan som hör till quizen.'), 'danger');
+            return $this->redirect($this->referer());
         }
-
-        return $this->redirect($this->referer());
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig quiz");
+        }
+        
+       
+        
+     //   $questionQuiz = $this->QuestionQuiz->getById($id); 
+      //Se över!!
+        $this->setModel($id, 'quizQuestion'); 
+        
+        $this->renderModal('deleteQuizQuestionModal', array('setAjax' => true));
     }
 
     public function isAuthorized($user) {

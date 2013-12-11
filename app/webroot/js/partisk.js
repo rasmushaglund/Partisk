@@ -92,6 +92,22 @@ var openEditModal = function(controller, id) {
 	});
 };
 
+var openModal = function(controller, controll, id) {
+	$.ajax({
+	    url: appRoot + controller + '/' + controll + '/' + id,
+	    success: function(data){
+			$modal = $(data);
+	        $("body").append($modal);
+			$modal.modal();
+			$modal.find('.datepicker').datepicker(datepickerArgs);
+
+			$modal.on('hidden.bs.modal', function(){
+    			$modal.remove();
+		});
+	    }
+	});
+};
+
 // http://stackoverflow.com/questions/1026069/capitalize-the-first-letter-of-string-in-javascript
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

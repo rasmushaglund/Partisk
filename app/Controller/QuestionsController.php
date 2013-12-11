@@ -105,10 +105,18 @@ class QuestionsController extends AppController {
             $this->abuse("Not authorized to delete question with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->deleteQuestion($id);                    
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
 
-        $this->deleteQuestion($id);
-
-        return $this->redirect($this->referer());
+        $question = $this->Question->getById($id);
+        $this->setModel($question, 'question');      
+        $this->renderModal('deleteQuestionModal', array('setAjax' => true));
      }
 
      public function edit($id = null) { 

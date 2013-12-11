@@ -25,6 +25,7 @@
  */
 
 if ($canDeleteTag) {
-    echo $this->Bootstrap->delete('Tag', $tagId, array('label' => "Ta bort tag", 'modelItem' => $tag));
+    echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
+        array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'tags\',\'delete\',' . $tagId . ');return false;')); 
 }
 ?>

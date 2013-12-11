@@ -278,4 +278,40 @@ class AppController extends Controller {
             return $this->canDeleteQuiz;
         }
     }
+    
+    protected function setModel($item, $model){
+              
+        
+        if (empty($item)) {
+            throw new NotFoundException('Could not find model ' . $item);
+        }
+        if (!$this->request->data) {
+            $this->request->data = $item;
+        }
+        $this->set($model, $item);  
+    }
+
+    protected function renderModal($modalView, $args = null){   
+        if ($args == null) {
+            $args = array();
+        }
+        
+        if (!isset($args['setEdit'])) {
+            $args['setEdit'] = false;
+        }      
+        if (!isset($args['setModal'])) {
+            $args['setModal'] = false;
+        }
+        if (!isset($args['setAjax'])) {
+            $args['setAjax'] = false;
+        }
+                
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->set('edit', $args['setEdit']);
+            $this->set('modal', $args['setModal']);
+            $this->set('ajax', $args['setAjax']);
+            $this->render('/Elements/' . $modalView);
+        }      
+    }
 }
