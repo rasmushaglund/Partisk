@@ -81,7 +81,13 @@ class QuestionsController extends AppController {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $answers = $this->Question->Answer->getAnswers(array('questionId' => $id, 'includeParty' => true));
+        $conditions = array('questionId' => $id, 'includeParty' => true);
+        
+        if (!$this->Auth->loggedIn()) {
+            $conditions['approved'] = true;
+        }
+        
+        $answers = $this->Question->Answer->getAnswers($conditions);
         
         $this->set('question', $question);
         $this->set('answers', $answers);
