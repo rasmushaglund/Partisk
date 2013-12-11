@@ -90,7 +90,8 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 }
 
 .qa-table .table-cell {
-	text-align: center;
+    text-align: center;
+    overflow: hidden;
 }
 
 .table .party-title {
@@ -497,6 +498,7 @@ text-decoration: underline;
 }
 
 .table-cell {
+    padding: 5px 0;
     display: table-cell;
     vertical-align: middle;
 }
@@ -528,8 +530,11 @@ text-decoration: underline;
 .table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding: 8px;
     line-height: 1.428571429;
+}
+
+.table-header.table-header-text {
+    padding: 8px;
 }
 
 .qa-table.table-bordered {
@@ -541,7 +546,7 @@ text-decoration: underline;
     width: 76px;
 }
 
-.qa-table .table-header-text {
+.qa-table .table-header-text, .table-head-container .qa-table .table-header-text {
     width: 300px;
     text-align: left;
     font-weight: bold;
@@ -551,9 +556,13 @@ text-decoration: underline;
     position: relative;
 }
 
+.table-head-container .table-header {
+    padding: 8px;
+}
+
 
 .table-head-container .table-header-text a {
-    padding: 0px;
+    padding-top: 0px;
     right: 0;
     position: absolute;
 }
@@ -684,4 +693,8 @@ text-decoration: underline;
 
 .tt-suggestions .tt-suggestion:last-child {
     border-bottom: none;
+}
+
+.table, .table-head-container {
+    table-layout: fixed;
 }

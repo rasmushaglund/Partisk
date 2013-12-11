@@ -39,17 +39,23 @@ echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
 <?php
 	if ($answer == null) { $answer = 'NO_OPINION'; }
 
-    echo $this->Form->input('answer', array('type' => 'radio', 'options' => array('NO_OPINION' => 'ingen åsikt', 'ja' => 'ja', 'nej' => 'nej'), 
+    if ($question['Question']['type'] == 'YESNO') {
+        echo $this->Form->input('answer', array('type' => 'radio', 'options' => array('NO_OPINION' => 'ingen åsikt', 'ja' => 'ja', 'nej' => 'nej'), 
     	'default' => 'NO_OPINION', 'legend' => false, 'value' => $answer, 'separator' => '<div></div>'));
-
+    } else {
+        echo $this->Form->input('answer', array('type' => 'radio', 'options' => $choices, 
+    	'default' => 'NO_OPINION', 'legend' => false, 'value' => $answer, 'separator' => '<div></div>'));
+    }
 ?>
 
-<?php echo $this->Bootstrap->dropdown('importance', 'Quiz', array('label' => 'Ange hur viktig frågan är för dig', 
+<?php 
+        echo $this->Bootstrap->dropdown('importance', 'Quiz', array('label' => 'Ange hur viktig frågan är för dig', 
 					'options' => array(array('Quiz' => array('id' => 1, 'name' => 'Inte så viktig')), 
 									   array('Quiz' => array('id' => 2, 'name' => 'Ganska viktigt')), 
 							           array('Quiz' => array('id' => 3, 'name' => 'Väldigt viktig'))),
     				'selected' => $importance,
-    				'model' => 'QuizSession')); ?>
+    				'model' => 'QuizSession')); 
+?>
 
 </div>
 <?php

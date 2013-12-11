@@ -27,8 +27,8 @@
 
 <div class="table table-bordered table-striped qa-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
     <div class="table-row table-head">
-      <div class="table-header">
-        <div class="table-header-text"><?php if (isset($label)) { ?>
+      <div class="table-header table-header-text">
+        <div><?php if (isset($label)) { ?>
           <h3><?php echo $label; ?></h3> 
         <?php } ?>
           <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
