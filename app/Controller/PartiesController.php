@@ -41,7 +41,7 @@ class PartiesController extends AppController {
         $this->set('title_for_layout', 'Partier');
     }
 
-    public function view($id = null) { 
+    public function view($id = null, $page = null) { 
         if (!$id) {
             throw new NotFoundException("Ogiltigt parti");
         }
@@ -51,7 +51,7 @@ class PartiesController extends AppController {
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
         }
-
+                    
         $conditions = array('deleted' => false);
 
         if(!$this->isLoggedIn) {
@@ -60,17 +60,27 @@ class PartiesController extends AppController {
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
         }
         
-        $questionIds = array();
+        if($page == 'notAnswered'){
+               
+           $party["Answer"] = $this->Party->Answer->getNotAnswered($id);
+                  
+        }else{
+                  
+            
+            $questionIds = array();
 
-        foreach ($questions as $question) {
-            array_push($questionIds, $question['Question']['id']);  
+            foreach ($questions as $question) {
+                array_push($questionIds, $question['Question']['id']);  
+            }
+
+            $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
+                                        'includeQuestion' => true));
         }
-
-        $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
-                                    'includeQuestion' => true));
-
+        $this->set('page', $page);
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));
+        
+        
     }
 
      public function add() {
