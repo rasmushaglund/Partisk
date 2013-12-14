@@ -36,13 +36,13 @@
             if(isset($answer['Answer']['id'])){
                 echo $this->element('answerTableCell', array('answer' => $answer, 
                           'question' => $answer));           
-            }
+            
         ?>
     <?php if ($current_user) { ?>
         <td>
             <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?> 
         </td>
-<?php } ?>
+            <?php }} ?>
     </tr>
 <?php endforeach; ?>
 </table>

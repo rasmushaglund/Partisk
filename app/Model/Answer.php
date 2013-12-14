@@ -107,28 +107,7 @@ class Answer extends AppModel {
         return $answersMatrix;
     }
     
-    public function getNotAnswered($partyId,$questionIds){
-      
-//        return $this->find('all',array(
-//            'conditions' => array(
-//                '!Question.deleted',
-//                'Question.approved',                
-//                'Answer.id' => null
-//                ),
-//            'joins' => array(
-//                array(
-//                    'table' => 'answers',
-//                    'type' => 'left',
-//                    'conditions' => array(
-//                        'Answer.question_id = question.id',
-//                        'Answer.party_id' => $partyId
-//                        
-//                    )
-//                )
-//            )
-//        ));
-        
-        
+    public function getNotAnswered($partyId){
         
         return $this->Question->find('all',array(
             'conditions' => array(
@@ -142,8 +121,7 @@ class Answer extends AppModel {
                     'type' => 'left',
                     'conditions' => array(
                         'answers.question_id = Question.id',
-                        'answers.party_id' => $partyId
-                        
+                        'answers.party_id' => $partyId                        
                     )
                 )
             )
