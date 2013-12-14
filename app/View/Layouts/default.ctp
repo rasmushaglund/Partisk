@@ -64,12 +64,14 @@
             echo $this->fetch('script');
         } else { 
             $version = Configure::read('PartiskVersion'); 
-            echo $this->fetch('meta');
+            echo $this->fetch('meta'); ?>
+            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite-v<?php echo $version; ?>.png') no-repeat;}</style>
+            
+            <?php
+            echo $this->Html->css("partisk-v$version.min");
+            echo $this->Html->script("partisk-v$version.min");
             ?>
-        
-            <style>.party-logo,.party-logo-small{background:url('http://static.partisk.nu/img/partisk-sprite-v<?php echo $version; ?>.png') no-repeat;}</style>
-            <link rel="stylesheet" type="text/css" href="http://static.partisk.nu/css/partisk-v<?php echo $version; ?>.min.css" />
-            <script type="text/javascript" src="http://static.partisk.nu/js/partisk-v<?php echo $version; ?>.min.js"></script>
+            
         <?php } ?>
     </head>
     <body>
