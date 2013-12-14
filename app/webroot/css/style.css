@@ -90,7 +90,8 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 }
 
 .qa-table .table-cell {
-	text-align: center;
+    text-align: center;
+    overflow: hidden;
 }
 
 .table .party-title {
@@ -497,6 +498,7 @@ text-decoration: underline;
 }
 
 .table-cell {
+    padding: 5px 0;
     display: table-cell;
     vertical-align: middle;
 }
@@ -528,8 +530,11 @@ text-decoration: underline;
 .table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding: 8px;
     line-height: 1.428571429;
+}
+
+.table-header.table-header-text {
+    padding: 8px;
 }
 
 .qa-table.table-bordered {
@@ -541,7 +546,7 @@ text-decoration: underline;
     width: 76px;
 }
 
-.qa-table .table-header-text {
+.qa-table .table-header-text, .table-head-container .qa-table .table-header-text {
     width: 300px;
     text-align: left;
     font-weight: bold;
@@ -551,9 +556,13 @@ text-decoration: underline;
     position: relative;
 }
 
+.table-head-container .table-header {
+    padding: 8px;
+}
+
 
 .table-head-container .table-header-text a {
-    padding: 0px;
+    padding-top: 0px;
     right: 0;
     position: absolute;
 }
@@ -640,17 +649,6 @@ text-decoration: underline;
     margin: 0 auto;
 }
 
-.party-logo-1 { background-position: -100px -50px; }
-.party-logo-2 { background-position: 0px -50px; }
-.party-logo-3 { background-position: -50px 0px; }
-.party-logo-4 { background-position: -50px -50px; }
-.party-logo-5 { background-position: -0px 0px; }
-.party-logo-6 { background-position: -0px -100px; }
-.party-logo-7 { background-position: -100px 0px; }
-.party-logo-8 { background-position: -150px -50px; }
-.party-logo-9 { background-position: -150px -0px; }
-.party-logo-10 { background-position: -50px -100px; }
-.party-logo-11 { background-position: -100px -100px; }
 
 .party-logo-small-1 { background-position: -150px -175px; }
 .party-logo-small-2 { background-position: -100px -175px; }
@@ -664,6 +662,19 @@ text-decoration: underline;
 .party-logo-small-10 { background-position: -225px -175px; }
 .party-logo-small-11 { background-position: -250px -175px; }
 
+
+.party-logo-1 { background-position: -100px -50px; }
+.party-logo-2 { background-position: 0px -50px; }
+.party-logo-3 { background-position: -50px 0px; }
+.party-logo-4 { background-position: -50px -50px; }
+.party-logo-5 { background-position: -0px 0px; }
+.party-logo-6 { background-position: -100px 0px; }
+.party-logo-7 { background-position: -0px -100px; }
+.party-logo-8 { background-position: -150px -50px; }
+.party-logo-9 { background-position: -150px -0px; }
+.party-logo-10 { background-position: -50px -100px; }
+.party-logo-11 { background-position: -100px -100px; }
+
 .tt-hint {
     visibility:hidden;
 }
@@ -674,4 +685,16 @@ text-decoration: underline;
 
 #partisk-search input, .tt-dropdown-menu {
     width: 300px;
+}
+
+.tt-suggestion {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.tt-suggestions .tt-suggestion:last-child {
+    border-bottom: none;
+}
+
+.table, .table-head-container {
+    table-layout: fixed;
 }

@@ -28,7 +28,7 @@ class Answer extends AppModel {
 	public $validate = array(
         'answer' => array(
             'ruleEmpty' => array(
-                'rule' => 'alphaNumeric',
+                'rule' => array('notEmpty'),
                 'allowEmpty' => false,
                 'message' => 'Du måste skriva ett svar')
         ),

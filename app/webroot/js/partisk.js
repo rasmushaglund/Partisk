@@ -44,24 +44,30 @@ $(document).ready(function() {
         
         table.before(qaTableHead); 
         $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow); 
-        qaTableHeadRow.find('.table-header-text').innerWidth(table.find('.table-header-text').first().width());
+        //qaTableHeadRow.find('.table-header-text').innerWidth(table.find('.table-header-text').first().width());
         var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
         
         qaTableHeadRow.width(table.width());
         
-        //table.css({'margin-top': headerHeight -2});
-        console.log(qaTableHeadRow.find('.table-head.table-row'));
+        var headerVisible = false;
         $(window).scroll(function () {
-            //console.log(qaTableHead.offset());
-            //console.log($(window).scrollTop());
-            
+            console.log("scrolltop: " + $(window).scrollTop() + " >= " + (table.offset().top - headerHeight));
+            //console.log("table offset top: " + table.offset().top);
+            //console.log("header height: " + headerHeight);
             if ($(window).scrollTop() >= table.offset().top - headerHeight) {
-                qaTableHead.addClass('table-fixed');
-                table.addClass('table-fixed-header');
+                if (!headerVisible) {
+                    headerVisible = true;
+                    qaTableHead.addClass('table-fixed');
+                    table.addClass('table-fixed-header');
+
+                }
             } else {
-                qaTableHead.removeClass('table-fixed');
-                table.removeClass('table-fixed-header');
-                //console.log("lol");
+                if (headerVisible) {
+                   headerVisible = false;
+                
+                    qaTableHead.removeClass('table-fixed');
+                    table.removeClass('table-fixed-header');
+                }
             }
         });
         
@@ -71,8 +77,12 @@ $(document).ready(function() {
             remote: appRoot + 'questions/search/%QUERY',
             minLength: 3
             }
-        ]).bind('typeahead:selected', function(event, obj) {      
-            window.location = appRoot + "questions/view/" + obj.key;
+        ]).bind('typeahead:selected', function(event, obj) {
+            if (obj.key) {
+                window.location = appRoot + "questions/view/" + obj.key;
+            }
+            
+            $(this).val("");
         }).focus();
 });
 

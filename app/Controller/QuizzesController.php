@@ -158,8 +158,8 @@ class QuizzesController extends AppController {
 
         $quizSession = $this->quizSession;
         $index = $quizSession['QuizSession']['index'];
-
-        $question = $this->Quiz->Question->getQuestion(array('id' => $quizSession[$index]['Question']['id']));
+        
+        $question = $this->Quiz->Question->getQuestionWithAnswers($quizSession[$index]['Question']['id']);
         $choices = $this->Quiz->Question->getChoicesFromQuestion($question);
         
         $answer = $this->getCurrentAnswer($quizSession, $index);
@@ -282,15 +282,17 @@ class QuizzesController extends AppController {
         $quizSession = $this->quizSession;
         $quizInSession = isset($quizSession['QuizSession']) && isset($quizSession['QuizSession']['id'])
                 && $quizSession['QuizSession']['id'] == $guid;
+        
         if ($quizInSession) {
             $points = $this->Quiz->calculatePoints($quizSession);
             $quizSession['QuizSession']['points'] = $points;
 
             $generatedData = $this->Quiz->generateGraphData($points['parties']);
             $quizSession['QuizSession']['data'] = json_encode($generatedData);
+            
+            return $quizSession;
         }
         
-        return $quizSession;
     }
     
     private function getQuizResults($guid) {

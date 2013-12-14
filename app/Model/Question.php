@@ -70,18 +70,24 @@ class Question extends AppModel {
 
     // TODO: Handle all answer types here (like YESNO)
     public function getChoicesFromQuestion($question) {
-        $choices = array();
+        $result = array();
 
         if ($question['Question']['type'] == 'CHOICE') {
+            $choices = array();
+        
             foreach ($question['Answer'] as $answer) {
                 $choices[$answer['answer']] = $answer['answer'];
             }
 
             ksort($choices);
-            array_unshift($choices, 'ingen åsikt');
+            
+            $result['NO_OPINION'] = 'ingen åsikt';
+            foreach ($choices as $choice) {
+                $result[$choice] = $choice;
+            }
         }
 
-        return $choices;
+        return $result;
     }
 
     public function getQuestions($args) {
@@ -122,6 +128,17 @@ class Question extends AppModel {
     public function getQuestion($args) {
         $questions = $this->getQuestions($args);
         return !empty($questions) ? array_pop($questions) : null; 
+    }
+    
+    public function getQuestionWithAnswers($id) {
+        $this->recursive = -1;
+        $this->contain(array('Answer.answer', 'Answer.id'));
+        $questions = $this->find('all', array(
+            'conditions' => array('Question.id' => $id),
+            'contain' => array('Answer.deleted' => false, 'Answer.approved' => true),
+            'fields' => array('Question.id', 'Question.title', 'Question.description', 'Question.type')
+            ));
+        return array_pop($questions);
     }
 
     public function getLatest() {
@@ -248,21 +265,27 @@ class Question extends AppModel {
         return $result;
     }
     
-    public function searchQuestion($what) {
-        $result = Cache::read('search_' . $what, 'question');
+    public function searchQuestion($what, $loggedIn = false) {
+        $loggedInString = isset($loggedIn) && $loggedIn ? 'logged_in_' : '';
+        $result = Cache::read('search_' . $loggedInString . $what, 'question');
         
         if (strlen($what) < 3) {
             $result = array();
-            Cache::write('search_' . $what, $result, 'question');
+            Cache::write('search_' . $loggedInString . $what, $result, 'question');
             return $result;
         }
         
         if (!$result) {
+            $conditions = array('title LIKE' => "%$what%",
+                                      'deleted' => false);
+            
+            if (!$loggedIn) {
+                $conditions['approved'] = true;
+            }
+            
             $this->recursive = -1;	            
             $questions = $this->find('list', array(
-                'conditions' => array('title LIKE' => "%$what%",
-                                      'deleted' => false,
-                                      'approved' => true),
+                'conditions' => $conditions,
                 'fields' => array('title'),
                 'limit' => '5'
             ));
@@ -273,7 +296,11 @@ class Question extends AppModel {
                 $result[] = array('key' => $key, 'value' => $value);
             }
             
-            Cache::write('search_' . $what, $result, 'question');
+            if (sizeof($result) == 0) {
+                $result = array(array('value' => 'Ingen fråga matchade ditt svar'));
+            }
+            
+            Cache::write('search_' . $loggedInString . $what, $result, 'question');
         }
         
         return $result;
