@@ -25,7 +25,7 @@
  */
 
 $this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
-$this->Html->addCrumb($question['Question']['title']);
+$this->Html->addCrumb(ucfirst($question['Question']['title']));
 $deleted = $question['Question']['deleted'];
 ?>
 

@@ -146,6 +146,10 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
     margin-left: 6px;
 }
 
+.quiz-answers .input.radio {
+    margin-bottom: 30px;
+}
+
 td.category {
     text-align: left;
     border-left: none;
