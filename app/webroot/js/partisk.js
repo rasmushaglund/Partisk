@@ -76,25 +76,9 @@ $(document).ready(function() {
         }).focus();
 });
 
-var openEditModal = function(controller, id) {
+var openModal = function(controller, action, id) {
 	$.ajax({
-	    url: appRoot + controller + '/edit/' + id,
-	    success: function(data){
-			$modal = $(data);
-	        $("body").append($modal);
-			$modal.modal();
-			$modal.find('.datepicker').datepicker(datepickerArgs);
-
-			$modal.on('hidden.bs.modal', function(){
-    			$modal.remove();
-		});
-	    }
-	});
-};
-
-var openModal = function(controller, controll, id) {
-	$.ajax({
-	    url: appRoot + controller + '/' + controll + '/' + id,
+	    url: appRoot + controller + '/' + action + '/' + id,
 	    success: function(data){
 			$modal = $(data);
 	        $("body").append($modal);
