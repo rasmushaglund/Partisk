@@ -106,6 +106,28 @@ class Answer extends AppModel {
 
         return $answersMatrix;
     }
+    
+    public function getNotAnswered($partyId){
+        
+        return $this->Question->find('all',array(
+            'conditions' => array(
+                '!Question.deleted',
+                'Question.approved',                
+                'answers.id' => null,                
+                ),
+            'joins' => array(
+                array(
+                    'table' => 'answers',
+                    'type' => 'left',
+                    'conditions' => array(
+                        'answers.question_id = Question.id',
+                        'answers.party_id' => $partyId                        
+                    )
+                )
+            )
+        ));
+    }
+
 
     public function getAnswers($args) {
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
@@ -175,6 +197,8 @@ class Answer extends AppModel {
 
         $this->contain($contain);
 
+        
+        
         return $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => $fields,

@@ -41,7 +41,7 @@ class PartiesController extends AppController {
         $this->set('title_for_layout', 'Partier');
     }
 
-    public function view($id = null) { 
+    public function view($id = null, $page = null) { 
         if (!$id) {
             throw new NotFoundException("Ogiltigt parti");
         }
@@ -51,7 +51,7 @@ class PartiesController extends AppController {
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
         }
-
+                    
         $conditions = array('deleted' => false);
 
         if(!$this->isLoggedIn) {
@@ -60,17 +60,27 @@ class PartiesController extends AppController {
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
         }
         
-        $questionIds = array();
+        if($page == 'notAnswered'){
+               
+           $party["Answer"] = $this->Party->Answer->getNotAnswered($id);
+                  
+        }else{
+                  
+            
+            $questionIds = array();
 
-        foreach ($questions as $question) {
-            array_push($questionIds, $question['Question']['id']);  
+            foreach ($questions as $question) {
+                array_push($questionIds, $question['Question']['id']);  
+            }
+
+            $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
+                                        'includeQuestion' => true));
         }
-
-        $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
-                                    'includeQuestion' => true));
-
+        $this->set('page', $page);
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));
+        
+        
     }
 
      public function add() {
@@ -101,21 +111,33 @@ class PartiesController extends AppController {
             $this->abuse("Not authorized to delete party with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->Party->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->Party->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
+            if ($this->Party->save()) {
+                $this->customFlash(__('Tog bort partiet med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort partiet.'), 'danger');
+            }
 
-        if ($this->Party->save()) {
-            $this->customFlash(__('Tog bort partiet med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort partiet.'), 'danger');
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltigt parti");
         }
 
-        return $this->redirect($this->referer());
+        $party = $this->Party->getById($id);
+        
+        $this->setModel($party, 'party');
+
+        
+        $this->renderModal('deletePartyModal', array('setAjax' => true));
      }
 
      public function all() {

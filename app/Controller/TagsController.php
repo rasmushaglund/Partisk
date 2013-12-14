@@ -106,25 +106,43 @@ class TagsController extends AppController {
     }
 
     public function delete($id) {
+        
         if (!$this->canDeleteTag) {
             $this->abuse("Not authorized to delete tag with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')){
+            $this->Tag->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->Tag->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
+            if ($this->Tag->save()) {
+                $this->customFlash(__('Tog bort taggen med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort taggen.'), 'danger');
+            }
 
-        if ($this->Tag->save()) {
-            $this->customFlash(__('Tog bort taggen med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort taggen.'), 'danger');
+            return $this->redirect($this->referer());
         }
+        
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig tagg");
+        }
+        
+        $tag = $this->Tag->getById($id);
+        
+        
+        $this->setModel($tag, 'tag');
 
-        return $this->redirect($this->referer());
+        
+        $this->renderModal('deleteTagModal', array('setAjax' => true));
+
+        
+        
     }
 
      public function all() {

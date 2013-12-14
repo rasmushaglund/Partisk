@@ -140,21 +140,31 @@ class AnswersController extends AppController {
             $this->abuse("Not authorized to delete answer with id ". $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->Answer->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->Answer->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
+            if ($this->Answer->save()) {
+                $this->customFlash(__('Tog bort svaret med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort svaret.'), 'danger');
+            }
 
-        if ($this->Answer->save()) {
-            $this->customFlash(__('Tog bort svaret med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort svaret.'), 'danger');
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltigt svar");
         }
 
-        return $this->redirect($this->referer());
+        $answer = $this->Answer->getById($id);
+        $this->setModel($answer, 'answer');      
+        $this->renderModal('deleteAnswerModal', array('setAjax' => true));
+        
      }
 
     public function isAuthorized($user) {

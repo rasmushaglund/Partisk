@@ -1,6 +1,6 @@
-<?php 
+<?php
 /** 
- * Delete deleteUser view
+ * Bootstrap deleteModal view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,12 +20,24 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
- *///\'users\',\'delete\,'
+ */
 
-    if ($canDeleteUser) {   
-        echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
-	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'users\',\'delete\',' .  $userId . ');return false;'));    	
-    }             
+        
+        
+        $ajaxMode = isset($ajax) && $ajax;
+        
+        if(!isset($itemText)){
+            $itemText = null;
+        }else{
+           $itemText = ' "' . $itemText . '"';            
+        }
+                                      
+        echo $this->Bootstrap->create($model, array('modal' => true, 'action'=> $action , 'label' => $label, 
+             'ajax' => $ajaxMode));             
+        echo '<p>Är det säkert att du vill ta bort' . $itemText . '?</p>';       
+        echo $this->Bootstrap->end('Ta Bort', array('modal' => true));
+        
+        
 ?>

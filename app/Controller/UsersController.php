@@ -172,21 +172,32 @@ class UsersController extends AppController {
             $this->abuse("Not authorized to delete user with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')){ 
+            $this->User->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->User->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
-
-        if ($this->User->save()) {
-            $this->customFlash(__('Tog bort användaren med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort användaren.'), 'danger');
+            if ($this->User->save()) {
+                $this->customFlash(__('Tog bort användaren med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort användaren.'), 'danger');
+            }
+            return $this->redirect($this->referer());
         }
-
-        return $this->redirect($this->referer());
+        
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig användare");
+        }
+        
+        $user = $this->User->getById($id);
+        
+        $this->setModel($user, 'user');      
+        $this->renderModal('deleteUserModal', array('setAjax' => true));
+        
     }
 
     public function isAuthorized($user) {

@@ -24,9 +24,8 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-if ($canDeleteQuiz) {
-	echo $this->Html->link('<i class="fa fa-times"></i> Ta bort', 
-					array('controller' => 'quizzes', 'action' => 'delete', $quiz['id']), 
-					array('class' => 'btn btn-danger', 'escape' => false));
-}
+    if ($canDeleteQuiz) {
+        echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
+                    array('class' => 'btn btn-danger', 'escape' => false, 'onclick' => 'openModal(\'quizzes\',\'delete\',' . $quiz['id'] . ');return false;')); 
+    }
 ?>

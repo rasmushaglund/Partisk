@@ -34,7 +34,7 @@ $deleted = $party['Party']['deleted'];
 
 <h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
   <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'title' => true)); ?>
-  <?php if ($current_user) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?>
+  <?php if ($current_user) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
 </h1>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
@@ -44,7 +44,19 @@ $deleted = $party['Party']['deleted'];
 
 <p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
 <p><?php echo $party['Party']['description']; ?></p>
-
+ 
+    <?php 
+    
+        if($page == 'notAnswered'){
+            echo $this->Html->link('Besvatade frågor',
+                '/parties/view/'. $party['Party']['id'],
+                 array('class' => 'btn btn-s btn-info'));
+        }else{
+            echo $this->Html->link('Ej besvatade frågor',
+               '/parties/view/'. $party['Party']['id'] . '/notAnswered',
+                array('class' => 'btn btn-s btn-info'));
+        }                    
+    ?>
 <?php if ($current_user) { ?>
 <div class="tools">
 <?php  echo $this->element('saveQuestion'); 

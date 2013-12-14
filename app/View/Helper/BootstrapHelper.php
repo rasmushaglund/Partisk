@@ -179,9 +179,6 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['label'])) {
             $args['label'] = '';
         }
-        if (!isset($args['label2'])) {
-            $args['label2'] = '';
-        }
         if (!isset($args['icon'])) {
             $args['icon'] = 'fa fa-plus-square';
         }
@@ -211,6 +208,6 @@ class BootstrapHelper extends AppHelper {
         return $this->_View->element('bootstrap/endForm', $args);
     }
 
-}
-
+        }
+        
 ?>
