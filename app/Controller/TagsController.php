@@ -134,11 +134,14 @@ class TagsController extends AppController {
         }
         
         $tag = $this->Tag->getById($id);
-        
-        
-        $this->setModel($tag, 'tag');
-
-        
+        if (empty($tag)) {
+            throw new NotFoundException("Ogiltig tagg");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $tag;
+        }
+        $this->set('tag', $tag);  
+            
         $this->renderModal('deleteTagModal', array('setAjax' => true));
 
         

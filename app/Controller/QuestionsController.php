@@ -115,7 +115,14 @@ class QuestionsController extends AppController {
         }
 
         $question = $this->Question->getById($id);
-        $this->setModel($question, 'question');      
+        
+        if (empty($question)) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $question;
+        }
+        $this->set('question', $question);        
         $this->renderModal('deleteQuestionModal', array('setAjax' => true));
      }
 

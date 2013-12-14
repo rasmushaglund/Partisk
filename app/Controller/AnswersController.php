@@ -162,7 +162,14 @@ class AnswersController extends AppController {
         }
 
         $answer = $this->Answer->getById($id);
-        $this->setModel($answer, 'answer');      
+        if (empty($answer)) {
+            throw new NotFoundException('Ogiltigt svar');
+        }
+        if (!$this->request->data) {
+            $this->request->data = $answer;
+        }
+        $this->set('answer', $answer);
+         
         $this->renderModal('deleteAnswerModal', array('setAjax' => true));
         
      }

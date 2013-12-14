@@ -106,7 +106,13 @@ class QuizzesController extends AppController {
 
         $quiz = $this->Quiz->getById($id);
         
-        $this->setModel($quiz, 'quiz');      
+        if (empty($quiz)) {
+            throw new NotFoundException("Ogiltig quiz");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $quiz;
+        }
+        $this->set('quiz', $quiz);       
         $this->renderModal('deleteQuizModal', array('setAjax' => true));
 
      }
@@ -481,9 +487,17 @@ class QuizzesController extends AppController {
         
        
         
-     //   $questionQuiz = $this->QuestionQuiz->getById($id); 
-      //Se över!!
-        $this->setModel($id, 'quizQuestion'); 
+//       $questionQuiz = $this->QuestionQuiz->getById($id); 
+//    
+//        if (empty($questionQuiz)) {
+//            throw new NotFoundException("Ogiltig quiz");
+//        }
+//        if (!$this->request->data) {
+//            $this->request->data = $questionQuiz;
+//        }
+       $this->set('quizQuestion', $id);  
+        
+
         
         $this->renderModal('deleteQuizQuestionModal', array('setAjax' => true));
     }

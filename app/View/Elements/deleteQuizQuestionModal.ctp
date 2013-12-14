@@ -26,6 +26,6 @@
  */
 if ($canDeleteUser) {
     echo $this->element('deleteModal', array('model' => 'Quiz', 'action' => 'deleteQuestion/' . $quizQuestion ,
-        'label' => "Ta bort fråga"));
+        'label' => "Ta bort fråga", 'itemText' => $quizQuestion));
 }
 ?>

@@ -279,18 +279,6 @@ class AppController extends Controller {
         }
     }
     
-    protected function setModel($item, $model){
-              
-        
-        if (empty($item)) {
-            throw new NotFoundException('Could not find model ' . $item);
-        }
-        if (!$this->request->data) {
-            $this->request->data = $item;
-        }
-        $this->set($model, $item);  
-    }
-
     protected function renderModal($modalView, $args = null){   
         if ($args == null) {
             $args = array();

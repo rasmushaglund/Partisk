@@ -134,9 +134,14 @@ class PartiesController extends AppController {
 
         $party = $this->Party->getById($id);
         
-        $this->setModel($party, 'party');
-
-        
+        if (empty($party)) {
+            throw new NotFoundException("Ogiltigt parti");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $party;
+        }
+        $this->set('party', $party);  
+             
         $this->renderModal('deletePartyModal', array('setAjax' => true));
      }
 

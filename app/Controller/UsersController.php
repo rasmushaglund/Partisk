@@ -194,8 +194,13 @@ class UsersController extends AppController {
         }
         
         $user = $this->User->getById($id);
-        
-        $this->setModel($user, 'user');      
+        if (empty($user)) {
+            throw new NotFoundException("Ogiltig användare");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $user;
+        }
+        $this->set('user', $user);      
         $this->renderModal('deleteUserModal', array('setAjax' => true));
         
     }
