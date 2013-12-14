@@ -430,13 +430,11 @@ class QuizzesController extends AppController {
 
         $this->set('quiz', $quiz);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveQuiz');
-        }
+        $this->renderModal('saveQuiz', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+
     }
 
     private function saveQuiz($data) {

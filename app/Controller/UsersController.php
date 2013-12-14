@@ -158,13 +158,11 @@ class UsersController extends AppController {
         
         $this->set('user', $user);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveUser');
-        }
+        $this->renderModal('saveUser', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+         
     }
 
     public function delete($id = null) {

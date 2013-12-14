@@ -155,13 +155,11 @@ class QuestionsController extends AppController {
 
         $this->set('question', $question);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveQuestion');
-        }
+        $this->renderModal('saveQuestion', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+           
     }
 
     public function all() {

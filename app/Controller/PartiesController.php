@@ -186,14 +186,12 @@ class PartiesController extends AppController {
         }
 
         $this->set('party', $party);
-
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveParty');
-        }
+        
+        $this->renderModal('saveParty', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+   
     }
 
     public function logUser($action, $object_id, $text = "") {

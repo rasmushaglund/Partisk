@@ -126,13 +126,11 @@ class AnswersController extends AppController {
 
         $this->set('answer', $answer);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveAnswer');
-        }
+        $this->renderModal('saveAnswer', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+        
      }
 
      public function delete($id) {

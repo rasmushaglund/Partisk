@@ -189,13 +189,11 @@ class TagsController extends AppController {
 
         $this->set('tag', $tag);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveTag');
-        }
+        $this->renderModal('saveTag', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+         
     }
 
     public function isAuthorized($user) {
