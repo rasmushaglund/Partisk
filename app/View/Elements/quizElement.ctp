@@ -39,17 +39,17 @@ if ($quizInSession) {
                                 array('class' => 'btn btn-success', 'escape' => false)); 
     } else {
         echo $this->Html->link('<i class="fa fa-repeat"></i> Fortsätt quizen', 
-                                array('controller' => 'quizzes', 'action' => 'resume', $quizSession['QuizSession']['quiz_id']), 
+                                array('controller' => 'quizzes', 'action' => 'resume', 'id' => $quizSession['QuizSession']['quiz_id']), 
                                 array('class' => 'btn btn-info', 'escape' => false)); 
     }
 
     echo $this->Html->link('<i class="fa fa-refresh"></i> Starta om quizen', 
-                                array('controller' => 'quizzes', 'action' => 'restart', $quizSession['QuizSession']['quiz_id']), 
+                                array('controller' => 'quizzes', 'action' => 'restart', 'id' => $quizSession['QuizSession']['quiz_id']), 
                                 array('class' => 'btn btn-danger', 'escape' => false)); 
 
 } else { 
     echo $this->Html->link('<i class="fa fa-check-square-o"></i> Starta quizen', 
-                            array('controller' => 'quizzes', 'action' => 'start', $quiz['Quiz']['id']), 
+                            array('controller' => 'quizzes', 'action' => 'start', 'id' => $quiz['Quiz']['id']), 
                             array('class' => 'btn btn-info', 'escape' => false)); 
 }
 

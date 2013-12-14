@@ -70,18 +70,19 @@ class QuestionsController extends AppController {
         $this->set('title_for_layout', 'Frågor');
     }
 
-    public function view($id = null) {
-        if (!$id) {
+    public function view($title = null) {
+        $title = $this->deSlugUrl($title);
+        if (!$title) {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-        $question = $this->Question->getById($id);
+        $question = $this->Question->getByIdOrTitle(urldecode($title));
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $conditions = array('questionId' => $id, 'includeParty' => true);
+        $conditions = array('questionId' => $question['Question']['id'], 'includeParty' => true);
         
         if (!$this->Auth->loggedIn()) {
             $conditions['approved'] = true;
@@ -237,12 +238,12 @@ class QuestionsController extends AppController {
         }
     }
     
-    public function search($what) {
+    public function search($string) {
         
         $this->layout = 'ajax';
         $this->autoRender=false;
         
-        echo json_encode($this->Question->searchQuestion($what, $this->isLoggedIn));
+        echo json_encode($this->Question->searchQuestion($string, $this->isLoggedIn));
 
     }
 

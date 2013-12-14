@@ -72,12 +72,12 @@ class UsersController extends AppController {
         $this->set('title_for_layout', 'Start');
     }
 
-    public function view($id = null) {
-        if (!$id) {
+    public function view($name = null) {
+        if (!$name) {
             throw new NotFoundException("Ogiltig användare");
         }
 
-        $user = $this->User->getById($id);
+        $user = $this->User->getByIdOrName($name);
 
         if (empty($user)) {
             throw new NotFoundException("Ogiltig användare");

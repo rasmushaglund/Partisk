@@ -193,12 +193,19 @@ class Tag extends AppModel {
         return $result;
     }
     
-    public function getById($id) {
+    public function getByIdOrName($id) {
         $result = Cache::read('tag_' . $id, 'tag');
         if (!$result) {
+            
+            if (is_numeric($id)) {
+                $conditions = array('Tag.id' => $id);
+            } else {
+                $conditions = array('Tag.name like' => $id);
+            }
+            
             $this->contain(array("CreatedBy", "UpdatedBy"));
             $tags = $this->find('all', array(
-                    'conditions' => array('Tag.id' => $id),
+                    'conditions' => $conditions,
                     'fields' => array('Tag.id', 'Tag.name' ,'Tag.created_date' ,'Tag.updated_date')
                 ));
 

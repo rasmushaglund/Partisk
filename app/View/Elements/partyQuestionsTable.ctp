@@ -30,7 +30,7 @@
     <tr>
       <th>
         <?php echo $this->Html->link($answer['Question']['title'],
-                  array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
+                  array('controller' => 'questions', 'action' => 'view', 'title' => str_replace(' ', '_', strtolower($answer['Question']['title'])))); ?>
       </th>
       <?php echo $this->element('answerTableCell', array('answer' => $answer, 
                           'question' => $answer)); ?>

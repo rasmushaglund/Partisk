@@ -546,22 +546,22 @@ text-decoration: underline;
     width: 76px;
 }
 
-.qa-table .table-header-text, .table-head-container .qa-table .table-header-text {
+.qa-table .table-header-text, .qa-table .table-head.table-row .table-header-text {
     width: 300px;
     text-align: left;
     font-weight: bold;
 }
 
-.table-head-container .qa-table .table-header-text {
+.qa-table .table-head.table-row .table-header-text {
     position: relative;
 }
 
-.table-head-container .table-header {
+.qa-table .table-head.table-row .table-header {
     padding: 8px;
 }
 
 
-.table-head-container .table-header-text a {
+.qa-table .table-head.table-row .table-header-text a {
     padding-top: 0px;
     right: 0;
     position: absolute;

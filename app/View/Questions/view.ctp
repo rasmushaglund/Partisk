@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Frågor', '/questions/');
+$this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
 $this->Html->addCrumb($question['Question']['title']);
 $deleted = $question['Question']['deleted'];
 ?>
@@ -38,7 +38,7 @@ $deleted = $question['Question']['deleted'];
 <?php } ?>
 <div class="tags">
 <?php foreach ($question['Tag'] as $tag): ?>
-  <?php echo $this->Html->link($tag['name'], array('controller' => 'tags', 'action' => 'view', $tag['id']), array('class' => 'btn btn-success btn-xs')); ?>
+  <?php echo $this->Html->link($tag['name'], array('controller' => 'tags', 'action' => 'view', 'name' => $tag['name']), array('class' => 'btn btn-success btn-xs')); ?>
 <?php endforeach; ?>
 </div>
 <?php echo $this->element('authorInfo', array('object' => $question, 'model' => 'Question')); ?>

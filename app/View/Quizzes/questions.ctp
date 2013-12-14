@@ -61,9 +61,9 @@ echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
 <?php
 
 	if ($quizSession['QuizSession']['index'] != 0) {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary', 'escape' => false));
+		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary', 'escape' => false));
 	} else {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary disabled', 'escape' => false));
+		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary disabled', 'escape' => false));
     }
 
 
@@ -77,7 +77,7 @@ echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
         <button type="submit" class="btn btn-success"><i class="fa fa-bar-chart-o"></i> Till resultatet</button>
 <?php
 	}
-echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', array('class' => 'btn btn-danger', 'escape' => false));
+echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', array('controller' => 'quizzes', 'action' => 'close'), array('class' => 'btn btn-danger', 'escape' => false));
 
 ?>
 

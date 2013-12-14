@@ -278,4 +278,8 @@ class AppController extends Controller {
             return $this->canDeleteQuiz;
         }
     }
+    
+    protected function deSlugUrl($url) {
+        return str_replace('_', ' ', $url);
+    }
 }

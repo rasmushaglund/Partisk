@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Partier', '/parties/');
+$this->Html->addCrumb('Partier', Router::url(array('controller' => 'parties', 'action' => 'index'), true));
 $this->Html->addCrumb(ucfirst($party['Party']['name']));
 
 $answers = $party['Answer'];

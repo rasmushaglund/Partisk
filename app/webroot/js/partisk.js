@@ -74,12 +74,12 @@ $(document).ready(function() {
         $('#partisk-search input').typeahead([
             {
             name: 'questions',
-            remote: appRoot + 'questions/search/%QUERY',
+            remote: appRoot + 'api/search/%QUERY',
             minLength: 3
             }
         ]).bind('typeahead:selected', function(event, obj) {
             if (obj.key) {
-                window.location = appRoot + "questions/view/" + obj.key;
+                window.location = appRoot + "frågor/" + obj.value.split(' ').join('_');
             }
             
             $(this).val("");

@@ -36,12 +36,12 @@ class TagsController extends AppController {
         $this->set("currentPage", "tags");
     }
 
-    public function view($id = null) {
-        if (!$id) {
+    public function view($name = null) {
+        if (!$name) {
             throw new NotFoundException("Ogiltig tagg");
         }
 
-        $tag = $this->Tag->getById($id);
+        $tag = $this->Tag->getByIdOrName($name);
         if (empty($tag)) {
             throw new NotFoundException("Ogiltig tagg");
         }
@@ -50,9 +50,9 @@ class TagsController extends AppController {
 
         if(!$this->isLoggedIn) {
             //$conditions['approved'] = true;
-            $questions = $this->Tag->Question->getVisibleTagQuestions($id);
+            $questions = $this->Tag->Question->getVisibleTagQuestions($tag['Tag']['id']);
         } else {
-            $questions = $this->Tag->Question->getLoggedInTagQuestions($id);
+            $questions = $this->Tag->Question->getLoggedInTagQuestions($tag['Tag']['id']);
         }
 
         //$questions = $this->Tag->Question->getQuestions($conditions);
@@ -61,7 +61,7 @@ class TagsController extends AppController {
         $parties = $this->Party->getPartiesOrdered();
 
         $this->loadModel('Answer');
-        $answers = $this->Answer->getAnswers(array('tagId' => $id, 'includeParty' => true));
+        $answers = $this->Answer->getAnswers(array('tagId' => $tag['Tag']['id'], 'includeParty' => true));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
         $this->set('tag', $tag);

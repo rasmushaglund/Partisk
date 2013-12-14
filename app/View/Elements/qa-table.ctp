@@ -50,7 +50,8 @@
       <div class="table-cell table-header table-header-text">
         <?php 
         $notApproved = !$question['Question']['approved'];
-        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id']),
+        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+            'title' => str_replace(' ', '_', strtolower($question['Question']['title']))),
                 array('class' => $notApproved ? 'question-not-approved':''));  
         ?>
       </div>

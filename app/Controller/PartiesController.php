@@ -41,12 +41,14 @@ class PartiesController extends AppController {
         $this->set('title_for_layout', 'Partier');
     }
 
-    public function view($id = null) { 
-        if (!$id) {
+    public function view($name = null) { 
+        $name = $this->deSlugUrl($name);
+        
+        if (!$name) {
             throw new NotFoundException("Ogiltigt parti");
         }
        
-        $party = $this->Party->getById($id);
+        $party = $this->Party->getByIdOrName($name);
 
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
@@ -66,7 +68,7 @@ class PartiesController extends AppController {
             array_push($questionIds, $question['Question']['id']);  
         }
 
-        $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $id, 'questionId' => $questionIds, 'includeParty' => true, 
+        $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $party['Party']['id'], 'questionId' => $questionIds, 'includeParty' => true, 
                                     'includeQuestion' => true));
 
         $this->set('party', $party);

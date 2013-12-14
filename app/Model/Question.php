@@ -157,16 +157,25 @@ class Question extends AppModel {
         return $result;
     }
 
-    public function getById($id) {
+    public function getByIdOrTitle($id) {
         $result = Cache::read('question_' . $id, 'question');
         if (!$result) {
+            
+            if (is_numeric($id)) {
+                $conditions = array(
+                                'Question.id' => $id
+                            );
+            } else {
+                $conditions = array(
+                                "Question.title like" => $id
+                            );                
+            }
+            
             $this->recursive = -1;
             $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
             $this->Tag->virtualFields['number_of_questions'] = 0;
             $questions = $this->find('all', array(
-                    'conditions' => array(
-                            'Question.id' => $id
-                        ),
+                    'conditions' => $conditions,
                     'contain' => 'Tag.deleted = false',
                     'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
                                        Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
