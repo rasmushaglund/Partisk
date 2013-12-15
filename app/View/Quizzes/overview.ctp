@@ -36,6 +36,7 @@ $this->Html->addCrumb('Översikt');
 	<tr>
 	<td>GUID</td>
 	<td>Version</td>
+	<td>Quiz id</td>
 	<td>Skapad</td>
 	</tr>
 </thead>
@@ -43,8 +44,9 @@ $this->Html->addCrumb('Översikt');
 <?php foreach ($results as $result) { ?>
 <tr>
 <td><?php echo $this->Html->link($result['QuizResult']['id'],
-		                  array('controller' => 'quiz', 'action' => 'results', $result['QuizResult']['id'])); ?></td>
+		                  array('controller' => 'quizzes', 'action' => 'results', 'guid' => $result['QuizResult']['id'])); ?></td>
 <td><?php echo $result['QuizResult']['version']; ?></td>
+<td><?php echo $result['QuizResult']['quiz_id']; ?></td>
 <td><?php echo $result['QuizResult']['created']; ?></td>
 </tr>
 <?php } ?>

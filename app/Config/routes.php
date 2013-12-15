@@ -41,7 +41,7 @@ Router::connect('/quiz/:id', array('controller' => 'quizzes', 'action' => 'start
 Router::connect('/api/search/:string', array('controller' => 'questions', 'action' => 'search'), array('pass' => array('string')));
 
 // TODO: Remove eventually. For backwards compatibility only.
-Router::connect('/quiz/resultat/*', array('controller' => 'quizzes', 'action' => 'results'));
+Router::connect('/quiz/resultat/:guid', array('controller' => 'quizzes', 'action' => 'results'), array('pass' => array('guid')));
 
 
 
