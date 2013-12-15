@@ -149,14 +149,14 @@ class TagsController extends AppController {
                 $this->Session->write('formData', $this->data);
             }
             
-            return $this->redirect($this->referer());
+            return $this->redirect(array('controller' => 'tags', 'action' => 'index'));
         }
         
         if (!$id) {
             throw new NotFoundException("Ogiltig tagg");
         }
         
-        $tag = $this->Tag->getById($id);
+        $tag = $this->Tag->getByIdOrName($id);
 
         if (empty($tag)) {
             throw new NotFoundException("Ogiltig kategori");

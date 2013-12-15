@@ -30,6 +30,7 @@ Router::connect('/answers/info/:id', array('controller' => 'answers', 'action' =
 
 Router::connect('/quiz', array('controller' => 'quizzes', 'action' => 'index'));
 Router::connect('/quiz/frågor', array('controller' => 'quizzes', 'action' => 'questions'));
+Router::connect('/quiz/översikt', array('controller' => 'quizzes', 'action' => 'overview'));
 Router::connect('/quiz/:id/starta_om', array('controller' => 'quizzes', 'action' => 'restart'), array('pass' => array('id')));
 Router::connect('/quiz/:id/fortsätt', array('controller' => 'quizzes', 'action' => 'resume'), array('pass' => array('id')));
 Router::connect('/quiz/frågor/nästa', array('controller' => 'quizzes', 'action' => 'next'));

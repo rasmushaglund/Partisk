@@ -143,14 +143,14 @@ class PartiesController extends AppController {
                 $this->Session->write('formData', $this->data);
             }
             
-            return $this->redirect($this->referer());
+            return $this->redirect(array('controller' => 'parties', 'action' => 'index'));
         }
 
         if (!$id) {
             throw new NotFoundException("Ogiltigt parti");
         }
 
-        $party = $this->Party->getById($id);
+        $party = $this->Party->getByIdOrName($id);
 
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");

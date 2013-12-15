@@ -79,7 +79,7 @@ class QuestionsController extends AppController {
         $question = $this->Question->getByIdOrTitle(urldecode($title));
 
         if (empty($question)) {
-            throw new NotFoundException("Ogiltig fråga");
+            return $this->redirect(array('controller' => 'questions', 'action' => 'index'));
         }
 
         $conditions = array('questionId' => $question['Question']['id'], 'includeParty' => true);
@@ -137,7 +137,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $question = $this->Question->getById($id);
+        $question = $this->Question->getByIdOrTitle($id);
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
@@ -205,7 +205,7 @@ class QuestionsController extends AppController {
         $data['Question']['updated_date'] = date('c');
         $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
         
-        $existingQuestion = $this->Question->getById($id);
+        $existingQuestion = $this->Question->getByIdOrTitle($id);
        
         if ($existingQuestion['Question']['approved'] !== $data['Question']['approved']) {
             $data['Question']['approved'] = $data['Question']['approved'];

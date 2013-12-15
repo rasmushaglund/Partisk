@@ -112,6 +112,10 @@
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Mina quizzar', array('controller' => 'quizzes', 'action' => 'status'), array('escape' => false));
                     ?></li>
+                        <?php if ($isAdmin) { ?>
+                        <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quizöversikt', array('controller' => 'quizzes', 'action' => 'overview'), array('escape' => false));
+                    ?></li>
+                        <?php } ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-sign-out"></i> Logga ut', array('controller' => 'users', 'action' => 'logout'), array('escape' => false));
                         ?></li>
                         </ul>

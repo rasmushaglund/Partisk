@@ -146,7 +146,7 @@ class UsersController extends AppController {
             throw new NotFoundException("Ogiltig användare");
         }
 
-        $user = $this->User->getById($id);
+        $user = $this->User->getByIdOrName($id); 
 
         if (empty($user)) {
             throw new NotFoundException("Ogiltig användare");

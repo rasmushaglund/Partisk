@@ -24,11 +24,12 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz');
+$this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'index'));
+$this->Html->addCrumb('Översikt');
 
 ?>
 
-<h1>Alla sparade quiz</h1>
+<h1>Senaste sparade quiz</h1>
 <br />
 <table class="table table-striped">
 <thead>
