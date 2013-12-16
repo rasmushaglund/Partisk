@@ -35,6 +35,11 @@ class PartiesController extends AppController {
         parent::beforeRender();
         $this->set("currentPage", "parties");
     }
+    
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow(array('notAnswered'));
+    }
 
     public function index() {
         $this->set('parties', $this->Party->getPartiesOrdered());
