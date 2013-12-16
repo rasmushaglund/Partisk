@@ -45,6 +45,18 @@ $deleted = $party['Party']['deleted'];
 <p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
 <p><?php echo $party['Party']['description']; ?></p>
  
+    <?php 
+    
+        if($page == 'notAnswered'){
+            echo $this->Html->link('Besvarade frågor',
+                '/parties/view/'. $party['Party']['id'],
+                 array('class' => 'btn btn-s btn-info'));
+        }else{
+            echo $this->Html->link('Ej besvatade frågor',
+               '/parties/view/'. $party['Party']['id'] . '/notAnswered',
+                array('class' => 'btn btn-s btn-info'));
+        }                    
+    ?>
 <?php if ($current_user) { ?>
 <div class="tools">
 <?php  echo $this->element('saveQuestion'); 
@@ -69,8 +81,3 @@ $deleted = $party['Party']['deleted'];
   </div>
 
 <?php } ?>
-
-<?php 
-   echo $this->Html->link('Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
-       'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), array('class' => 'btn btn-s btn-info'));          
-?>

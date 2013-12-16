@@ -1,6 +1,6 @@
 <?php 
 /** 
- * Delete user view
+ * Delete deleteUser view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -22,12 +22,10 @@
  * @link        https://www.partisk.nu
  * @package     app.View.Elements
  * @license     http://www.gnu.org/licenses/ GPLv2
- */
+ *///\'users\',\'delete\,'
 
-    if ($canDeleteUser) {              
-        echo $this->Bootstrap->create('User',
-            array('action' => 'delete/'. $userId ,  "id" => "delete" . $userId, 'label2' => "Ta bort användare", 'modal' => true, 'icon' => 'fa fa-times', 'class' => "btn btn-danger btn-xs" ));      
-        echo '<p>Är du säker att du vill ta bort ' . $user . '?</p>';             
-        echo $this->Bootstrap->end("Ta bort", array('modal' => TRUE));           
-    }
+    if ($canDeleteUser) {   
+        echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
+	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'users\',\'delete\',' .  $userId . ');return false;'));    	
+    }             
 ?>

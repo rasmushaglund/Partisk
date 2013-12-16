@@ -112,10 +112,28 @@ class QuestionsController extends AppController {
             $this->abuse("Not authorized to delete question with id " . $id);
             return $this->redirect($this->referer());
         }
+        
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->deleteQuestion($id);                    
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
 
-        $this->deleteQuestion($id);
-
-        return $this->redirect($this->referer());
+        $question = $this->Question->getByIdOrTitle($id);
+        
+        if (empty($question)) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
+        
+        if (!$this->request->data) {
+            $this->request->data = $question;
+        }
+        
+        $this->set('question', $question);        
+        $this->renderModal('deleteQuestionModal', array('setAjax' => true));
      }
 
      public function edit($id = null) { 
@@ -147,13 +165,11 @@ class QuestionsController extends AppController {
 
         $this->set('question', $question);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveQuestion');
-        }
+        $this->renderModal('saveQuestion', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+           
     }
 
     public function all() {

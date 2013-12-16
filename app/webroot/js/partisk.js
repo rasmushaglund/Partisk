@@ -32,44 +32,9 @@ $(document).ready(function() {
 	});
 	$('.datepicker').datepicker(datepickerArgs);
         
-        var table = $('.table-with-fixed-header'); 
-        console.log(table.find('.table-row.table-head').height());
-        console.log($(".table-row.table-head").height());
-        var qaTableHead = $('<div class="table-head-container"></div>');
-        var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>'); 
-        var qaTableHeadBg = $('<div class="table-header-bg"></div>');
-        
-        qaTableHead.append(qaTableHeadBg);
-        qaTableHead.append(qaTableHeadRow);
-        
-        table.before(qaTableHead); 
-        $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow); 
-        //qaTableHeadRow.find('.table-header-text').innerWidth(table.find('.table-header-text').first().width());
-        var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
-        
-        qaTableHeadRow.width(table.width());
-        
-        var headerVisible = false;
-        $(window).scroll(function () {
-            console.log("scrolltop: " + $(window).scrollTop() + " >= " + (table.offset().top - headerHeight));
-            //console.log("table offset top: " + table.offset().top);
-            //console.log("header height: " + headerHeight);
-            if ($(window).scrollTop() >= table.offset().top - headerHeight) {
-                if (!headerVisible) {
-                    headerVisible = true;
-                    qaTableHead.addClass('table-fixed');
-                    table.addClass('table-fixed-header');
-
-                }
-            } else {
-                if (headerVisible) {
-                   headerVisible = false;
-                
-                    qaTableHead.removeClass('table-fixed');
-                    table.removeClass('table-fixed-header');
-                }
-            }
-        });
+        if ($('.qa-table').size() > 0) {
+            qaTableFixedHeader();
+        }   
         
         $('#partisk-search input').typeahead([
             {
@@ -86,9 +51,44 @@ $(document).ready(function() {
         }).focus();
 });
 
-var openEditModal = function(controller, id) {
+var qaTableFixedHeader = function() {
+    var table = $('.table-with-fixed-header'); 
+    var qaTableHead = $('<div class="table-head-container"></div>');
+    var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>'); 
+    var qaTableHeadBg = $('<div class="table-header-bg"></div>');
+
+    qaTableHead.append(qaTableHeadBg);
+    qaTableHead.append(qaTableHeadRow);
+
+    table.before(qaTableHead); 
+    $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow); 
+    var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+
+    qaTableHeadRow.width(table.width());
+
+    var headerVisible = false;
+    $(window).scroll(function () {
+        if ($(window).scrollTop() >= table.offset().top - headerHeight) {
+            if (!headerVisible) {
+                headerVisible = true;
+                qaTableHead.addClass('table-fixed');
+                table.addClass('table-fixed-header');
+
+            }
+        } else {
+            if (headerVisible) {
+               headerVisible = false;
+
+                qaTableHead.removeClass('table-fixed');
+                table.removeClass('table-fixed-header');
+            }
+        }
+    });
+}
+
+var openModal = function(controller, action, id) {
 	$.ajax({
-	    url: appRoot + controller + '/edit/' + id,
+	    url: appRoot + controller + '/' + action + '/' + id,
 	    success: function(data){
 			$modal = $(data);
 	        $("body").append($modal);

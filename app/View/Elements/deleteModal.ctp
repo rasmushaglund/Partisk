@@ -1,6 +1,6 @@
 <?php
 /** 
- * Party questions table view
+ * Bootstrap deleteModal view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,26 +20,21 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
+ 
+    $ajaxMode = isset($ajax) && $ajax;
+
+    if(!isset($itemText)){
+        $itemText = null;
+    }else{
+       $itemText = ' "' . $itemText . '"';            
+    }
+
+    echo $this->Bootstrap->create($model, array('modal' => true, 'action'=> $action , 'label' => $label, 
+         'ajax' => $ajaxMode));             
+    echo '<p>Är du säker på att du vill ta bort' . $itemText . '?</p>';       
+    echo $this->Bootstrap->end('Ja, ta bort', array('modal' => true, 'submitClass' => 'btn-danger', 'abortText' => 'Nej, avbryt'));
+        
 ?>
-
-<table class="table table-bordered table-striped narrow-table">
-<?php foreach ($answers as $answer): ?>
-    <tr>
-      <th>
-        <?php echo $this->Html->link($answer['Question']['title'],
-                  array('controller' => 'questions', 'action' => 'view', 'title' => str_replace(' ', '_', strtolower($answer['Question']['title'])))); ?>
-      </th>
-      <?php echo $this->element('answerTableCell', array('answer' => $answer, 
-                          'question' => $answer)); ?>
-      <?php if ($current_user) { ?>
-        <td>
-            <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?> 
-        </td>
-      <?php } ?>
-    </tr>
-<?php endforeach; ?>
-</table>
-

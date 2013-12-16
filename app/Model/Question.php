@@ -316,6 +316,27 @@ class Question extends AppModel {
     }
     
      
+    public function getNotAnswered($partyId){
+        $this->recursive = -1;
+        return $this->find('all',array(
+            'conditions' => array(
+                '!Question.deleted',
+                'Question.approved',                
+                'Answer.id' => null,                
+                ),
+            'joins' => array(
+                array(
+                    'table' => 'answers as Answer',
+                    'type' => 'left',
+                    'conditions' => array(
+                        'Answer.question_id = Question.id',
+                        'Answer.party_id' => $partyId                        
+                    )
+                )
+            )
+        ));
+    }
+     
     public function getAllQuizQuestions($id) {
         $result = Cache::read('quiz_questions_' . $id, 'question');
         if (!$result) {

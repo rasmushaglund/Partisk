@@ -106,7 +106,7 @@ class Answer extends AppModel {
 
         return $answersMatrix;
     }
-
+   
     public function getAnswers($args) {
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
         $partyId = isset($args['partyId']) ? $args['partyId'] : null;
@@ -175,6 +175,8 @@ class Answer extends AppModel {
 
         $this->contain($contain);
 
+        
+        
         return $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => $fields,

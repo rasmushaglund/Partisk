@@ -24,9 +24,8 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-	if ($canDeleteParty) {
-		echo $this->Form->postLink('<i class="fa fa-times"></i>',
-            array('action' => 'delete', $partyId),
-            array('confirm' => 'Är du säker på att du vill ta bort partiet "' . $party . '"?', 'class' => 'btn btn-danger btn-xs', 'escape' => false));
-	}
+    if ($canDeleteParty) {
+        echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
+            array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'parties\',\'delete\',' . $partyId . ');return false;')); 
+    }
 ?>

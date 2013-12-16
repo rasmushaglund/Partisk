@@ -106,25 +106,46 @@ class TagsController extends AppController {
     }
 
     public function delete($id) {
+        
         if (!$this->canDeleteTag) {
             $this->abuse("Not authorized to delete tag with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')){
+            $this->Tag->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->Tag->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
+            if ($this->Tag->save()) {
+                $this->customFlash(__('Tog bort taggen med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort taggen.'), 'danger');
+            }
 
-        if ($this->Tag->save()) {
-            $this->customFlash(__('Tog bort taggen med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort taggen.'), 'danger');
+            return $this->redirect($this->referer());
         }
+        
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig tagg");
+        }
+        
+        $tag = $this->Tag->getByIdOrName($id);
+        if (empty($tag)) {
+            throw new NotFoundException("Ogiltig tagg");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $tag;
+        }
+        $this->set('tag', $tag);  
+            
+        $this->renderModal('deleteTagModal', array('setAjax' => true));
 
-        return $this->redirect($this->referer());
+        
+        
     }
 
      public function all() {
@@ -168,13 +189,11 @@ class TagsController extends AppController {
 
         $this->set('tag', $tag);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveTag');
-        }
+        $this->renderModal('saveTag', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+         
     }
 
     public function isAuthorized($user) {

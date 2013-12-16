@@ -158,13 +158,11 @@ class UsersController extends AppController {
         
         $this->set('user', $user);
 
-        if ($this->request->is('ajax')) {
-            $this->layout = 'ajax';
-            $this->set('edit', true);
-            $this->set('modal', true);
-            $this->set('ajax', true);
-            $this->render('/Elements/saveUser');
-        }
+        $this->renderModal('saveUser', array(
+            'setEdit' => true,
+            'setModal' => true,
+            'setAjax' => true,));
+         
     }
 
     public function delete($id = null) {
@@ -172,21 +170,37 @@ class UsersController extends AppController {
             $this->abuse("Not authorized to delete user with id " . $id);
             return $this->redirect($this->referer());
         }
+        if ($this->request->is('post') || $this->request->is('put')){ 
+            $this->User->set(
+                array('id' => $id,
+                      'deleted' => true,
+                      'updated_by' => $this->Auth->user('id'),
+                      'update_date' => date('c')));
 
-        $this->User->set(
-            array('id' => $id,
-                  'deleted' => true,
-                  'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
-
-        if ($this->User->save()) {
-            $this->customFlash(__('Tog bort användaren med id: %s.', h($id)));
-            $this->logUser('delete', $id);
-        } else {
-            $this->customFlash(__('Kunde inte ta bort användaren.'), 'danger');
+            if ($this->User->save()) {
+                $this->customFlash(__('Tog bort användaren med id: %s.', h($id)));
+                $this->logUser('delete', $id);
+            } else {
+                $this->customFlash(__('Kunde inte ta bort användaren.'), 'danger');
+            }
+            return $this->redirect($this->referer());
         }
-
-        return $this->redirect($this->referer());
+        
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig användare");
+        }
+        
+        $user = $this->User->getByIdOrName($id);
+        if (empty($user)) {
+            throw new NotFoundException("Ogiltig användare");
+        }
+        if (!$this->request->data) {
+            $this->request->data = $user;
+        }
+        $this->set('user', $user);      
+        $this->renderModal('deleteUserModal', array('setAjax' => true));
+        
     }
 
     public function isAuthorized($user) {

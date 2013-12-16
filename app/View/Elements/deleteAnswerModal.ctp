@@ -1,6 +1,7 @@
 <?php
-/** 
- * Party questions table view
+
+/**
+ * Bootstrap deleteUserModal view
  *
  * Partisk : Political Party Opinion Visualizer
  * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
@@ -20,26 +21,11 @@
  *
  * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
+if ($canDeleteUser) {
+    echo $this->element('deleteModal', array('model' => 'Answer', 'action' => 'delete/' . $answer['Answer']['id'],
+        'label' => "Ta bort svar", 'itemText' => $answer['Answer']['answer']));
+}
 ?>
-
-<table class="table table-bordered table-striped narrow-table">
-<?php foreach ($answers as $answer): ?>
-    <tr>
-      <th>
-        <?php echo $this->Html->link($answer['Question']['title'],
-                  array('controller' => 'questions', 'action' => 'view', 'title' => str_replace(' ', '_', strtolower($answer['Question']['title'])))); ?>
-      </th>
-      <?php echo $this->element('answerTableCell', array('answer' => $answer, 
-                          'question' => $answer)); ?>
-      <?php if ($current_user) { ?>
-        <td>
-            <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?> 
-        </td>
-      <?php } ?>
-    </tr>
-<?php endforeach; ?>
-</table>
-

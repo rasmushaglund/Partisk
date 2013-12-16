@@ -25,9 +25,10 @@
  */
 
 $this->Html->addCrumb('Partier', Router::url(array('controller' => 'parties', 'action' => 'index'), true));
-$this->Html->addCrumb(ucfirst($party['Party']['name']));
+$this->Html->addCrumb(ucfirst($party['Party']['name']), Router::url(array('controller' => 'parties', 'action' => 'view', 
+                    'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), true));
+$this->Html->addCrumb('Frågor utan svar');
 
-$answers = $party['Answer'];
 $deleted = $party['Party']['deleted'];
 
 ?>
@@ -44,33 +45,31 @@ $deleted = $party['Party']['deleted'];
 
 <p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
 <p><?php echo $party['Party']['description']; ?></p>
- 
-<?php if ($current_user) { ?>
-<div class="tools">
-<?php  echo $this->element('saveQuestion'); 
-  echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>
-</div>
-<?php } ?>
 
 <?php
-  if (!empty($answers)) {
-    $chunks = array_chunk($answers, ceil(sizeof($answers) / 2));
+  if (!empty($questions)) {
+    $chunks = array_chunk($questions, ceil(sizeof($questions) / 2));
 ?>
   <div class="row">
     <?php if (isset($chunks[0])) { ?>
     <div class="col-md-6">
-      <?php echo $this->element('partyQuestionsTable', array('answers' => $chunks[0])); ?>
+        <table class="table table-bordered table-striped">
+        <?php foreach ($chunks[0] as $question) { ?>
+            <tr><td><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+                'title' => str_replace(' ', '_', strtolower($question['Question']['title'])))); ?></td></tr>
+        <?php } ?>
+        </table>
     </div>
     <?php } if (isset($chunks[1])) { ?>
     <div class="col-md-6">
-      <?php echo $this->element('partyQuestionsTable', array('answers' => $chunks[1])); ?>
+        <table class="table table-bordered table-striped">
+        <?php foreach ($chunks[1] as $question) { ?>
+            <tr><td><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+                'title' => str_replace(' ', '_', strtolower($question['Question']['title'])))); ?></td></tr>
+        <?php } ?>
+        </table>
     </div>
     <?php } ?>
   </div>
 
 <?php } ?>
-
-<?php 
-   echo $this->Html->link('Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
-       'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), array('class' => 'btn btn-s btn-info'));          
-?>

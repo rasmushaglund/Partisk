@@ -179,9 +179,6 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['label'])) {
             $args['label'] = '';
         }
-        if (!isset($args['label2'])) {
-            $args['label2'] = '';
-        }
         if (!isset($args['icon'])) {
             $args['icon'] = 'fa fa-plus-square';
         }
@@ -207,10 +204,13 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['modal'])) {
             $args['modal'] = false;
         }
+        
+        if (!isset($args['submitClass'])) { $args['submitClass'] = 'btn-primary'; }
+        if (!isset($args['abortText'])) { $args['abortText'] = 'Avbryt'; }
 
         return $this->_View->element('bootstrap/endForm', $args);
     }
 
-}
-
+        }
+        
 ?>

@@ -199,6 +199,7 @@ class AppController extends Controller {
         if (!isset($question['Question'])) {
             $this->loadModel('Question');
             $question = $this->Question->getByIdOrTitle($question);
+            
         }
         
 
@@ -265,5 +266,29 @@ class AppController extends Controller {
     
     protected function deSlugUrl($url) {
         return str_replace('_', ' ', $url);
+    }
+
+    protected function renderModal($modalView, $args = null){   
+        if ($args == null) {
+            $args = array();
+        }
+        
+        if (!isset($args['setEdit'])) {
+            $args['setEdit'] = false;
+        }      
+        if (!isset($args['setModal'])) {
+            $args['setModal'] = false;
+        }
+        if (!isset($args['setAjax'])) {
+            $args['setAjax'] = false;
+        }
+                
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->set('edit', $args['setEdit']);
+            $this->set('modal', $args['setModal']);
+            $this->set('ajax', $args['setAjax']);
+            $this->render('/Elements/' . $modalView);
+        }      
     }
 }
