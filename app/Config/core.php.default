@@ -85,7 +85,7 @@ Configure::write('PartiskVersion', '0.2.1');
  */
 	Configure::write('Exception', array(
 		'handler' => 'ErrorHandler::handleException',
-		'renderer' => 'AppExceptionRenderer',
+		'renderer' => 'ExceptionRenderer',
 		'log' => true
 	));
 
