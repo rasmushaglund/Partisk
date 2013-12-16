@@ -39,14 +39,17 @@ if ($model == "Question" || $model == "Answer") {
 ?>
 <div class="author-info">
 	<?php if (!empty($createdBy['id'])) { ?>
-	<p class="description">Skapad av <?php echo $this->Html->link($createdBy['username'], array('controller' => 'users', 'action' => 'view', $createdBy['id'])); ?>
+	<p class="description">Skapad av <?php echo $this->Html->link($createdBy['username'], array('controller' => 'users', 'action' => 'view', 
+                                                'name' => $createdBy['username'])); ?>
 	 <i>(<?php echo $createdDate; ?>)</i>
 	<?php if (!empty($updatedBy['id'])) { ?>
-		, uppdaterad av <?php echo $this->Html->link($updatedBy['username'], array('controller' => 'users', 'action' => 'view', $updatedBy['id'])); ?>
+		, uppdaterad av <?php echo $this->Html->link($updatedBy['username'], array('controller' => 'users', 'action' => 'view', 
+                                                'name' => $updatedBy['username'])); ?>
 	 <i>(<?php echo $updatedDate; ?>)</i>
 	<?php } ?>
 	<?php if (!empty($approvedBy['id'])) { ?>
-		, godkänd av <?php echo $this->Html->link($approvedBy['username'], array('controller' => 'users', 'action' => 'view', $approvedBy['id'])); ?>
+		, godkänd av <?php echo $this->Html->link($approvedBy['username'], array('controller' => 'users', 'action' => 'view', 
+                                                'name' => $approvedBy['username'])); ?>
 	 <i>(<?php echo $approvedDate; ?>)</i>
 	<?php } ?>
 	</p>

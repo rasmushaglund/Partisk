@@ -39,7 +39,7 @@ $this->Html->addCrumb('Användare');
     <tr>
         <th>
             <?php echo $this->Html->link($user['User']['username'],
-                                         array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?> 
+                                         array('controller' => 'users', 'action' => 'view', 'name' => $user['User']['username'])); ?> 
         </th>
         <?php if ($current_user) { ?>
         <td>

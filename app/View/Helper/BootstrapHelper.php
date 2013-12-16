@@ -204,6 +204,9 @@ class BootstrapHelper extends AppHelper {
         if (!isset($args['modal'])) {
             $args['modal'] = false;
         }
+        
+        if (!isset($args['submitClass'])) { $args['submitClass'] = 'btn-primary'; }
+        if (!isset($args['abortText'])) { $args['abortText'] = 'Avbryt'; }
 
         return $this->_View->element('bootstrap/endForm', $args);
     }

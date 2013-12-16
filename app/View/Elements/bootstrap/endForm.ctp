@@ -30,8 +30,8 @@
 <?php } else { ?>
 			 	</div>
 	        	<div class="modal-footer">
-	        		<button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
-	        		<input type="submit" class="btn btn-primary" value="<?php echo $label;?>">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $abortText; ?></button>
+	        		<input type="submit" class="btn <?php echo $submitClass; ?>" value="<?php echo $label;?>">
 	    		</div>
 	    	</div>
 		</div>

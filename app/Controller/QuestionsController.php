@@ -70,18 +70,19 @@ class QuestionsController extends AppController {
         $this->set('title_for_layout', 'Frågor');
     }
 
-    public function view($id = null) {
-        if (!$id) {
+    public function view($title = null) {
+        $title = $this->deSlugUrl($title);
+        if (!$title) {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-        $question = $this->Question->getById($id);
+        $question = $this->Question->getByIdOrTitle(urldecode($title));
 
         if (empty($question)) {
-            throw new NotFoundException("Ogiltig fråga");
+            return $this->redirect(array('controller' => 'questions', 'action' => 'index'));
         }
 
-        $conditions = array('questionId' => $id, 'includeParty' => true);
+        $conditions = array('questionId' => $question['Question']['id'], 'includeParty' => true);
         
         if (!$this->Auth->loggedIn()) {
             $conditions['approved'] = true;
@@ -111,6 +112,7 @@ class QuestionsController extends AppController {
             $this->abuse("Not authorized to delete question with id " . $id);
             return $this->redirect($this->referer());
         }
+        
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->deleteQuestion($id);                    
             return $this->redirect($this->referer());
@@ -120,14 +122,16 @@ class QuestionsController extends AppController {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $question = $this->Question->getById($id);
+        $question = $this->Question->getByIdOrTitle($id);
         
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
         }
+        
         if (!$this->request->data) {
             $this->request->data = $question;
         }
+        
         $this->set('question', $question);        
         $this->renderModal('deleteQuestionModal', array('setAjax' => true));
      }
@@ -151,7 +155,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $question = $this->Question->getById($id);
+        $question = $this->Question->getByIdOrTitle($id);
 
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
@@ -217,7 +221,7 @@ class QuestionsController extends AppController {
         $data['Question']['updated_date'] = date('c');
         $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
         
-        $existingQuestion = $this->Question->getById($id);
+        $existingQuestion = $this->Question->getByIdOrTitle($id);
        
         if ($existingQuestion['Question']['approved'] !== $data['Question']['approved']) {
             $data['Question']['approved'] = $data['Question']['approved'];
@@ -250,12 +254,12 @@ class QuestionsController extends AppController {
         }
     }
     
-    public function search($what) {
+    public function search($string) {
         
         $this->layout = 'ajax';
         $this->autoRender=false;
         
-        echo json_encode($this->Question->searchQuestion($what, $this->isLoggedIn));
+        echo json_encode($this->Question->searchQuestion($string, $this->isLoggedIn));
 
     }
 

@@ -23,21 +23,18 @@
  * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
+ 
+    $ajaxMode = isset($ajax) && $ajax;
 
-        
-        
-        $ajaxMode = isset($ajax) && $ajax;
-        
-        if(!isset($itemText)){
-            $itemText = null;
-        }else{
-           $itemText = ' "' . $itemText . '"';            
-        }
-                                      
-        echo $this->Bootstrap->create($model, array('modal' => true, 'action'=> $action , 'label' => $label, 
-             'ajax' => $ajaxMode));             
-        echo '<p>Är det säkert att du vill ta bort' . $itemText . '?</p>';       
-        echo $this->Bootstrap->end('Ta Bort', array('modal' => true));
-        
+    if(!isset($itemText)){
+        $itemText = null;
+    }else{
+       $itemText = ' "' . $itemText . '"';            
+    }
+
+    echo $this->Bootstrap->create($model, array('modal' => true, 'action'=> $action , 'label' => $label, 
+         'ajax' => $ajaxMode));             
+    echo '<p>Är du säker på att du vill ta bort' . $itemText . '?</p>';       
+    echo $this->Bootstrap->end('Ja, ta bort', array('modal' => true, 'submitClass' => 'btn-danger', 'abortText' => 'Nej, avbryt'));
         
 ?>

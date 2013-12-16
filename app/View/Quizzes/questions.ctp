@@ -41,29 +41,29 @@ echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
 
     if ($question['Question']['type'] == 'YESNO') {
         echo $this->Form->input('answer', array('type' => 'radio', 'options' => array('NO_OPINION' => 'ingen åsikt', 'ja' => 'ja', 'nej' => 'nej'), 
-    	'default' => 'NO_OPINION', 'legend' => false, 'value' => $answer, 'separator' => '<div></div>'));
+    	'default' => 'NO_OPINION', 'legend' => 'Ditt svar', 'value' => $answer, 'separator' => '<div></div>'));
     } else {
         echo $this->Form->input('answer', array('type' => 'radio', 'options' => $choices, 
-    	'default' => 'NO_OPINION', 'legend' => false, 'value' => $answer, 'separator' => '<div></div>'));
+    	'default' => 'NO_OPINION', 'legend' => 'Ditt svar', 'value' => $answer, 'separator' => '<div></div>'));
     }
 ?>
 
 <?php 
-        echo $this->Bootstrap->dropdown('importance', 'Quiz', array('label' => 'Ange hur viktig frågan är för dig', 
-					'options' => array(array('Quiz' => array('id' => 1, 'name' => 'Inte så viktig')), 
-									   array('Quiz' => array('id' => 2, 'name' => 'Ganska viktigt')), 
-							           array('Quiz' => array('id' => 3, 'name' => 'Väldigt viktig'))),
-    				'selected' => $importance,
-    				'model' => 'QuizSession')); 
+        echo $this->Form->input('importance', array('type' => 'radio', 'options' => 
+                                    array(1 => 'Inte så viktig', 
+					  2 => 'Ganska viktigt', 
+					  3 => 'Väldigt viktig'), 
+                                    'value' => $importance,
+                                    'legend' => "Hur viktig är frågan för dig?", 'separator' => '<div></div>'));
 ?>
 
 </div>
 <?php
 
 	if ($quizSession['QuizSession']['index'] != 0) {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary', 'escape' => false));
+		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary', 'escape' => false));
 	} else {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående', '/quizzes/prev', array('class' => 'btn btn-primary disabled', 'escape' => false));
+		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary disabled', 'escape' => false));
     }
 
 
@@ -77,7 +77,7 @@ echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
         <button type="submit" class="btn btn-success"><i class="fa fa-bar-chart-o"></i> Till resultatet</button>
 <?php
 	}
-echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', array('class' => 'btn btn-danger', 'escape' => false));
+echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', array('controller' => 'quizzes', 'action' => 'close'), array('class' => 'btn btn-danger', 'escape' => false));
 
 ?>
 

@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Användare', '/users/');
+$this->Html->addCrumb('Användare', Router::url(array('controller' => 'users', 'action' => 'index'), true));
 $this->Html->addCrumb($user['User']['username']);
 
 ?>

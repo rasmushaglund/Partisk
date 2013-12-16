@@ -24,17 +24,19 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Quiz');
+$this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'index'));
+$this->Html->addCrumb('Översikt');
 
 ?>
 
-<h1>Alla sparade quiz</h1>
+<h1>Senaste sparade quiz</h1>
 <br />
 <table class="table table-striped">
 <thead>
 	<tr>
 	<td>GUID</td>
 	<td>Version</td>
+	<td>Quiz id</td>
 	<td>Skapad</td>
 	</tr>
 </thead>
@@ -42,8 +44,9 @@ $this->Html->addCrumb('Quiz');
 <?php foreach ($results as $result) { ?>
 <tr>
 <td><?php echo $this->Html->link($result['QuizResult']['id'],
-		                  array('controller' => 'quiz', 'action' => 'results', $result['QuizResult']['id'])); ?></td>
+		                  array('controller' => 'quizzes', 'action' => 'results', 'guid' => $result['QuizResult']['id'])); ?></td>
 <td><?php echo $result['QuizResult']['version']; ?></td>
+<td><?php echo $result['QuizResult']['quiz_id']; ?></td>
 <td><?php echo $result['QuizResult']['created']; ?></td>
 </tr>
 <?php } ?>

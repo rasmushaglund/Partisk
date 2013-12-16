@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Taggar', '/tags/');
+$this->Html->addCrumb('Taggar', Router::url(array('controller' => 'tags', 'action' => 'index'), true));
 $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
 
 ?>

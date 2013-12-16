@@ -26,5 +26,5 @@
  ?>
 
 <h1>Kontakt</h1>
-<p>För kontakt angående sidans innehåll eller andra ärenden som har med Partisk.nu att göra maila <a href="info@partisk.nu">info@partisk.nu</a>.</p>
+<p>För kontakt angående sidans innehåll eller andra ärenden som har med Partisk.nu att göra maila <a href="mailto:info@partisk.nu">info@partisk.nu</a>.</p>
 <p>Vill ni komma i kontakt med Rasmus finns han på <a href="mailto:rasmus.haglund@gmail.com">rasmus.haglund@gmail.com</a>.</p>

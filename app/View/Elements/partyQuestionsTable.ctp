@@ -28,21 +28,17 @@
 <table class="table table-bordered table-striped narrow-table">
 <?php foreach ($answers as $answer): ?>
     <tr>
-        <th>
-            <?php echo $this->Html->link($answer['Question']['title'],
-                  array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
-        </th>
-        <?php 
-            if(isset($answer['Answer']['id'])){
-                echo $this->element('answerTableCell', array('answer' => $answer, 
-                          'question' => $answer));           
-            
-        ?>
-    <?php if ($current_user) { ?>
+      <th>
+        <?php echo $this->Html->link($answer['Question']['title'],
+                  array('controller' => 'questions', 'action' => 'view', 'title' => str_replace(' ', '_', strtolower($answer['Question']['title'])))); ?>
+      </th>
+      <?php echo $this->element('answerTableCell', array('answer' => $answer, 
+                          'question' => $answer)); ?>
+      <?php if ($current_user) { ?>
         <td>
             <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?> 
         </td>
-            <?php }} ?>
+      <?php } ?>
     </tr>
 <?php endforeach; ?>
 </table>

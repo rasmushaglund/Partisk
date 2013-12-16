@@ -24,9 +24,11 @@
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
 
-$this->Html->addCrumb('Frågor', '/questions/');
-$this->Html->addCrumb($answer['Question']['title'], '/questions/view/' . $answer['Question']['id']);
-$this->Html->addCrumb(ucfirst($answer['Party']['name']), '/parties/view/' . $answer['Party']['id']);
+$this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
+$this->Html->addCrumb($answer['Question']['title'], Router::url(array('controller' => 'questions', 'action' => 'view', 
+                    'title' => str_replace(' ', '_', strtolower($answer['Question']['title']))), true));
+$this->Html->addCrumb(ucfirst($answer['Party']['name']), Router::url(array('controller' => 'parties', 'action' => 'view', 
+                    'name' => str_replace(' ', '_', strtolower($answer['Party']['name']))), true));
 $this->Html->addCrumb($answer['Answer']['answer']);
 
 $deleted = $answer['Answer']['deleted'];

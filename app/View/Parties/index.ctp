@@ -35,7 +35,6 @@ $this->Html->addCrumb('Partier');
 
 <table class="table party-table table-striped data-table">
     <thead>
-        <th></th>
         <th>Parti</th>
         <th>Bästa resultat av senaste EU- och riksdagsval</th>
         <th>Resultat senaste riksdagsval (2010)</th>
@@ -48,12 +47,8 @@ $this->Html->addCrumb('Partier');
         <?php foreach ($parties as $party): ?>
         <tr>
             <th>
-            <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => true, 'title' => false)); ?>
+            <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => true, 'title' => true)); ?>
             </th>
-            <td>
-            <?php echo $this->Html->link(ucfirst($party['Party']['name']),
-                array('controller' => 'parties', 'action' => 'view', $party['Party']['id'])); ?> 
-            </td>
             <td><i class="percent"><?php echo round($party['Party']['best_result'], 1); ?>%</i></td>
             <td><i class="percent"><?php echo round($party['Party']['last_result_parliment'], 1); ?>%</i></td>
             <td><i class="percent"><?php echo round($party['Party']['last_result_eu'], 1); ?>%</i></td>

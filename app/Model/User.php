@@ -91,12 +91,17 @@ class User extends AppModel {
         return $result;
     }
     
-    public function getById($id) {
+    public function getByIdOrName($id) {
         $result = Cache::read('user_' . $id, 'user');
         if (!$result) {
             $this->recursive = -1;
             $this->contain(array("CreatedBy", "UpdatedBy", "Role"));
-            $result = $this->findById($id);
+            
+            if (is_numeric($id)) {
+                $result = $this->findById($id);
+            } else {
+                $result = $this->findByUsername($id);    
+            }
             Cache::write('user_' . $id, $result, 'user');
         }
         

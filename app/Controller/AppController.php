@@ -28,6 +28,7 @@ class AppController extends Controller {
     var $helpers = array('Session');
 
     var $isLoggedIn = false;
+    var $isAdmin = false;
     var $canAddQuestion = false;
     var $canAddAnswer = false;
     var $canAddTag = false;
@@ -124,12 +125,14 @@ class AppController extends Controller {
             $this->canDeleteUser = true;
             $this->canDeleteQuiz = true;
             $this->canApproveUser = true;
+            $this->isAdmin = true;
         } 
     }
 
     private function setAccessInView($user) {
         $this->set('canEditQuestion', $this->canEditQuestion);
         $this->set('isLoggedIn', $this->isLoggedIn);
+        $this->set('isAdmin', $this->isAdmin);
         $this->set('canAddQuestion', $this->canAddQuestion);
         $this->set('canEditQuestion', $this->canEditQuestion);
         $this->set('canApproveQuestion', $this->canApproveQuestion);
@@ -195,14 +198,8 @@ class AppController extends Controller {
     private function userCanModifyQuestion($userId, $question, $type) {
         if (!isset($question['Question'])) {
             $this->loadModel('Question');
-            /*$this->Question->recursive = -1;
-            $questions = $this->Question->find('all', array(
-                    'fields' => array('created_by', 'approved'),
-                    'conditions' => array('id' => $question)
-                ));
-
-            $question = array_pop($questions);*/
-            $question = $this->Question->getById($question);
+            $question = $this->Question->getByIdOrTitle($question);
+            
         }
         
 
@@ -228,12 +225,6 @@ class AppController extends Controller {
     private function userCanModifyAnswer($userId, $answer = null, $type) {
         if (!isset($answer['Answer'])) {
             $this->loadModel('Answer');
-            /*$this->Answer->recursive = -1;
-            $answers = $this->Answer->find('all', array(
-                    'fields' => array('created_by', 'approved'),
-                    'conditions' => array('id' => $answer)
-                ));
-            $answer = array_pop($answers);*/
             $answer = $this->Answer->getById($answer);
         }
 
@@ -259,12 +250,6 @@ class AppController extends Controller {
     private function userCanModifyQuiz($userId, $quiz = null, $type) {
         if (!isset($quiz['Quiz'])) {
             $this->loadModel('Quiz');
-            /*$this->Quiz->recursive = -1;
-            $quizzes = $this->Quiz->find('all', array(
-                    'fields' => array('created_by', 'approved'),
-                    'conditions' => array('id' => $quiz)
-                ));
-            $quiz = array_pop($quizzes);*/
             $quiz = $this->Quiz->getById($quiz);
         }
 
@@ -279,6 +264,10 @@ class AppController extends Controller {
         }
     }
     
+    protected function deSlugUrl($url) {
+        return str_replace('_', ' ', $url);
+    }
+
     protected function renderModal($modalView, $args = null){   
         if ($args == null) {
             $args = array();

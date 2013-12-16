@@ -92,12 +92,20 @@ class Party extends AppModel {
     }
     
     
-    public function getById($id) {
+    public function getByIdOrName($id) {
         $result = Cache::read('party_' . $id, 'party');
         if (!$result) {
+            
             $this->recursive = -1;
             $this->contain(array('CreatedBy', 'UpdatedBy'));
-            $result = $this->findById($id);
+            
+            if (is_numeric($id)) {
+                $result = $this->findById($id);
+            
+            } else {
+                $result = $this->findByName($id);
+            }
+            
             Cache::write('party_' . $id, $result, 'party');
         }
         return $result;

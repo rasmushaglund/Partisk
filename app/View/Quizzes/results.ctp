@@ -30,9 +30,10 @@ $this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'inde
 $this->Html->addCrumb(ucfirst($quizName));
 $this->Html->addCrumb('Resultat');
 
-if (Configure::read('debug')==0) { ?>
-    <script type="text/javascript" src="http://static.partisk.nu/js/graph-v<?php echo Configure::read('PartiskVersion'); ?>.min.js"></script>
-<?php } ?>
+if (Configure::read('debug')==0) { 
+            $version = Configure::read('PartiskVersion'); 
+            echo $this->Html->script("graph-v$version.min");
+ } ?>
 
 <h3>Resultat för <?php echo $quizName; ?>, 
     <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></h3>
@@ -142,7 +143,7 @@ if (Configure::read('debug')==0) { ?>
 <?php if ($quizSession) { ?>
 
 <?php 
-echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', array('class' => 'btn btn-danger', 'escape' => false));
+echo $this->Html->link('<i class="fa fa-times"></i> Avsluta',  array('controller' => 'quizzes', 'action' => 'close'), array('class' => 'btn btn-danger', 'escape' => false));
 ?>
 
 <h2>Sammanställning av resultatet</h2>
@@ -174,8 +175,6 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
 </tbody>
 </table>
 
-
-
 <h2>Resultat per fråga</h2>
 <ul class="list-unstyled">
 <?php foreach ($quizSession['QuizSession']['points']['questions'] as $question) { 
@@ -183,7 +182,8 @@ echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', '/quizzes/close', 
   $importance = $question['importance'];
   $title = $question['title'];
   ?>
-  <li><h3><?php echo $this->Html->link($question['title'], array('controller' => 'questions', 'action' => 'view', $question['id'])); ?></h3>
+  <li><h3><?php echo $this->Html->link($question['title'], array('controller' => 'questions', 'action' => 'view', 
+                                'title' => str_replace(' ', '_', strtolower($question['title'])))); ?></h3>
     <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
     <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
     <table class="table table-striped party-result-table">

@@ -58,7 +58,8 @@
 		    <tr>
                         <td><?php echo date('Y-m-d', strtotime($question['Question']['approved_date'])); ?></td>
 		        <td><?php echo $this->Html->link($question['Question']['title'],
-                                array('controller' => 'questions', 'action' => 'view', $question['Question']['id'])); ?></td>
+                                array('controller' => 'questions', 'action' => 'view', 
+                                                'title' => str_replace(' ', '_', strtolower($question['Question']['title'])))); ?></td>
 		    </tr>
 		 <?php endforeach; ?>
                     </tbody>
