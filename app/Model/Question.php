@@ -317,7 +317,7 @@ class Question extends AppModel {
     
      
     public function getNotAnswered($partyId){
-        $result = Cache::read('not_ansered_' . $id, 'question');
+        $result = Cache::read('not_ansered_' . $partyId, 'question');
         if (!$result) {
             $this->recursive = -1;
             $result = $this->find('all',array(
@@ -334,9 +334,10 @@ class Question extends AppModel {
                             'Answer.party_id' => $partyId                        
                         )
                     )
-                )
+                ),
+                'order' => array('Question.title')
             ));
-            Cache::write('not_ansered_' . $id, $result, 'question');
+            Cache::write('not_ansered_' . $partyId, $result, 'question');
         }
         
         return $result;
