@@ -22,7 +22,7 @@ Router::connect('/taggar', array('controller' => 'tags', 'action' => 'index'));
 Router::connect('/taggar/:name', array('controller' => 'tags', 'action' => 'view'), array('pass' => array('name')));
 Router::connect('/partier', array('controller' => 'parties', 'action' => 'index'));
 Router::connect('/partier/:name', array('controller' => 'parties', 'action' => 'view'), array('pass' => array('name')));
-Router::connect('/partier/:name/ej besvarade', array('controller' => 'parties', 'action' => 'notAnswered'), array('pass' => array('name')));
+Router::connect('/partier/:name/ej_besvarade', array('controller' => 'parties', 'action' => 'notAnswered'), array('pass' => array('name')));
 Router::connect('/användare', array('controller' => 'users', 'action' => 'index'));
 Router::connect('/användare/:name', array('controller' => 'users', 'action' => 'view'), array('pass' => array('name')));
 
