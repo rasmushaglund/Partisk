@@ -90,11 +90,11 @@ class UsersController extends AppController {
     }
    
     public function add() {
-      
         $this->request->data['User']['created_by'] = $this->Auth->loggedIn() ? $this->Auth->user('id') : 1 ;
         $this->request->data['User']['created_date'] = date("Y-m-d-H-i-s");
         $this->request->data['User']['role_id'] = $this->Auth->loggedIn() ? $this->request->data['User']['role_id'] : 4;
-        
+        print_r($this->request->data);
+        die;
         if ($this->User->save($this->request->data )) {
             $this->customFlash(__('Användaren har skapats och väntar på att bli godkänd.'));
 

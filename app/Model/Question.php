@@ -320,8 +320,7 @@ class Question extends AppModel {
         $this->recursive = -1;
         return $this->find('all',array(
             'conditions' => array(
-                '!Question.deleted',
-                'Question.approved',                
+                '!Question.deleted',               
                 'Answer.id' => null,                
                 ),
             'joins' => array(
