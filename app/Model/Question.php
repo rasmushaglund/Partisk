@@ -317,24 +317,30 @@ class Question extends AppModel {
     
      
     public function getNotAnswered($partyId){
-        $this->recursive = -1;
-        return $this->find('all',array(
-            'conditions' => array(
-                '!Question.deleted',
-                'Question.approved',                
-                'Answer.id' => null,                
-                ),
-            'joins' => array(
-                array(
-                    'table' => 'answers as Answer',
-                    'type' => 'left',
-                    'conditions' => array(
-                        'Answer.question_id = Question.id',
-                        'Answer.party_id' => $partyId                        
+        $result = Cache::read('not_ansered_' . $partyId, 'question');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('all',array(
+                'conditions' => array(
+                    '!Question.deleted',               
+                    'Answer.id' => null,                
+                    ),
+                'joins' => array(
+                    array(
+                        'table' => 'answers as Answer',
+                        'type' => 'left',
+                        'conditions' => array(
+                            'Answer.question_id = Question.id',
+                            'Answer.party_id' => $partyId                        
+                        )
                     )
-                )
-            )
-        ));
+                ),
+                'order' => array('Question.title')
+            ));
+            Cache::write('not_ansered_' . $partyId, $result, 'question');
+        }
+        
+        return $result;
     }
      
     public function getAllQuizQuestions($id) {
