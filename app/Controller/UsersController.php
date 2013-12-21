@@ -69,6 +69,10 @@ class UsersController extends AppController {
     }
 
     public function start() {
+        
+        $user = $this->Auth->user();
+        
+        $this->set('user', $user);
         $this->set('title_for_layout', 'Start');
     }
 
