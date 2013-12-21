@@ -24,7 +24,7 @@
  * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
-if ($canDeleteUser) {
+if ($canDeleteParty) {
     echo $this->element('deleteModal', array('model' => 'Party', 'action' => 'delete/' . $party['Party']['id'],
         'label' => "Ta bort parti", 'itemText' => $party['Party']['name']));
 }

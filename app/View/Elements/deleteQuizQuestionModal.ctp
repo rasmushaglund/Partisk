@@ -24,7 +24,7 @@
  * @package     app.View.Elements.bootstrap
  * @license     http://www.gnu.org/licenses/ GPLv2
  */
-if ($canDeleteUser) {
+if ($canDeleteQuiz) {
     echo $this->element('deleteModal', array('model' => 'Quiz', 'action' => 'deleteQuestion/' . $quizQuestion ,
         'label' => "Ta bort fråga", 'itemText' => $quizQuestion));
 }
