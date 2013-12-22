@@ -38,6 +38,13 @@
             var appRoot = "<?php echo Router::url('/', false); ?>";
         </script>
 
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Partisk.nu">
+        <meta name="author" content="Partisk.nu">
+        <link rel="shortcut icon" href="favicon.ico">
+
         <?php
         echo $this->Html->meta('icon');
 
@@ -74,7 +81,7 @@
             
         <?php } ?>
     </head>
-    <body>
+    <body>        
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -160,16 +167,58 @@
         </div>
         <div id="footer">
             <div class="container">
-                <div class="row">
+                <div class="row section">
+                    <div class="col-md-3">
+                        <h4>Navigering</h4>
+                        <ul class="list-unstyled">
+                            <li><?php echo $this->Html->link('<i class="fa fa-thumbs-o-up"></i> Så här tycker partierna', array('controller' => 'questions', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-tags"></i> Taggar', array('controller' => 'tags', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-globe"></i> Partier', array('controller' => 'parties', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quiz', array('controller' => 'quizzes', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-info-circle"></i> Om sidan', array('controller' => 'pages', 'action' => 'about'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false)); ?></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Hjälp till</h4>
+                        <ul class="list-unstyled">
+                            <li><a data-toggle="modal" href="#feedbacksModal"><i class="fa fa-comments"></i> Skicka in feedback</a></li>
+                            <li><a href="mailto:info@partisk.nu"><i class="fa fa-envelope"></i> Berätta vad du tycker</a></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Ansök om konto', array('controller' => 'users', 'action' => 'login'), array('escape' => false)); ?></li>
+                            <li><a href="https://github.com/rasmushaglund/Partisk" title="GitHub"><i class="fa fa-github"></i> Utveckla sidan</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Kontakt</h4>
+                        <ul class="list-unstyled contact">
+                            <li>
+                                <p>
+                                    <b>Allmänna frågor</b> <br />
+                                    <a href="mailto:info@partisk.nu">info@partisk.nu</a>
+                                </p>
+                            </li>
+                            <li>
+                                <p><b>Media</b> <br />
+                                    Rasmus Haglund <br />
+                                    <a href="mailto:rasmus.haglund@partisk.nu">rasmus.haglund@partisk.nu</a> <br />
+                                    072-570 32 43
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 follow">
+                        <h4>Följ oss</h4>
+                        <a href="https://www.facebook.com/partisk.nu" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                        <a href="https://twitter.com/partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+                        <a href="http://www.linkedin.com/company/5005133" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                        <a href="https://github.com/rasmushaglund/Partisk" title="GitHub"><i class="fa fa-github"></i></a>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row info">
                     <div class="col-md-12">
-                        <p><i class="fa fa-check-square"></i> Partisk.nu är grundad av <a href="https://github.com/rasmushaglund/">Rasmus Haglund</a> 2013.
-                            <a href="mailto:info@partisk.nu">Maila oss</a> och berätta vad du tycker.
-                        </p>
-                        <p>Läs gärna mer
-                            <?php echo $this->Html->link('om sidan',
-                                    array('controller' => 'pages', 'action' => 'about')); ?> och
-                            <?php echo $this->Html->link('kontakta oss',
-                                    array('controller' => 'pages', 'action' => 'contact')); ?> om du har några frågor eller förslag.</p>
+                        <p><i class="fa fa-check-square"></i> Partisk.nu är skapat med kärlek 2013-2014.
+                            Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>.
                     </div>
                 </div>
             </div>

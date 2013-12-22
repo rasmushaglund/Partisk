@@ -359,6 +359,35 @@ h1 .admin-toolbox {
 #footer {
     margin-top: 60px;
     color: #777;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+}
+
+#footer .follow .fa {
+    font-size: 1.7em;
+}
+
+#footer .list-unstyled li {
+    margin-bottom: 4px;
+    margin-left: 1px;
+}
+
+#footer ul a {
+    text-decoration: none;
+}
+
+#footer .info {
+    margin-top: 30px;
+}
+
+#footer h4 {
+    padding-top: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1px;
+}
+
+#footer .contact li {
+    margin-bottom: 18px;
 }
 
 .tools {
@@ -566,9 +595,8 @@ text-decoration: underline;
 
 
 .qa-table .table-head.table-row .table-header-text a {
-    padding-top: 0px;
-    right: 0;
-    position: absolute;
+    margin: 0;
+    padding: 0;
 }
 
 .table-fixed .table {
@@ -608,7 +636,7 @@ text-decoration: underline;
     left: 0px;
     top: 0px;
     position: fixed;
-    height: 71px;
+    height: 74px;
     width: 100%;
     background-color: white;
     box-shadow: 0px 2px 17px #999;
@@ -702,3 +730,8 @@ text-decoration: underline;
 .table, .table-head-container {
     table-layout: fixed;
 }
+
+.table-head-container.table-fixed .table-bordered {
+    border-bottom: none;
+    border-left: none;
+} 

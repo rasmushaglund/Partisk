@@ -260,6 +260,7 @@ class QuizzesController extends AppController {
         $parties = $this->Party->getPartiesHash();
         
         $this->set('quiz', $quiz);
+        $this->set('guid', $guid);
         $this->set('quizSession', $quizSession);
         $this->set('quizResults', $quizResults);
         $this->set('parties', $parties);
