@@ -217,7 +217,7 @@
                 </div>
                 <div class="row info">
                     <div class="col-md-12">
-                        <p><i class="fa fa-check-square"></i> Partisk.nu är skapat med kärlek 2013-2014.
+                        <p><i class="fa fa-check-square"></i> Partisk.nu är skapad med kärlek 2013-2014.
                             Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>.
                     </div>
                 </div>
