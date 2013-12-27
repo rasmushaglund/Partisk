@@ -735,3 +735,15 @@ text-decoration: underline;
     border-bottom: none;
     border-left: none;
 } 
+
+.nvd3 .nv-x.nv-axis text {
+    display: none;
+}
+
+.nvd3 .nv-label text {
+    display: none;
+}
+
+#points-percentage-graph .nv-label body div {
+    background-color: white;
+}

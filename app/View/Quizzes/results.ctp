@@ -34,110 +34,30 @@ if (Configure::read('debug')==0) {
             $version = Configure::read('PartiskVersion'); 
             echo $this->Html->script("graph-v$version.min");
  } ?>
-
-<h3>Resultat för <?php echo $quizName; ?>, 
-    <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></h3>
-
-<div id="points-percentage-graph" class="graph">
-  <svg></svg>
-  <p class="description">Hur många poäng partierna fått relativt varandra. Partier med en negativ poängsumma visas ej.</p>
+<div class="row">
+    <div class="col-md-12">
+    <h3>Resultat för <?php echo $quizName; ?>, 
+        <?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></h3>
+    </div>
 </div>
-<div id="question-agree-rate-graph" class="graph">
-  <svg></svg>
-  <p class="description">Hur stor andel av svaren stämmer överens med respektive partis svar.</p>
+<div class="row">
+    <div class="col-md-6">
+        <div id="points-percentage-graph" class="graph">
+          <svg></svg>
+          <p class="description">Hur många poäng partierna fått relativt varandra. Partier med en negativ poängsumma visas ej.</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="question-agree-rate-graph" class="graph">
+          <svg></svg>
+          <p class="description">Hur stor andel av svaren stämmer överens med respektive partis svar.</p>
+        </div>
+    </div>
 </div>
-
+    
 <script type="text/javascript">
-
   var parties = <?php echo json_encode($parties); ?>;
   var data = <?php echo $quizResults['QuizResult']['data']; ?>;
-
-  function getQuestionAgreeRate() {
-    var result = {key: 'questionAgreeRate', values: []};
-
-    var agree_rate = data["question_agree_rate"];
-
-    for (var value in agree_rate) {
-      result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
-                                        label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'], 
-                                        color: parties[value].color, order: parties[value].order});      
-    }
-
-   result.values.sort(function (a, b) { return a.order - b.order; });
-   return [result];
- }
-
- function getPointsPercentage() {
-    var result = {key: 'pointsPercentage', values: []};
-
-    var points_percentage = data['points_percentage'];
-
-    for (var value in points_percentage) {
-      result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'], 
-                          points:points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name), 
-                          color: parties[value].color, order: parties[value].order});
-    }
-
-   result.values.sort(function (a, b) { return a.order - b.order; });
-   return [result];
- }
-
- nv.addGraph(function() {
-    var chart = nv.models.pieChart()
-        .x(function(d) { return d.label })
-        .y(function(d) { return d.value })
-        .tooltips(true)
-        .color(function (item) {  
-            if (item.data && item.data.color) return item.data.color;
-            return "#333";
-        })
-        .labelThreshold(.06)
-        .tooltipContent(function (key, value, item, graph) {
-          var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
-          result += '<p>' + item.point.points + 'p' + '</p>';
-          return result;
-        })
-        .showLabels(true);
-
-    d3.select("#points-percentage-graph svg")
-        .datum(getPointsPercentage())
-        .transition().duration(500)
-        .call(chart);
- 
-   nv.utils.windowResize(chart.update);
-
-   return chart;
- });
-
- nv.addGraph(function() {
-   var chart = nv.models.discreteBarChart()
-      .x(function(d) { return d.label })
-      .y(function(d) { return d.value })
-      .staggerLabels(true)
-      .tooltips(true)
-      .tooltipContent(function (id, key, value, item) {
-        var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
-        result += '<p>För: ' + item.point.plus_points + 'p</p>';
-        result += '<p>Emot: ' + item.point.minus_points + 'p</p>';
-        return result;
-      })
-      .valueFormat(function (value) { return Math.round(value) + "%"; })
-      .showValues(true);
-
-   d3.select('#question-agree-rate-graph svg')
-       .datum(getQuestionAgreeRate())
-       .transition().duration(500)
-       .call(chart);
- 
-   nv.utils.windowResize(chart.update);
- 
-   return chart;
- });
-
-
-
- 
- 
 </script>
 
 <?php if ($quizSession) { ?>
