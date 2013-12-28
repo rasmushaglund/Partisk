@@ -207,7 +207,7 @@ nv.addGraph(function() {
                 return d.value;
             })
             .tooltips(true)
-            .margin({left: 1, top: 0, bottom: 0, right: 0})
+            .margin({left: 1, top: 0, bottom: 10, right: 0})
             .color(function (item) {
                 if (item.data && item.data.color)
                     return item.data.color;

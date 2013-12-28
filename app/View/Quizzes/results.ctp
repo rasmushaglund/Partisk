@@ -123,6 +123,8 @@ if (Configure::read('debug')==0) {
         </div>
         <div id="collapse<?php echo $question['id']; ?>" class="panel-collapse collapse">
           <div class="panel-body">
+            <p><?php echo $this->Html->link($question['title'], array('controller' => 'questions', 'action' => 'view', 
+                'title' => str_replace(' ', '_', strtolower($question['title'])))); ?></p>
             <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
             <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
             <table class="table table-striped party-result-table">
