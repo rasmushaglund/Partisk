@@ -410,6 +410,7 @@ h1 .admin-toolbox {
 
 .party-result-table {
     max-width: 600px;
+    margin-bottom: 0px;
 }
 
 .plus-points .result, .plus-points .answer {
@@ -744,6 +745,31 @@ text-decoration: underline;
     display: none;
 }
 
-#points-percentage-graph .nv-label body div {
-    background-color: white;
+/*.party-column {
+    width: 190px;
+}*/
+
+.question-summary-list h3 {
+    margin-top: 40px;
+}
+
+.date {
+    font-size: 15px;
+    color: #777;
+}
+
+.share {
+    display: inline-block;
+}
+
+.share a {
+    font-size: 1.7em;
+}
+
+.list-unstyled.question-summary-list li {
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-top: 60px;
 }

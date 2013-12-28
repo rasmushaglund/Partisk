@@ -30,7 +30,7 @@
     <head>
         <?php echo $this->Html->charset(); ?>
         <title>
-            Partisk.nu (Testversion) - 
+            Partisk.nu Beta - 
             <?php echo $title_for_layout; ?>
         </title>
 
@@ -210,9 +210,9 @@
                         <h4>Följ oss</h4>
                         <a href="https://www.facebook.com/partisk.nu" title="Facebook"><i class="fa fa-facebook-square"></i></a>
                         <a href="https://twitter.com/partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+                        <a href="https://plus.google.com/108714344898230265138" rel="publisher" title="Google+"><i class="fa fa-google-plus-square"></i></a>
                         <a href="http://www.linkedin.com/company/5005133" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                         <a href="https://github.com/rasmushaglund/Partisk" title="GitHub"><i class="fa fa-github"></i></a>
-                        </ul>
                     </div>
                 </div>
                 <div class="row info">

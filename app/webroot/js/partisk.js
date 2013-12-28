@@ -49,6 +49,15 @@ $(document).ready(function() {
 
         $(this).val("");
     }).focus();
+       
+    $('#accordion .panel-collapse').on('show.bs.collapse', function () {
+       $(this).parent().find(".toggle").removeClass("fa-plus-square").addClass("fa-minus-square");
+    });
+
+    $('#accordion .panel-collapse').on('hide.bs.collapse', function () {
+        console.log(this);
+       $(this).parent().find(".toggle").removeClass("fa-minus-square").addClass("fa-plus-square");
+    });
 });
 
 var qaTableFixedHeader = function() {
@@ -174,10 +183,12 @@ function getPointsPercentage() {
     var points_percentage = data['points_percentage'];
 
     for (var value in points_percentage) {
-        result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'],
-            points: points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name),
-            party_id: parties[value].id,
-            color: parties[value].color, order: parties[value].order});
+        if (points_percentage[value]['result'] > 0) {
+            result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'],
+                points: points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name),
+                party_id: parties[value].id,
+                color: parties[value].color, order: parties[value].order});
+        }
     }
 
     result.values.sort(function(a, b) {
@@ -196,7 +207,7 @@ nv.addGraph(function() {
                 return d.value;
             })
             .tooltips(true)
-            .margin({left: 0, top: 0, bottom: 0, right: 0})
+            .margin({left: 1, top: 0, bottom: 0, right: 0})
             .color(function (item) {
                 if (item.data && item.data.color)
                     return item.data.color;
@@ -208,7 +219,6 @@ nv.addGraph(function() {
                 result += '<p>' + item.point.points + 'p' + '</p>';
                 return result;
             })
-                    .donut(true)
             .showLabels(true);
 
     d3.select("#points-percentage-graph svg")
@@ -222,7 +232,7 @@ nv.addGraph(function() {
       .attr("width", 25)
       .attr("height", 25)
       .attr("y", function (d, i) { return -12; })
-      .attr("x", function (d, i) { return -10; })
+      .attr("x", function (d, i) { return -12; })
       .append("xhtml:body")
       .attr("style", "background-color: transparent")
       .attr("text-anchor", "middle")
