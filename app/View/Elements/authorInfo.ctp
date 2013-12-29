@@ -43,7 +43,7 @@ if ($model == "Question" || $model == "Answer") {
                                                 'name' => $createdBy['username'])); ?>
 	 <i>(<?php echo $createdDate; ?>)</i>
 	<?php if (!empty($updatedBy['id'])) { ?>
-		, uppdaterad av <?php echo $this->Html->link($updatedBy['username'], array('controller' => 'users', 'action' => 'view', 
+		, senast uppdaterad av <?php echo $this->Html->link($updatedBy['username'], array('controller' => 'users', 'action' => 'view', 
                                                 'name' => $updatedBy['username'])); ?>
 	 <i>(<?php echo $updatedDate; ?>)</i>
 	<?php } ?>

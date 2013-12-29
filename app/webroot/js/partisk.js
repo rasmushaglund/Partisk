@@ -24,6 +24,7 @@
  */
 
 var datepickerArgs = {autoclose: true, format: 'yyyy-mm-dd', language: "sv", calendarWeeks: true, endDate: new Date()};
+var bigMode = matchMedia('only screen and (min-width: 1200px)').matches;
 
 $(document).ready(function() {
     $('.pop').popover();
@@ -60,39 +61,59 @@ $(document).ready(function() {
     });
 });
 
-var qaTableFixedHeader = function() {
-    var table = $('.table-with-fixed-header');
-    var qaTableHead = $('<div class="table-head-container"></div>');
-    var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
-    var qaTableHeadBg = $('<div class="table-header-bg"></div>');
-
-    qaTableHead.append(qaTableHeadBg);
-    qaTableHead.append(qaTableHeadRow);
-
-    table.before(qaTableHead);
-    $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow);
-    var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
-
-    qaTableHeadRow.width(table.width());
-
-    var headerVisible = false;
-    $(window).scroll(function() {
-        if ($(window).scrollTop() >= table.offset().top - headerHeight) {
-            if (!headerVisible) {
-                headerVisible = true;
-                qaTableHead.addClass('table-fixed');
-                table.addClass('table-fixed-header');
-
-            }
-        } else {
-            if (headerVisible) {
-                headerVisible = false;
-
-                qaTableHead.removeClass('table-fixed');
-                table.removeClass('table-fixed-header');
-            }
+$( window ).resize(function() {
+    console.log(bigMode);
+    newBigMode = matchMedia('only screen and (min-width: 1200px)').matches;
+    
+    console.log(newBigMode);
+    
+    if (bigMode !== newBigMode) {
+        bigMode = newBigMode;
+        
+        if (bigMode) {
+            qaTableFixedHeader();
         }
-    });
+    }
+});
+
+var qaTableFixedHeader = function() {
+    if (matchMedia('only screen and (min-width: 1200px)').matches && $('.table-head-container').size() === 0) {
+        var table = $('.table-with-fixed-header');
+        var qaTableHead = $('<div class="table-head-container"></div>');
+        var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
+        var qaTableHeadBg = $('<div class="table-header-bg"></div>');
+
+        qaTableHead.append(qaTableHeadBg);
+        qaTableHead.append(qaTableHeadRow);
+
+        table.before(qaTableHead);
+        $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow);
+        var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+
+        qaTableHeadRow.width(table.width());
+
+        var headerVisible = false;
+        $(window).scroll(function() {
+            if (bigMode) {
+                if ($(window).scrollTop() >= table.offset().top - headerHeight) {
+                    if (!headerVisible) {
+                        headerVisible = true;
+                        qaTableHead.addClass('table-fixed');
+                        table.addClass('table-fixed-header');
+
+                    }
+                } else {
+                    if (headerVisible) {
+                        headerVisible = false;
+
+                        qaTableHead.removeClass('table-fixed');
+                        table.removeClass('table-fixed-header');
+                    }
+                }
+            }
+        });
+    
+    }
 };
 
 var openModal = function(controller, action, id) {

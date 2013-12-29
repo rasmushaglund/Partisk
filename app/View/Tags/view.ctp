@@ -29,12 +29,10 @@ $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
 
 ?>
 
-<h1>
+<h2>
 <?php echo ucfirst(h($tag['Tag']['name'])); ?>
 <?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
-</h1>
-
-<?php echo $this->element('authorInfo', array('object' => $tag, 'model' => 'Tag')); ?>
+</h2>
 
 <?php 
 if ($current_user) { ?>
@@ -51,3 +49,4 @@ if ($current_user) { ?>
                   'fixedHeader' => true
                   )); ?>
 
+<?php echo $this->element('authorInfo', array('object' => $tag, 'model' => 'Tag')); ?>

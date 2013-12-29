@@ -59,8 +59,9 @@ h1 .party-logo {
 	margin-right: 8px;
 }
 
-h1 .party-title {
-    top: -10px;
+h2 .party-title {
+    left: 9px;
+    top: -12px;
     position: relative;
 }
 
@@ -712,12 +713,12 @@ text-decoration: underline;
     visibility:hidden;
 }
 
-#partisk-search {
+#partisk-search{
     margin-bottom: 20px;
 }
 
-#partisk-search input, .tt-dropdown-menu {
-    width: 300px;
+#partisk-search .twitter-typeahead, .tt-dropdown-menu {
+    width: 100%;
 }
 
 .tt-suggestion {
@@ -772,4 +773,117 @@ text-decoration: underline;
 
 h3 {
     margin-top: 60px;
+}
+
+@media (max-width: 990px) {
+    #feedbacksModalLink {
+        display: none;
+    }
+    
+    .modal { 
+        position: fixed; 
+        width: auto; 
+        margin: 0; 
+    }
+
+    .modal-body { 
+        height: 60%; 
+    }
+
+    .modal-body { 
+        max-height: 350px; 
+        padding: 15px; 
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; 
+     }
+}
+
+.navbar-collapse .navbar-nav.navbar-right {
+    margin-top: 0;
+    margin-left: 0px;
+}
+
+.navbar-collapse .navbar-nav.navbar-left {
+    margin-bottom: 0;
+    margin-left: 0px;
+}
+
+.answer-party-cell {
+    display: none;
+}
+
+/* Credits: http://css-tricks.com/responsive-data-tables/ */
+@media (max-width: 1199px) {
+        .table, .table-head, .table-body, .table-header, .table-cell, .table-row { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.table-head .table-row { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+        .table-head .table-header {
+            display: none;
+        }
+        
+        .table-row.table-head {
+            display: none;
+        }
+        
+        .table-head-container {
+            display: none;
+        }
+        
+        .table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
+            border: none;
+        }
+        
+        .table-bordered .table-row .table-header {
+            background-color: transparent !important;
+        }
+	
+	.table-bordered .table-row .table-cell { 
+		/* Behave  like a "row" */
+		border-bottom: none;
+                padding: 0;
+	}
+        
+        .qa-table.table-bordered {
+            border: none;
+        }
+	
+	.table-cell:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+        .table-cell {
+            display: inline-block;
+        }
+        
+        .table-header-text {
+            width: 100% !important;
+        }
+        
+        .empty-cell {
+            display: none;
+        }
+        
+        .table-row {
+            margin-top: 40px;
+        }
+        
+        .answer-party-cell {
+            display: inline-block;
+        }
+	
 }

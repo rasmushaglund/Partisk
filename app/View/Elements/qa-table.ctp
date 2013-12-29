@@ -56,7 +56,7 @@
 
         if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
           echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
-                                                  'question' => $question));
+                                                  'question' => $question, 'partyId' => $party['Party']['id']));
         } else { ?>
         <div class="table-cell"></div>
         <?php }?>

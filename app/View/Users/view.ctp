@@ -29,11 +29,11 @@ $this->Html->addCrumb($user['User']['username']);
 
 ?>
 
-<h1>
+<h2>
   <?php echo $user['User']['username']; ?>
   <?php if ($current_user) { echo $this->element('userAdminToolbox', array('user' => $user)); } ?>
-</h1>
-
-<?php echo $this->element('authorInfo', array('object' => $user, 'model' => 'User')); ?>
+</h2>
 
 <p><?php echo $user['User']['description']; ?></p>
+
+<?php echo $this->element('authorInfo', array('object' => $user, 'model' => 'User')); ?>

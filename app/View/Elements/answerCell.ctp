@@ -36,7 +36,8 @@ else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="table-cel
 else { $answerClass = 'class="table-cell"'; }?>
 
 <div <?php echo $answerClass ?>>
-  <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
+  <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" data-party-id="<?php echo $partyId; ?>" 
+        data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
     echo $answer['Answer']['answer'];
   ?></span>
 </div>

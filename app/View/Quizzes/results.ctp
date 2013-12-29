@@ -38,7 +38,6 @@ if (Configure::read('debug')==0) {
     <div class="col-md-12">
     <h2>Resultat för <?php echo ucfirst($quizName); ?> 
         <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h2>
-        
         <div class="share">
             <a href="http://www.facebook.com/sharer/sharer.php?u=http://www.partisk.nu/quiz/resultat/<?php echo $guid; ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
             <a href="https://twitter.com/intent/tweet?url=http://www.partisk.nu/quiz/resultat/<?php echo $guid; ?>&text=Mitt resultat&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>

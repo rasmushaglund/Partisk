@@ -29,10 +29,10 @@ $this->Html->addCrumb(ucfirst($question['Question']['title']));
 $deleted = $question['Question']['deleted'];
 ?>
 
-<h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
+<h2<?php echo $deleted ? ' class="deleted"' : ''; ?>>
 <?php echo ucfirst(h($question['Question']['title'])); ?>
 <?php echo $this->element('questionAdminToolbox', array('question' => $question)); ?>
-</h1>
+</h2>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
@@ -41,7 +41,6 @@ $deleted = $question['Question']['deleted'];
   <?php echo $this->Html->link($tag['name'], array('controller' => 'tags', 'action' => 'view', 'name' => $tag['name']), array('class' => 'btn btn-success btn-xs')); ?>
 <?php endforeach; ?>
 </div>
-<?php echo $this->element('authorInfo', array('object' => $question, 'model' => 'Question')); ?>
 
 <p><?php echo $question['Question']['description']; ?></p>
 
@@ -70,3 +69,5 @@ $deleted = $question['Question']['deleted'];
 </table>
 
 <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
+
+<?php echo $this->element('authorInfo', array('object' => $question, 'model' => 'Question')); ?>

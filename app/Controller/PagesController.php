@@ -46,10 +46,20 @@ class PagesController extends AppController {
 
     public function index() {
         $this->loadModel('Question');
+        
+        $questions = $this->Question->getLatestQuestions();
+        $questionIds = $this->Question->getIdsFromModel('Question', $questions);
+        
+        $this->loadModel('Party');
+        $parties = $this->Party->getPartiesOrdered();
 
-        $questions = $this->Question->getLatest();
-
+        $this->loadModel('Answer');
+        $answers = $this->Answer->getAnswers(array('questionId' => $questionIds, 'includeParty' => true));
+        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
+        
         $this->set('questions', $questions);
+        $this->set('parties', $parties);
+        $this->set('answers', $answersMatrix);        
         $this->set('title_for_layout', 'Hem');
         $this->currentPage = "home";
     }

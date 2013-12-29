@@ -32,15 +32,13 @@ $deleted = $party['Party']['deleted'];
 
 ?>
 
-<h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
+<h2<?php echo $deleted ? ' class="deleted"' : ''; ?>>
   <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'title' => true)); ?>
   <?php if ($current_user) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
-</h1>
+</h2>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
-
-<?php echo $this->element('authorInfo', array('object' => $party, 'model' => 'Party')); ?>
 
 <p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
 <p><?php echo $party['Party']['description']; ?></p>
@@ -74,3 +72,6 @@ $deleted = $party['Party']['deleted'];
    echo $this->Html->link('Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
        'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), array('class' => 'btn btn-s btn-info'));          
 ?>
+
+
+<?php echo $this->element('authorInfo', array('object' => $party, 'model' => 'Party')); ?>

@@ -99,6 +99,8 @@ class Question extends AppModel {
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
         $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted');
         $conditions = isset($args['conditions']) ? $args['conditions'] : array();
+        $order = isset($args['order']) ? $args['order'] : 'Question.title';
+        $limit = isset($args['limit']) ? $args['limit'] : '500';
 
         $joins = array();
 
@@ -116,10 +118,11 @@ class Question extends AppModel {
         }
 
         $questions = $this->find('all', array(
-            'order' => 'Question.title',
+            'order' => $order,
             'conditions' => $conditions,
             'joins' => $joins,
-            'fields' => $fields
+            'fields' => $fields,
+            'limit' => $limit
             ));
 
         return $questions;
@@ -141,7 +144,7 @@ class Question extends AppModel {
         return array_pop($questions);
     }
 
-    public function getLatest() {
+    /*public function getLatest() {
         $result = Cache::read('latest', 'question');
         if (!$result) {
             $this->recursive = -1;
@@ -155,7 +158,7 @@ class Question extends AppModel {
         }
         
         return $result;
-    }
+    }*/
 
     public function getByIdOrTitle($id) {
         $result = Cache::read('question_' . $id, 'question');
@@ -366,8 +369,15 @@ class Question extends AppModel {
         return $result;
     }
     
-    
-    
+    public function getLatestQuestions() {
+        $result = Cache::read('latest', 'question');
+        if (!$result) {
+            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'order' => 'approved_date', 'limit' => 5));
+            Cache::write('latest', $result, 'question');
+        }
+        
+        return $result;
+    }
     
     public function getVisibleTagQuestions($id) {
         $result = Cache::read('visible_tag_questions_' . $id, 'question');

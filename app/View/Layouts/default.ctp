@@ -51,7 +51,7 @@
         if (Configure::read('debug')>0) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
-            echo $this->Html->css('bootstrap.min');
+            echo $this->Html->css('bootstrap');
             echo $this->Html->css('typeahead.js-bootstrap');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
@@ -64,6 +64,7 @@
             echo $this->Html->script('typeahead');
             echo $this->Html->script('d3.v2');
             echo $this->Html->script('nv.d3');
+            echo $this->Html->script('matchMedia');
             echo $this->Html->script('partisk');
 
             echo $this->fetch('meta');
@@ -135,7 +136,7 @@
         </nav>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <div id="partisk-search">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
@@ -155,7 +156,7 @@
                     <?php echo $this->fetch('content'); ?>
                 </div>
             </div>
-            <div class="row">
+           <!-- <div class="row">
                 <div class="col-md-12">
                     <?php if (Configure::read('debug') >= 2) { ?>
                         <div class="alert alert-info">
@@ -163,7 +164,7 @@
                         </div>
                     <?php } ?>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div id="footer">
             <div class="container">
@@ -200,8 +201,7 @@
                             <li>
                                 <p><b>Media</b> <br />
                                     Rasmus Haglund <br />
-                                    <a href="mailto:rasmus.haglund@partisk.nu">rasmus.haglund@partisk.nu</a> <br />
-                                    072-570 32 43
+                                    <a href="mailto:rasmus.haglund@partisk.nu">rasmus.haglund@partisk.nu</a>
                                 </p>
                             </li>
                         </ul>

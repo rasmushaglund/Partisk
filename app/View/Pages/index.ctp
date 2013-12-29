@@ -26,7 +26,7 @@
  ?>
 
 <div class="row">
-	<div class="col-md-6">
+	<!--<div class="col-md-6">
 		<h2>Partisk.nu</h2>
 		<p>Välkommen till Partisk.nu, sidan med den stora uppgiften att hjälpa er att hitta rätt bland alla 
                     partiers åsikter. Här kan du söka runt bland 
@@ -64,5 +64,24 @@
 		 <?php endforeach; ?>
                     </tbody>
 		 </table>
+	 </div>-->
+                                                
+         <div class="col-md-6">
+             
 	 </div>
+                                                
+         <div class="col-md-6">
+             
+	 </div>    
  </div>
+<div class="row">
+    <div class="col-md-6">     
+        <h2>Senaste frågorna</h2>
+        <?php echo $this->element('qa-table', array(
+                  'parties' => $parties,
+                  'questions' => $questions,
+                  'answers' => $answers,
+                  'fixedHeader'  => false
+                  )); ?>
+    </div>  
+</div>

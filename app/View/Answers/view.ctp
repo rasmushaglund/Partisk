@@ -35,17 +35,15 @@ $deleted = $answer['Answer']['deleted'];
 
 ?>
 
-<h1<?php echo $deleted ? ' class="deleted"' : ''; ?>><?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => false)); ?>
+<h2<?php echo $deleted ? ' class="deleted"' : ''; ?>><?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => false)); ?>
 <?php echo $answer['Question']['title']; ?>: <?php echo ucfirst(h($answer['Answer']['answer'])); ?>
 <?php if ($current_user) {
   echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title']));
 } ?>
-</h1>
+</h2>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
-
-<?php echo $this->element('authorInfo', array('object' => $answer, 'model' => 'Answer')); ?>
 
 <p><?php echo $answer['Answer']['description']; ?></p>
 
@@ -86,3 +84,5 @@ $deleted = $answer['Answer']['deleted'];
 </table>
 </div>
 <?php } ?>
+
+<?php echo $this->element('authorInfo', array('object' => $answer, 'model' => 'Answer')); ?>
