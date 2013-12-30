@@ -54,7 +54,7 @@ class PagesController extends AppController {
         $parties = $this->Party->getPartiesOrdered();
 
         $this->loadModel('Answer');
-        $answers = $this->Answer->getAnswers(array('questionId' => $questionIds, 'includeParty' => true));
+        $answers = $this->Answer->getAnswers(array('questionId' => $questionIds, 'includeParty' => true, 'approved' => true));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
         $this->set('questions', $questions);
