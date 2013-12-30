@@ -25,7 +25,7 @@
  */
 ?>
 
-<div class="table table-bordered table-striped qa-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
+<div class="table table-bordered table-striped qa-table collapsable-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
     <div class="table-row table-head">
       <div class="table-header table-header-text">
           <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
@@ -56,7 +56,7 @@
 
         if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
           echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
-                                                  'question' => $question, 'partyId' => $party['Party']['id']));
+                                                  'question' => $question, 'party' => $party['Party']));
         } else { ?>
         <div class="table-cell"></div>
         <?php }?>

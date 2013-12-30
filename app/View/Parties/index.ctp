@@ -26,14 +26,14 @@
 
 $this->Html->addCrumb('Partier');
 ?>
-
+<h1>Partier</h1>
 <?php if ($current_user) { ?>
 <div class="tools">
   <?php echo $this->element('saveParty'); ?>
 </div>
 <?php } ?>
 
-<table class="table party-table table-striped data-table">
+<table class="table party-table table-bordered table-striped data-table">
     <thead>
         <th>Parti</th>
         <th>Bästa resultat av senaste EU- och riksdagsval</th>
@@ -61,4 +61,3 @@ $this->Html->addCrumb('Partier');
         <?php endforeach; ?>
     </tbody>
 </table>
-<a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>

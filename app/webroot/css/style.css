@@ -43,7 +43,12 @@ div.logo.small {
 }
 
 h1 {
-	display: inline-block;
+    display: inline-block;
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 24px;
 }
 
 h1 a {
@@ -116,11 +121,15 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 }
 
 .yes {
-	background-color: #ddffdd !important;
+	background-color: #ddffdd;
 }
 
-.no  {
-	background-color: #ffdddd !important;
+.no {
+	background-color: #ffdddd;
+}
+
+.answer-cell {
+    display: table-cell;
 }
 
 .narrow-table {
@@ -149,6 +158,12 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 
 .quiz-answers .input.radio {
     margin-bottom: 30px;
+}
+
+.quiz-answers h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 td.category {
@@ -387,7 +402,7 @@ h1 .admin-toolbox {
     padding-bottom: 1px;
 }
 
-#footer .contact li {
+#footer .contact li:first-child {
     margin-bottom: 18px;
 }
 
@@ -775,29 +790,6 @@ h3 {
     margin-top: 60px;
 }
 
-@media (max-width: 990px) {
-    #feedbacksModalLink {
-        display: none;
-    }
-    
-    .modal { 
-        position: fixed; 
-        width: auto; 
-        margin: 0; 
-    }
-
-    .modal-body { 
-        height: 60%; 
-    }
-
-    .modal-body { 
-        max-height: 350px; 
-        padding: 15px; 
-        overflow-y: auto; 
-        -webkit-overflow-scrolling: touch; 
-     }
-}
-
 .navbar-collapse .navbar-nav.navbar-right {
     margin-top: 0;
     margin-left: 0px;
@@ -812,9 +804,29 @@ h3 {
     display: none;
 }
 
+.quiz-buttons a, .quiz-buttons button {
+    margin-top: 10px;
+}
+
+.progress {
+    background-color: white;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-progress {
+    margin-bottom: 0px;
+    color: #777;
+}
+
+.party-answer {
+    display: none;
+}
+
 /* Credits: http://css-tricks.com/responsive-data-tables/ */
 @media (max-width: 1199px) {
-        .table, .table-head, .table-body, .table-header, .table-cell, .table-row { 
+        .collapsable-table, .collapsable-table .table-head, .collapsable-table .table-body, .collapsable-table .table-header, .collapsable-table .table-cell, 
+        .collapsable-table .table-row { 
 		display: block; 
 	}
 	
@@ -882,8 +894,90 @@ h3 {
             margin-top: 40px;
         }
         
+        .collapsable-table .answer-cell {
+            display: block;
+        }
+        
         .answer-party-cell {
             display: inline-block;
+        }	
+        
+        .collapsable-table .table-cell {
+            width: auto;
+            text-align: left;
         }
-	
+        
+        .collapsable-table .party-answer, .collapsable-table .popover-link {
+            display: inline-block;
+        }
+        
+        .collapsable-table .party-answer {
+            width: 180px;
+        }
+        
+        .collapsable-table .party-title {
+            font-weight: 200;
+        }
+        
+        .collapsable-table .popover-link {
+            position: relative;
+            top: -7px;
+        }
+        
+        .collapsable-table .table-cell {
+            background-color: transparent;
+            font-weight: 700;
+        }
+        
+        .collapsable-table .yes .popover-link {
+            color: green;
+        }
+        .collapsable-table .no .popover-link {
+            color: red;
+        }
+        
+        .collapsable-table.table-striped .table-row:nth-child(even)>.table-cell {
+            background-color: transparent;
+        }
+        
+        .collapsable-table .table-header-text {
+            margin-bottom: 10px;
+        }
+}
+
+@media (max-width: 990px) {
+    #feedbacksModalLink {
+        display: none;
+    }
+    
+    .modal { 
+        position: fixed; 
+        width: auto; 
+        margin: 0; 
+    }
+
+    .modal-body { 
+        height: 60%; 
+    }
+
+    .modal-body { 
+        max-height: 350px; 
+        padding: 15px; 
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; 
+     }
+     
+     .party-table thead {
+         display: none;
+     }
+     
+     .party-table td {
+         display: none;
+     }
+}
+
+.breadcrumb {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

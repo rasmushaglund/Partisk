@@ -1,3 +1,4 @@
+
 <?php
 /** 
  * Quiz questions view
@@ -28,58 +29,76 @@ $this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'inde
 $this->Html->addCrumb('Frågor');
 
 ?>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default quiz-answers">
+            <div class="panel-heading">
+                <?php 
+                echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
+                ?>
+                <p class="quiz-progress"><?php echo "Fråga " . ($quizSession['QuizSession']['index'] +1) . " av " . 
+                        $quizSession['QuizSession']['questions']; ?></p>
+                <div class="progress progress-striped">
+                  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" 
+                       style="width: <?php echo (($quizSession['QuizSession']['index'])/ $quizSession['QuizSession']['questions'])*100; ?>%">
+                    <span class="sr-only">40% Complete (success)</span>
+                  </div>
+                </div>
+            </div>
+            <div class="panel-body">
 
-<?php 
-echo $this->Form->create('QuizSession', array('url' => '/quizzes/next'));
-?>
-<h3><?php echo "Fråga " . ($quizSession['QuizSession']['index'] +1) . " av " . 
-                           $quizSession['QuizSession']['questions'] . ": " . $question['Question']['title']; ?></h3>
-<p><?php echo $question['Question']['description']; ?></p>
-<div class="quiz-answers">
-<?php
-	if ($answer == null) { $answer = 'NO_OPINION'; }
+                <h2 class="text-center"><?php echo $question['Question']['title']; ?></h2>
 
-    if ($question['Question']['type'] == 'YESNO') {
-        echo $this->Form->input('answer', array('type' => 'radio', 'options' => array('NO_OPINION' => 'ingen åsikt', 'ja' => 'ja', 'nej' => 'nej'), 
-    	'default' => 'NO_OPINION', 'legend' => 'Ditt svar', 'value' => $answer, 'separator' => '<div></div>'));
-    } else {
-        echo $this->Form->input('answer', array('type' => 'radio', 'options' => $choices, 
-    	'default' => 'NO_OPINION', 'legend' => 'Ditt svar', 'value' => $answer, 'separator' => '<div></div>'));
-    }
-?>
+                <p><?php echo $question['Question']['description']; ?></p>
+                <div>
+                <?php
+                        if ($answer == null) { $answer = 'NO_OPINION'; }
 
-<?php 
-        echo $this->Form->input('importance', array('type' => 'radio', 'options' => 
-                                    array(1 => 'Inte så viktig', 
-					  2 => 'Ganska viktigt', 
-					  3 => 'Väldigt viktig'), 
-                                    'value' => $importance,
-                                    'legend' => "Hur viktig är frågan för dig?", 'separator' => '<div></div>'));
-?>
+                    if ($question['Question']['type'] == 'YESNO') {
+                        echo $this->Form->input('answer', array('type' => 'radio', 'options' => array('NO_OPINION' => 'ingen åsikt', 'ja' => 'ja', 'nej' => 'nej'), 
+                        'default' => 'NO_OPINION', 'legend' => 'Ditt svar', 'value' => $answer, 'separator' => '<div></div>'));
+                    } else {
+                        echo $this->Form->input('answer', array('type' => 'radio', 'options' => $choices, 
+                        'default' => 'NO_OPINION', 'legend' => 'Ditt svar', 'value' => $answer, 'separator' => '<div></div>'));
+                    }
+                ?>
+                <?php 
+                        echo $this->Form->input('importance', array('type' => 'radio', 'options' => 
+                                                    array(1 => 'Inte så viktig', 
+                                                          2 => 'Ganska viktigt', 
+                                                          3 => 'Väldigt viktig'), 
+                                                    'value' => $importance,
+                                                    'legend' => "Hur viktig är frågan för dig?", 'separator' => '<div></div>'));
+                ?>
 
+                </div>
+                <div class="quiz-buttons">
+                    <?php
+
+                            if ($quizSession['QuizSession']['index'] != 0) {
+                                    echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary', 'escape' => false));
+                            } else {
+                                    echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary disabled', 'escape' => false));
+                        }
+
+
+                            if ($quizSession['QuizSession']['index'] < $quizSession['QuizSession']['questions'] - 1) {
+                    ?>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-chevron-right"></i> Nästa</button>
+                    <?php
+                            } else {
+                    ?>
+                            <button type="submit" class="btn btn-primary disabled"><i class="fa fa-chevron-right"></i> Nästa</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-bar-chart-o"></i> Till resultatet</button>
+                    <?php
+                            }
+                    echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', array('controller' => 'quizzes', 'action' => 'close'), array('class' => 'btn btn-danger', 'escape' => false));
+
+                    ?>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<?php
-
-	if ($quizSession['QuizSession']['index'] != 0) {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary', 'escape' => false));
-	} else {
-		echo $this->Html->link('<i class="fa fa-chevron-left"></i> Föregående',  array('controller' => 'quizzes', 'action' => 'prev'), array('class' => 'btn btn-primary disabled', 'escape' => false));
-    }
-
-
-	if ($quizSession['QuizSession']['index'] < $quizSession['QuizSession']['questions'] - 1) {
-?>
-        <button type="submit" class="btn btn-primary"><i class="fa fa-chevron-right"></i> Nästa</button>
-<?php
-	} else {
-?>
-        <button type="submit" class="btn btn-primary disabled"><i class="fa fa-chevron-right"></i> Nästa</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-bar-chart-o"></i> Till resultatet</button>
-<?php
-	}
-echo $this->Html->link('<i class="fa fa-times"></i> Avsluta', array('controller' => 'quizzes', 'action' => 'close'), array('class' => 'btn btn-danger', 'escape' => false));
-
-?>
-
-</form>
-

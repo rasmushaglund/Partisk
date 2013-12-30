@@ -75,7 +75,7 @@
 	 </div>    
  </div>
 <div class="row">
-    <div class="col-md-6">     
+    <div class="col-md-12">     
         <h2>Senaste frågorna</h2>
         <?php echo $this->element('qa-table', array(
                   'parties' => $parties,
