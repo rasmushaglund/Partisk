@@ -121,11 +121,11 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 }
 
 .yes {
-	background-color: #ddffdd;
+	background-color: #ddffdd !important;
 }
 
 .no {
-	background-color: #ffdddd;
+	background-color: #ffdddd !important;
 }
 
 .answer-cell {
@@ -937,7 +937,7 @@ h3 {
         }
         
         .collapsable-table.table-striped .table-row:nth-child(even)>.table-cell {
-            background-color: transparent;
+            background-color: transparent !important;
         }
         
         .collapsable-table .table-header-text {
