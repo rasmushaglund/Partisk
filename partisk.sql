@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.8.1deb1
+-- version 4.0.6deb1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 09, 2013 at 06:26 PM
--- Server version: 5.5.32-0ubuntu0.13.04.1
--- PHP Version: 5.4.9-4ubuntu2.3
+-- Generation Time: Dec 21, 2013 at 10:18 PM
+-- Server version: 5.5.34-0ubuntu0.13.10.1
+-- PHP Version: 5.5.3-1ubuntu2.1
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -806,6 +806,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
+  `fullname` varchar(50) DEFAULT NULL,
   `role_id` int(20) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -822,13 +823,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role_id`, `created_date`, `updated_date`, `deleted`, `created_by`, `updated_by`, `description`, `email`, `approved`) VALUES
-(2, 'admin', '$2a$10$WPL9Lf1FgFR5uXX32VSceeWjAzv2enWjFWs6vxC9SXpzZmwm/oBwC', 1, '2013-11-12 21:17:07', NULL, 0, 2, NULL, '', 'admin@partisk.nu', 1),
-(5, 'moderator', '$2a$10$IoMnoMbaeqYEKmjrRos7P.wYXIafF09thSlLxrHCIto2cCRAB69IS', 2, '2013-10-17 13:40:11', '2013-12-04 19:09:47', 0, 2, 2, 'moderator presentation', 'moderator@partisk.nu', 1),
-(6, 'contributor', '$2a$10$K1L48./n05.eBugWMCWD8.sRI61gdHWJfJsMGsQToeAognQEmSt1y', 3, '2013-10-17 13:40:27', '2013-12-04 19:09:32', 0, 2, 2, 'sdsadsadsadsa', 'contributor@partisk.nu', 1),
-(29, 'testnamn', '$2a$10$CNUGsjrG2ekbG6L85LBpG.gnk6fEAlay95TclqZLB25YNMSqWkJke', 1, '2013-12-05 19:52:33', '2013-12-08 16:50:57', 1, 2, 2, 'saddsasasadsad', 'test@test2.se', 1),
-(30, 'rasmushaglund', '$2a$10$2UCHlSkquVAvf3rKZCSTUeZZaPluHTI1KdzUcdkNFw374pEux/ZaW', 5, '2013-12-05 20:02:58', '2013-12-05 20:49:24', 0, 1, 2, 'fdsadsadsa dsa dsa dsa dsa dsa', 'rasmus.haglund@gmail.com', 1),
-(31, 'dsadsa', '$2a$10$sHKOCBo6AwuZR/NQbwEhjup3cHF2fb6NoR47xHmGhp9u5StqPQZFy', 1, '2013-12-08 16:50:14', NULL, 1, 2, 2, 'dsadsadsadsadsadsadsadsa', 'adsdsa@dsadsa.se', 0);
+INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `role_id`, `created_date`, `updated_date`, `deleted`, `created_by`, `updated_by`, `description`, `email`, `approved`) VALUES
+(2, 'admin', '$2a$10$WPL9Lf1FgFR5uXX32VSceeWjAzv2enWjFWs6vxC9SXpzZmwm/oBwC', '', 1, '2013-11-12 21:17:07', NULL, 0, 2, NULL, '', 'admin@partisk.nu', 1),
+(5, 'moderator', '$2a$10$IoMnoMbaeqYEKmjrRos7P.wYXIafF09thSlLxrHCIto2cCRAB69IS', '', 2, '2013-10-17 13:40:11', '2013-12-04 19:09:47', 0, 2, 2, 'moderator presentation', 'moderator@partisk.nu', 1),
+(6, 'contributor', '$2a$10$K1L48./n05.eBugWMCWD8.sRI61gdHWJfJsMGsQToeAognQEmSt1y', '', 3, '2013-10-17 13:40:27', '2013-12-04 19:09:32', 0, 2, 2, 'sdsadsadsadsa', 'contributor@partisk.nu', 1),
+(29, 'testnamn', '$2a$10$CNUGsjrG2ekbG6L85LBpG.gnk6fEAlay95TclqZLB25YNMSqWkJke', '', 1, '2013-12-05 19:52:33', '2013-12-08 16:50:57', 1, 2, 2, 'saddsasasadsad', 'test@test2.se', 1),
+(30, 'rasmushaglund', '$2a$10$2UCHlSkquVAvf3rKZCSTUeZZaPluHTI1KdzUcdkNFw374pEux/ZaW', '', 5, '2013-12-05 20:02:58', '2013-12-05 20:49:24', 0, 1, 2, 'fdsadsadsa dsa dsa dsa dsa dsa', 'rasmus.haglund@gmail.com', 1),
+(31, 'dsadsa', '$2a$10$sHKOCBo6AwuZR/NQbwEhjup3cHF2fb6NoR47xHmGhp9u5StqPQZFy', '', 1, '2013-12-08 16:50:14', NULL, 1, 2, 2, 'dsadsadsadsadsadsadsadsa', 'adsdsa@dsadsa.se', 0);
 
 -- --------------------------------------------------------
 
