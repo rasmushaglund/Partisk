@@ -1,27 +1,31 @@
 <?php
-/** 
- * Answer view
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+/**
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.View.Answers
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  */
 
 $this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
@@ -34,13 +38,20 @@ $this->Html->addCrumb($answer['Answer']['answer']);
 $deleted = $answer['Answer']['deleted'];
 
 ?>
-
-<h2<?php echo $deleted ? ' class="deleted"' : ''; ?>><?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => false)); ?>
-<?php echo $answer['Question']['title']; ?>: <?php echo ucfirst(h($answer['Answer']['answer'])); ?>
+<div class="row">
+    <div class="col-md-12">
+<h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
+<?php echo $answer['Question']['title']; ?>
 <?php if ($current_user) {
   echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title']));
 } ?>
-</h2>
+</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+<h2><?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => true)); ?>
+    <span class="party-answer">: <?php echo ucfirst(h($answer['Answer']['answer'])); ?></span></h2>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
@@ -49,11 +60,11 @@ $deleted = $answer['Answer']['deleted'];
 
 <?php 
 	if (filter_var($answer['Answer']['source'], FILTER_VALIDATE_URL)) {
-		echo "<a href='" . $answer['Answer']['source'] . "'>Källa (" . $answer['Answer']['source'] . ")</a>";
+		echo "Källa: <a href='" . $answer['Answer']['source'] . "'> " . $answer['Answer']['source'] . "</a>";
 	} else {
 		echo "Källa: " . $answer['Answer']['source']; 
 	}
-?> <i>(<?php echo date('Y-m-d', strtotime($answer['Answer']['date'])); ?>)</i>
+?> <i class="source"><?php echo date('Y-m-d', strtotime($answer['Answer']['date'])); ?></i>
 
 <?php if ($current_user) { ?>
   <div class="tools">
@@ -84,5 +95,7 @@ $deleted = $answer['Answer']['deleted'];
 </table>
 </div>
 <?php } ?>
+</div>
+</div>
 
 <?php echo $this->element('authorInfo', array('object' => $answer, 'model' => 'Answer')); ?>

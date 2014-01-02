@@ -1,27 +1,31 @@
 <?php
-/** 
- * Quiz results view
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+/**
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Quiz
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @package     app.View.Quizzes
+ * @license     http://opensource.org/licenses/MIT MIT
  */
 
 $quizName = isset($quiz['Quiz']['name']) ? $quiz['Quiz']['name'] : 'Stora quizen';
@@ -46,11 +50,13 @@ if (Configure::read('debug')==0) {
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-12">
     </div>
 </div>
 <div class="row">
+    <div id="graphs">
     <div class="col-md-6">
         <div id="points-percentage-graph" class="graph">
           <svg></svg>
@@ -61,6 +67,13 @@ if (Configure::read('debug')==0) {
         <div id="question-agree-rate-graph" class="graph">
           <svg></svg>
           <p class="description">Diagrammet visar hur mycket du håller med om varje partis svar.</p>
+        </div>
+    </div>
+    </div>
+    <div id="no-svg">
+        <div class="col-md-6">
+            <p class="alert alert-danger">Graferna kunde ej visas då din browser inte har stöd för <a href="http://caniuse.com/svg">SVG</a>. 
+                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a></p>
         </div>
     </div>
 </div>
@@ -126,13 +139,13 @@ if (Configure::read('debug')==0) {
                 'title' => str_replace(' ', '_', strtolower($question['title'])))); ?></p>
             <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
             <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
-            <table class="table table-striped party-result-table">
-              <thead>
-                <th class="party-column">Parti</th>
-                <th>Svar</th>
-                <th>Poäng</th>
-              </thead>
-              <tbody>
+                   
+            <div class="table table-striped party-result-table">
+              <div class="table-row table-head">
+                <div class="table-header party-column">Parti</div>
+                <div class="table-header">Svar</div>
+                <div class="table-header">Poäng</div>
+              </div>
                 <?php foreach ($parties as $party) { 
                   $partyId = $party['id']; 
                   $sameAnswer = null; 
@@ -148,29 +161,28 @@ if (Configure::read('debug')==0) {
                     if ($partyPoints > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
                     if ($partyPoints < 0) { $pointsClass = "minus-points"; } ?>
 
-                    <tr class="<?php echo $pointsClass; ?>">
-                      <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
+                    <div class="table-row <?php echo $pointsClass; ?>">
+                      <div class="table-cell"><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></div>
 
                     <?php if ($partyAnswer === null) { ?>
-                      <td>Inget svar</td>
-                      <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
+                      <div class="table-cell">Inget svar</div>
+                      <div class="table-cell"><span class="result"><?php echo $partyPoints . 'p'; ?></span></div>
                     <?php } else if ($question['parties'][$partyId]['answer'] != null) {
                     $sameAnswer = $partyAnswer['answer'] == $userAnswer;
                     ?>
-                      <td class="<?php echo $sameAnswer ? 'matching-answer' : '' ?>">
+                      <div class="table-cell <?php echo $sameAnswer ? 'matching-answer' : '' ?>">
                           <span class="answer popover-link" data-id="<?php echo $partyAnswer['id']; ?>" href="#"><?php 
                           echo $partyAnswer['answer'];?></span>
-                      </td>
-                      <td>
-                        <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></td>
+                      </div>
+                      <div class="table-cell">
+                        <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></div>
                     <?php } else { ?>
-                      <td>Inget svar</td>
-                      <td><span class="result"><?php echo $partyPoints . 'p'; ?></span></td>
+                      <div class="table-cell">Inget svar</div>
+                      <div class="table-cell"><span class="result"><?php echo $partyPoints . 'p'; ?></span></div>
                     <?php } ?>
-                    </tr>
+                    </div>
                 <?php } ?>
-              </tbody>
-            </table>
+            </div>
           </div>
         </div>
       </div>
