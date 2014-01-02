@@ -40,8 +40,8 @@ if (Configure::read('debug')==0) {
  } ?>
 <div class="row">
     <div class="col-md-12">
-    <h2>Resultat för <?php echo ucfirst($quizName); ?> 
-        <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h2>
+    <h1>Resultat för <?php echo ucfirst($quizName); ?> 
+        <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
         <div class="share">
             <a href="http://www.facebook.com/sharer/sharer.php?u=http://www.partisk.nu/quiz/resultat/<?php echo $guid; ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
             <a href="https://twitter.com/intent/tweet?url=http://www.partisk.nu/quiz/resultat/<?php echo $guid; ?>&text=Mitt resultat&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
@@ -89,10 +89,10 @@ if (Configure::read('debug')==0) {
 <table class="table table-striped">
   <thead>
     <th class="party-column">Parti</th>
-    <th>Matchande svar</th>
-    <th>Ej matchande svar</th>
-    <th>Besvarade frågor</th>
-    <th>Summa poäng</th>
+    <th><i class="popover-click-link fa fa-thumbs-up" data-content="Matchande svar" data-placement="top"></i> <span class="collapsable-head">Matchande svar</span></th>
+    <th><i class="popover-click-link fa fa-thumbs-down" data-content="Ej matchande svar" data-placement="top"></i> <span class="collapsable-head">Ej matchande svar</span></th>
+    <th><i class="popover-click-link fa fa-question" data-content="Besvarade frågor" data-placement="top"></i> <span class="collapsable-head">Besvarade frågor</span></th>
+    <th><i class="popover-click-link fa fa-plus" data-content="Summa poäng" data-placement="top"></i> <span class="collapsable-head">Summa poäng</span></th>
   </thead>
   <tbody>
 <?php foreach ($parties as $party) { 

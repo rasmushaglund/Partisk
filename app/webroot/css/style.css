@@ -173,6 +173,8 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 
 .quiz-answers {
     margin: 15px 0px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .quiz-answers label {
@@ -869,10 +871,10 @@ h3 {
 
 /* Credits: http://css-tricks.com/responsive-data-tables/ */
 @media (max-width: 1199px) {
-        .collapsable-table, .collapsable-table .table-head, .collapsable-table .table-body, .collapsable-table .table-header, .collapsable-table .table-cell, 
+        /*.collapsable-table, .collapsable-table .table-head, .collapsable-table .table-body, .collapsable-table .table-header, .collapsable-table .table-cell, 
         .collapsable-table .table-row { 
 		display: block; 
-	}
+	}*/
 	
 	/* Hide table headers (but not display: none;, for accessibility) */
 	.collapsable-table .table-head .table-row { 
@@ -881,7 +883,7 @@ h3 {
 		left: -9999px;
 	}
 	
-        .collapsable-table .table-head .table-header {
+        .collapsable-table .table-head .table-header, .qa-table .table-head .table-header {
             display: none;
         }
         
@@ -994,6 +996,10 @@ h3 {
 
 @media (max-width: 990px) {
     #feedbacksModalLink {
+        display: none;
+    }
+    
+    .collapsable-head {
         display: none;
     }
     

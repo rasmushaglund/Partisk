@@ -153,6 +153,8 @@ $(document).ready(function() {
             return $(this).next('.popover-data').html();
         }
     });
+    
+    $('.popover-click-link').popover();
 
     $('.popover-link').bind('click', function() {
         var $popover = $(this);
@@ -169,6 +171,7 @@ $(document).ready(function() {
     });
 
     $('body').on('click', function(e) {
+        console.log(e.target);
         $('.popover.in').prev().not(e.target).popover('toggle');
     });
 
