@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteUser) {
+if ($canDeleteParty) {
     echo $this->element('deleteModal', array('model' => 'Party', 'action' => 'delete/' . $party['Party']['id'],
         'label' => "Ta bort parti", 'itemText' => $party['Party']['name']));
 }

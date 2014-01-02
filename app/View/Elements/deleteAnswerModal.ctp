@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteUser) {
+if ($canDeleteAnswer) {
     echo $this->element('deleteModal', array('model' => 'Answer', 'action' => 'delete/' . $answer['Answer']['id'],
         'label' => "Ta bort svar", 'itemText' => $answer['Answer']['answer']));
 }

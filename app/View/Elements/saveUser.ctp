@@ -54,6 +54,8 @@ if ($canAddUser) { ?>
                             'value' => null)); 
         }
     ?>
+    <?php echo $this->Bootstrap->input('fullname', 
+                array('label' => 'Namn' , 'placeholder' => 'För- och Efternamn', 'value' => $editMode ? $user['User']['fullname'] : null)); ?>
     <?php echo $this->Bootstrap->input('email', array('label' => 'E-postadress', 'placeholder' => 'Användarens E-postadress', 'value' => $editMode ? $user['User']['email'] : null)); ?>
     <?php echo $this->Bootstrap->input('password', array('label' => $editMode?'Nytt lösenord':'Lösenord',  'placeholder' => 'Användarens lösenord',
         'type' => 'password')); ?>

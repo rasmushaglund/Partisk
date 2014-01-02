@@ -34,6 +34,8 @@
     
 	<?php echo $this->Bootstrap->input('username', 
                 array('label' => 'Användarnamn' , 'placeholder' => 'Användarnamn')); ?>
+        <?php echo $this->Bootstrap->input('fullname', 
+                array('label' => 'Namn' , 'placeholder' => 'För- och Efternamn')); ?>
 	<?php echo $this->Bootstrap->input('email', 
                 array('label' => 'E-postadress', 'placeholder' => 'E-postadress')); ?>   
 	<?php echo $this->Bootstrap->input('password', 

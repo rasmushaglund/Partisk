@@ -29,7 +29,7 @@
  */
  ?>
 
-<h1>Välkommen <?php echo $current_user['username'];?>!</h1>
+<h1>Välkommen <?php echo $user['fullname'];?>!</h1>
 
 <div class="row">
 	<div class="col-md-6">

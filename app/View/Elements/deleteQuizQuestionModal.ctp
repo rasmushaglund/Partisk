@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteUser) {
+if ($canDeleteQuiz) {
     echo $this->element('deleteModal', array('model' => 'Quiz', 'action' => 'deleteQuestion/' . $quizQuestion ,
         'label' => "Ta bort fråga", 'itemText' => $quizQuestion));
 }
