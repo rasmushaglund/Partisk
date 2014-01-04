@@ -32,7 +32,7 @@ $this->Html->addCrumb('Användare');
 
 ?>
 
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php echo $this->element('saveUser'); ?>
 </div>
@@ -45,7 +45,7 @@ $this->Html->addCrumb('Användare');
             <?php echo $this->Html->link($user['User']['username'],
                                          array('controller' => 'users', 'action' => 'view', 'name' => $user['User']['username'])); ?> 
         </th>
-        <?php if ($current_user) { ?>
+        <?php if ($this->Permissions->isLoggedIn()) { ?>
         <td>
             <?php echo $this->element('userAdminToolbox', array('user' => $user)); ?>
         </td>

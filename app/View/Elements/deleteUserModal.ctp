@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteUser) {
+if ($this->Permissions->canDeleteUser()) {
     echo $this->element('deleteModal', array('model' => 'User', 'action' => 'delete/' . $user['User']['id'],
         'label' => "Ta bort användare", 'itemText' => $user['User']['username']));
 }

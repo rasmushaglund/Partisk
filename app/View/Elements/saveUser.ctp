@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddUser) { ?>
+if ($this->Permissions->canAddUser()) { ?>
 	<?php
 
     $roles = $this->requestAction('roles/all');

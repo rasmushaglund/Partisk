@@ -31,7 +31,7 @@
 App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class TagsController extends AppController {
-    public $helpers = array('Html', 'Form', 'Cache');
+    public $helpers = array('Html', 'Form', 'Cache', 'Permissions');
     public $cacheAction = "1 hour";
 
     public $components = array('Session');
@@ -88,7 +88,7 @@ class TagsController extends AppController {
     }   
 
     public function add() {
-        if (!$this->canAddTag) {
+        if (!$this->Permissions->canAddTag()) {
             $this->abuse("Not authorized to add tag");
             return $this->redirect($this->referer());
         }
@@ -112,7 +112,7 @@ class TagsController extends AppController {
 
     public function delete($id) {
         
-        if (!$this->canDeleteTag) {
+        if (!$this->Permissions->canDeleteTag()) {
             $this->abuse("Not authorized to delete tag with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -158,7 +158,7 @@ class TagsController extends AppController {
      }
 
      public function edit($id = null) { 
-        if (!$this->canEditTag) {
+        if (!$this->Permissions->canEditTag()) {
             $this->abuse("Not authorized to edit tag with id " . $id);
             return $this->redirect($this->referer());
         }

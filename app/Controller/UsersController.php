@@ -28,22 +28,24 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('Permissions', 'Utils');
+App::uses('UserLogger', 'Log');
 
 class UsersController extends AppController {
-    public $helpers = array('Cache');
-    public $cacheAction = "1 hour";
+    public $helpers = array('Cache', 'Permissions');
+    //public $cacheAction = "1 hour";
     
     private $currentPage = "users";
     public $components = array('Auth', 'Session');
-    
-    public $cacheAction = true;
+    private $Permissions;
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->loginError = "Fel användarnamn eller lösenord. Försök gärna igen.";  
         $this->Auth->authError = "Du har inte rättigheter att se denna sida.";
         $this->Auth->allow(array('login', 'logout', 'add'));
+        $this->Permissions = new Permissions();
     }
 
     public function beforeRender() {
@@ -95,9 +97,7 @@ class UsersController extends AppController {
         }
         
         $this->set('user', $user);
-        $this->set('title_for_layout', $user['User']['username']);
-        
-        
+        $this->set('title_for_layout', $user['User']['username']); 
     }
    
     public function add() {
@@ -122,7 +122,7 @@ class UsersController extends AppController {
     }
 
     public function edit($id = null) {
-        if (!$this->canEditUser) {
+        if (!$this->Permissions->canEditUser()) {
             $this->abuse("Not authorized to edit user with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -176,7 +176,7 @@ class UsersController extends AppController {
     }
 
     public function delete($id = null) {
-        if (!$this->canDeleteUser) {
+        if (!$this->Permissions->canDeleteUser()) {
             $this->abuse("Not authorized to delete user with id " . $id);
             return $this->redirect($this->referer());
         }

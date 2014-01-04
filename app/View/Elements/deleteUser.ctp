@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-    if ($canDeleteUser) {   
+    if ($this->Permissions->canDeleteUser()) {   
         echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
 	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'users\',\'delete\',' .  $userId . ');return false;'));    	
     }             
