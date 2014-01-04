@@ -28,11 +28,12 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('UserLogger', 'Log');
+App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class QuizzesController extends AppController {
-    public $helpers = array('Html', 'Form');
-
+    public $helpers = array('Html', 'Form', 'Cache');
+    public $cacheAction = array("index" => "1 hour", "results" => "1 hour");
+    
     const DEFAULT_IMPORTANCE = 2;
     const QUIZ_VERSION = 2;
 

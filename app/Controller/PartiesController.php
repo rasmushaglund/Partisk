@@ -27,11 +27,11 @@
  * @package     app.Controller
  * @license     http://opensource.org/licenses/MIT MIT
  */
-
-App::uses('UserLogger', 'Log');
+App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class PartiesController extends AppController {
-    public $helpers = array('Html', 'Form');
+    public $helpers = array('Html', 'Form', 'Cache');
+    public $cacheAction = "1 hour";
 
     public $components = array('Session');
 

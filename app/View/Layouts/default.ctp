@@ -52,7 +52,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')>0) { ?>
+        if (Configure::read('minimizeAssets')==0) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap');
@@ -110,6 +110,7 @@
                 ?></li>
                     <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false, 'class' => $currentPage == "contact" ? 'active' : ''));
                 ?></li>
+                    <!--nocache-->
                     <?php if (isset($current_user)) { ?>
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#"><i class="fa fa-gears"></i> Administration</a>
@@ -135,6 +136,7 @@
                     <?php } else { ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-sign-in"></i> Logga in', array('controller' => 'users', 'action' => 'login'), array('escape' => false, 'class' => $currentPage == "login" ? 'active' : '')); ?></li>
                     <?php } ?>
+                    <!--/nocache-->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

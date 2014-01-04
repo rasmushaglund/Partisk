@@ -34,7 +34,7 @@ $this->Html->addCrumb('Quiz', array('controller' => 'quizzes', 'action' => 'inde
 $this->Html->addCrumb(ucfirst($quizName));
 $this->Html->addCrumb('Resultat');
 
-if (Configure::read('debug')==0) { 
+if (Configure::read('minimizeAssets')==1) { 
             $version = Configure::read('PartiskVersion'); 
             echo $this->Html->script("graph-v$version.min");
  } ?>

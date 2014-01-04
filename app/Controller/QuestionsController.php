@@ -28,11 +28,11 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller');
-App::uses('UserLogger', 'Log');
+App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class QuestionsController extends AppController {
-    public $helpers = array('Html', 'Form');
+    public $helpers = array('Html', 'Form', 'Cache');
+    public $cacheAction = "1 hour";
 
     public $components = array('Session');
 

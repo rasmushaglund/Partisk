@@ -31,10 +31,8 @@
 App::uses('AppController', 'Controller');
 
 class PagesController extends AppController {
-    
-    var $helpers = array('Cache');
-    public $cacheAction = array(
-        'index' => array('callbacks' => true, 'duration' => '1 week'));
+    public $helpers = array('Cache');
+    public $cacheAction = "1 hour";
     
     private $currentPage = "default";
 

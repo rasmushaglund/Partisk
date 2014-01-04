@@ -29,8 +29,8 @@
  */
 
 class AppController extends Controller {
-    var $helpers = array('Session');
-
+    public $helpers = array('Session');
+    
     var $isLoggedIn = false;
     var $isAdmin = false;
     var $canAddQuestion = false;

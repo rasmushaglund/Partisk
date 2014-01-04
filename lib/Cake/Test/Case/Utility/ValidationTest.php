@@ -2,12 +2,11 @@
 /**
  * ValidationTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * Licensed under The Open Group Test Suite License
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -1416,14 +1415,16 @@ class ValidationTest extends CakeTestCase {
  * @return void
  */
 	public function testDateMyNumeric() {
-		$this->assertTrue(Validation::date('12/2006', array('my')));
+		$this->assertTrue(Validation::date('01/2006', array('my')));
 		$this->assertTrue(Validation::date('12-2006', array('my')));
 		$this->assertTrue(Validation::date('12.2006', array('my')));
 		$this->assertTrue(Validation::date('12 2006', array('my')));
-		$this->assertFalse(Validation::date('12/06', array('my')));
-		$this->assertFalse(Validation::date('12-06', array('my')));
-		$this->assertFalse(Validation::date('12.06', array('my')));
-		$this->assertFalse(Validation::date('12 06', array('my')));
+		$this->assertTrue(Validation::date('01/06', array('my')));
+		$this->assertTrue(Validation::date('12-06', array('my')));
+		$this->assertTrue(Validation::date('12.06', array('my')));
+		$this->assertTrue(Validation::date('12 06', array('my')));
+		$this->assertFalse(Validation::date('13 06', array('my')));
+		$this->assertFalse(Validation::date('13 2006', array('my')));
 	}
 
 /**
@@ -1439,12 +1440,14 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::date('2006 12', array('ym')));
 		$this->assertTrue(Validation::date('1900-01', array('ym')));
 		$this->assertTrue(Validation::date('2153-01', array('ym')));
+		$this->assertTrue(Validation::date('06/12', array('ym')));
+		$this->assertTrue(Validation::date('06-12', array('ym')));
+		$this->assertTrue(Validation::date('06-12', array('ym')));
+		$this->assertTrue(Validation::date('06 12', array('ym')));
 		$this->assertFalse(Validation::date('2006/12 ', array('ym')));
 		$this->assertFalse(Validation::date('2006/12/', array('ym')));
-		$this->assertFalse(Validation::date('06/12', array('ym')));
-		$this->assertFalse(Validation::date('06-12', array('ym')));
-		$this->assertFalse(Validation::date('06-12', array('ym')));
-		$this->assertFalse(Validation::date('06 12', array('ym')));
+		$this->assertFalse(Validation::date('06/12 ', array('ym')));
+		$this->assertFalse(Validation::date('06/13 ', array('ym')));
 	}
 
 /**
@@ -1708,6 +1711,11 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::email('!def!xyz%abc@example.com'));
 		$this->assertTrue(Validation::email('_somename@example.com'));
 
+		/// Unicode
+		$this->assertTrue(Validation::email('some@eräume.foo'));
+		$this->assertTrue(Validation::email('äu@öe.eräume.foo'));
+		$this->assertTrue(Validation::email('Nyrée.surname@example.com'));
+
 		// invalid addresses
 		$this->assertFalse(Validation::email('abc@example'));
 		$this->assertFalse(Validation::email('abc@example.c'));
@@ -1725,7 +1733,6 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::email("abc@sub'example.com"));
 		$this->assertFalse(Validation::email('abc@sub/example.com'));
 		$this->assertFalse(Validation::email('abc@yahoo!.com'));
-		$this->assertFalse(Validation::email("Nyrée.surname@example.com"));
 		$this->assertFalse(Validation::email('abc@example_underscored.com'));
 		$this->assertFalse(Validation::email('raw@test.ra.ru....com'));
 	}
@@ -1904,6 +1911,8 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::url('http://www.zwischenraume.cz'));
 		$this->assertTrue(Validation::url('http://www.last.fm/music/浜崎あゆみ'), 'utf8 path failed');
 		$this->assertTrue(Validation::url('http://www.electrohome.ro/images/239537750-284232-215_300[1].jpg'));
+		$this->assertTrue(Validation::url('http://www.eräume.foo'));
+		$this->assertTrue(Validation::url('http://äüö.eräume.foo'));
 
 		$this->assertTrue(Validation::url('http://cakephp.org:80'));
 		$this->assertTrue(Validation::url('http://cakephp.org:443'));
@@ -1924,6 +1933,7 @@ class ValidationTest extends CakeTestCase {
 	}
 
 	public function testUuid() {
+		$this->assertTrue(Validation::uuid('00000000-0000-0000-0000-000000000000'));
 		$this->assertTrue(Validation::uuid('550e8400-e29b-11d4-a716-446655440000'));
 		$this->assertFalse(Validation::uuid('BRAP-e29b-11d4-a716-446655440000'));
 		$this->assertTrue(Validation::uuid('550E8400-e29b-11D4-A716-446655440000'));
@@ -2134,9 +2144,6 @@ class ValidationTest extends CakeTestCase {
 
 		// invalid area-codes
 		$this->assertFalse(Validation::phone('1-(511)-999-9999'));
-		$this->assertFalse(Validation::phone('1-(379)-999-9999'));
-		$this->assertFalse(Validation::phone('1-(962)-999-9999'));
-		$this->assertFalse(Validation::phone('1-(295)-999-9999'));
 		$this->assertFalse(Validation::phone('1-(555)-999-9999'));
 
 		// invalid exhange
@@ -2147,10 +2154,13 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::phone('1-(222)-555-0122'));
 
 		// valid phone numbers
+		$this->assertTrue(Validation::phone('416-428-1234'));
 		$this->assertTrue(Validation::phone('1-(369)-333-4444'));
 		$this->assertTrue(Validation::phone('1-(973)-333-4444'));
 		$this->assertTrue(Validation::phone('1-(313)-555-9999'));
 		$this->assertTrue(Validation::phone('1-(222)-555-0299'));
+		$this->assertTrue(Validation::phone('508-428-1234'));
+		$this->assertTrue(Validation::phone('1-(508)-232-9651'));
 
 		$this->assertTrue(Validation::phone('1 (222) 333 4444'));
 		$this->assertTrue(Validation::phone('+1 (222) 333 4444'));

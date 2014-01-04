@@ -28,13 +28,16 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('UserLogger', 'Log');
+App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class UsersController extends AppController {
-
+    public $helpers = array('Cache');
+    public $cacheAction = "1 hour";
+    
     private $currentPage = "users";
-
     public $components = array('Auth', 'Session');
+    
+    public $cacheAction = true;
 
     public function beforeFilter() {
         parent::beforeFilter();

@@ -1,8 +1,7 @@
-B1;2802;0c# User specific & automatically generated files #
+# User specific & automatically generated files #
 #################################################
 /app/Config/database.php
-database.php
-/app/tmp/*/myapp*
+/app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors
@@ -20,14 +19,3 @@ database.php
 Icon?
 ehthumbs.db
 Thumbs.db
-*.sublime-workspace
-
-tmp/*
-myapp*
-[Cc]onfig/core.php
-[Cc]onfig/database.php
-app/tmp/*/myapp*
-app/[Cc]onfig/core.php
-app/[Cc]onfig/database.php
-!empty
-*.log
