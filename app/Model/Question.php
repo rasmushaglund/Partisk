@@ -383,17 +383,7 @@ class Question extends AppModel {
         return $result;
     }
     
-    public function getVisibleTagQuestions($id) {
-        $result = Cache::read('visible_tag_questions_' . $id, 'question');
-        if (!$result) {
-            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id));
-            Cache::write('visible_tag_questions_' . $id, $result, 'question');
-        }
-        
-        return $result;
-    }
-    
-    public function getLoggedInTagQuestions($id) {
+    public function getTagQuestions($id) {
         $result = Cache::read('loggedin_tag_questions_' . $id, 'question');
         if (!$result) {
             $result = $this->getQuestions(array('deleted' => false, 'tagId' => $id));

@@ -51,6 +51,7 @@ class AppController extends Controller {
 
         $this->Auth->authorize = 'Controller';
         $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
+        $this->set("currentPage", "default");
     }
     
     public function isAuthorized($user) {

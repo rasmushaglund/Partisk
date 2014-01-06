@@ -55,7 +55,7 @@ $deleted = $question['Question']['deleted'];
 
 <p><?php echo $question['Question']['description']; ?></p>
 
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php echo $this->element('saveAnswer', array('questionId' => $question['Question']['id'])); ?>
 </div>
@@ -70,7 +70,7 @@ $deleted = $question['Question']['deleted'];
     	<?php 
         echo $this->element('answerTableCell', array('answer' => $answer));
       ?>   	
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
             <td>
               <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $question['Question']['title'])); ?>
             </td>

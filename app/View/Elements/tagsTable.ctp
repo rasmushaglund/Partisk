@@ -36,7 +36,8 @@
         	<?php $oneQuestion = $tag['Tag']['number_of_questions'] == 1; ?>
 			<?php echo $this->Html->link(ucfirst($tag['Tag']['name']),
                             array('controller' => 'tags', 'action' => 'view', 'name' => strtolower($tag['Tag']['name']))); ?> 
-            <?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
+            
+            <?php if (isset($loggedIn) && $loggedIn) { echo $this->element('tagAdminToolbox', array('tag' => $tag)); } ?>
             <span class="description">(<?php echo $tag['Tag']['number_of_questions']; ?>st 
             <?php echo $oneQuestion ? 'fråga' : 'frågor'; ?>)</span>
         </td>

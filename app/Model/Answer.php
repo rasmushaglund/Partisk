@@ -179,8 +179,6 @@ class Answer extends AppModel {
 
         $this->contain($contain);
 
-        
-        
         return $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => $fields,

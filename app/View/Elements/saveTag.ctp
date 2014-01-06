@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddTag) { ?>
+if ($this->Permissions->canAddTag()) { ?>
 	<?php
 
 	$editMode = isset($edit) && $edit;

@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteQuestion) {
+if ($this->Permissions->canDeleteQuestion()) {
     echo $this->element('deleteModal', array('model' => 'Question', 'action' => 'delete/' . $question['Question']['id'],
         'label' => "Ta bort fråga", 'itemText' => $question['Question']['title']));
 }

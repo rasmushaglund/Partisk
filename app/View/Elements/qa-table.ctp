@@ -41,7 +41,7 @@
         <div class="popover-data"><?php echo ucfirst($party['Party']['name']); ?></div>
       </div>
       <?php endforeach; ?>
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
       <div class="table-header">Verktyg</div>
       <?php } ?>
     </div>
@@ -65,7 +65,7 @@
         <div class="table-cell"></div>
         <?php }?>
       <?php endforeach; ?>
-      <?php if ($current_user) { ?>
+      <?php if ($loggedIn) { ?>
         <div class="table-cell">
           <div class="tools">
              <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>

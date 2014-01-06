@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-    if ($canEditQuiz) {
+    if ($this->Permissions->canEditQuiz()) {
     
         echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
                 array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'quizzes\',\'deleteQuestion\',' . $questionQuiz['id'] . ');return false;')); 

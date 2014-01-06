@@ -30,35 +30,24 @@
 
 $this->Html->addCrumb('Taggar');
 
-if ($tags) {
-$chunks = array_chunk($tags, ceil(sizeof($tags) / 3));
-
 ?>
-<h1>Taggar</h1>
-<?php if ($current_user) { ?>
-<div class="row">
-	<div class="col-md-4 tools">
-		<?php echo $this->element('saveTag'); ?>
-	</div>
-</div>
-<?php } ?>
 
-<div class="row">
-<?php if (isset($chunks[0])) { ?>
-<div class="col-md-4">
-	<?php echo $this->element('tagsTable', array("tags" => $chunks[0])); ?>
-</div>
-<?php } if (isset($chunks[1])) { ?>
-<div class="col-md-4">
-	<?php echo $this->element('tagsTable', array("tags" => $chunks[1])); ?>
-</div>
-<?php } if (isset($chunks[2])) { ?>
-<div class="col-md-4">
-	<?php echo $this->element('tagsTable', array("tags" => $chunks[2])); ?>
-</div>
-<?php } ?>
-</div>
+<h1>Taggar</h1>
 
 <?php 
+//$tags = $this->requestAction(array('controller' => 'tags', 'action' => 'getViewVars'));
+
+if (!$this->Permissions->isLoggedIn()) { ?>
+    <?php
+    echo $this->element('tagsList', array('tags' => $tags['approved'], "loggedIn" => false),
+            array('cache' => array('key' => 'tags_index', 'config' => 'tag'))); 
+} else { ?>
+    <h2>Godkända taggar</h2>
+    <?php echo $this->element('tagsList', array('tags' => $tags['approved'], 'loggedIn' => true)); ?>
+    <h2>Ej godkända taggar</h2>
+    <?php echo $this->element('tagsList', array('tags' => $tags['unapproved'], "loggedIn" => true));
 }
 ?>
+
+
+

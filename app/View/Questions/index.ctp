@@ -32,7 +32,7 @@ $this->Html->addCrumb('Frågor');
 
 ?>
 <h1>Så här tycker partierna</h1>
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php  echo $this->element('saveQuestion'); 
   echo $this->element('saveAnswer'); ?>

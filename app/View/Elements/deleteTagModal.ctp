@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteTag) {
+if ($this->Permissions->canDeleteTag()) {
     echo $this->element('deleteModal', array('model' => 'Tag', 'action' => 'delete/' . $tag['Tag']['id'],
         'label' => "Ta bort tag", 'itemText' => $tag['Tag']['name']));
 }

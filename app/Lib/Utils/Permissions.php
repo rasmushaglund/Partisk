@@ -29,10 +29,10 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AuthComponent', 'CakeLog', 'CakeRequest');
-APP::import('Model', 'Question');
-APP::import('Model', 'Quiz');
-APP::import('Model', 'Answer');
+App::uses('CakeLog', 'CakeRequest');
+App::import('Model', 'Question');
+App::import('Model', 'Quiz');
+App::import('Model', 'Answer');
 
 class Permissions {
     
@@ -58,6 +58,10 @@ class Permissions {
 
     public static function isLoggedIn() {
         return AuthComponent::user();
+    }
+
+    public static function getUser($field = null) {
+        return AuthComponent::user($field);
     }
     
     public static function isAdmin() { 

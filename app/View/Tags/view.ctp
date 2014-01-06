@@ -27,7 +27,14 @@
  * @package     app.View.Tags
  * @license     http://opensource.org/licenses/MIT MIT
  */
+?>
+<!--nocache-->
+<?php
+    $tag = $this->requestAction(array('controller' => 'tags', 'action' => 'getViewVars'));
+?>
+<!--/nocache-->
 
+<?php
 $this->Html->addCrumb('Taggar', Router::url(array('controller' => 'tags', 'action' => 'index'), true));
 $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
 
@@ -37,23 +44,35 @@ $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
     <div class="col-md-12">
 <h1 class="label label-primary"><i class="fa fa-tag"></i> 
 <?php echo ucfirst(h($tag['Tag']['name'])); ?>
-<?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
+    <!--nocache-->
+        <?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
+    <!--/nocache-->
 </h1>
 
+<!--nocache-->
 <?php 
-if ($current_user) { ?>
+if (!$this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php  echo $this->element('saveTag', array('tagId' => $tag['Tag']['id'])); 
   echo $this->element('saveQuestion', array('tagId' => $tag['Tag']['id'])); ?>
   </div>
-<?php } ?>
-
-<?php echo $this->element('qa-table', array(
+  <?php echo $this->element('qa-table', array(
                   'parties' => $parties,
                   'questions' => $questions,
                   'answers' => $answers,
-                  'fixedHeader' => true
-                  )); ?>
+                  'fixedHeader' => true,
+                  'loggedIn' => false
+                  ), array('cache' => array('key' => 'tags_view_' . $tag['Tag']['id'], 'config' => 'tag'))); ?>
+<?php } else { 
+    echo $this->element('qa-table', array(
+                  'parties' => $parties,
+                  'questions' => $questions,
+                  'answers' => $answers,
+                  'fixedHeader' => true,
+                  'loggedIn' => true
+                  )); 
+} ?>
+<!--/nocache-->
 
 <?php echo $this->element('authorInfo', array('object' => $tag, 'model' => 'Tag')); ?>
     </div>

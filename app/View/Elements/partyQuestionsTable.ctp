@@ -38,7 +38,7 @@
       </th>
       <?php echo $this->element('answerTableCell', array('answer' => $answer, 
                           'question' => $answer)); ?>
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
         <td>
             <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title'])); ?> 
         </td>

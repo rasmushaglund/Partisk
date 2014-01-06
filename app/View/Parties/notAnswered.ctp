@@ -38,7 +38,7 @@ $deleted = $party['Party']['deleted'];
 
 <h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
   <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'title' => true)); ?>
-  <?php if ($current_user) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
+  <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
 </h1>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
@@ -61,7 +61,7 @@ $deleted = $party['Party']['deleted'];
                 array('class' => 'btn btn-s btn-info'));
         }                    
     ?>
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php  echo $this->element('saveQuestion'); 
   echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>

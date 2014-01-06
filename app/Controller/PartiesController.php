@@ -65,11 +65,11 @@ class PartiesController extends AppController {
                     
         $conditions = array('deleted' => false);
 
-        if(!$this->isLoggedIn) {
+        /*if(!$this->isLoggedIn) {
             $questions = $this->Party->Answer->Question->getVisibleQuestions();
-        } else {
+        } else {*/
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
-        }
+        //}
                    
         $questionIds = array();
 

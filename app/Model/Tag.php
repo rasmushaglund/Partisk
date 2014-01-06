@@ -58,7 +58,8 @@ class Tag extends AppModel {
         'QuestionTag'
     );
 
-    public $virtualFields = array('number_of_questions' => "count(Question.id)");
+    public $virtualFields = array('number_of_questions' => "count(Question.id)",
+                                  'approved_questions' => "Question.approved");
 
     public function getTags($args = null) {
         $id = isset($args['id']) ? $args['id'] : null;
@@ -183,15 +184,15 @@ class Tag extends AppModel {
         }
     }
     
-    public function getAll() {
-        $result = Cache::read('all_tags', 'tag');
+    public function getAllList() {
+        $result = Cache::read('all_list_tags', 'tag');
         if (!$result) {
             $this->recursive = -1;
             $result = $this->find('all', 
                     array('conditions' => array('Tag.deleted' => false),
                           'order' => 'name',
                           'fields' => array('Tag.id', 'Tag.name')));
-            Cache::write('all_tags', $result, 'tag');
+            Cache::write('all_list_tags', $result, 'tag');
         }
         
         return $result;
@@ -224,6 +225,7 @@ class Tag extends AppModel {
         parent::afterSave($created, $options);
         Cache::clear(false, 'tag');
         Cache::clear(false, 'question');
+        clearCache(array('partisk_tag*', 'partisk_'));
     }
     
     public function afterDelete() {

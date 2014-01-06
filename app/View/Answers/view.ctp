@@ -42,7 +42,7 @@ $deleted = $answer['Answer']['deleted'];
     <div class="col-md-12">
 <h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
 <?php echo $answer['Question']['title']; ?>
-<?php if ($current_user) {
+<?php if ($this->Permissions->isLoggedIn()) {
   echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title']));
 } ?>
 </h1>
@@ -66,7 +66,7 @@ $deleted = $answer['Answer']['deleted'];
 	}
 ?> <i class="source"><?php echo date('Y-m-d', strtotime($answer['Answer']['date'])); ?></i>
 
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
   <div class="tools">
 <?php echo $this->element('saveAnswer', array('partyId' => $answer['Party']['id'], 'questionId' => $answer['Question']['id'])); ?>
   </div>
@@ -85,7 +85,7 @@ $deleted = $answer['Answer']['deleted'];
       	<?php echo $this->Html->link($historicAnswer['Answer']['answer'],
                   array('controller' => 'answers', 'action' => 'view', $historicAnswer['Answer']['id'])); ?>      	
       </td>
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
       <td>
         <?php echo $this->element('answerAdminToolbox', array('answer' => $historicAnswer, 'questionTitle' => $answer['Question']['title'])); ?>
       </td>

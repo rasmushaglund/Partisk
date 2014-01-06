@@ -110,7 +110,6 @@
                 ?></li>
                     <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false, 'class' => $currentPage == "contact" ? 'active' : ''));
                 ?></li>
-                    <!--nocache-->
                     <?php if ($this->Permissions->isLoggedIn()) { ?>
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#"><i class="fa fa-gears"></i> Administration</a>
@@ -136,7 +135,6 @@
                     <?php } else { ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-sign-in"></i> Logga in', array('controller' => 'users', 'action' => 'login'), array('escape' => false, 'class' => $currentPage == "login" ? 'active' : '')); ?></li>
                     <?php } ?>
-                    <!--/nocache-->
                 </ul>
             </div>
         </nav>
@@ -154,9 +152,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $this->Html->getCrumbList(array('class' => 'breadcrumb'), 'Hem'); ?>
-                    <!--nocache-->
                     <?php echo $this->Session->flash(); ?>
-                    <!--/nocache-->
                 </div>
             </div>
             <div class="row">

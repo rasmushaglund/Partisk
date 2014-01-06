@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddQuestion) { ?>
+if ($this->Permissions->canAddQuestion()) { ?>
 	<?php
 
 	$editMode = isset($edit) && $edit;
@@ -45,12 +45,12 @@ if ($canAddQuestion) { ?>
                     'value' => $editMode ? $question['Question']['title'] : '')); ?>
                   
     <?php 
-        if ($canAddTag) {
+        if ($this->Permissions->canAddTag()) {
             echo $this->Bootstrap->input('tags', array('label' => 'Taggar', 'placeholder' => 'Frågans taggar',
                     'value' => $editMode ? $question['Question']['tags'] : '')); 
         } ?>
 
-    <?php if ($canApproveQuestion && $editMode) {
+    <?php if ($this->Permissions->canApproveQuestion() && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $question['Question']['approved'] : null)); 
     } ?>

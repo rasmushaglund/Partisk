@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-    if ($canDeleteParty) {
+    if ($this->Permissions->canDeleteParty()) {
         echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
             array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'parties\',\'delete\',' . $partyId . ');return false;')); 
     }

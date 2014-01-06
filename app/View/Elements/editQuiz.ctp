@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canEditQuiz || (!$quiz['approved'] && $quiz['created_by'] == $current_user['id'])) {
+if ($this->Permissions->canEditQuiz() || (!$quiz['approved'] && $quiz['created_by'] == $this->Permissions->getUser('id'))) {
 	echo $this->Html->link('<i class="fa fa-edit"></i> Ändra','#',	
     		array('class' => 'btn btn-info', 'escape' => false, 'onclick' => 'openModal(\'quizzes\',\'edit\',' . $quiz['id'] . ');return false;')); 
 }

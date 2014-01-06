@@ -31,7 +31,7 @@
 $this->Html->addCrumb('Partier');
 ?>
 <h1>Partier</h1>
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
   <?php echo $this->element('saveParty'); ?>
 </div>
@@ -43,7 +43,7 @@ $this->Html->addCrumb('Partier');
         <th>Bästa resultat av senaste EU- och riksdagsval</th>
         <th>Resultat senaste riksdagsval (2010)</th>
         <th>Resultat senaste EU-val (2009)</th>
-        <?php if ($isLoggedIn) { ?>
+        <?php if ($this->Permissions->isLoggedIn()) { ?>
         <th>Verktyg</th>
         <?php } ?>
     </thead>
@@ -56,7 +56,7 @@ $this->Html->addCrumb('Partier');
             <td><i class="percent"><?php echo round($party['Party']['best_result'], 1); ?>%</i></td>
             <td><i class="percent"><?php echo round($party['Party']['last_result_parliment'], 1); ?>%</i></td>
             <td><i class="percent"><?php echo round($party['Party']['last_result_eu'], 1); ?>%</i></td>
-            <?php if ($isLoggedIn) { ?>
+            <?php if ($this->Permissions->isLoggedIn()) { ?>
             <td>
                 <?php echo $this->element('partyAdminToolbox', array('party' => $party)); ?>
             </td>

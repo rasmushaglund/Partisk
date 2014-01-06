@@ -47,11 +47,11 @@ class QuestionsController extends AppController {
     }
 
     public function index() {
-        if(!$this->isLoggedIn) {
+        /*if(!$this->isLoggedIn) {
             $questions = $this->Question->getVisibleQuestions();
-        }  else {  
+        }  else {*/  
             $questions = $this->Question->getLoggedInQuestions();
-        }
+        //}
 
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
@@ -61,9 +61,9 @@ class QuestionsController extends AppController {
         
         $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
 
-        if(!$this->isLoggedIn) {
+        /*if(!$this->isLoggedIn) {
             $answersConditions['approved'] = true;
-        }   
+        } */  
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
@@ -265,7 +265,6 @@ class QuestionsController extends AppController {
         $this->autoRender=false;
         
         echo json_encode($this->Question->searchQuestion($string, $this->isLoggedIn));
-
     }
 
     public function logUser($action, $object_id, $text = "") {

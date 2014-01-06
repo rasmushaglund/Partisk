@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-    if ($canDeleteAnswer || (!$answer['approved'] && $answer['created_by'] == $current_user['id'])) {
+    if ($this->Permissions->canDeleteAnswer() || (!$answer['approved'] && $answer['created_by'] == $this->Permissions->getUser('id'))) {
         echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
 	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'answers\',\'delete\',' . $answer['id'] . ');return false;')); 
     }
