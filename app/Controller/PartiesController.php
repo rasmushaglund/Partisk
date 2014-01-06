@@ -27,11 +27,17 @@
  * @package     app.Controller
  * @license     http://opensource.org/licenses/MIT MIT
  */
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
+
 
 class PartiesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days",
+        "notAnswered" => "+999 days",
+        "all" => "+999 days");
 
     public $components = array('Session');
 
@@ -65,11 +71,11 @@ class PartiesController extends AppController {
                     
         $conditions = array('deleted' => false);
 
-        /*if(!$this->isLoggedIn) {
+        if(!$this->Permissions->isLoggedIn()) {
             $questions = $this->Party->Answer->Question->getVisibleQuestions();
-        } else {*/
+        } else {
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
-        //}
+        }
                    
         $questionIds = array();
 
@@ -105,7 +111,7 @@ class PartiesController extends AppController {
     }
 
      public function add() {
-        if (!$this->canAddParty) {
+        if (!$this->Permissions->canAddParty()) {
             $this->abuse("Not authorized to add party");
             return $this->redirect($this->referer());
         }
@@ -128,7 +134,7 @@ class PartiesController extends AppController {
      }
 
      public function delete($id = null) {
-        if (!$this->canDeleteParty) {
+        if (!$this->Permissions->canDeleteParty()) {
             $this->abuse("Not authorized to delete party with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -171,7 +177,7 @@ class PartiesController extends AppController {
      }
 
      public function edit($id = null) {
-        if (!$this->canEditParty) {
+        if (!$this->Permissions->canEditParty()) {
             $this->abuse("Not authorized to edit party with id " . $id);
             return $this->redirect($this->referer());
         }

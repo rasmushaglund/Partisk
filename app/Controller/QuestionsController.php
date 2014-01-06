@@ -32,7 +32,11 @@ App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class QuestionsController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days",
+        "search" => "+999 days",
+        "all" => "+999 days");
 
     public $components = array('Session');
 
@@ -47,11 +51,11 @@ class QuestionsController extends AppController {
     }
 
     public function index() {
-        /*if(!$this->isLoggedIn) {
+        if(!$this->Permissions->isLoggedIn()) {
             $questions = $this->Question->getVisibleQuestions();
-        }  else {*/  
+        }  else {
             $questions = $this->Question->getLoggedInQuestions();
-        //}
+        }
 
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
@@ -61,9 +65,9 @@ class QuestionsController extends AppController {
         
         $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
 
-        /*if(!$this->isLoggedIn) {
+        if(!$this->Permissions->isLoggedIn()) {
             $answersConditions['approved'] = true;
-        } */  
+        }
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
@@ -101,7 +105,7 @@ class QuestionsController extends AppController {
      }
 
      public function add() {
-        if (!$this->canAddQuestion) {
+        if (!$this->Permissions->canAddQuestion()) {
             $this->abuse("Not authorized to add question");
             return $this->redirect($this->referer());
         }
@@ -113,7 +117,7 @@ class QuestionsController extends AppController {
      }
 
      public function delete($id) {
-        if (!$this->userCanDeleteQuestion($this->Auth->user('id'), $id)) {
+        if (!$this->Permissions->canDeleteQuestion($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to delete question with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -146,7 +150,7 @@ class QuestionsController extends AppController {
             $id = $this->request->data['Question']['id'];
         }
         
-        if (!$this->userCanEditQuestion($this->Auth->user('id'), $id)) {
+        if (!$this->Permissions->canEditQuestion($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to edit question with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -206,7 +210,7 @@ class QuestionsController extends AppController {
         $data['Question']['type'] = "YESNO";
 
         if ($this->Question->save($data)) {
-            if ($this->canAddTag) {
+            if ($this->Permissions->canAddTag()) {
                 $this->Question->Tag->addTags($data, $this->Question->getLastInsertId());
             }
             $this->customFlash(__('Frågan skapad.'));
@@ -260,11 +264,13 @@ class QuestionsController extends AppController {
     }
     
     public function search($string) {
-        
+        $this->cacheAction = "+999 days";
         $this->layout = 'ajax';
         $this->autoRender=false;
         
-        echo json_encode($this->Question->searchQuestion($string, $this->isLoggedIn));
+        $this->set('data', json_encode($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn())));
+        
+        $this->render('/Elements/search');
     }
 
     public function logUser($action, $object_id, $text = "") {

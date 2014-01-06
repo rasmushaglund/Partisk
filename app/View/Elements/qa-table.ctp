@@ -65,7 +65,7 @@
         <div class="table-cell"></div>
         <?php }?>
       <?php endforeach; ?>
-      <?php if ($loggedIn) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
         <div class="table-cell">
           <div class="tools">
              <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>

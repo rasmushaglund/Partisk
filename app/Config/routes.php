@@ -40,7 +40,7 @@ Router::connect('/quiz/resultat/:guid', array('controller' => 'quizzes', 'action
 Router::connect('/quiz/results/*', array('controller' => 'quizzes', 'action' => 'results'));
 Router::connect('/quiz/:id', array('controller' => 'quizzes', 'action' => 'start'), array('pass' => array('id')));
 
-Router::connect('/api/search/:string', array('controller' => 'questions', 'action' => 'search'), array('pass' => array('string')));
+Router::connect('/frågor/search/:string', array('controller' => 'questions', 'action' => 'search'), array('pass' => array('string')));
 
 
 CakePlugin::routes();

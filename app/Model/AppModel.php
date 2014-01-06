@@ -38,6 +38,12 @@ class AppModel extends Model {
         if($created) {
             $this->inserted_ids[] = $this->getInsertID();
         }
+        clearCache('partisk*');
+        return true;
+    }
+    
+    function afterDelete() {
+        clearCache('partisk*');
         return true;
     }
 
@@ -49,5 +55,11 @@ class AppModel extends Model {
         }
 
         return $partyIds;
+    }
+    
+    public function getControllerCacheName($controller) {
+        $explodedRoute = explode("/", Router::url(array('controller' => $controller, 'action' => 'index')));
+        $name = rawurlencode($explodedRoute[2]);
+        return strtolower(str_replace("%", "_", $name));
     }
 }

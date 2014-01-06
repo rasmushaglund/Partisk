@@ -32,7 +32,7 @@ App::uses('AppController', 'Controller');
 
 class PagesController extends AppController {
     public $helpers = array('Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = "+999 days";
     
     private $currentPage = "default";
 

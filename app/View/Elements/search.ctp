@@ -24,38 +24,7 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Tags
+ * @package     app.View.Elements
  * @license     http://opensource.org/licenses/MIT MIT
  */
-
-$this->Html->addCrumb('Taggar');
-
-if ($tags) {
-    $chunks = array_chunk($tags, ceil(sizeof($tags) / 3));
-?>
-
-<h1>Taggar</h1>
-<?php if ($this->Permissions->isLoggedIn()) { ?>
-<div class="row">
-  <div class="col-md-4 tools">
-    <?php echo $this->element('saveTag'); ?>
-   </div>
- </div>
- <?php } ?>
- 
- <div class="row">
- <?php if (isset($chunks[0])) { ?>
- <div class="col-md-4">
-   <?php echo $this->element('tagsTable', array("tags" => $chunks[0])); ?>
- </div>
- <?php } if (isset($chunks[1])) { ?>
- <div class="col-md-4">
-   <?php echo $this->element('tagsTable', array("tags" => $chunks[1])); ?>
- </div>
- <?php } if (isset($chunks[2])) { ?>
- <div class="col-md-4">
-   <?php echo $this->element('tagsTable', array("tags" => $chunks[2])); ?>
- </div>
- <?php } ?>
- </div>
-<?php } ?>
+?><!--nocache--><?php configure::write('debug',0); header('Content-type: text/x-json'); ?><!--/nocache--><?php echo $data; ?>

@@ -32,7 +32,9 @@ App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class AnswersController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "view" => "+999 days",
+        "info" => "+999 days");
     
     public $components = array('Session');
 
@@ -59,7 +61,7 @@ class AnswersController extends AppController {
     }
 
     public function add() {
-        if (!$this->canAddAnswer) {
+        if (!$this->Permissions->canAddAnswer()) {
             $this->abuse("Not authorized to add answer");
             return $this->redirect($this->referer());
         }
@@ -86,7 +88,7 @@ class AnswersController extends AppController {
             $id = $this->request->data['Answer']['id'];
         }
 
-        if (!$this->userCanEditAnswer($this->Auth->user('id'), $id)) {
+        if (!$this->Permissions->canEditAnswer($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to edit answer with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -139,7 +141,7 @@ class AnswersController extends AppController {
      }
 
      public function delete($id) {
-        if (!$this->userCanDeleteAnswer($this->Auth->user('id'), $id)) {
+        if (!$this->Permissions->canDeleteAnswer($this->Auth->user('id'), $id)) {
             $this->abuse("Not authorized to delete answer with id ". $id);
             return $this->redirect($this->referer());
         }
@@ -192,7 +194,6 @@ class AnswersController extends AppController {
     }
     
     public function info($id) {
-        
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $this->set('answer', $this->Answer->getById($id));

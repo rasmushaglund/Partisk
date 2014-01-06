@@ -52,7 +52,7 @@
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('minimizeAssets')==0) { ?>
+        if (!Configure::read('minimizeResources')) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap');
@@ -76,12 +76,13 @@
             echo $this->fetch('script');
         } else { 
             $version = Configure::read('PartiskVersion'); 
+            $versionString = $version != null ? "-v" . $version : "";
             echo $this->fetch('meta'); ?>
-            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite-v<?php echo $version; ?>.png') no-repeat;}</style>
+            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
             
             <?php
-            echo $this->Html->css("partisk-v$version.min");
-            echo $this->Html->script("partisk-v$version.min");
+            echo $this->Html->css("partisk$versionString.min");
+            echo $this->Html->script("partisk$versionString.min");
             ?>
             
         <?php } ?>
@@ -160,15 +161,15 @@
                     <?php echo $this->fetch('content'); ?>
                 </div>
             </div>
-           <!-- <div class="row">
+        <?php if (Configure::read('debug') >= 2) { ?>
+           <div class="row">
                 <div class="col-md-12">
-                    <?php if (Configure::read('debug') >= 2) { ?>
                         <div class="alert alert-info">
                             <?php echo $this->element('sql_dump'); ?>
                         </div>
-                    <?php } ?>
                 </div>
-            </div>-->
+            </div>
+        <?php } ?>
         </div>
         <div id="footer">
             <div class="container">

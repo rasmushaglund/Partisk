@@ -32,7 +32,9 @@ App::uses('AppController', 'Controller', 'UserLogger', 'Log');
 
 class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = array("index" => "1 hour", "results" => "1 hour");
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "results" => "+999 days");
     
     const DEFAULT_IMPORTANCE = 2;
     const QUIZ_VERSION = 2;
@@ -135,8 +137,6 @@ class QuizzesController extends AppController {
             } else {
                 $this->customFlash(__('Kunde inte ta bort Quizen.'), 'danger');
             }
-        
-        
     }
 
     public function start($id) {

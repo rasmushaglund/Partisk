@@ -44,7 +44,7 @@ $(document).ready(function() {
     $('#partisk-search input').typeahead([
         {
             name: 'questions',
-            remote: appRoot + 'api/search/%QUERY',
+            remote: appRoot + 'frågor/search/%QUERY',
             minLength: 3
         }
     ]).bind('typeahead:selected', function(event, obj) {

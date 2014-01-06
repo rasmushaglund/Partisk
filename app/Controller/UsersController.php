@@ -34,7 +34,9 @@ App::uses('UserLogger', 'Log');
 
 class UsersController extends AppController {
     public $helpers = array('Cache', 'Permissions');
-    //public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days");
     
     private $currentPage = "users";
     public $components = array('Auth', 'Session');
@@ -78,7 +80,6 @@ class UsersController extends AppController {
     }
 
     public function start() {
-        
         $user = $this->Auth->user();
         
         $this->set('user', $user);

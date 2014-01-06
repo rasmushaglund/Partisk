@@ -28,6 +28,8 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
+App::uses('Permissions', 'Utils');
+
 class AppController extends Controller {
     public $helpers = array('Session', 'Permissions');
 
@@ -36,6 +38,8 @@ class AppController extends Controller {
         'Auth'
     );
 
+    protected $Permissions;
+    
     public function beforeFilter() {
         // Enable Blowfish hashing with salt
         $this->Auth->authenticate = array(
@@ -52,6 +56,8 @@ class AppController extends Controller {
         $this->Auth->authorize = 'Controller';
         $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
         $this->set("currentPage", "default");
+        
+        $this->Permissions = new Permissions();
     }
     
     public function isAuthorized($user) {

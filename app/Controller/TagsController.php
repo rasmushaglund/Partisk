@@ -30,20 +30,18 @@
 
 App::uses('AppController', 'Controller');
 App::uses('UserLogger', 'Log');
-App::uses('Permissions', 'Utils');
 
 class TagsController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache', 'Permissions');
     public $cacheAction = array(
-        "index" => "1 hour",
-        "view" => "1 hour");
+        "index" => "+999 days",
+        "view" => "+999 days",
+        "all" => "+999 days");
 
     public $components = array('Session');
-    private $Permissions;
     
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Permissions = new Permissions();
         $this->Auth->allow(array('getIndexVars', 'getViewVars'));
     }
 
@@ -62,7 +60,11 @@ class TagsController extends AppController {
             throw new NotFoundException("Ogiltig tagg");
         }
 
-        $questions = $this->Tag->Question->getTagQuestions($tag['Tag']['id']);
+        if(!$this->Permissions->isLoggedIn()) {
+             $questions = $this->Tag->Question->getVisibleTagQuestions($tag['Tag']['id']);
+         } else {
+             $questions = $this->Tag->Question->getLoggedInTagQuestions($tag['Tag']['id']);
+         }
         
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
@@ -79,45 +81,14 @@ class TagsController extends AppController {
     }
 
     public function index() {
-        $tags = $this->Tag->getAllTags();
-            
-        $approvedTags = array();
-        $unapprovedTags = array();
-        
-        foreach ($tags as $tag) {
-            if ($tag['Tag']['approved_questions']) {
-                array_push($approvedTags, $tag);
-            } else {
-                array_push($unapprovedTags, $tag);
-            }
+        if(!$this->isLoggedIn) {
+             $tags = $this->Tag->getAllApprovedTags();
+        } else {
+             $tags = $this->Tag->getAllTags();
         }
-        
-        $this->set('tags', array('approved'=> $approvedTags,
-        'unapproved' => $unapprovedTags));
-    
+            
+        $this->set('tags', $tags);
         $this->set('title_for_layout', 'Taggar');
-    }   
-    
-    public function getIndexVars() {
-        $tags = $this->Tag->getAllTags();
-            
-        $approvedTags = array();
-        $unapprovedTags = array();
-        
-        foreach ($tags as $tag) {
-            if ($tag['Tag']['approved_questions']) {
-                array_push($approvedTags, $tag);
-            } else {
-                array_push($unapprovedTags, $tag);
-            }
-        }
-        
-        return array('approved'=> $approvedTags,
-        'unapproved' => $unapprovedTags);
-    }
-    
-    public function getViewVars() {
-        
     }
 
     public function add() {

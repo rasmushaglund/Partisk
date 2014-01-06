@@ -37,7 +37,7 @@
 			<?php echo $this->Html->link(ucfirst($tag['Tag']['name']),
                             array('controller' => 'tags', 'action' => 'view', 'name' => strtolower($tag['Tag']['name']))); ?> 
             
-            <?php if (isset($loggedIn) && $loggedIn) { echo $this->element('tagAdminToolbox', array('tag' => $tag)); } ?>
+            <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('tagAdminToolbox', array('tag' => $tag)); } ?>
             <span class="description">(<?php echo $tag['Tag']['number_of_questions']; ?>st 
             <?php echo $oneQuestion ? 'fråga' : 'frågor'; ?>)</span>
         </td>
