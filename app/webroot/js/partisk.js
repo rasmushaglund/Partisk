@@ -84,39 +84,51 @@ $( window ).resize(function() {
 
 var qaTableFixedHeader = function() {
     if (matchMedia('only screen and (min-width: 1200px)').matches && $('.table-head-container').size() === 0) {
-        var table = $('.table-with-fixed-header');
-        var qaTableHead = $('<div class="table-head-container"></div>');
-        var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
-        var qaTableHeadBg = $('<div class="table-header-bg"></div>');
+        var tables = $('.table-with-fixed-header');
+        
+        tables.each(function (item) {
+            var table = $(this);
+            var qaTableHead = $('<div class="table-head-container"></div>');
+            var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
+            var qaTableHeadBg = $('<div class="table-header-bg"></div>');
 
-        qaTableHead.append(qaTableHeadBg);
-        qaTableHead.append(qaTableHeadRow);
+            qaTableHead.append(qaTableHeadBg);
+            qaTableHead.append(qaTableHeadRow);
 
-        table.before(qaTableHead);
-        $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow);
-        var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+            table.before(qaTableHead);
+            table.find('.table-head.table-row').appendTo(qaTableHeadRow);
+            var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+            qaTableHeadRow.width(table.width());
+            
+            var faded = false;
 
-        qaTableHeadRow.width(table.width());
-
-        var headerVisible = false;
-        $(window).scroll(function() {
-            if (bigMode) {
-                if ($(window).scrollTop() >= table.offset().top - headerHeight) {
-                    if (!headerVisible) {
-                        headerVisible = true;
-                        qaTableHead.addClass('table-fixed');
-                        table.addClass('table-fixed-header');
-
+            var headerVisible = false;
+            $(window).scroll(function() {
+                if (bigMode) {
+                    if (!faded && $(window).scrollTop() >= table.offset().top + table.height() - headerHeight) {
+                        qaTableHead.fadeOut("fast", function () { faded = true; });
+                    } else if (faded && $(window).scrollTop() <= table.offset().top + table.height() - headerHeight) {
+                        qaTableHead.fadeIn("fast", function () { faded = false; });
                     }
-                } else {
-                    if (headerVisible) {
-                        headerVisible = false;
+                    
+                    if ($(window).scrollTop() >= table.offset().top - headerHeight) {
+                        //console.log($(window).scrollTop() + ">=" + (table.offset().top - headerHeight));
+                        //console.log(table.height());
+                        if (!headerVisible) {
+                            headerVisible = true;
+                            qaTableHead.addClass('table-fixed');
+                            table.addClass('table-fixed-header');
+                        }
+                    } else {
+                        if (headerVisible) {
+                            headerVisible = false;
 
-                        qaTableHead.removeClass('table-fixed');
-                        table.removeClass('table-fixed-header');
+                            qaTableHead.removeClass('table-fixed');
+                            table.removeClass('table-fixed-header');
+                        }
                     }
                 }
-            }
+            });
         });
     
     }

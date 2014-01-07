@@ -117,6 +117,10 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
     overflow: hidden;
 }
 
+.table-fixed-header {
+    margin-top: 72px;
+}
+
 .table .party-title {
     position: relative;
     margin-left: 6px;
@@ -682,10 +686,6 @@ text-decoration: underline;
     height: 68px;
 }
 
-.table-fixed-header {
-    margin-top: 68px;
-}
-
 .table-head-container .table-bordered  .table-header {
     border-bottom: 0px;
 }
@@ -699,7 +699,7 @@ text-decoration: underline;
     left: 0px;
     top: 0px;
     position: fixed;
-    height: 74px;
+    height: 72px;
     width: 100%;
     background-color: white;
     box-shadow: 0px 2px 17px #999;

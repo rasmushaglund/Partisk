@@ -45,3 +45,11 @@ $this->Html->addCrumb('Frågor');
                   'answers' => $answers,
                   'fixedHeader'  => true
                   )); ?>
+
+<br /><br /><br />
+<?php echo $this->element('qa-table', array(
+                  'parties' => $parties,
+                  'questions' => $questions,
+                  'answers' => $answers,
+                  'fixedHeader'  => true
+                  )); ?>

@@ -211,7 +211,7 @@ class Tag extends AppModel {
             $this->contain(array("CreatedBy", "UpdatedBy"));
             $tags = $this->find('all', array(
                     'conditions' => $conditions,
-                    'fields' => array('Tag.id', 'Tag.name' ,'Tag.created_date' ,'Tag.updated_date')
+                    'fields' => array('Tag.id', 'Tag.name' ,'Tag.created_date' ,'Tag.updated_date', 'Tag.is_category')
                 ));
 
             $result = array_pop($tags);

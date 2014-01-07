@@ -38,7 +38,7 @@ class AppController extends Controller {
         'Auth'
     );
 
-    protected $Permissions;
+    protected $Permissions; 
     
     public function beforeFilter() {
         // Enable Blowfish hashing with salt

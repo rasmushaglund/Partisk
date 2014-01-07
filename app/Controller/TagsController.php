@@ -86,7 +86,7 @@ class TagsController extends AppController {
         } else {
              $tags = $this->Tag->getAllTags();
         }
-            
+        
         $this->set('tags', $tags);
         $this->set('title_for_layout', 'Taggar');
     }

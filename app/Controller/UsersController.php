@@ -40,14 +40,12 @@ class UsersController extends AppController {
     
     private $currentPage = "users";
     public $components = array('Auth', 'Session');
-    private $Permissions;
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->loginError = "Fel användarnamn eller lösenord. Försök gärna igen.";  
         $this->Auth->authError = "Du har inte rättigheter att se denna sida.";
         $this->Auth->allow(array('login', 'logout', 'add'));
-        $this->Permissions = new Permissions();
     }
 
     public function beforeRender() {
