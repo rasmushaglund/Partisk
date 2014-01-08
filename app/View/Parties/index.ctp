@@ -37,7 +37,7 @@ $this->Html->addCrumb('Partier');
 </div>
 <?php } ?>
 
-<table class="table party-table table-bordered table-striped data-table">
+<table class="table party-table table-bordered table-striped data-table table-hover">
     <thead>
         <th>Parti</th>
         <th>Bästa resultat av senaste EU- och riksdagsval</th>

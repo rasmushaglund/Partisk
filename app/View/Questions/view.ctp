@@ -61,7 +61,7 @@ $deleted = $question['Question']['deleted'];
 </div>
 <?php } ?>
 
-<table class="table table-bordered table-striped qa-table narrow-table">
+<table class="table table-bordered table-striped qa-table narrow-table table-hover">
 <?php foreach ($answers as $answer): ?>
 	<tr>
       <th>

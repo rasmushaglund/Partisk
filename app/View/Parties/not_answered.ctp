@@ -30,7 +30,7 @@
 
 $this->Html->addCrumb('Partier', Router::url(array('controller' => 'parties', 'action' => 'index'), true));
 $this->Html->addCrumb(ucfirst($party['Party']['name']), Router::url(array('controller' => 'parties', 'action' => 'view', 
-                    'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), true));
+                    'name' => $this->Url->slug($party['Party']['name'])), true));
 $this->Html->addCrumb('Frågor utan svar');
 
 $deleted = $party['Party']['deleted'];
@@ -60,7 +60,7 @@ $deleted = $party['Party']['deleted'];
         <table class="table table-bordered table-striped">
         <?php foreach ($chunks[0] as $question) { ?>
             <tr><td><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
-                'title' => str_replace(' ', '_', strtolower($question['Question']['title'])))); ?></td></tr>
+                'title' => $this->Url->slug($question['Question']['title']))); ?></td></tr>
         <?php } ?>
         </table>
     </div>
@@ -69,7 +69,7 @@ $deleted = $party['Party']['deleted'];
         <table class="table table-bordered table-striped">
         <?php foreach ($chunks[1] as $question) { ?>
             <tr><td><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
-                'title' => str_replace(' ', '_', strtolower($question['Question']['title'])))); ?></td></tr>
+                'title' => $this->Url->slug($question['Question']['title']))); ?></td></tr>
         <?php } ?>
         </table>
     </div>

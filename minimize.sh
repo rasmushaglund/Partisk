@@ -24,7 +24,7 @@
 
 # Requires yUglify (https://github.com/yui/yuglify)
 
-yuglify app/webroot/css/bootstrap.min.css app/webroot/css/font-awesome.min.css app/webroot/css/nv.d3.css app/webroot/css/datepicker.css app/webroot/css/typeahead.js-bootstrap.css app/webroot/css/style.css -c app/webroot/css/partisk
+yuglify app/webroot/css/bootstrap.min.css app/webroot/css/bootstrap-theme.min.css app/webroot/css/font-awesome.min.css app/webroot/css/nv.d3.css app/webroot/css/datepicker.css app/webroot/css/typeahead.js-bootstrap.css app/webroot/css/style.css -c app/webroot/css/partisk
 
 yuglify app/webroot/js/jquery.js app/webroot/js/bootstrap.js app/webroot/js/bootstrap-datepicker.js app/webroot/js/typeahead.js app/webroot/js/bootstrap-datepicker.sv.js app/webroot/js/matchMedia.js app/webroot/js/partisk.js -c app/webroot/js/partisk
 

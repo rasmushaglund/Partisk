@@ -76,7 +76,7 @@ $deleted = $party['Party']['deleted'];
     <div class="col-md-6">
 <?php 
    echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
-       'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), array('class' => 'btn btn-s btn-info', 'escape' => false));          
+       'name' => $this->Url->slug($party['Party']['name'])), array('class' => 'btn btn-s btn-info', 'escape' => false));          
 ?>
     </div>
 </div>

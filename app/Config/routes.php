@@ -41,6 +41,7 @@ Router::connect('/quiz/results/*', array('controller' => 'quizzes', 'action' => 
 Router::connect('/quiz/:id', array('controller' => 'quizzes', 'action' => 'start'), array('pass' => array('id')));
 
 Router::connect('/frågor/search/:string', array('controller' => 'questions', 'action' => 'search'), array('pass' => array('string')));
+Router::connect('/frågor/getCategoryTable/:tagId', array('controller' => 'questions', 'action' => 'getCategoryTable'), array('pass' => array('tagId')));
 
 
 CakePlugin::routes();

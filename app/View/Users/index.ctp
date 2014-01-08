@@ -31,14 +31,15 @@
 $this->Html->addCrumb('Användare');
 
 ?>
-
+<div class="row">
+    <div class="col-md-6">
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php echo $this->element('saveUser'); ?>
 </div>
 <?php } ?>
 
-<table class="table">
+<table class="table table-bordered table-hover table-striped">
 <?php foreach ($users as $user): ?>
     <tr>
         <th>
@@ -53,3 +54,5 @@ $this->Html->addCrumb('Användare');
     </tr>
     <?php endforeach; ?>
 </table>
+    </div>
+</div>

@@ -56,6 +56,7 @@
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap');
+            echo $this->Html->css('bootstrap-theme');
             echo $this->Html->css('typeahead.js-bootstrap');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');

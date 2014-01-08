@@ -29,13 +29,13 @@
  */
 ?>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-hover">
 <?php foreach ($tags as $tag): ?>
     <tr>
         <td>
         	<?php $oneQuestion = $tag['Tag']['number_of_questions'] == 1; ?>
 			<?php echo $this->Html->link(ucfirst($tag['Tag']['name']),
-                            array('controller' => 'tags', 'action' => 'view', 'name' => strtolower($tag['Tag']['name']))); ?> 
+                            array('controller' => 'tags', 'action' => 'view', 'name' => $this->Url->slug($tag['Tag']['name']))); ?> 
             
             <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('tagAdminToolbox', array('tag' => $tag)); } ?>
             <span class="description">(<?php echo $tag['Tag']['number_of_questions']; ?>st 

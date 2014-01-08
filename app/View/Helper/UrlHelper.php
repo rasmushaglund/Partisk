@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
@@ -24,28 +24,17 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Helper
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if (isset($party)) {
-	$class = 'party-logo';
-	if (isset($small) && $small == true) {
-		$class .= "-small";
-	}
+App::uses('AppHelper', 'View/Helper');
 
-	$image = "<div class='" . $class . " " . $class . "-" . $party['id'] . "'></div>"; //$this->Html->image($party['name'] . ".png", array('class' => $class)); 
-
-	$titleString = "";
-	if (isset($title) && $title) {
-		$titleString = "<div class='party-title'>" . ucfirst($party['name']) . "</div>"; 
-	}
-
-	if (isset($link) && isset($party['id']) && $link) {
-		echo $this->Html->link($image . $titleString,
-	    	array('controller' => 'parties', 'action' => 'view', 'name' => $this->Url->slug($party['name'])), array('escape' => false, 'class' => isset($linkClass) ? $linkClass : null));
-	} else {
-		echo $image . $title;
-	}
+class UrlHelper extends AppHelper {
+    
+    public function slug($string) {
+        return urlencode(str_replace(' ', '_', strtolower($string)));
+    }
 }
+        
 ?>

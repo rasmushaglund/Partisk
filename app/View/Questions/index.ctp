@@ -38,18 +38,30 @@ $this->Html->addCrumb('Frågor');
   echo $this->element('saveAnswer'); ?>
   </div>
  <?php } ?>
- 
-<?php echo $this->element('qa-table', array(
-                  'parties' => $parties,
-                  'questions' => $questions,
-                  'answers' => $answers,
-                  'fixedHeader'  => true
-                  )); ?>
 
-<br /><br /><br />
-<?php echo $this->element('qa-table', array(
-                  'parties' => $parties,
-                  'questions' => $questions,
-                  'answers' => $answers,
-                  'fixedHeader'  => true
-                  )); ?>
+<div class="panel-group" id="accordion">
+    <ul class="list-unstyled">
+        <?php
+            foreach ($categories as $category) { 
+        ?>
+        <li>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $category['Tag']['id']; ?>" class="collapsed">
+                            <i class="fa fa-plus-square toggle"></i> <?php echo ucfirst($category['Tag']['name']); ?></a>
+                    </h4>
+                </div>
+                <div id="collapse<?php echo $category['Tag']['id']; ?>" data-id="<?php echo $category['Tag']['id']; ?>" 
+                     class="ajax-load-table panel-collapse collapse">
+                </div>
+            </div>
+        </li>
+        <?php } ?>
+    </ul> 
+</div>
+<?php
+
+
+
+?>

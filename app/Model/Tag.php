@@ -65,12 +65,14 @@ class Tag extends AppModel {
         $tagDeleted = isset($args['tagDeleted']) ? $args['tagDeleted'] : false;
         $questionDeleted = isset($args['questionDeleted']) ? $args['questionDeleted'] : false;
         $approved = isset($args['approved']) ? $args['approved'] : null;
+        $category = isset($args['category']) ? $args['category'] : null;
 
         $conditions = array();
 
         if (isset($tagDeleted)) { $conditions['Tag.deleted'] = $tagDeleted; }
         if (isset($questionDeleted)) { $conditions['Question.deleted'] = $questionDeleted; }
         if (isset($approved)) { $conditions['Question.approved'] = $approved; }
+        if (isset($category)) { $conditions['Tag.is_category'] = $category; }
                     
         return $this->find('all', array(
                 'conditions' => $conditions,
@@ -98,6 +100,17 @@ class Tag extends AppModel {
             $this->recursive = -1;
             $result = $this->getTags();
             Cache::write('all_tags', $result, 'tag');
+        }
+        
+        return $result;
+    }
+    
+    public function getAllCategories() {
+        $result = Cache::read('all_categories', 'tag');
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->getTags(array('category' => true));
+            Cache::write('all_categories', $result, 'tag');
         }
         
         return $result;

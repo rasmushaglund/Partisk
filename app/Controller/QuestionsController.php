@@ -47,11 +47,11 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search'));
+        $this->Auth->allow(array('search', 'getCategoryTable'));
     }
 
     public function index() {
-        if(!$this->Permissions->isLoggedIn()) {
+        /*if(!$this->Permissions->isLoggedIn()) {
             $questions = $this->Question->getVisibleQuestions();
         }  else {
             $questions = $this->Question->getLoggedInQuestions();
@@ -75,8 +75,46 @@ class QuestionsController extends AppController {
         
         $this->set('questions', $questions);
         $this->set('parties', $parties);
-        $this->set('answers', $answersMatrix);
+        $this->set('answers', $answersMatrix);*/
+        
+        $categories = $this->Question->Tag->getAllCategories();
+        $this->set('categories', $categories);
         $this->set('title_for_layout', 'Frågor');
+    }
+    
+    public function getCategoryTable($tagId) {
+        $this->cacheAction = "+999 days";
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        if(!$this->Permissions->isLoggedIn()) {
+            $questions = $this->Question->getVisibleTagQuestions($tagId);
+        }  else {
+            $questions = $this->Question->getLoggedInTagQuestions($tagId);
+        }
+        
+        $this->loadModel('Party');
+        $parties = $this->Party->getPartiesOrdered();
+        
+        $questionIds = $this->Question->getIdsFromModel('Question', $questions);
+        $partyIds = $this->Party->getIdsFromModel('Party', $parties);
+        
+        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
+
+        if(!$this->Permissions->isLoggedIn()) {
+            $answersConditions['approved'] = true;
+        }
+        
+        $this->loadModel('Answer');
+        $answers = $this->Answer->getAnswers($answersConditions);
+        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
+        
+        $this->set('questions', $questions);
+        $this->set('parties', $parties);
+        $this->set('answers', $answersMatrix);
+        $this->set('fixedHeader', true);
+        
+        $this->render('/Elements/qa-table');
     }
 
     public function view($title = null) {

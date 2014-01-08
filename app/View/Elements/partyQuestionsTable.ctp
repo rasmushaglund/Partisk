@@ -29,12 +29,12 @@
  */
 ?>
 
-<table class="table table-bordered table-striped narrow-table">
+<table class="table table-bordered table-striped narrow-table table-hover">
 <?php foreach ($answers as $answer): ?>
     <tr>
       <th>
         <?php echo $this->Html->link($answer['Question']['title'],
-                  array('controller' => 'questions', 'action' => 'view', 'title' => str_replace(' ', '_', strtolower($answer['Question']['title'])))); ?>
+                  array('controller' => 'questions', 'action' => 'view', 'title' => $this->Url->slug($answer['Question']['title']))); ?>
       </th>
       <?php echo $this->element('answerTableCell', array('answer' => $answer, 
                           'question' => $answer)); ?>

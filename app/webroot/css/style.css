@@ -613,7 +613,6 @@ text-decoration: underline;
 }
 
 .table-cell {
-    border-top: 1px solid #dddddd;
     padding: 8px;
     line-height: 1.428571429;
     vertical-align: top;
@@ -621,7 +620,7 @@ text-decoration: underline;
 
 .table-header {
     vertical-align: bottom;
-    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
     padding: 8px;
     line-height: 1.428571429;
     font-weight: bold;
@@ -629,17 +628,34 @@ text-decoration: underline;
 
 .table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
     border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
     line-height: 1.428571429;
+}
+
+.table-striped .table-row -table-header, .table-striped .table-row .table-cell {
+    border-top: 1px solid #ddd;
 }
 
 .table-header.table-header-text {
     padding: 8px;
 }
 
+.table-striped .table-row.table-head .table-header {
+    border-top: none;
+}
+
 .qa-table.table-bordered {
     border-right: none;
     border-left: 1px solid #ddd;
+    
+}
+
+.table-head-container .qa-table.table-bordered {
+    border-bottom: none;
+}
+
+.qa-table.table-bordered .table-head .table-header {
+    border-top: none;    
 }
 
 .qa-table .table-header, .qa-table .table-cell {
@@ -811,7 +827,7 @@ text-decoration: underline;
     width: 198px;
 }
 
-.question-summary-list h3 {
+#accordion h3 {
     margin-top: 40px;
 }
 
@@ -821,6 +837,10 @@ text-decoration: underline;
 }
 
 .share {
+}
+
+.share.share-inline {
+    margin-left: 5px;
     display: inline-block;
 }
 
@@ -828,7 +848,7 @@ text-decoration: underline;
     font-size: 1.7em;
 }
 
-.list-unstyled.question-summary-list li {
+#accordion .list-unstyled li {
     margin-bottom: 10px;
 }
 
@@ -1067,4 +1087,17 @@ h1.label {
 #no-svg {
     margin-top: 20px;
     display: none;
+}
+
+#accordion .accordion-expanded.panel {
+    border: none;
+}
+
+#accordion .accordion-expanded .panel-heading {
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.table-hover .table-row:hover > .table-cell {
+background-color: #f5f5f5;
 }

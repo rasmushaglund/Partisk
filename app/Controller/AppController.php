@@ -31,7 +31,7 @@
 App::uses('Permissions', 'Utils');
 
 class AppController extends Controller {
-    public $helpers = array('Session', 'Permissions');
+    public $helpers = array('Session', 'Permissions', 'Url');
 
     public $components = array(
         'Session',

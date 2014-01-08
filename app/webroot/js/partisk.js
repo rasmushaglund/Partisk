@@ -57,11 +57,33 @@ $(document).ready(function() {
        
     $('#accordion .panel-collapse').on('show.bs.collapse', function () {
        $(this).parent().find(".toggle").removeClass("fa-plus-square").addClass("fa-minus-square");
+       $(this).parent().addClass("accordion-expanded");
+       $(this).find('.table-head-container').removeClass('table-fixed').show();
+       $(this).find('.table-with-fixed-header').removeClass('table-fixed-header');
     });
 
     $('#accordion .panel-collapse').on('hide.bs.collapse', function () {
-        console.log(this);
        $(this).parent().find(".toggle").removeClass("fa-minus-square").addClass("fa-plus-square");
+       $(this).parent().removeClass("accordion-expanded");
+    });
+    
+    $('#accordion .panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
+       var id = $(this).attr('data-id');
+       var container = $(this);
+       
+       if (!container.hasClass('table-loaded')) {
+       $.ajax({
+            url: appRoot + 'frågor/getCategoryTable/' + id,
+            success: function(data) {
+                var content = $(data);
+                content.hide();
+                container.append(content);
+                setupFixedHeader(content);
+                content.fadeIn('slow');
+                container.addClass('table-loaded');
+            }
+        });
+        }
     });
     
     if (!supportsSvg()) {
@@ -87,7 +109,14 @@ var qaTableFixedHeader = function() {
         var tables = $('.table-with-fixed-header');
         
         tables.each(function (item) {
-            var table = $(this);
+            setupFixedHeader($(this));
+        });
+    
+    }
+};
+
+var setupFixedHeader = function (table) {
+    console.log(table);
             var qaTableHead = $('<div class="table-head-container"></div>');
             var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
             var qaTableHeadBg = $('<div class="table-header-bg"></div>');
@@ -129,9 +158,6 @@ var qaTableFixedHeader = function() {
                     }
                 }
             });
-        });
-    
-    }
 };
 
 var openModal = function(controller, action, id) {
@@ -183,7 +209,6 @@ $(document).ready(function() {
     });
 
     $('body').on('click', function(e) {
-        console.log(e.target);
         $('.popover.in').prev().not(e.target).popover('toggle');
     });
 

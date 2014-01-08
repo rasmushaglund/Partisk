@@ -30,9 +30,9 @@
 
 $this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
 $this->Html->addCrumb($answer['Question']['title'], Router::url(array('controller' => 'questions', 'action' => 'view', 
-                    'title' => str_replace(' ', '_', strtolower($answer['Question']['title']))), true));
+                    'title' => $this->Url->slug($answer['Question']['title'])), true));
 $this->Html->addCrumb(ucfirst($answer['Party']['name']), Router::url(array('controller' => 'parties', 'action' => 'view', 
-                    'name' => str_replace(' ', '_', strtolower($answer['Party']['name']))), true));
+                    'name' => $this->Url->slug($answer['Party']['name'])), true));
 $this->Html->addCrumb($answer['Answer']['answer']);
 
 $deleted = $answer['Answer']['deleted'];
