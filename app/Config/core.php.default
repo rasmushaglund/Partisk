@@ -34,7 +34,7 @@
 	Configure::write('debug', 2);
 	Configure::write('minimizeResources', false);
 	Configure::write('cache', false);
-        
+        //Configure::write('PartiskVersion', '0.2.8');
         
 /**
  * Configure the Error handler used to handle errors for your application. By default
