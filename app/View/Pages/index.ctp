@@ -30,6 +30,21 @@
  ?>
 
 <div class="row">
+    <div class="col-md-6">
+        <h2>Vi gör politik lättare</h2>
+        <p>Partisk.nu finns här för att göra Sveriges största partiers åsikter lättare att förstå.
+        Vi samlar de viktigaste frågorna och presenterar svaren på ett 
+        <?php echo $this->Html->link('överskådligt sätt', array('controller' => 'questions', 'action' => 'index')); ?>.</p>
+        <p>Nya frågor och svar läggs in fortlöpande och om du saknar någonting eller hittar felaktigheter tveka inte att 
+        <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>.</p>
+    </div>
+    <div class="col-md-6">
+        <h2>Vad tycker du egentligen?</h2>
+        <?php echo $this->Html->link('Testa dig nu!', array('controller' => 'quizzes', 'action' => 'index'),
+                array('class' => 'btn btn-danger btn-xl')); ?>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12">     
         <h2>Senaste frågorna</h2>
         <?php echo $this->element('qa-table', array(

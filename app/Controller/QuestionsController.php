@@ -51,16 +51,12 @@ class QuestionsController extends AppController {
     }
 
     public function index() {
-        /*if(!$this->Permissions->isLoggedIn()) {
-            $questions = $this->Question->getVisibleQuestions();
-        }  else {
-            $questions = $this->Question->getLoggedInQuestions();
-        }
-
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
         
-        $questionIds = $this->Question->getIdsFromModel('Question', $questions);
+        $popularQuestions = $this->Question->getPopularQuestions();
+        
+        $questionIds = $this->Question->getIdsFromModel('Question', $popularQuestions);
         $partyIds = $this->Party->getIdsFromModel('Party', $parties);
         
         $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
@@ -71,14 +67,13 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
-        
-        $this->set('questions', $questions);
-        $this->set('parties', $parties);
-        $this->set('answers', $answersMatrix);*/
+        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers);
         
         $categories = $this->Question->Tag->getAllCategories();
         $this->set('categories', $categories);
+        $this->set('parties', $parties);
+        $this->set('answers', $answersMatrix);
+        $this->set('popularQuestions', $popularQuestions);
         $this->set('title_for_layout', 'Frågor');
     }
     

@@ -403,6 +403,58 @@ class Question extends AppModel {
         return $result;
     }
     
+    /*public function getByIdOrTitle($id) {
+        $result = Cache::read('question_' . $id, 'question');
+        if (!$result) {
+            
+            if (is_numeric($id)) {
+                $conditions = array(
+                                'Question.id' => $id
+                            );
+            } else {
+                $conditions = array(
+                                "Question.title like" => $id
+                            );                
+            }
+            
+            $this->recursive = -1;
+            $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
+            $this->Tag->virtualFields['number_of_questions'] = 0;
+            $questions = $this->find('all', array(
+                    'conditions' => $conditions,
+                    'contain' => 'Tag.deleted = false',
+                    'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
+                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+                ));
+            $result = array_pop($questions);
+            Cache::write('question_' . $id, $result, 'question');
+        }
+        
+        return $result;
+    }*/
+    
+    public function getPopularQuestions() {
+        $result = Cache::read('popular_questions', 'question');
+        
+        if (!$result) {
+            $file = new File('../tmp/statistics/popular_questions.txt');
+            $data = explode("\n", $file->read(true, 'r'));
+
+            $names = array();
+            foreach ($data as $item) {
+                $names[] = str_replace("_", " ", urldecode($item));
+            }
+            
+            $this->recursive = -1;
+            $result = $this->find('all', array(
+                    'conditions' => array('Question.title' => $names, 'Question.approved' => true)
+                ));
+            Cache::write('popular_questions', $result, 'question');
+        }
+        
+        return $result;
+    }
+    
     public function afterSave($created, $options = array()) {
         parent::afterSave($created, $options);
         Cache::clear(false, 'question');

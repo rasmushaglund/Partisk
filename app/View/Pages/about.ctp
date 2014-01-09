@@ -31,7 +31,6 @@
 
 <div class="row">
     <div class="col-md-6">
-        
             <h1>Om sidan</h1>
     </div>
 </div>
@@ -61,21 +60,28 @@
                 <p>Vi som varit med och hjälpt till att skapa denna tjänst är:</p>
                 <ul class="list-unstyled credits">
                     <li>
-                        <img src="img/rasmus.png" alt="Rasmus Haglund" class="img-thumbnail">
-                        <b>Rasmus Haglund</b>
-                        <p>Webbutvecklare och entreprenör med stort intresse för politik. Grundade Partisk.nu 2013.
-                            Till vardags jobbar Rasmus som IT-konsult på <a href="http://egbs.se/">egbs consulting ab</a>.</p>
-                        <p>Han finns på <a href="https://github.com/rasmushaglund/">GitHub</a>, <a href="http://www.linkedin.com/in/rasmushaglund">LinkedIn</a>, 
-                            <a href="https://www.facebook.com/rasmus.haglund">Facebook</a>, <a href="https://twitter.com/rasmushaglund">Twitter</a>, 
-                            <a href="https://plus.google.com/+RasmusHaglund">Google+</a> och <a href="mailto:rasmus.haglund@gmail.com">mail</a>.</p>
+                        <div class="alert alert-info">
+                            <img src="img/rasmus.png" alt="Rasmus Haglund" class="img-thumbnail">
+                            <b>Rasmus Haglund</b>
+                            <p>Webbutvecklare, grundare Partisk.nu och entreprenör med stort intresse för politik.
+                                Till vardags jobbar Rasmus som IT-konsult på <a href="http://egbs.se/">egbs consulting ab</a>.</p>
+                            <p class="social"><a href="https://www.facebook.com/rasmus.haglund" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                            <a href="https://twitter.com/rasmushaglund" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+                            <a href="https://plus.google.com/+RasmusHaglund" rel="publisher" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+                            <a href="http://www.linkedin.com/in/rasmushaglund" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="https://github.com/rasmushaglund/" title="GitHub"><i class="fa fa-github"></i></a>
+                            <a href="mailto:rasmus.haglund@gmail.com" title="Mail"><i class="fa fa-envelope"></i></a></p>
+                        </div>
                     </li>
                     <li>
-                        <img src="img/rikard.png" alt="Rikard Nordström" class="img-thumbnail">
-                        <b>Rikard Nordström</b>
-                        <p>Studerande på nackademin, sharepointutveckling.</p>
-                        <p>Rikard finns på <a href="https://github.com/RikardNordstrom">GitHub</a>, 
-                            <a href="http://www.linkedin.com/pub/rikard-nordstr%C3%B6m/83/807/213">LinkedIn</a> och 
-                            <a href="https://www.facebook.com/rikard.nordstrom.7">Facebook</a>.</p>
+                        <div class="alert alert-info">
+                            <img src="img/rikard.png" alt="Rikard Nordström" class="img-thumbnail">
+                            <b>Rikard Nordström</b>
+                            <p>Studerande på nackademin, sharepointutveckling.</p>
+                            <p class="social"><a href="https://www.facebook.com/rikard.nordstrom.7" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                            <a href="http://www.linkedin.com/pub/rikard-nordstr%C3%B6m/83/807/213" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="https://github.com/RikardNordstrom" title="GitHub"><i class="fa fa-github"></i></a></p>
+                        </div>
                     </li>
                 </ul>
 	</div>

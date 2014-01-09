@@ -1073,6 +1073,14 @@ h3 {
     margin-right: 10px;
 }
 
+.credits .alert {
+    min-height: 142px;
+}
+
+.credits .social {
+    font-size: 19px;    
+}
+
 .label {
     font-weight: 200;
 }

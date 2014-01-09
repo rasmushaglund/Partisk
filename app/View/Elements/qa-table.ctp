@@ -32,7 +32,7 @@
 <div class="table table-bordered table-striped qa-table collapsable-table table-with-fixed-header table-hover">
     <div class="table-row table-head">
       <div class="table-header table-header-text">
-          <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
+          <a class="btn btn-link" data-toggle="modal" data-target="#table-info"><i class="fa fa-info-circle"></i> Om tabellen</a>
       </div>
       <?php foreach ($parties as $party): ?>
       <div class="table-header">

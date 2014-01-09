@@ -79,6 +79,7 @@ $(document).ready(function() {
                 content.hide();
                 container.append(content);
                 setupFixedHeader(content);
+                initPopovers(container);
                 content.fadeIn('slow');
                 container.addClass('table-loaded');
             }
@@ -90,7 +91,53 @@ $(document).ready(function() {
         $("#graphs").hide();
         $("#no-svg").show();
     }
+    
+    initPopovers($("body"));
+
+    $('body').on('click', function(e) {
+        $('.popover.in').prev().not(e.target).popover('toggle');
+    });
+
+    // Open modal without fade if it contains an error
+    $('.modal').each(function(index, modal) {
+        if ($(modal).find('p.error').size() > 0) {
+            $(modal).removeClass('fade');
+            $(modal).on('shown.bs.modal', function() {
+                $(this).addClass('fade in');
+                $('.modal-backdrop').addClass('fade in');
+            });
+            $(modal).modal('show');
+
+        }
+    });
 });
+
+var initPopovers = function($container) {
+    $container.find('.popover-hover-link').popover({
+        html: true,
+        placement: "auto",
+        trigger: 'hover',
+        content: function() {
+            return $(this).next('.popover-data').html();
+        }
+    });
+    
+    $container.find('.popover-click-link').popover();
+
+    $container.find('.popover-link').bind('click', function() {
+        var $popover = $(this);
+        $.ajax({url: appRoot + "answers/info/" + $popover.attr('data-id'), success: function(data) {
+                $popover.unbind('click');
+                $popover.popover({
+                    html: true,
+                    placement: "auto",
+                    content: function() {
+                        return data;
+                    }
+                }).popover('show');
+            }});
+    });
+}
 
 $( window ).resize(function() {
     newBigMode = matchMedia('only screen and (min-width: 1200px)').matches;
@@ -180,51 +227,6 @@ var openModal = function(controller, action, id) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-$(document).ready(function() {
-
-    $('.popover-hover-link').popover({
-        html: true,
-        placement: "auto",
-        trigger: 'hover',
-        content: function() {
-            return $(this).next('.popover-data').html();
-        }
-    });
-    
-    $('.popover-click-link').popover();
-
-    $('.popover-link').bind('click', function() {
-        var $popover = $(this);
-        $.ajax({url: appRoot + "answers/info/" + $popover.attr('data-id'), success: function(data) {
-                $popover.unbind('click');
-                $popover.popover({
-                    html: true,
-                    placement: "auto",
-                    content: function() {
-                        return data;
-                    }
-                }).popover('show');
-            }});
-    });
-
-    $('body').on('click', function(e) {
-        $('.popover.in').prev().not(e.target).popover('toggle');
-    });
-
-    // Open modal without fade if it contains an error
-    $('.modal').each(function(index, modal) {
-        if ($(modal).find('p.error').size() > 0) {
-            $(modal).removeClass('fade');
-            $(modal).on('shown.bs.modal', function() {
-                $(this).addClass('fade in');
-                $('.modal-backdrop').addClass('fade in');
-            });
-            $(modal).modal('show');
-
-        }
-    });
-});
 
 function getQuestionAgreeRate() {
     var result = {key: 'questionAgreeRate', values: []};

@@ -30,6 +30,9 @@
 
 App::uses('AppController', 'Controller');
 
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
+
 class PagesController extends AppController {
     public $helpers = array('Cache');
     public $cacheAction = "+999 days";

@@ -39,6 +39,15 @@ $this->Html->addCrumb('Frågor');
   </div>
  <?php } ?>
 
+<h2>Populäraste frågorna just nu</h2>
+<?php echo $this->element('qa-table', array(
+                  'parties' => $parties,
+                  'questions' => $popularQuestions,
+                  'answers' => $answers,
+                  'fixedHeader'  => false
+                  )); ?>
+
+<h2>Kategorier</h2>
 <div class="panel-group" id="accordion">
     <ul class="list-unstyled">
         <?php
