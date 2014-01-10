@@ -46,7 +46,7 @@
         <meta name="author" content="Partisk.nu">
         <meta property="og:title" content="Partisk.nu - <?php echo $title_for_layout; ?>" />
         <meta property="og:description" content="<?php echo $description_for_layout; ?>" />
-        <meta property="og:image" content="img/logo.png" />
+        <meta property="og:image" content="/img/logo.png" />
         <link rel="shortcut icon" href="favicon.ico">
 
         <?php
