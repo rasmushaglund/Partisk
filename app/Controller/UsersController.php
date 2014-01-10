@@ -65,6 +65,7 @@ class UsersController extends AppController {
 
         $this->currentPage = "login";
         $this->set('title_for_layout', 'Logga in');
+        $this->set('description_for_layout', 'Logga in på Partisk.nu');
     }
     
     public function logout() {
@@ -75,7 +76,7 @@ class UsersController extends AppController {
     public function index() {
         $this->set('users', $this->User->getAll());
         $this->set('description_for_layout', 'Sidans alla användare');
-        $this->set('title_for_layout', 'Användare');
+        $this->set('title_for_layout', 'Alla användare');
     }
 
     public function start() {

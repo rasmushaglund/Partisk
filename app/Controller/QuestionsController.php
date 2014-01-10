@@ -75,7 +75,7 @@ class QuestionsController extends AppController {
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);
         $this->set('popularQuestions', $popularQuestions);
-        $this->set('description_for_layout', 'Frågor');
+        $this->set('description_for_layout', 'Vad tycker partierna egentligen? Frågor och svar.');
         $this->set('title_for_layout', 'Frågor');
     }
     
@@ -133,11 +133,27 @@ class QuestionsController extends AppController {
         }
         
         $answers = $this->Question->Answer->getAnswers($conditions);
+        $description = $this->getDescriptionForQuestion($answers);
         
         $this->set('question', $question);
         $this->set('answers', $answers);
-        $this->set('description_for_layout', ucfirst($question['Question']['title']) . "\n" . $question['Question']['description']);
+        $this->set('description_for_layout', $description);
         $this->set('title_for_layout', ucfirst($question['Question']['title']));
+     }
+     
+     private function getDescriptionForQuestion($answers) {
+         $results = "";
+         $first = true;
+         foreach ($answers as $answer) {
+             if ($first) {
+                 $first = false;
+             } else {
+                 $results .= ", ";
+             }
+             
+             $results .= ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
+         }
+         return $results;
      }
 
      public function add() {

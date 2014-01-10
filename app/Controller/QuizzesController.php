@@ -64,7 +64,7 @@ class QuizzesController extends AppController {
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
         $this->set('allQuiz', $this->Quiz->getAllQuiz());
-        $this->set('description_for_layout', 'Visa alla quizzar');
+        $this->set('description_for_layout', 'Testa dig själv. Vilket parti passar dig?');
         $this->set('title_for_layout', 'Quiz');
     }
 
@@ -287,10 +287,14 @@ class QuizzesController extends AppController {
                 $party = ucfirst($parties[$key]['name']);
                 
                 if ($first) {
-                    $result .= "Ditt resultat stämmer bäst överens med " . $party . ".\n\n";
+                    $result .= "Resultat: ";
                     $first = false;
+                } else {
+                    $result .= ", ";
                 }
-                $result .= $party . ": " . $value . "%\n";
+                
+                $result .= $party . ": " . $value;
+                
             }
             return $result;
         } else {

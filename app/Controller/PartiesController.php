@@ -54,7 +54,7 @@ class PartiesController extends AppController {
     public function index() {
         $this->set('parties', $this->Party->getPartiesOrdered());
         $this->set('title_for_layout', 'Partier');
-        $this->set('description_for_layout', 'Partier');
+        $this->set('description_for_layout', 'Alla partier');
     }
 
     public function view($name = null) { 

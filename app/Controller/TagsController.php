@@ -77,7 +77,7 @@ class TagsController extends AppController {
         $this->set('questions', $questions);
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);
-        $this->set('description_for_layout', 'Taggen  ' . ucfirst($tag['Tag']['name']));
+        $this->set('description_for_layout', 'Frågor för taggen  ' . ucfirst($tag['Tag']['name']));
         $this->set('title_for_layout', ucfirst($tag['Tag']['name']));
     }
 
@@ -89,7 +89,7 @@ class TagsController extends AppController {
         }
         
         $this->set('tags', $tags);
-        $this->set('description_for_layout', 'Visa alla taggar');
+        $this->set('description_for_layout', 'Alla taggar');
         $this->set('title_for_layout', 'Taggar');
     }
 
