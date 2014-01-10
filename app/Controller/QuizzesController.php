@@ -33,7 +33,7 @@ App::uses('UserLogger', 'Log');
 
 class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = array("results" => "+999 days");
+    //public $cacheAction = array("results" => "+999 days");
     
     const DEFAULT_IMPORTANCE = 2;
     const QUIZ_VERSION = 2;
@@ -285,15 +285,13 @@ class QuizzesController extends AppController {
             
             foreach ($winners as $key => $value) {
                 $party = ucfirst($parties[$key]['name']);
-                
                 if ($first) {
-                    $result .= "Resultat: ";
                     $first = false;
                 } else {
                     $result .= ", ";
                 }
                 
-                $result .= $party . ": " . $value;
+                $result .= $party . ": " . $value . "%";
                 
             }
             return $result;
