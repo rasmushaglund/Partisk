@@ -203,7 +203,7 @@ class Answer extends AppModel {
             $this->recursive = 1;
             $this->contain(array("CreatedBy", "UpdatedBy", 'ApprovedBy', 'Party', 'Question'));
             $result = $this->findById($id);
-
+            
             $this->Question->recursive = -1;
             $this->contain();
             $result['history'] = $this->find('all',array(

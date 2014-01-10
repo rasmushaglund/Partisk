@@ -33,10 +33,7 @@
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
-        <title>
-            Partisk.nu Beta - 
-            <?php echo $title_for_layout; ?>
-        </title>
+        <title>Partisk.nu Beta - <?php echo $title_for_layout; ?></title>
 
         <script type="text/javascript">
             var appRoot = "<?php echo Router::url('/', false); ?>";
@@ -47,6 +44,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Partisk.nu">
         <meta name="author" content="Partisk.nu">
+        <meta property="og:title" content="Partisk.nu - <?php echo $title_for_layout; ?>" />
+        <meta property="og:description" content="<?php echo $description_for_layout; ?>" />
+        <meta property="og:image" content="img/logo.png" />
         <link rel="shortcut icon" href="favicon.ico">
 
         <?php
@@ -72,13 +72,13 @@
             echo $this->Html->script('matchMedia');
             echo $this->Html->script('partisk');
 
-            echo $this->fetch('meta');
+            //echo $this->fetch('meta');
             echo $this->fetch('css');
             echo $this->fetch('script');
         } else { 
             $version = Configure::read('PartiskVersion'); 
             $versionString = $version != null ? "-v" . $version : "";
-            echo $this->fetch('meta'); ?>
+            //echo $this->fetch('meta'); ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
             
             <?php

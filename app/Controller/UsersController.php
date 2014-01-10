@@ -74,6 +74,7 @@ class UsersController extends AppController {
     
     public function index() {
         $this->set('users', $this->User->getAll());
+        $this->set('description_for_layout', 'Sidans alla användare');
         $this->set('title_for_layout', 'Användare');
     }
 
@@ -96,6 +97,7 @@ class UsersController extends AppController {
         }
         
         $this->set('user', $user);
+        $this->set('description_for_layout', 'Användare ' . $user['User']['username']);
         $this->set('title_for_layout', $user['User']['username']); 
     }
    
@@ -122,7 +124,8 @@ class UsersController extends AppController {
 
     public function edit($id = null) {
         if (!$this->Permissions->canEditUser()) {
-            $this->abuse("Not authorized to edit user with id " . $id);
+            $this->Permissions->abuse("Not authorized to edit user with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra användaren.");
             return $this->redirect($this->referer());
         }
 
@@ -176,7 +179,8 @@ class UsersController extends AppController {
 
     public function delete($id = null) {
         if (!$this->Permissions->canDeleteUser()) {
-            $this->abuse("Not authorized to delete user with id " . $id);
+            $this->Permissions->abuse("Not authorized to delete user with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort användaren.");
             return $this->redirect($this->referer());
         }
         if ($this->request->is('post') || $this->request->is('put')){ 

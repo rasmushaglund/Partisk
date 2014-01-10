@@ -66,16 +66,19 @@ class PagesController extends AppController {
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);        
         $this->set('title_for_layout', 'Hem');
+        $this->set('description_for_layout', "Välkommen till Partisk.nu");
         $this->currentPage = "home";
     }
 
     public function about() {
         $this->set('title_for_layout', 'Om sidan');
+        $this->set('description_for_layout', "Om Partisk.nu");
         $this->currentPage = "about";
     }
 
     public function contact() {
         $this->set('title_for_layout', 'Kontakt');
+        $this->set('description_for_layout', "Kontakta oss");
         $this->currentPage = "contact";
     }
 }

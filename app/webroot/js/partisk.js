@@ -163,7 +163,6 @@ var qaTableFixedHeader = function() {
 };
 
 var setupFixedHeader = function (table) {
-    console.log(table);
             var qaTableHead = $('<div class="table-head-container"></div>');
             var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
             var qaTableHeadBg = $('<div class="table-header-bg"></div>');
@@ -181,13 +180,14 @@ var setupFixedHeader = function (table) {
             var headerVisible = false;
             $(window).scroll(function() {
                 if (bigMode) {
-                    if (!faded && $(window).scrollTop() >= table.offset().top + table.height() - headerHeight) {
+                    var scrollTop = $(window).scrollTop();
+                    if (!faded && scrollTop >= table.offset().top + table.height() - headerHeight) {
                         qaTableHead.fadeOut("fast", function () { faded = true; });
-                    } else if (faded && $(window).scrollTop() <= table.offset().top + table.height() - headerHeight) {
+                    } else if (faded && scrollTop <= table.offset().top + table.height() - headerHeight) {
                         qaTableHead.fadeIn("fast", function () { faded = false; });
                     }
                     
-                    if ($(window).scrollTop() >= table.offset().top - headerHeight) {
+                    if (scrollTop >= table.offset().top - headerHeight) {
                         //console.log($(window).scrollTop() + ">=" + (table.offset().top - headerHeight));
                         //console.log(table.height());
                         if (!headerVisible) {

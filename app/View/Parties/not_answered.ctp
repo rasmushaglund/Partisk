@@ -41,17 +41,12 @@ $deleted = $party['Party']['deleted'];
   <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'title' => true)); ?>
   <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
 </h1>
+<?php echo $this->element("share"); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
-<?php } ?>
+<?php } 
 
-<?php echo $this->element('authorInfo', array('object' => $party, 'model' => 'Party')); ?>
-
-<p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
-<p><?php echo $party['Party']['description']; ?></p>
-
-<?php
-  if (!empty($questions)) {
+if (!empty($questions)) {
     $chunks = array_chunk($questions, ceil(sizeof($questions) / 2));
 ?>
   <div class="row">
@@ -77,3 +72,5 @@ $deleted = $party['Party']['deleted'];
   </div>
 
 <?php } ?>
+
+<?php echo $this->element('authorInfo', array('object' => $party, 'model' => 'Party')); ?>

@@ -32,6 +32,7 @@
 <div class="row">
     <div class="col-md-6">
             <h1>Om sidan</h1>
+            <?php echo $this->element("share"); ?>
     </div>
 </div>
 <div class="row">

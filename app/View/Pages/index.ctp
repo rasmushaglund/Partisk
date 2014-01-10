@@ -37,6 +37,8 @@
         <?php echo $this->Html->link('överskådligt sätt', array('controller' => 'questions', 'action' => 'index')); ?>.</p>
         <p>Nya frågor och svar läggs in fortlöpande och om du saknar någonting eller hittar felaktigheter tveka inte att 
         <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>.</p>
+        
+        <?php echo $this->element("share"); ?>
     </div>
     <div class="col-md-6">
         <h2>Vad tycker du egentligen?</h2>

@@ -28,13 +28,12 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
 
 class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = array(
-        "index" => "+999 days",
-        "results" => "+999 days");
+    public $cacheAction = array("results" => "+999 days");
     
     const DEFAULT_IMPORTANCE = 2;
     const QUIZ_VERSION = 2;
@@ -65,12 +64,14 @@ class QuizzesController extends AppController {
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
         $this->set('allQuiz', $this->Quiz->getAllQuiz());
+        $this->set('description_for_layout', 'Visa alla quizzar');
         $this->set('title_for_layout', 'Quiz');
     }
 
     public function add() {
-        if (!$this->canAddQuiz) {
-            $this->abuse("Not authorized to add quiz");
+        if (!$this->Permissions->canAddQuiz()) {
+            $this->Permissions->abuse("Not authorized to add quiz");
+            $this->customFlash("Du har inte tillåtelse att lägga till en quiz.");
             return $this->redirect($this->referer());
         }
 
@@ -97,8 +98,9 @@ class QuizzesController extends AppController {
     }
     
     public function delete($id) {
-        if (!$this->userCanDeleteQuiz($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to delete quiz with id " . $id);
+        if (!$this->Permissions->canDeleteQuiz($id)) {
+            $this->Permissions->abuse("Not authorized to delete quiz with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort quizen.");
             return $this->redirect($this->referer());
         }
         if ($this->request->is('post') || $this->request->is('put')){ 
@@ -261,6 +263,8 @@ class QuizzesController extends AppController {
             return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
         }
         
+        $winners = $this->getWinnersByResult($quizResults);
+        
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesHash();
         
@@ -269,7 +273,42 @@ class QuizzesController extends AppController {
         $this->set('quizSession', $quizSession);
         $this->set('quizResults', $quizResults);
         $this->set('parties', $parties);
+        $this->set('winners', $winners);
+        $this->set('description_for_layout', $this->getWinnersDescription($winners, $parties));
         $this->set('title_for_layout', 'Resultat');
+    }
+    
+    private function getWinnersDescription($winners, $parties) {
+        if (sizeof($winners) > 0) {
+            $first = true;
+            $result = "";
+            
+            foreach ($winners as $key => $value) {
+                $party = ucfirst($parties[$key]['name']);
+                
+                if ($first) {
+                    $result .= "Ditt resultat stämmer bäst överens med " . $party . ".\n\n";
+                    $first = false;
+                }
+                $result .= $party . ": " . $value . "%\n";
+            }
+            return $result;
+        } else {
+            return "Baserat på dina svar matchar du inget parti :(";
+        }
+    }
+    
+    private function getWinnersByResult($result) {
+        $data = json_decode($result['QuizResult']['data']);
+        
+        $results = array();
+        foreach ($data->points_percentage as $key => $value) {
+            if ($value->result > 0) {
+                $results[$key] = $value->result;
+            }
+        }
+        arsort($results);
+        return $results;
     }
     
     private function getQuiz($quizSession) {
@@ -382,11 +421,10 @@ class QuizzesController extends AppController {
         $this->set('results', $this->QuizResult->getQuizResults());
     }
 
-    // TODO: remove the nasty conversion from Quiz to QuestionQuiz
-    // TODO: Log something meaninful in logUser
     public function addQuestion() {
-        if (!$this->canEditQuiz) {
-            $this->abuse("Not authorized to edit quiz");
+        if (!$this->Permissions->canEditQuiz()) {
+            $this->Permissions->abuse("Not authorized to edit quiz");
+            $this->customFlash("Du har inte tillåtelse att lägga till en fråga till quizen.");
             return $this->redirect($this->referer());
         }
 
@@ -409,20 +447,14 @@ class QuizzesController extends AppController {
     }
     
     public function edit($id = null) {
-        if (!$this->userCanEditQuiz($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to edit quiz with id " . $id);
+        if (!$this->Permissions->canEditQuiz($id)) {
+            $this->Permissions->abuse("Not authorized to edit quiz with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra quizen.");
             return $this->redirect($this->referer());
         }
 
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->saveQuiz($this->request->data)) {
-                $this->customFlash(__('Quizzen har sparats.'));
-                $this->logUser('edit', $this->request->data['Quiz']['id']);
-            } else {
-                $this->customFlash(__('Quizzen kunde inte sparas.'), 'danger'); 
-                $this->Session->write('validationErrors', array('Quiz' => $this->Quiz->validationErrors, 'mode' => 'update'));
-                $this->Session->write('formData', $this->data);   
-            }
+            $this->saveQuiz($this->request->data);
             return $this->redirect($this->referer());
         } 
 
@@ -470,8 +502,9 @@ class QuizzesController extends AppController {
     }
 
     public function deleteQuestion($id = null) {
-        if (!$this->canEditQuiz) {
-            $this->abuse("Not authorized to delete relation between question and quiz with id " . $id);
+        if (!$this->Permissions->canEditQuiz()) {
+            $this->Permissions->abuse("Not authorized to delete relation between question and quiz with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort frågor i denna quiz.");
             return $this->redirect($this->referer());
         }
         if ($this->request->is('post') || $this->request->is('put')) {

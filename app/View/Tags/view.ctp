@@ -35,11 +35,11 @@ $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
 
 <div class="row">
     <div class="col-md-12">
-<h1 class="label label-primary"><i class="fa fa-tag"></i> 
+<h1><i class="fa fa-tag"></i> 
 <?php echo ucfirst(h($tag['Tag']['name'])); ?>
         <?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
 </h1>
-
+<?php echo $this->element("share"); ?>
 <?php 
 if (!$this->Permissions->isLoggedIn()) { ?>
 <div class="tools">

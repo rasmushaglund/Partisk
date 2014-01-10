@@ -28,7 +28,8 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
 
 class QuestionsController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
@@ -74,6 +75,7 @@ class QuestionsController extends AppController {
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);
         $this->set('popularQuestions', $popularQuestions);
+        $this->set('description_for_layout', 'Frågor');
         $this->set('title_for_layout', 'Frågor');
     }
     
@@ -134,12 +136,14 @@ class QuestionsController extends AppController {
         
         $this->set('question', $question);
         $this->set('answers', $answers);
+        $this->set('description_for_layout', ucfirst($question['Question']['title']) . "\n" . $question['Question']['description']);
         $this->set('title_for_layout', ucfirst($question['Question']['title']));
      }
 
      public function add() {
         if (!$this->Permissions->canAddQuestion()) {
-            $this->abuse("Not authorized to add question");
+            $this->Permissions->abuse("Not authorized to add question");
+            $this->customFlash("Du har inte tillåtelse att lägga till frågor.");
             return $this->redirect($this->referer());
         }
 
@@ -151,7 +155,8 @@ class QuestionsController extends AppController {
 
      public function delete($id) {
         if (!$this->Permissions->canDeleteQuestion($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to delete question with id " . $id);
+            $this->Permissions->abuse("Not authorized to delete question with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort frågan.");
             return $this->redirect($this->referer());
         }
         
@@ -183,8 +188,9 @@ class QuestionsController extends AppController {
             $id = $this->request->data['Question']['id'];
         }
         
-        if (!$this->Permissions->canEditQuestion($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to edit question with id " . $id);
+        if (!$this->Permissions->canEditQuestion($id)) {
+            $this->Permissions->abuse("Not authorized to edit question with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra frågan.");
             return $this->redirect($this->referer());
         }
 

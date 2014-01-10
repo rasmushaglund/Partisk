@@ -39,6 +39,7 @@ $deleted = $question['Question']['deleted'];
 <?php echo ucfirst(h($question['Question']['title'])); ?>
 <?php echo $this->element('questionAdminToolbox', array('question' => $question)); ?>
 </h1>
+<?php echo $this->element("share"); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>

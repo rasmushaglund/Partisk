@@ -77,6 +77,7 @@ class TagsController extends AppController {
         $this->set('questions', $questions);
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);
+        $this->set('description_for_layout', 'Taggen  ' . ucfirst($tag['Tag']['name']));
         $this->set('title_for_layout', ucfirst($tag['Tag']['name']));
     }
 
@@ -88,12 +89,14 @@ class TagsController extends AppController {
         }
         
         $this->set('tags', $tags);
+        $this->set('description_for_layout', 'Visa alla taggar');
         $this->set('title_for_layout', 'Taggar');
     }
 
     public function add() {
         if (!$this->Permissions->canAddTag()) {
-            $this->abuse("Not authorized to add tag");
+            $this->Permissions->abuse("Not authorized to add tag");
+            $this->customFlash("Du har inte tillåtelse att lägga till en tagg.");
             return $this->redirect($this->referer());
         }
 
@@ -117,7 +120,8 @@ class TagsController extends AppController {
     public function delete($id) {
         
         if (!$this->Permissions->canDeleteTag()) {
-            $this->abuse("Not authorized to delete tag with id " . $id);
+            $this->Permissions->abuse("Not authorized to delete tag with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort taggen.");
             return $this->redirect($this->referer());
         }
         
@@ -160,7 +164,8 @@ class TagsController extends AppController {
 
      public function edit($id = null) { 
         if (!$this->Permissions->canEditTag()) {
-            $this->abuse("Not authorized to edit tag with id " . $id);
+            $this->Permissions->abuse("Not authorized to edit tag with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra taggen.");
             return $this->redirect($this->referer());
         }
 

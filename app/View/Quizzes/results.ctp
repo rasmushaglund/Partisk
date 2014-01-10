@@ -41,9 +41,26 @@ if (Configure::read('minimizeResources')==1) {
  } ?>
 <div class="row">
     <div class="col-md-12">
-    <h1>Resultat för <?php echo ucfirst($quizName); ?> 
-        <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
-        <?php echo $this->element("share"); ?>
+        <h1>Resultat för <?php echo ucfirst($quizName); ?> 
+            <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
+            <?php echo $this->element("share"); ?>
+        <?php
+            $first = true;
+            foreach ($winners as $key => $value) { 
+                if ($first) {
+                    $first = false; ?>
+                <div class="alert alert-info results">
+                    <?php echo $this->element('party_header', array('party' => $parties[$key], 'link' => true, 'small' => false, 'title' => false)); ?>
+                    <h4><b>Grattis!</b> Ditt resultat stämmer bäst överens med 
+                        <b><?php echo $this->Html->link(ucfirst($parties[$key]['name']), array('controller' => 'parties', 'action' => 'view', 
+                'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
+                        (<?php echo $value; ?>%)</h4>
+
+                </div>
+            <?php } ?>
+                
+        <?php }
+        ?>
     </div>
 </div>
 

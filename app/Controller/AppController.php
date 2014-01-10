@@ -56,6 +56,7 @@ class AppController extends Controller {
         $this->Auth->authorize = 'Controller';
         $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
         $this->set("currentPage", "default");
+        $this->set("description_for_layout", "");
         
         $this->Permissions = new Permissions();
     }
@@ -67,7 +68,8 @@ class AppController extends Controller {
             return true;
         }
 
-        $this->abuse("Not authorized to access view");
+        $this->Permissions->abuse("Not authorized to access view");
+        $this->customFlash("Du har inte tillåtelse att se denna sida.");
 
         if ($this->request->is('ajax')) {
             die;
