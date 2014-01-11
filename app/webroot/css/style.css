@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
  * 
@@ -816,11 +816,11 @@ text-decoration: underline;
 } 
 
 .nvd3 .nv-x.nv-axis text {
-    display: none;
+    font-size: 0px;
 }
 
 .nvd3 .nv-label text {
-    display: none;
+    font-size: 0px;
 }
 
 .party-column {

@@ -37,7 +37,13 @@
 
         <script type="text/javascript">
             var appRoot = "<?php echo Router::url('/', false); ?>";
+            var isInternetExplorer = false;
         </script>
+        
+        <!--[if IE ]>
+            <script type="text/javascript">isInternetExplorer=true;</script>
+            <style>.nvd3 .nv-label text { font-size: 12px !important; } .nvd3 .nv-x.nv-axis text { font-size: 10px !important; }</style>
+        <![endif]-->
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -63,6 +69,7 @@
             echo $this->Html->css('datepicker');
             echo $this->Html->css('style');
             echo $this->Html->script('jquery');
+            echo $this->Html->script('modernizr.custom.min');
             echo $this->Html->script('bootstrap');
             echo $this->Html->script('bootstrap-datepicker');
             echo $this->Html->script('bootstrap-datepicker.sv.js', false);
@@ -71,14 +78,12 @@
             echo $this->Html->script('nv.d3');
             echo $this->Html->script('matchMedia');
             echo $this->Html->script('partisk');
-
-            //echo $this->fetch('meta');
+            
             echo $this->fetch('css');
             echo $this->fetch('script');
         } else { 
             $version = Configure::read('PartiskVersion'); 
-            $versionString = $version != null ? "-v" . $version : "";
-            //echo $this->fetch('meta'); ?>
+            $versionString = $version != null ? "-v" . $version : "";?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
             
             <?php

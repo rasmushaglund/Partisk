@@ -87,7 +87,7 @@ class Party extends AppModel {
             $this->recursive = -1;
             $result = $this->find('all', array(
                     'conditions' => array('Party.deleted' => false),
-                    'fields' => array('id', 'name', 'best_result', 'last_result_parliment', 'last_result_eu', 'color'),
+                    'fields' => array('id', 'name', 'best_result', 'last_result_parliment', 'last_result_eu', 'color', 'short_name'),
                     'order' => 'Party__best_result DESC')
                 );
             Cache::write('parties_ordered', $result, 'party');

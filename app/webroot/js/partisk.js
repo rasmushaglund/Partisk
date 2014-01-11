@@ -87,7 +87,7 @@ $(document).ready(function() {
         }
     });
     
-    if (!supportsSvg()) {
+    if (!Modernizr.svg) {
         $("#graphs").hide();
         $("#no-svg").show();
     }
@@ -236,7 +236,7 @@ function getQuestionAgreeRate() {
     for (var value in agree_rate) {
         result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
             label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'],
-            party_id: parties[value].id,
+            party_id: parties[value].id, short_label: parties[value].short_name,
             color: parties[value].color, order: parties[value].order});
     }
 
@@ -255,7 +255,7 @@ function getPointsPercentage() {
         if (points_percentage[value]['result'] > 0) {
             result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'],
                 points: points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name),
-                party_id: parties[value].id,
+                party_id: parties[value].id, short_label: parties[value].short_name,
                 color: parties[value].color, order: parties[value].order});
         }
     }
@@ -300,17 +300,19 @@ $(document).ready(function() {
 
         var bars = d3.select('#points-percentage-graph svg').selectAll('g.nv-label');
 
-        bars.append("foreignObject")
-          .attr("width", 25)
-          .attr("height", 25)
-          .attr("y", function (d, i) { return -12; })
-          .attr("x", function (d, i) { return -12; })
-          .append("xhtml:body")
-          .attr("style", "background-color: transparent")
-          .attr("text-anchor", "middle")
-          .html(function (d, i) { 
-              return data[0].values[i].points > 0 ? "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" : null; 
-          });
+        if (!isInternetExplorer) {
+            bars.append("foreignObject")
+              .attr("width", 25)
+              .attr("height", 25)
+              .attr("y", function (d, i) { return -12; })
+              .attr("x", function (d, i) { return -12; })
+              .append("xhtml:body")
+              .attr("style", "background-color: transparent")
+              .attr("text-anchor", "middle")
+              .html(function (d, i) { 
+                  return data[0].values[i].points > 0 ? "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" : null; 
+              });
+          }
 
         nv.utils.windowResize(chart.update);
 
@@ -321,7 +323,7 @@ $(document).ready(function() {
         var data = getQuestionAgreeRate();
         var chart = nv.models.discreteBarChart()
                 .x(function (d) {
-                    return d.label;
+                    return "(" + d.short_label + ")"; //"?"; //(d["short_label"] !== undefined ? "asd" : "?");
                 })
                 .y(function (d) {
                     return d.value;
@@ -330,7 +332,7 @@ $(document).ready(function() {
                 .staggerLabels(false)
                 .tooltips(true)
                 .tooltipContent(function (id, key, value, item) {
-                    var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
+                    var result = '<h3>' + item.point.label + '</h3>' + '<p>' + Math.round(value) + '%</p>';
                     result += '<p>För: ' + item.point.plus_points + 'p</p>';
                     result += '<p>Emot: ' + item.point.minus_points + 'p</p>';
                     return result;
@@ -349,17 +351,21 @@ $(document).ready(function() {
 
         var bars = d3.select('#question-agree-rate-graph svg').selectAll('g.nv-x.nv-axis g.nv-wrap.nv-axis > g > g');
 
-        bars.append("foreignObject")
-          .attr("width", 25)
-          .attr("height", 25)
-          .attr("y", function (d, i) { return 5; })
-          .attr("x", function (d, i) { return -25/2; })
-          .append("xhtml:body")
-          .attr("style", "background-color: transparent")
-          .attr("text-anchor", "middle")
-          .html(function (d, i) { 
-              return "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" 
-          });
+        if (!isInternetExplorer) {
+            bars.append("foreignObject")
+              .attr("width", 25)
+              .attr("height", 25)
+              .attr("y", function (d, i) { return 5; })
+              .attr("x", function (d, i) { return -25/2; })
+              .append("xhtml:body")
+              .attr("style", "background-color: transparent")
+              .attr("text-anchor", "middle")
+              .html(function (d, i) { 
+                  return "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" 
+              });
+          } else {
+              
+          }
 
         return chart;
     });
