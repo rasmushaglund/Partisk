@@ -87,7 +87,7 @@ $(document).ready(function() {
         }
     });
     
-    if (!Modernizr.svg) {
+    if (!supportsSvg()) {
         $("#graphs").hide();
         $("#no-svg").show();
     }
@@ -374,5 +374,5 @@ $(document).ready(function() {
 
 // http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
 function supportsSvg() {
-    return typeof document.createElement('svg').getAttributeNS !== 'undefined';
+    return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1");
 }
