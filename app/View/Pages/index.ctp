@@ -41,9 +41,10 @@
         <?php echo $this->element("share"); ?>
     </div>
     <div class="col-md-6">
-        <h2>Vad tycker du egentligen?</h2>
-        <?php echo $this->Html->link('Testa dig nu!', array('controller' => 'quizzes', 'action' => 'index'),
-                array('class' => 'btn btn-danger btn-xl')); ?>
+        <h2>Vilket parti matchar dig?</h2>
+        <p>Här finns det flera quiz att göra för att ta reda på vilka partier som passar dig bäst.</p>
+        <?php echo $this->Html->link('<i class="fa fa-warning"></i> Testa dig nu!', array('controller' => 'quizzes', 'action' => 'index'),
+                array('class' => 'btn btn-danger btn-xl', 'escape' => false)); ?>
     </div>
 </div>
 <div class="row">

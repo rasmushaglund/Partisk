@@ -41,9 +41,19 @@ if (Configure::read('minimizeResources')==1) {
  } ?>
 <div class="row">
     <div class="col-md-12">
-        <h1>Resultat för <?php echo ucfirst($quizName); ?> 
-            <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
-            <?php echo $this->element("share"); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Resultat för <?php echo ucfirst($quizName); ?> 
+                    <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
+
+                <?php echo $this->element("share"); ?>
+            </div>
+            <div class="col-md-6">
+                <a href="#quizCalculationInfo" data-toggle="modal" data-target="#quizCalculationInfo" class="btn btn-primary quizCalculationInfo">
+                    <i class="fa fa-question-circle"></i> Om resultatet
+                </a>
+            </div>
+        </div>
         <?php
             $first = true;
             foreach ($winners as $key => $value) { 
@@ -55,12 +65,13 @@ if (Configure::read('minimizeResources')==1) {
                         <b><?php echo $this->Html->link(ucfirst($parties[$key]['name']), array('controller' => 'parties', 'action' => 'view', 
                 'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
                         (<?php echo $value; ?>%)</h4>
-
                 </div>
             <?php } ?>
                 
         <?php }
         ?>
+        
+                   
     </div>
 </div>
 
@@ -97,6 +108,13 @@ if (Configure::read('minimizeResources')==1) {
 </script>
 
 <?php if ($quizSession) { ?>
+
+<div class="row">
+    <div class="col-md-12 share-line">
+        <p>Innehållet nedan visas inte vid delning</p>
+        <hr></hr>
+    </div>
+</div>
 
 <h3>Sammanställning av resultatet</h3>
 <table class="table table-striped table-hover">
@@ -205,3 +223,33 @@ if (Configure::read('minimizeResources')==1) {
 </div>
 
 <?php } ?>
+
+<div class="modal fade" id="quizCalculationInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Hur räknas resultatet ut?</h4>
+        </div>
+        <div class="modal-body">
+            <h4>Poäng</h4>
+            <p>Quizen består av ett antal frågor där varje fråga kan ge maximalt <b>9 poäng</b> och som minst <b>9 poäng</b> i avdrag.
+            Om man väljer ett svar som stämmer överens med vad ett parti tycker får partiet poäng som läggs till det totala resultatet, 
+            men om partiet har annan åsikt får partiet minuspoäng. Saknar partiet svar i frågan får partiet varken plus- eller minuspoäng, oavsätt vad man svarar.</p>
+            <p>Hur många poäng som delas ut för ett parti på en fråga bestäms av hur viktig man valt att frågan är. Det finns 3 nivåer av hur viktig man tycker
+                en fråga är: "<i>Inte så viktig</i>" som ger <b>1 poäng</b>, "<i>Ganska viktig</i>" som ger <b>3 poäng</b>, och "<i>Väldigt viktig</i>" som ger <b>9 poäng</b>.</p>
+            <p>Väljer du ett svar på en fråga som du markerar "<i>Ganska viktig</i>" får alla partier som har samma svar <b>3 poäng</b>.</p><br />
+            
+            <h4>Cirkeldiagrammet</h4>
+            <p>Diagrammet visar hur mycket poäng de olika partierna fått. Alla partier som fått under <b>0 poäng</b> döljs.</p><br />
+            
+            <h4>Stapeldiagrammet</h4>
+            <p>Detta diagram visar hur många procent av frågorna som du håller med respektive parti. Om ett parti får 100% betyder det att du håller med om alla 
+                partiets svar i quizen.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Stäng</button>
+        </div>
+      </div>
+    </div>
+</div>

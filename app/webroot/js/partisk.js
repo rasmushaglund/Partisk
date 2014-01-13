@@ -363,9 +363,7 @@ $(document).ready(function() {
               .html(function (d, i) { 
                   return "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" 
               });
-          } else {
-              
-          }
+          } 
 
         return chart;
     });

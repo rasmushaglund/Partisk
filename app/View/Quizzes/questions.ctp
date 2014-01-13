@@ -68,7 +68,7 @@ $this->Html->addCrumb('Frågor');
                 <?php 
                         echo $this->Form->input('importance', array('type' => 'radio', 'options' => 
                                                     array(1 => 'Inte så viktig', 
-                                                          2 => 'Ganska viktigt', 
+                                                          2 => 'Ganska viktig', 
                                                           3 => 'Väldigt viktig'), 
                                                     'value' => $importance,
                                                     'legend' => "Hur viktig är frågan för dig?", 'separator' => '<div></div>'));
