@@ -52,7 +52,8 @@
         <meta name="author" content="Partisk.nu">
         <meta property="og:title" content="Partisk.nu - <?php echo $title_for_layout; ?>" />
         <meta property="og:description" content="<?php echo $description_for_layout; ?>" />
-        <meta property="og:image" content="/img/logo.png" />
+        <meta property="og:image:secure_url" content="https://www.partisk.nu/img/logo.png" />
+        <meta property="og:image:type" content="image/png" />
         <link rel="shortcut icon" href="favicon.ico">
 
         <?php
