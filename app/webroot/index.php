@@ -100,6 +100,9 @@ if (!empty($failed)) {
 }
 
 App::uses('Dispatcher', 'Routing');
+if (AuthComponent::user()) {
+    Configure::write('Cache.check', false);
+}
 
 $Dispatcher = new Dispatcher();
 $Dispatcher->dispatch(

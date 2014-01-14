@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddParty) { ?>
+if ($this->Permissions->canAddParty()) { ?>
 	<?php
 
 	$editMode = isset($edit) && $edit;

@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddAnswer) { ?>
+if ($this->Permissions->canAddAnswer()) { ?>
     <?php
 
     $parties = $this->requestAction('parties/all');
@@ -57,7 +57,7 @@ if ($canAddAnswer) { ?>
                      'value' => $editMode ? $answer['Answer']['date'] : null)); ?>
     <?php echo $this->Bootstrap->dropdown('party_id', 'Party', array('label' => 'Parti', 'options' => $parties, 
     				'selected' => isset($partyId) ? $partyId : null)); ?>
-    <?php if ($canApproveAnswer && $editMode) {
+    <?php if ($this->Permissions->canApproveAnswer() && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $answer['Answer']['approved'] : null)); 
     } ?>

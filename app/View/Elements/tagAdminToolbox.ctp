@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canEditTag) {  ?>
+if ($this->Permissions->canEditTag()) {  ?>
 <div class="admin-toolbox btn-group">
 	<?php echo $this->element('deleteTag', array('tagId' => $tag['Tag']['id'], 'tag' => $tag['Tag']['name'])); 
       echo $this->element('editTag', array('tagId' => $tag['Tag']['id'])); ?>

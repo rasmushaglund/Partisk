@@ -29,10 +29,10 @@
  */
 ?>
 
-<div class="table table-bordered table-striped qa-table collapsable-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
+<div class="table table-bordered table-striped qa-table collapsable-table table-with-fixed-header table-hover">
     <div class="table-row table-head">
       <div class="table-header table-header-text">
-          <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
+          <a class="btn btn-link" data-toggle="modal" data-target="#table-info"><i class="fa fa-info-circle"></i> Om tabellen</a>
       </div>
       <?php foreach ($parties as $party): ?>
       <div class="table-header">
@@ -41,7 +41,7 @@
         <div class="popover-data"><?php echo ucfirst($party['Party']['name']); ?></div>
       </div>
       <?php endforeach; ?>
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
       <div class="table-header">Verktyg</div>
       <?php } ?>
     </div>
@@ -51,7 +51,7 @@
         <?php 
         $notApproved = !$question['Question']['approved'];
         echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
-            'title' => str_replace(' ', '_', strtolower($question['Question']['title']))),
+            'title' => $this->Url->slug($question['Question']['title'])),
                 array('class' => $notApproved ? 'question-not-approved':''));  
         ?>
       </div>
@@ -65,7 +65,7 @@
         <div class="table-cell"></div>
         <?php }?>
       <?php endforeach; ?>
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
         <div class="table-cell">
           <div class="tools">
              <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>

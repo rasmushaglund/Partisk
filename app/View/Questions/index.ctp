@@ -32,16 +32,46 @@ $this->Html->addCrumb('Frågor');
 
 ?>
 <h1>Så här tycker partierna</h1>
-<?php if ($current_user) { ?>
+<?php echo $this->element("share"); ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php  echo $this->element('saveQuestion'); 
   echo $this->element('saveAnswer'); ?>
   </div>
  <?php } ?>
- 
+
+<h2>Populäraste frågorna just nu</h2>
 <?php echo $this->element('qa-table', array(
                   'parties' => $parties,
-                  'questions' => $questions,
+                  'questions' => $popularQuestions,
                   'answers' => $answers,
-                  'fixedHeader'  => true
+                  'fixedHeader'  => false
                   )); ?>
+
+<h2>Kategorier</h2>
+<div class="panel-group" id="accordion">
+    <ul class="list-unstyled">
+        <?php
+            foreach ($categories as $category) { 
+        ?>
+        <li>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $category['Tag']['id']; ?>" class="collapsed">
+                            <i class="fa fa-plus-square toggle"></i> <?php echo ucfirst($category['Tag']['name']); ?></a>
+                    </h4>
+                </div>
+                <div id="collapse<?php echo $category['Tag']['id']; ?>" data-id="<?php echo $category['Tag']['id']; ?>" 
+                     class="ajax-load-table panel-collapse collapse">
+                </div>
+            </div>
+        </li>
+        <?php } ?>
+    </ul> 
+</div>
+<?php
+
+
+
+?>

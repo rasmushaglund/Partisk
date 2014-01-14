@@ -38,8 +38,9 @@ $deleted = $party['Party']['deleted'];
 
 <h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
   <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'title' => true)); ?>
-  <?php if ($current_user) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
+  <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
 </h1>
+<?php echo $this->element("share"); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
@@ -47,7 +48,7 @@ $deleted = $party['Party']['deleted'];
 <p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
 <p><?php echo $party['Party']['description']; ?></p>
  
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php  echo $this->element('saveQuestion'); 
   echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>
@@ -76,7 +77,7 @@ $deleted = $party['Party']['deleted'];
     <div class="col-md-6">
 <?php 
    echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
-       'name' => str_replace(' ', '_', strtolower($party['Party']['name']))), array('class' => 'btn btn-s btn-info', 'escape' => false));          
+       'name' => $this->Url->slug($party['Party']['name'])), array('class' => 'btn btn-s btn-info', 'escape' => false));          
 ?>
     </div>
 </div>

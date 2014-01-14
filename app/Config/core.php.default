@@ -1,11 +1,8 @@
 <?php
-
 /**
  * This is core configuration file.
  *
  * Use it to configure core behavior of Cake.
- *
- * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -21,8 +18,6 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-Configure::write('PartiskVersion', '0.2.1');
-
 /**
  * CakePHP Debug Level:
  *
@@ -36,12 +31,11 @@ Configure::write('PartiskVersion', '0.2.1');
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost') {
-	    Configure::write('debug', 2);
-	} else {	
-	    Configure::write('debug', 0);
-	}
-
+	Configure::write('debug', 2);
+	Configure::write('minimizeResources', false);
+	Configure::write('cache', false);
+        //Configure::write('PartiskVersion', '0.2.8');
+        
 /**
  * Configure the Error handler used to handle errors for your application. By default
  * ErrorHandler::handleError() is used. It will display errors using Debugger, when debug > 0
@@ -52,7 +46,7 @@ Configure::write('PartiskVersion', '0.2.1');
  * - `handler` - callback - The callback to handle errors. You can set this to any callable type,
  *   including anonymous functions.
  *   Make sure you add App::uses('MyHandler', 'Error'); when using a custom handler class
- * - `level` - int - The level of errors you are interested in capturing.
+ * - `level` - integer - The level of errors you are interested in capturing.
  * - `trace` - boolean - Include stack traces for errors in log files.
  *
  * @see ErrorHandler for more information on error handling and configuration.
@@ -93,7 +87,6 @@ Configure::write('PartiskVersion', '0.2.1');
  * Application wide charset encoding
  */
 	Configure::write('App.encoding', 'UTF-8');
-
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
  * use CakePHP pretty URLs, remove these .htaccess
@@ -104,8 +97,8 @@ Configure::write('PartiskVersion', '0.2.1');
  * /app/webroot/.htaccess
  *
  * And uncomment the App.baseUrl below. But keep in mind
- * that plugin assets such as images, CSS and Javascript files
- * will not work without url rewriting!
+ * that plugin assets such as images, CSS and JavaScript files
+ * will not work without URL rewriting!
  * To work around this issue you should either symlink or copy
  * the plugin assets into you app's webroot directory. This is
  * recommended even when you are using mod_rewrite. Handling static
@@ -175,7 +168,7 @@ Configure::write('PartiskVersion', '0.2.1');
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+Configure::write('Cache.check', Configure::read('cache'));
 
 /**
  * Enable cache view prefixes.
@@ -231,12 +224,12 @@ Configure::write('PartiskVersion', '0.2.1');
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'hjgHGYT78IUghjgfyu7879UYhjgHJgkjGKUYGkhjghjKGHGDGhgdkiwiubBBD897');
+	Configure::write('Security.salt', 'TESTSALT');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '51985320986519826532098172430981720436093285710');
+	Configure::write('Security.cipherSeed', '1337');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -261,7 +254,7 @@ Configure::write('PartiskVersion', '0.2.1');
  * Plug in your own custom JavaScript compressor by dropping a script in your webroot to handle the
  * output, and setting the config below to the name of the script.
  *
- * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JavaScriptHelper::link().
+ * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JsHelper::link().
  */
 	//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
 
@@ -279,32 +272,18 @@ Configure::write('PartiskVersion', '0.2.1');
 	//date_default_timezone_set('UTC');
 
 /**
- *
- * Cache Engine Configuration
- * Default settings provided below
- *
- * File storage engine.
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'File', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- * 		'path' => CACHE, //[optional] use system tmp directory - remember to use absolute path
- * 		'prefix' => 'cake_', //[optional]  prefix every cache file with this string
- * 		'lock' => false, //[optional]  use file locking
- * 		'serialize' => true, //[optional]
- * 		'mask' => 0664, //[optional]
- *	));
- *
-  APC (http://pecl.php.net/package/APC) */
- 
-        if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost') {
-	    // debug
-	} else {	
+ * `Config.timezone` is available in which you can set users' timezone string.
+ * If a method of CakeTime class is called with $timezone parameter as null and `Config.timezone` is set,
+ * then the value of `Config.timezone` will be used. This feature allows you to set users' timezone just
+ * once instead of passing it each time in function calls.
+ */
+	//Configure::write('Config.timezone', 'Europe/Paris')
+        
+        if (Configure::read('cache')) {	
 	    // production
             Cache::config('party', array(
                     'engine' => 'Apc', //[required]
-                    'duration' => 216000, //[optional]
+                    'duration' => Configure::read('debug') > 0 ? "10+ seconds" : 216000, //[optional]
                     'probability' => 100, //[optional]
                     'prefix' => 'party', //[optional]  prefix every cache file with this string
             ));
@@ -340,7 +319,7 @@ Configure::write('PartiskVersion', '0.2.1');
             ));
              Cache::config('tag', array(
                     'engine' => 'Apc', //[required]
-                    'duration' => 216000, //[optional]
+                    'duration' => Configure::read('debug') > 0 ? "10+ seconds" : 216000, //[optional]
                     'probability' => 100, //[optional]
                     'prefix' => 'tag', //[optional]  prefix every cache file with this string
             ));
@@ -351,41 +330,6 @@ Configure::write('PartiskVersion', '0.2.1');
                     'prefix' => 'result', //[optional]  prefix every cache file with this string
             ));
         }
- 
- /* Xcache (http://xcache.lighttpd.net/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Xcache', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
- *		'user' => 'user', //user from xcache.admin.user settings
- *		'password' => 'password', //plaintext password (xcache.admin.pass)
- *	));
- *
- * Memcache (http://www.danga.com/memcached/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Memcache', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- * 		'servers' => array(
- * 			'127.0.0.1:11211' // localhost, default port 11211
- * 		), //[optional]
- * 		'persistent' => true, // [optional] set this to false for non-persistent connections
- * 		'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
- *	));
- *
- *  Wincache (http://php.net/wincache)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Wincache', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
- */
 
 /**
  * Configure the cache handlers that CakePHP will use for internal
@@ -397,7 +341,12 @@ Configure::write('PartiskVersion', '0.2.1');
  *       Please check the comments in bootstrap.php for more info on the cache engines available
  *       and their settings.
  */
-$engine = 'File';
+
+if (extension_loaded('apc') && function_exists('apc_dec') && (php_sapi_name() !== 'cli' || ini_get('apc.enable_cli'))) {
+    $engine = 'Apc';
+} else  {
+    $engine = 'File';    
+}
 
 // In development mode, caches should expire quickly.
 $duration = '+999 days';

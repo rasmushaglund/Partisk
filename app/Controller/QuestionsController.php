@@ -28,11 +28,16 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
 
 class QuestionsController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days",
+        "search" => "+999 days",
+        "all" => "+999 days");
 
     public $components = array('Session');
 
@@ -43,16 +48,48 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search'));
+        $this->Auth->allow(array('search', 'getCategoryTable'));
     }
 
     public function index() {
-        if(!$this->isLoggedIn) {
-            $questions = $this->Question->getVisibleQuestions();
-        }  else {  
-            $questions = $this->Question->getLoggedInQuestions();
-        }
+        $this->loadModel('Party');
+        $parties = $this->Party->getPartiesOrdered();
+        
+        $popularQuestions = $this->Question->getPopularQuestions();
+        
+        $questionIds = $this->Question->getIdsFromModel('Question', $popularQuestions);
+        $partyIds = $this->Party->getIdsFromModel('Party', $parties);
+        
+        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
 
+        if(!$this->Permissions->isLoggedIn()) {
+            $answersConditions['approved'] = true;
+        }
+        
+        $this->loadModel('Answer');
+        $answers = $this->Answer->getAnswers($answersConditions);
+        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers);
+        
+        $categories = $this->Question->Tag->getAllCategories();
+        $this->set('categories', $categories);
+        $this->set('parties', $parties);
+        $this->set('answers', $answersMatrix);
+        $this->set('popularQuestions', $popularQuestions);
+        $this->set('description_for_layout', 'Vad tycker partierna egentligen? Frågor och svar.');
+        $this->set('title_for_layout', 'Frågor');
+    }
+    
+    public function getCategoryTable($tagId) {
+        $this->cacheAction = "+999 days";
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        if(!$this->Permissions->isLoggedIn()) {
+            $questions = $this->Question->getVisibleTagQuestions($tagId);
+        }  else {
+            $questions = $this->Question->getLoggedInTagQuestions($tagId);
+        }
+        
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
         
@@ -61,9 +98,9 @@ class QuestionsController extends AppController {
         
         $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
 
-        if(!$this->isLoggedIn) {
+        if(!$this->Permissions->isLoggedIn()) {
             $answersConditions['approved'] = true;
-        }   
+        }
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
@@ -72,7 +109,9 @@ class QuestionsController extends AppController {
         $this->set('questions', $questions);
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);
-        $this->set('title_for_layout', 'Frågor');
+        $this->set('fixedHeader', true);
+        
+        $this->render('/Elements/qa-table');
     }
 
     public function view($title = null) {
@@ -94,15 +133,33 @@ class QuestionsController extends AppController {
         }
         
         $answers = $this->Question->Answer->getAnswers($conditions);
+        $description = $this->getDescriptionForQuestion($answers);
         
         $this->set('question', $question);
         $this->set('answers', $answers);
+        $this->set('description_for_layout', $description);
         $this->set('title_for_layout', ucfirst($question['Question']['title']));
+     }
+     
+     private function getDescriptionForQuestion($answers) {
+         $results = "";
+         $first = true;
+         foreach ($answers as $answer) {
+             if ($first) {
+                 $first = false;
+             } else {
+                 $results .= ", ";
+             }
+             
+             $results .= ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
+         }
+         return $results;
      }
 
      public function add() {
-        if (!$this->canAddQuestion) {
-            $this->abuse("Not authorized to add question");
+        if (!$this->Permissions->canAddQuestion()) {
+            $this->Permissions->abuse("Not authorized to add question");
+            $this->customFlash("Du har inte tillåtelse att lägga till frågor.");
             return $this->redirect($this->referer());
         }
 
@@ -113,8 +170,9 @@ class QuestionsController extends AppController {
      }
 
      public function delete($id) {
-        if (!$this->userCanDeleteQuestion($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to delete question with id " . $id);
+        if (!$this->Permissions->canDeleteQuestion($this->Auth->user('id'), $id)) {
+            $this->Permissions->abuse("Not authorized to delete question with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort frågan.");
             return $this->redirect($this->referer());
         }
         
@@ -146,8 +204,9 @@ class QuestionsController extends AppController {
             $id = $this->request->data['Question']['id'];
         }
         
-        if (!$this->userCanEditQuestion($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to edit question with id " . $id);
+        if (!$this->Permissions->canEditQuestion($id)) {
+            $this->Permissions->abuse("Not authorized to edit question with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra frågan.");
             return $this->redirect($this->referer());
         }
 
@@ -206,7 +265,7 @@ class QuestionsController extends AppController {
         $data['Question']['type'] = "YESNO";
 
         if ($this->Question->save($data)) {
-            if ($this->canAddTag) {
+            if ($this->Permissions->canAddTag()) {
                 $this->Question->Tag->addTags($data, $this->Question->getLastInsertId());
             }
             $this->customFlash(__('Frågan skapad.'));
@@ -260,12 +319,13 @@ class QuestionsController extends AppController {
     }
     
     public function search($string) {
-        
+        $this->cacheAction = "+999 days";
         $this->layout = 'ajax';
         $this->autoRender=false;
         
-        echo json_encode($this->Question->searchQuestion($string, $this->isLoggedIn));
-
+        $this->set('data', json_encode($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn())));
+        
+        $this->render('/Elements/search');
     }
 
     public function logUser($action, $object_id, $text = "") {

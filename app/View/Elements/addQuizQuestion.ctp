@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canEditQuiz) { ?>
+if ($this->Permissions->canEditQuiz()) { ?>
 	<?php
 
     $questions = $this->requestAction('questions/all');

@@ -28,13 +28,22 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
 
 class TagsController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache', 'Permissions');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days",
+        "all" => "+999 days");
 
     public $components = array('Session');
+    
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow(array('getIndexVars', 'getViewVars'));
+    }
 
     public function beforeRender() {
         parent::beforeRender();
@@ -51,16 +60,11 @@ class TagsController extends AppController {
             throw new NotFoundException("Ogiltig tagg");
         }
 
-        //$conditions = array('deleted' => false, 'tagId' => $id);
-
-        if(!$this->isLoggedIn) {
-            //$conditions['approved'] = true;
-            $questions = $this->Tag->Question->getVisibleTagQuestions($tag['Tag']['id']);
-        } else {
-            $questions = $this->Tag->Question->getLoggedInTagQuestions($tag['Tag']['id']);
-        }
-
-        //$questions = $this->Tag->Question->getQuestions($conditions);
+        if(!$this->Permissions->isLoggedIn()) {
+             $questions = $this->Tag->Question->getVisibleTagQuestions($tag['Tag']['id']);
+         } else {
+             $questions = $this->Tag->Question->getLoggedInTagQuestions($tag['Tag']['id']);
+         }
         
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
@@ -73,23 +77,26 @@ class TagsController extends AppController {
         $this->set('questions', $questions);
         $this->set('parties', $parties);
         $this->set('answers', $answersMatrix);
+        $this->set('description_for_layout', 'Frågor för taggen  ' . ucfirst($tag['Tag']['name']));
         $this->set('title_for_layout', ucfirst($tag['Tag']['name']));
     }
 
     public function index() {
-         if(!$this->isLoggedIn) {
-            $tags = $this->Tag->getAllApprovedTags();
+        if(!$this->isLoggedIn) {
+             $tags = $this->Tag->getAllApprovedTags();
         } else {
-            $tags = $this->Tag->getAllTags();
+             $tags = $this->Tag->getAllTags();
         }
         
         $this->set('tags', $tags);
+        $this->set('description_for_layout', 'Alla taggar');
         $this->set('title_for_layout', 'Taggar');
-    }   
+    }
 
     public function add() {
         if (!$this->Permissions->canAddTag()) {
-            $this->abuse("Not authorized to add tag");
+            $this->Permissions->abuse("Not authorized to add tag");
+            $this->customFlash("Du har inte tillåtelse att lägga till en tagg.");
             return $this->redirect($this->referer());
         }
 
@@ -113,9 +120,11 @@ class TagsController extends AppController {
     public function delete($id) {
         
         if (!$this->Permissions->canDeleteTag()) {
-            $this->abuse("Not authorized to delete tag with id " . $id);
+            $this->Permissions->abuse("Not authorized to delete tag with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort taggen.");
             return $this->redirect($this->referer());
         }
+        
         if ($this->request->is('post') || $this->request->is('put')){
             $this->Tag->set(
                 array('id' => $id,
@@ -133,7 +142,6 @@ class TagsController extends AppController {
             return $this->redirect($this->referer());
         }
         
-        
         if (!$id) {
             throw new NotFoundException("Ogiltig tagg");
         }
@@ -148,18 +156,16 @@ class TagsController extends AppController {
         $this->set('tag', $tag);  
             
         $this->renderModal('deleteTagModal', array('setAjax' => true));
-
-        
-        
     }
 
      public function all() {
-        return $this->Tag->getAll();
+        return $this->Tag->getAllList();
      }
 
      public function edit($id = null) { 
         if (!$this->Permissions->canEditTag()) {
-            $this->abuse("Not authorized to edit tag with id " . $id);
+            $this->Permissions->abuse("Not authorized to edit tag with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra taggen.");
             return $this->redirect($this->referer());
         }
 

@@ -28,17 +28,17 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddTag) { ?>
-	<?php
+if ($this->Permissions->canAddTag()) { 
 
-	$editMode = isset($edit) && $edit;
+        $editMode = isset($edit) && $edit;
 	$ajaxMode = isset($ajax) && $ajax;
 
-	?>
-
-    <?php echo $this->Bootstrap->create('Tag', array('modal' => true, 'label' => $editMode ? "Ändra tagg" : "Lägg till tagg", 
-                    'id' => $editMode ? $tag['Tag']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
-    <?php echo $this->Bootstrap->input('name', array('label' => 'Taggnamn', 'placeholder' => 'Namnet på taggen',
-    				 'value' => $editMode ? $tag['Tag']['name'] : null)); ?>
-    <?php echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); ?>
-<?php } ?>
+        echo $this->Bootstrap->create('Tag', array('modal' => true, 'label' => $editMode ? "Ändra tagg" : "Lägg till tagg", 
+                    'id' => $editMode ? $tag['Tag']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode));
+        echo $this->Bootstrap->input('name', array('label' => 'Taggnamn', 'placeholder' => 'Namnet på taggen',
+    				 'value' => $editMode ? $tag['Tag']['name'] : null));
+        echo $this->Bootstrap->checkbox('is_category', array('label' => 'Kategori', 'type' => 'checkbox',
+                    'value' => $editMode ? $tag['Tag']['is_category'] : null)); 
+        echo $this->Bootstrap->end($editMode ? "Uppdatera" : "Skapa", array('modal' => true)); 
+} 
+?>

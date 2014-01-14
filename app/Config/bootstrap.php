@@ -23,7 +23,13 @@
  */
 
 // Setup a 'default' cache configuration for use in the application.
-Cache::config('default', array('engine' => 'File'));
+if (extension_loaded('apc') && function_exists('apc_dec') && (php_sapi_name() !== 'cli' || ini_get('apc.enable_cli'))) {    
+    Cache::config('default', array('engine' => 'Apc'));    
+} else  {
+    Cache::config('default', array('engine' => 'File'));   
+}
+
+App::uses('AuthComponent', 'Controller/Component');
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
  * 
@@ -115,6 +115,10 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 .qa-table .table-cell {
     text-align: center;
     overflow: hidden;
+}
+
+.table-fixed-header {
+    margin-top: 72px;
 }
 
 .table .party-title {
@@ -316,6 +320,14 @@ table .tools, .table .tools {
 
 .navbar-brand i {
     margin-right: 2px;
+}
+
+.navbar-default .navbar-brand {
+    color: #555;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #111;
 }
 
 .modal .modal-footer {
@@ -609,7 +621,6 @@ text-decoration: underline;
 }
 
 .table-cell {
-    border-top: 1px solid #dddddd;
     padding: 8px;
     line-height: 1.428571429;
     vertical-align: top;
@@ -617,7 +628,7 @@ text-decoration: underline;
 
 .table-header {
     vertical-align: bottom;
-    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
     padding: 8px;
     line-height: 1.428571429;
     font-weight: bold;
@@ -625,17 +636,34 @@ text-decoration: underline;
 
 .table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
     border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
     line-height: 1.428571429;
+}
+
+.table-striped .table-row -table-header, .table-striped .table-row .table-cell {
+    border-top: 1px solid #ddd;
 }
 
 .table-header.table-header-text {
     padding: 8px;
 }
 
+.table-striped .table-row.table-head .table-header {
+    border-top: none;
+}
+
 .qa-table.table-bordered {
     border-right: none;
     border-left: 1px solid #ddd;
+    
+}
+
+.table-head-container .qa-table.table-bordered {
+    border-bottom: none;
+}
+
+.qa-table.table-bordered .table-head .table-header {
+    border-top: none;    
 }
 
 .qa-table .table-header, .qa-table .table-cell {
@@ -646,6 +674,10 @@ text-decoration: underline;
     width: 300px;
     text-align: left;
     font-weight: bold;
+}
+
+.qa-table .table-header-text {
+    font-weight: 200;
 }
 
 .qa-table .table-head.table-row .table-header-text {
@@ -682,10 +714,6 @@ text-decoration: underline;
     height: 68px;
 }
 
-.table-fixed-header {
-    margin-top: 68px;
-}
-
 .table-head-container .table-bordered  .table-header {
     border-bottom: 0px;
 }
@@ -699,7 +727,7 @@ text-decoration: underline;
     left: 0px;
     top: 0px;
     position: fixed;
-    height: 74px;
+    height: 72px;
     width: 100%;
     background-color: white;
     box-shadow: 0px 2px 17px #999;
@@ -800,18 +828,18 @@ text-decoration: underline;
 } 
 
 .nvd3 .nv-x.nv-axis text {
-    display: none;
+    font-size: 0px;
 }
 
 .nvd3 .nv-label text {
-    display: none;
+    font-size: 0px;
 }
 
 .party-column {
     width: 198px;
 }
 
-.question-summary-list h3 {
+#accordion h3 {
     margin-top: 40px;
 }
 
@@ -821,6 +849,11 @@ text-decoration: underline;
 }
 
 .share {
+    margin-bottom: 15px;
+}
+
+.share.share-inline {
+    margin-left: 5px;
     display: inline-block;
 }
 
@@ -828,7 +861,7 @@ text-decoration: underline;
     font-size: 1.7em;
 }
 
-.list-unstyled.question-summary-list li {
+#accordion .list-unstyled li {
     margin-bottom: 10px;
 }
 
@@ -852,6 +885,11 @@ h3 {
 
 .quiz-buttons a, .quiz-buttons button {
     margin-top: 10px;
+}
+
+.quizCalculationInfo {
+    margin-top: 20px;
+    float: right;
 }
 
 .progress {
@@ -1009,6 +1047,10 @@ h3 {
         margin: 0; 
     }
 
+    .quizCalculationInfo {
+        float: none;
+    }
+    
     .modal-body { 
         height: 60%; 
     }
@@ -1053,6 +1095,14 @@ h3 {
     margin-right: 10px;
 }
 
+.credits .alert {
+    min-height: 142px;
+}
+
+.credits .social {
+    font-size: 19px;    
+}
+
 .label {
     font-weight: 200;
 }
@@ -1067,4 +1117,47 @@ h1.label {
 #no-svg {
     margin-top: 20px;
     display: none;
+}
+
+#accordion .accordion-expanded.panel {
+    border: none;
+}
+
+#accordion .accordion-expanded .panel-heading {
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.table-hover .table-row:hover > .table-cell {
+background-color: #f5f5f5;
+}
+
+.results .party-logo-link {
+    margin-right: 10px;
+}
+
+.results h4, .results .party-logo-link {
+    vertical-align: middle;
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+.results {
+    margin-top: 40px;
+}
+
+.share-line {
+    margin-top: 80px;
+}
+
+.share-line p {
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+.share-line hr {
+    position: relative;
+    width: 100%;
+    margin-top: 0px;
+    border-top: 2px dashed #f77;
 }

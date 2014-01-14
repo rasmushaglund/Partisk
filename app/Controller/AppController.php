@@ -28,14 +28,18 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
+App::uses('Permissions', 'Utils');
+
 class AppController extends Controller {
-    public $helpers = array('Session', 'Permissions');
+    public $helpers = array('Session', 'Permissions', 'Url');
 
     public $components = array(
         'Session',
         'Auth'
     );
 
+    protected $Permissions; 
+    
     public function beforeFilter() {
         // Enable Blowfish hashing with salt
         $this->Auth->authenticate = array(
@@ -51,6 +55,10 @@ class AppController extends Controller {
 
         $this->Auth->authorize = 'Controller';
         $this->Auth->allow(array('index', 'view', 'all', '/', 'info'));
+        $this->set("currentPage", "default");
+        $this->set("description_for_layout", "");
+        
+        $this->Permissions = new Permissions();
     }
     
     public function isAuthorized($user) {
@@ -60,7 +68,8 @@ class AppController extends Controller {
             return true;
         }
 
-        $this->abuse("Not authorized to access view");
+        $this->Permissions->abuse("Not authorized to access view");
+        $this->customFlash("Du har inte tillåtelse att se denna sida.");
 
         if ($this->request->is('ajax')) {
             die;

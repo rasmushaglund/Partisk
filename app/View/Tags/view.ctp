@@ -35,25 +35,33 @@ $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
 
 <div class="row">
     <div class="col-md-12">
-<h1 class="label label-primary"><i class="fa fa-tag"></i> 
+<h1><i class="fa fa-tag"></i> 
 <?php echo ucfirst(h($tag['Tag']['name'])); ?>
-<?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
+        <?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
 </h1>
-
+<?php echo $this->element("share"); ?>
 <?php 
-if ($current_user) { ?>
+if (!$this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php  echo $this->element('saveTag', array('tagId' => $tag['Tag']['id'])); 
   echo $this->element('saveQuestion', array('tagId' => $tag['Tag']['id'])); ?>
   </div>
-<?php } ?>
-
-<?php echo $this->element('qa-table', array(
+  <?php echo $this->element('qa-table', array(
                   'parties' => $parties,
                   'questions' => $questions,
                   'answers' => $answers,
-                  'fixedHeader' => true
+                  'fixedHeader' => true,
+                  'loggedIn' => false
                   )); ?>
+<?php } else { 
+    echo $this->element('qa-table', array(
+                  'parties' => $parties,
+                  'questions' => $questions,
+                  'answers' => $answers,
+                  'fixedHeader' => true,
+                  'loggedIn' => true
+                  )); 
+} ?>
 
 <?php echo $this->element('authorInfo', array('object' => $tag, 'model' => 'Tag')); ?>
     </div>

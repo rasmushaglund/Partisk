@@ -34,18 +34,18 @@ App::uses('UserLogger', 'Log');
 
 class UsersController extends AppController {
     public $helpers = array('Cache', 'Permissions');
-    //public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days");
     
     private $currentPage = "users";
     public $components = array('Auth', 'Session');
-    private $Permissions;
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->loginError = "Fel användarnamn eller lösenord. Försök gärna igen.";  
         $this->Auth->authError = "Du har inte rättigheter att se denna sida.";
         $this->Auth->allow(array('login', 'logout', 'add'));
-        $this->Permissions = new Permissions();
     }
 
     public function beforeRender() {
@@ -65,6 +65,7 @@ class UsersController extends AppController {
 
         $this->currentPage = "login";
         $this->set('title_for_layout', 'Logga in');
+        $this->set('description_for_layout', 'Logga in på Partisk.nu');
     }
     
     public function logout() {
@@ -74,11 +75,11 @@ class UsersController extends AppController {
     
     public function index() {
         $this->set('users', $this->User->getAll());
-        $this->set('title_for_layout', 'Användare');
+        $this->set('description_for_layout', 'Sidans alla användare');
+        $this->set('title_for_layout', 'Alla användare');
     }
 
     public function start() {
-        
         $user = $this->Auth->user();
         
         $this->set('user', $user);
@@ -97,6 +98,7 @@ class UsersController extends AppController {
         }
         
         $this->set('user', $user);
+        $this->set('description_for_layout', 'Användare ' . $user['User']['username']);
         $this->set('title_for_layout', $user['User']['username']); 
     }
    
@@ -123,7 +125,8 @@ class UsersController extends AppController {
 
     public function edit($id = null) {
         if (!$this->Permissions->canEditUser()) {
-            $this->abuse("Not authorized to edit user with id " . $id);
+            $this->Permissions->abuse("Not authorized to edit user with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra användaren.");
             return $this->redirect($this->referer());
         }
 
@@ -177,7 +180,8 @@ class UsersController extends AppController {
 
     public function delete($id = null) {
         if (!$this->Permissions->canDeleteUser()) {
-            $this->abuse("Not authorized to delete user with id " . $id);
+            $this->Permissions->abuse("Not authorized to delete user with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort användaren.");
             return $this->redirect($this->referer());
         }
         if ($this->request->is('post') || $this->request->is('put')){ 

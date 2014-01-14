@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canDeleteQuiz) {
+if ($this->Permissions->canDeleteQuiz()) {
     echo $this->element('deleteModal', array('model' => 'Quiz', 'action' => 'delete/' . $quiz['Quiz']['id'],
         'label' => "Ta bort quiz", 'itemText' => $quiz['Quiz']['name']));
 }

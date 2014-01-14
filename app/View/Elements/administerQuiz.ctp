@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canEditQuiz || (!$quiz['approved'] && $quiz['created_by'] == $current_user['id'])) {
+if ($this->Permissions->canEditQuiz() || (!$quiz['approved'] && $quiz['created_by'] == $this->Permissions->getUser('id'))) {
 	echo $this->Html->link('<i class="fa fa-edit"></i> Administrera frågor', 
 					array('controller' => 'quizzes', 'action' => 'admin', $quiz['id']), 
 					array('class' => 'btn btn-warning', 'escape' => false)); 

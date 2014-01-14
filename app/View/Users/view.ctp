@@ -35,7 +35,7 @@ $this->Html->addCrumb($user['User']['username']);
 
 <h2>
   <?php echo $user['User']['username']; ?>
-  <?php if ($current_user) { echo $this->element('userAdminToolbox', array('user' => $user)); } ?>
+  <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('userAdminToolbox', array('user' => $user)); } ?>
 </h2>
 
 <p><?php echo $user['User']['description']; ?></p>

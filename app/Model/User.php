@@ -112,25 +112,25 @@ class User extends AppModel {
         return $result;
     }
     
-    //From Wuilliam Lacruz, http://stackoverflow.com/questions/3760663/cakephp-password-validation/3766745#3766745
+    // From Wuilliam Lacruz, http://stackoverflow.com/questions/3760663/cakephp-password-validation/3766745#3766745
     public function match($check, $with) {
-    // Getting the keys of the parent field
-    foreach ($check as $k => $v) {
-        $$k = $v;
+        // Getting the keys of the parent field
+        foreach ($check as $k => $v) {
+            $$k = $v;
+        }
+
+        // Removing blank fields
+        $check = trim($$k);
+        $with = trim($this->data[$this->name][$with]);
+
+        // If both arent empty we compare and return true or false
+        if (!empty($check) && !empty($with)) {
+            return $check == $with;
+        }
+
+        // Return false, some fields is empty
+        return false;
     }
-
-    // Removing blank fields
-    $check = trim($$k);
-    $with = trim($this->data[$this->name][$with]);
-
-    // If both arent empty we compare and return true or false
-    if (!empty($check) && !empty($with)) {
-        return $check == $with;
-    }
-
-    // Return false, some fields is empty
-    return false;
-}
 
     public function beforeSave($options = array()) {
         if (isset($this->data[$this->alias]['password'])) {

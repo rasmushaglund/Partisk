@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddQuiz) { ?>
+if ($this->Permissions->canAddQuiz()) { ?>
     <?php
 
     $editMode = isset($edit) && $edit;
@@ -40,7 +40,7 @@ if ($canAddQuiz) { ?>
                     'id' => $editMode ? $quiz['Quiz']['id'] : null, 'ajax' => $ajaxMode, 'editMode' => $editMode)); ?>
     <?php echo $this->Bootstrap->input('name', array('label' => 'Namn', 'placeholder' => 'Namnet på quizen',
                      'value' => $editMode ? $quiz['Quiz']['name'] : null)); ?>
-    <?php if ($canApproveQuiz && $editMode) {
+    <?php if ($this->Permissions->canApproveQuiz() && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $quiz['Quiz']['approved'] : null)); 
     } ?>

@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($current_user) {  ?>
+if ($this->Permissions->isLoggedIn()) {  ?>
 <div class="admin-toolbox btn-group">
 <?php 
 	echo $this->element('deleteQuestion', array('question' => $question['Question'])); 
