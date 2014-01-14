@@ -27,11 +27,17 @@
  * @package     app.Controller
  * @license     http://opensource.org/licenses/MIT MIT
  */
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
+
 
 class PartiesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "index" => "+999 days",
+        "view" => "+999 days",
+        "notAnswered" => "+999 days",
+        "all" => "+999 days");
 
     public $components = array('Session');
 
@@ -48,6 +54,7 @@ class PartiesController extends AppController {
     public function index() {
         $this->set('parties', $this->Party->getPartiesOrdered());
         $this->set('title_for_layout', 'Partier');
+        $this->set('description_for_layout', 'Alla partier');
     }
 
     public function view($name = null) { 
@@ -65,7 +72,7 @@ class PartiesController extends AppController {
                     
         $conditions = array('deleted' => false);
 
-        if(!$this->isLoggedIn) {
+        if(!$this->Permissions->isLoggedIn()) {
             $questions = $this->Party->Answer->Question->getVisibleQuestions();
         } else {
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
@@ -82,6 +89,7 @@ class PartiesController extends AppController {
             
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));
+        $this->set('description_for_layout', ucfirst($party['Party']['name']));
     }
     
     public function notAnswered($name) {
@@ -105,8 +113,9 @@ class PartiesController extends AppController {
     }
 
      public function add() {
-        if (!$this->canAddParty) {
-            $this->abuse("Not authorized to add party");
+        if (!$this->Permissions->canAddParty()) {
+            $this->Permissions->abuse("Not authorized to add party");
+            $this->customFlash("Du har inte tillåtelse att lägga till ett parti.");
             return $this->redirect($this->referer());
         }
 
@@ -128,8 +137,9 @@ class PartiesController extends AppController {
      }
 
      public function delete($id = null) {
-        if (!$this->canDeleteParty) {
-            $this->abuse("Not authorized to delete party with id " . $id);
+        if (!$this->Permissions->canDeleteParty()) {
+            $this->Permissions->abuse("Not authorized to delete party with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort ett parti.");
             return $this->redirect($this->referer());
         }
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -171,8 +181,9 @@ class PartiesController extends AppController {
      }
 
      public function edit($id = null) {
-        if (!$this->canEditParty) {
-            $this->abuse("Not authorized to edit party with id " . $id);
+        if (!$this->Permissions->canEditParty()) {
+            $this->Permissions->abuse("Not authorized to edit party with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ändra ett parti.");
             return $this->redirect($this->referer());
         }
 

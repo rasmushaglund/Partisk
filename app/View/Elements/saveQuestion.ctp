@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($canAddQuestion) { ?>
+if ($this->Permissions->canAddQuestion()) { ?>
 	<?php
 
 	$editMode = isset($edit) && $edit;
@@ -37,6 +37,7 @@ if ($canAddQuestion) { ?>
 	if (!isset($categoryId) && isset($question['Question']['category_id'])) {
 		$categoryId = $question['Question']['category_id'];
 	}
+        
 
 	?>
     <?php echo $this->Bootstrap->create('Question', array('modal' => true, 'label' => $editMode ? "Ändra fråga" : "Lägg till fråga", 
@@ -45,15 +46,19 @@ if ($canAddQuestion) { ?>
                     'value' => $editMode ? $question['Question']['title'] : '')); ?>
                   
     <?php 
-        if ($canAddTag) {
+        if ($this->Permissions->canAddTag()) {
             echo $this->Bootstrap->input('tags', array('label' => 'Taggar', 'placeholder' => 'Frågans taggar',
                     'value' => $editMode ? $question['Question']['tags'] : '')); 
         } ?>
 
-    <?php if ($canApproveQuestion && $editMode) {
+    <?php if ($this->Permissions->canApproveQuestion() && $editMode) {
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $question['Question']['approved'] : null)); 
     } ?>
+    <?php echo $this->Bootstrap->dropdown('type', 'Question', array('label' => 'Typ av fråga', 'options' => 
+                    array(array('Question' => array('id' => 'YESNO', 'name' => "Ja/Nej")), 
+                          array('Question' => array('id' => 'CHOICE', 'name' => 'Fritext'))), 
+    				'selected' => isset($question) ? $question['Question']['type'] : null)); ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Beskrivning av frågan', 
     				'placeholder' => 'Här kan du beskriva frågan mer i detalj',
     				'value' => $editMode ? $question['Question']['description'] : null)); ?>

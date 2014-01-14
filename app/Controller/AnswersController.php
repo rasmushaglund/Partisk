@@ -28,11 +28,14 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AppController', 'Controller', 'UserLogger', 'Log');
+App::uses('AppController', 'Controller');
+App::uses('UserLogger', 'Log');
 
 class AnswersController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    public $cacheAction = "1 hour";
+    public $cacheAction = array(
+        "view" => "+999 days",
+        "info" => "+999 days");
     
     public $components = array('Session');
 
@@ -51,16 +54,20 @@ class AnswersController extends AppController {
         if (!$answer) {
             throw new NotFoundException(__('Ogiltigt svar'));
         }
+        
+        $title = $answer['Question']['title'] . ": " . ucfirst($answer['Answer']['answer']) . " ("
+                . ucfirst($answer['Party']['name']) . ")";
 
         $this->set('answer', $answer);
         $this->set('history', $answer['history']);
-        $this->set('title_for_layout', ucfirst($answer['Party']['name']) . " / " . $answer['Question']['title'] . " / " . 
-        ucfirst($answer['Answer']['answer']));
+        $this->set('title_for_layout', $title);
+        $this->set('description_for_layout', $title);
     }
 
     public function add() {
-        if (!$this->canAddAnswer) {
-            $this->abuse("Not authorized to add answer");
+        if (!$this->Permissions->canAddAnswer()) {
+            $this->Permissions->abuse("Not authorized to add answer");
+            $this->customFlash("Du har inte tillåtelse att lägga till ett svar.");
             return $this->redirect($this->referer());
         }
 
@@ -85,9 +92,10 @@ class AnswersController extends AppController {
         if (empty($id)) {
             $id = $this->request->data['Answer']['id'];
         }
-
-        if (!$this->userCanEditAnswer($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to edit answer with id " . $id);
+        
+        if (!$this->Permissions->canEditAnswer($id)) {
+            $this->Permissions->abuse("Not authorized to edit answer with id " . $id);
+            $this->customFlash("Du har inte tillåtelse ändra svaret.");
             return $this->redirect($this->referer());
         }
 
@@ -118,7 +126,7 @@ class AnswersController extends AppController {
         if (!$id) {
             throw new NotFoundException("Ogiltigt svar");
         }
-
+        
         $answer = $this->Answer->getById($id);
 
         if (empty($answer)) {
@@ -139,8 +147,9 @@ class AnswersController extends AppController {
      }
 
      public function delete($id) {
-        if (!$this->userCanDeleteAnswer($this->Auth->user('id'), $id)) {
-            $this->abuse("Not authorized to delete answer with id ". $id);
+        if (!$this->Permissions->canDeleteAnswer($this->Auth->user('id'), $id)) {
+            $this->Permissions->abuse("Not authorized to delete answer with id ". $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort svar.");
             return $this->redirect($this->referer());
         }
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -192,7 +201,6 @@ class AnswersController extends AppController {
     }
     
     public function info($id) {
-        
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $this->set('answer', $this->Answer->getById($id));

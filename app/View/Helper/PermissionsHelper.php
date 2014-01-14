@@ -35,8 +35,9 @@ class PermissionsHelper extends AppHelper {
     
     private function checkPermission($controller, $action) { return Permissions::checkPermission($controller, $action); }
     public function isLoggedIn() { return Permissions::isLoggedIn(); }
+    public function getUser($field = null) { return Permissions::getUser($field); }
     public function isAdmin() { return Permissions::isAdmin(); }
-    
+        
     public function canAddQuestion() { return Permissions::canAddQuestion(); }
     public function canAddAnswer() { return Permissions::canAddAnswer(); }
     public function canAddTag() { return Permissions::canAddTag(); }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
@@ -27,9 +27,4 @@
  * @package     app.View.Elements
  * @license     http://opensource.org/licenses/MIT MIT
  */
-
-if ($this->Permissions->canEditQuestion() || (!$question['approved'] && $question['created_by'] == $this->Permissions->getUser('id'))) {
-	echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-        	array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openModal(\'questions\',\'edit\',' . $question['id'] . ');return false;')); 
-}
-?>
+?><!--nocache--><?php configure::write('debug',0); header('Content-type: text/x-json'); ?><!--/nocache--><?php echo $data; ?>

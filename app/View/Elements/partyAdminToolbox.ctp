@@ -28,7 +28,7 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-if ($current_user) {  ?>
+if ($this->Permissions->isLoggedIn()) {  ?>
 <div class="admin-toolbox btn-group">
 <?php echo $this->element('deleteParty', array('partyId' => $party['Party']['id'], 'party' => $party['Party']['name'])); 
       echo $this->element('editParty', array('partyId' => $party['Party']['id'])); ?>

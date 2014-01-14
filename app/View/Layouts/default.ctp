@@ -33,29 +33,36 @@
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
-        <title>
-            Partisk.nu Beta - 
-            <?php echo $title_for_layout; ?>
-        </title>
+        <title>Partisk.nu Beta - <?php echo $title_for_layout; ?></title>
 
         <script type="text/javascript">
             var appRoot = "<?php echo Router::url('/', false); ?>";
+            var isInternetExplorer = false;
         </script>
+        
+        <!--[if IE ]>
+            <script type="text/javascript">isInternetExplorer=true;</script>
+            <style>.nvd3 .nv-label text { font-size: 12px !important; } .nvd3 .nv-x.nv-axis text { font-size: 10px !important; }</style>
+        <![endif]-->
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Partisk.nu">
         <meta name="author" content="Partisk.nu">
+        <meta property="og:title" content="Partisk.nu - <?php echo $title_for_layout; ?>" />
+        <meta property="og:description" content="<?php echo $description_for_layout; ?>" />
+        <meta property="og:image" content="/img/logo.png" />
         <link rel="shortcut icon" href="favicon.ico">
 
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('minimizeAssets')==0) { ?>
+        if (!Configure::read('minimizeResources')) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
             echo $this->Html->css('bootstrap');
+            echo $this->Html->css('bootstrap-theme');
             echo $this->Html->css('typeahead.js-bootstrap');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
@@ -70,18 +77,17 @@
             echo $this->Html->script('nv.d3');
             echo $this->Html->script('matchMedia');
             echo $this->Html->script('partisk');
-
-            echo $this->fetch('meta');
+            
             echo $this->fetch('css');
             echo $this->fetch('script');
         } else { 
             $version = Configure::read('PartiskVersion'); 
-            echo $this->fetch('meta'); ?>
-            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite-v<?php echo $version; ?>.png') no-repeat;}</style>
+            $versionString = $version != null ? "-v" . $version : "";?>
+            <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
             
             <?php
-            echo $this->Html->css("partisk-v$version.min");
-            echo $this->Html->script("partisk-v$version.min");
+            echo $this->Html->css("partisk$versionString.min");
+            echo $this->Html->script("partisk$versionString.min");
             ?>
             
         <?php } ?>
@@ -110,7 +116,6 @@
                 ?></li>
                     <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false, 'class' => $currentPage == "contact" ? 'active' : ''));
                 ?></li>
-                    <!--nocache-->
                     <?php if ($this->Permissions->isLoggedIn()) { ?>
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#"><i class="fa fa-gears"></i> Administration</a>
@@ -136,7 +141,6 @@
                     <?php } else { ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-sign-in"></i> Logga in', array('controller' => 'users', 'action' => 'login'), array('escape' => false, 'class' => $currentPage == "login" ? 'active' : '')); ?></li>
                     <?php } ?>
-                    <!--/nocache-->
                 </ul>
             </div>
         </nav>
@@ -154,9 +158,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $this->Html->getCrumbList(array('class' => 'breadcrumb'), 'Hem'); ?>
-                    <!--nocache-->
                     <?php echo $this->Session->flash(); ?>
-                    <!--/nocache-->
                 </div>
             </div>
             <div class="row">
@@ -164,15 +166,15 @@
                     <?php echo $this->fetch('content'); ?>
                 </div>
             </div>
-           <!-- <div class="row">
+        <?php if (Configure::read('debug') >= 2) { ?>
+           <div class="row">
                 <div class="col-md-12">
-                    <?php if (Configure::read('debug') >= 2) { ?>
                         <div class="alert alert-info">
                             <?php echo $this->element('sql_dump'); ?>
                         </div>
-                    <?php } ?>
                 </div>
-            </div>-->
+            </div>
+        <?php } ?>
         </div>
         <div id="footer">
             <div class="container">
@@ -232,23 +234,26 @@
             </div>
         </div>
         <?php echo $this->element('feedback'); ?>
-        <div class="modal fade" id="parties-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="table-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title" id="myModalLabel">Information om partier</h4>
+                  <h4 class="modal-title" id="myModalLabel">Om tabellen</h4>
                 </div>
                 <div class="modal-body">
+                    <h4>Information om svar</h4>
+                    <p>Vill du veta mer om ett svar kan du helt enkelt klicka på det. Då kommer det upp en informationsruta 
+                        bland annat med var svaret kommer ifrån.</p><br />
                     <h4>Synliga partier</h4>
                     <p>För att göra sidan enklare och inte visa för mycket information samtidigt visas endast partier som har fått minst 1% av de Svenska 
                         rösterna i det senaste EU-parlamentsvalet eller senaste riksdagsvalet.</p><br />
                     <h4>Sortering av partier</h4>
-                    <p>Partierna är sorterade efter deras bästa resultat i senaste EU-parlementsvalet eller riksdagsvalet. Det partiet med
+                    <p>Partierna är sorterade efter deras bästa resultat i senaste EU-parlementsvalet eller riksdagsvalet. Det parti med
                        bäst resultat hamnar till vänster, och partiet med sämst resultat av de som visas hamnar till höger.</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Stäng</button>
                 </div>
               </div>
             </div>

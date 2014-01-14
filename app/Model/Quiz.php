@@ -301,6 +301,8 @@ class Quiz extends AppModel {
         if (sizeof($quizSession) < 1) {
             throw new InvalidArgumentException('A quiz has to have at least 1 question');
         }
+        
+        shuffle($quizSession);
 
         $quizSession["QuizSession"] = array(
             'index' => 0,

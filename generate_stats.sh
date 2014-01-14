@@ -22,10 +22,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Requires yUglify (https://github.com/yui/yuglify)
+cat /var/log/nginx/www.partisk.nu.access.log|grep -v "apc"|awk -F\  '{print $1," ",$7}'| grep "fr%C3%A5gor/"|grep -v "getCategoryTable"|grep -v "search"|uniq -c|sort -bgr|awk -F\/ '{print $3}'
 
-yuglify app/webroot/css/bootstrap.min.css app/webroot/css/bootstrap-theme.min.css app/webroot/css/font-awesome.min.css app/webroot/css/nv.d3.css app/webroot/css/datepicker.css app/webroot/css/typeahead.js-bootstrap.css app/webroot/css/style.css -c app/webroot/css/partisk
-
-yuglify app/webroot/js/jquery.js app/webroot/js/bootstrap.js app/webroot/js/bootstrap-datepicker.js app/webroot/js/typeahead.js app/webroot/js/bootstrap-datepicker.sv.js app/webroot/js/matchMedia.js app/webroot/js/partisk.js -c app/webroot/js/partisk
-
-yuglify app/webroot/js/d3.v2.js app/webroot/js/nv.d3.js -c app/webroot/js/graph
+sudo cat /var/log/nginx/www.partisk.nu.access.log|grep -v "apc"|awk -F\  '{print $1," ",$7}'| grep "fr%C3%A5gor/"|grep -v "getCategoryTable"|grep -v "search"|uniq|awk -F\  '{print tolower($2)}'|sort|uniq -c|sort -nr|awk -F\/ '{print $3}'

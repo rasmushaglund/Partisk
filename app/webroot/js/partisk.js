@@ -44,7 +44,7 @@ $(document).ready(function() {
     $('#partisk-search input').typeahead([
         {
             name: 'questions',
-            remote: appRoot + 'api/search/%QUERY',
+            remote: appRoot + 'frågor/search/%QUERY',
             minLength: 3
         }
     ]).bind('typeahead:selected', function(event, obj) {
@@ -57,18 +57,87 @@ $(document).ready(function() {
        
     $('#accordion .panel-collapse').on('show.bs.collapse', function () {
        $(this).parent().find(".toggle").removeClass("fa-plus-square").addClass("fa-minus-square");
+       $(this).parent().addClass("accordion-expanded");
+       $(this).find('.table-head-container').removeClass('table-fixed').show();
+       $(this).find('.table-with-fixed-header').removeClass('table-fixed-header');
     });
 
     $('#accordion .panel-collapse').on('hide.bs.collapse', function () {
-        console.log(this);
        $(this).parent().find(".toggle").removeClass("fa-minus-square").addClass("fa-plus-square");
+       $(this).parent().removeClass("accordion-expanded");
+    });
+    
+    $('#accordion .panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
+       var id = $(this).attr('data-id');
+       var container = $(this);
+       
+       if (!container.hasClass('table-loaded')) {
+       $.ajax({
+            url: appRoot + 'frågor/getCategoryTable/' + id,
+            success: function(data) {
+                var content = $(data);
+                content.hide();
+                container.append(content);
+                setupFixedHeader(content);
+                initPopovers(container);
+                content.fadeIn('slow');
+                container.addClass('table-loaded');
+            }
+        });
+        }
     });
     
     if (!supportsSvg()) {
         $("#graphs").hide();
         $("#no-svg").show();
     }
+    
+    initPopovers($("body"));
+
+    $('body').on('click', function(e) {
+        $('.popover.in').prev().not(e.target).popover('toggle');
+    });
+
+    // Open modal without fade if it contains an error
+    $('.modal').each(function(index, modal) {
+        if ($(modal).find('p.error').size() > 0) {
+            $(modal).removeClass('fade');
+            $(modal).on('shown.bs.modal', function() {
+                $(this).addClass('fade in');
+                $('.modal-backdrop').addClass('fade in');
+            });
+            $(modal).modal('show');
+
+        }
+    });
 });
+
+var initPopovers = function($container) {
+    $container.find('.popover-hover-link').popover({
+        html: true,
+        placement: "auto",
+        trigger: 'hover',
+        content: function() {
+            return $(this).next('.popover-data').html();
+        }
+    });
+    
+    $container.find('.popover-click-link').popover();
+
+    $container.find('.popover-link').bind('click', function() {
+        var $popover = $(this);
+        $.ajax({url: appRoot + "answers/info/" + $popover.attr('data-id'), success: function(data) {
+                $popover.unbind('click');
+                $popover.popover({
+                    html: true,
+                    placement: "auto",
+                    content: function() {
+                        return data;
+                    }
+                }).popover('show');
+            }});
+    });
+}
 
 $( window ).resize(function() {
     newBigMode = matchMedia('only screen and (min-width: 1200px)').matches;
@@ -84,42 +153,58 @@ $( window ).resize(function() {
 
 var qaTableFixedHeader = function() {
     if (matchMedia('only screen and (min-width: 1200px)').matches && $('.table-head-container').size() === 0) {
-        var table = $('.table-with-fixed-header');
-        var qaTableHead = $('<div class="table-head-container"></div>');
-        var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
-        var qaTableHeadBg = $('<div class="table-header-bg"></div>');
-
-        qaTableHead.append(qaTableHeadBg);
-        qaTableHead.append(qaTableHeadRow);
-
-        table.before(qaTableHead);
-        $('.table-with-fixed-header .table-head.table-row').appendTo(qaTableHeadRow);
-        var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
-
-        qaTableHeadRow.width(table.width());
-
-        var headerVisible = false;
-        $(window).scroll(function() {
-            if (bigMode) {
-                if ($(window).scrollTop() >= table.offset().top - headerHeight) {
-                    if (!headerVisible) {
-                        headerVisible = true;
-                        qaTableHead.addClass('table-fixed');
-                        table.addClass('table-fixed-header');
-
-                    }
-                } else {
-                    if (headerVisible) {
-                        headerVisible = false;
-
-                        qaTableHead.removeClass('table-fixed');
-                        table.removeClass('table-fixed-header');
-                    }
-                }
-            }
+        var tables = $('.table-with-fixed-header');
+        
+        tables.each(function (item) {
+            setupFixedHeader($(this));
         });
     
     }
+};
+
+var setupFixedHeader = function (table) {
+            var qaTableHead = $('<div class="table-head-container"></div>');
+            var qaTableHeadRow = $('<div class="table qa-table table-bordered table-striped"></div>');
+            var qaTableHeadBg = $('<div class="table-header-bg"></div>');
+
+            qaTableHead.append(qaTableHeadBg);
+            qaTableHead.append(qaTableHeadRow);
+
+            table.before(qaTableHead);
+            table.find('.table-head.table-row').appendTo(qaTableHeadRow);
+            var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
+            qaTableHeadRow.width(table.width());
+            
+            var faded = false;
+
+            var headerVisible = false;
+            $(window).scroll(function() {
+                if (bigMode) {
+                    var scrollTop = $(window).scrollTop();
+                    if (!faded && scrollTop >= table.offset().top + table.height() - headerHeight) {
+                        qaTableHead.fadeOut("fast", function () { faded = true; });
+                    } else if (faded && scrollTop <= table.offset().top + table.height() - headerHeight) {
+                        qaTableHead.fadeIn("fast", function () { faded = false; });
+                    }
+                    
+                    if (scrollTop >= table.offset().top - headerHeight) {
+                        //console.log($(window).scrollTop() + ">=" + (table.offset().top - headerHeight));
+                        //console.log(table.height());
+                        if (!headerVisible) {
+                            headerVisible = true;
+                            qaTableHead.addClass('table-fixed');
+                            table.addClass('table-fixed-header');
+                        }
+                    } else {
+                        if (headerVisible) {
+                            headerVisible = false;
+
+                            qaTableHead.removeClass('table-fixed');
+                            table.removeClass('table-fixed-header');
+                        }
+                    }
+                }
+            });
 };
 
 var openModal = function(controller, action, id) {
@@ -143,52 +228,6 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-$(document).ready(function() {
-
-    $('.popover-hover-link').popover({
-        html: true,
-        placement: "auto",
-        trigger: 'hover',
-        content: function() {
-            return $(this).next('.popover-data').html();
-        }
-    });
-    
-    $('.popover-click-link').popover();
-
-    $('.popover-link').bind('click', function() {
-        var $popover = $(this);
-        $.ajax({url: appRoot + "answers/info/" + $popover.attr('data-id'), success: function(data) {
-                $popover.unbind('click');
-                $popover.popover({
-                    html: true,
-                    placement: "auto",
-                    content: function() {
-                        return data;
-                    }
-                }).popover('show');
-            }});
-    });
-
-    $('body').on('click', function(e) {
-        console.log(e.target);
-        $('.popover.in').prev().not(e.target).popover('toggle');
-    });
-
-    // Open modal without fade if it contains an error
-    $('.modal').each(function(index, modal) {
-        if ($(modal).find('p.error').size() > 0) {
-            $(modal).removeClass('fade');
-            $(modal).on('shown.bs.modal', function() {
-                $(this).addClass('fade in');
-                $('.modal-backdrop').addClass('fade in');
-            });
-            $(modal).modal('show');
-
-        }
-    });
-});
-
 function getQuestionAgreeRate() {
     var result = {key: 'questionAgreeRate', values: []};
 
@@ -197,7 +236,7 @@ function getQuestionAgreeRate() {
     for (var value in agree_rate) {
         result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
             label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'],
-            party_id: parties[value].id,
+            party_id: parties[value].id, short_label: parties[value].short_name,
             color: parties[value].color, order: parties[value].order});
     }
 
@@ -216,7 +255,7 @@ function getPointsPercentage() {
         if (points_percentage[value]['result'] > 0) {
             result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'],
                 points: points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name),
-                party_id: parties[value].id,
+                party_id: parties[value].id, short_label: parties[value].short_name,
                 color: parties[value].color, order: parties[value].order});
         }
     }
@@ -261,17 +300,19 @@ $(document).ready(function() {
 
         var bars = d3.select('#points-percentage-graph svg').selectAll('g.nv-label');
 
-        bars.append("foreignObject")
-          .attr("width", 25)
-          .attr("height", 25)
-          .attr("y", function (d, i) { return -12; })
-          .attr("x", function (d, i) { return -12; })
-          .append("xhtml:body")
-          .attr("style", "background-color: transparent")
-          .attr("text-anchor", "middle")
-          .html(function (d, i) { 
-              return data[0].values[i].points > 0 ? "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" : null; 
-          });
+        if (!isInternetExplorer) {
+            bars.append("foreignObject")
+              .attr("width", 25)
+              .attr("height", 25)
+              .attr("y", function (d, i) { return -12; })
+              .attr("x", function (d, i) { return -12; })
+              .append("xhtml:body")
+              .attr("style", "background-color: transparent")
+              .attr("text-anchor", "middle")
+              .html(function (d, i) { 
+                  return data[0].values[i].points > 0 ? "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" : null; 
+              });
+          }
 
         nv.utils.windowResize(chart.update);
 
@@ -282,7 +323,7 @@ $(document).ready(function() {
         var data = getQuestionAgreeRate();
         var chart = nv.models.discreteBarChart()
                 .x(function (d) {
-                    return d.label;
+                    return "(" + d.short_label + ")"; //"?"; //(d["short_label"] !== undefined ? "asd" : "?");
                 })
                 .y(function (d) {
                     return d.value;
@@ -291,7 +332,7 @@ $(document).ready(function() {
                 .staggerLabels(false)
                 .tooltips(true)
                 .tooltipContent(function (id, key, value, item) {
-                    var result = '<h3>' + key + '</h3>' + '<p>' + Math.round(value) + '%</p>';
+                    var result = '<h3>' + item.point.label + '</h3>' + '<p>' + Math.round(value) + '%</p>';
                     result += '<p>För: ' + item.point.plus_points + 'p</p>';
                     result += '<p>Emot: ' + item.point.minus_points + 'p</p>';
                     return result;
@@ -310,17 +351,19 @@ $(document).ready(function() {
 
         var bars = d3.select('#question-agree-rate-graph svg').selectAll('g.nv-x.nv-axis g.nv-wrap.nv-axis > g > g');
 
-        bars.append("foreignObject")
-          .attr("width", 25)
-          .attr("height", 25)
-          .attr("y", function (d, i) { return 5; })
-          .attr("x", function (d, i) { return -25/2; })
-          .append("xhtml:body")
-          .attr("style", "background-color: transparent")
-          .attr("text-anchor", "middle")
-          .html(function (d, i) { 
-              return "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" 
-          });
+        if (!isInternetExplorer) {
+            bars.append("foreignObject")
+              .attr("width", 25)
+              .attr("height", 25)
+              .attr("y", function (d, i) { return 5; })
+              .attr("x", function (d, i) { return -25/2; })
+              .append("xhtml:body")
+              .attr("style", "background-color: transparent")
+              .attr("text-anchor", "middle")
+              .html(function (d, i) { 
+                  return "<div class='party-logo-small party-logo-small-" + data[0].values[i].party_id + "'></div>" 
+              });
+          } 
 
         return chart;
     });
@@ -329,5 +372,5 @@ $(document).ready(function() {
 
 // http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
 function supportsSvg() {
-    return typeof document.createElement('svg').getAttributeNS !== 'undefined';
+    return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1");
 }

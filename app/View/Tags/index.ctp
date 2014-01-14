@@ -31,34 +31,32 @@
 $this->Html->addCrumb('Taggar');
 
 if ($tags) {
-$chunks = array_chunk($tags, ceil(sizeof($tags) / 3));
-
+    $chunks = array_chunk($tags, ceil(sizeof($tags) / 3));
 ?>
+
 <h1>Taggar</h1>
-<?php if ($current_user) { ?>
+<?php echo $this->element("share"); ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="row">
-	<div class="col-md-4 tools">
-		<?php echo $this->element('saveTag'); ?>
-	</div>
-</div>
+  <div class="col-md-4 tools">
+    <?php echo $this->element('saveTag'); ?>
+   </div>
+ </div>
+ <?php } ?>
+ 
+ <div class="row">
+ <?php if (isset($chunks[0])) { ?>
+ <div class="col-md-4">
+   <?php echo $this->element('tagsTable', array("tags" => $chunks[0])); ?>
+ </div>
+ <?php } if (isset($chunks[1])) { ?>
+ <div class="col-md-4">
+   <?php echo $this->element('tagsTable', array("tags" => $chunks[1])); ?>
+ </div>
+ <?php } if (isset($chunks[2])) { ?>
+ <div class="col-md-4">
+   <?php echo $this->element('tagsTable', array("tags" => $chunks[2])); ?>
+ </div>
+ <?php } ?>
+ </div>
 <?php } ?>
-
-<div class="row">
-<?php if (isset($chunks[0])) { ?>
-<div class="col-md-4">
-	<?php echo $this->element('tagsTable', array("tags" => $chunks[0])); ?>
-</div>
-<?php } if (isset($chunks[1])) { ?>
-<div class="col-md-4">
-	<?php echo $this->element('tagsTable', array("tags" => $chunks[1])); ?>
-</div>
-<?php } if (isset($chunks[2])) { ?>
-<div class="col-md-4">
-	<?php echo $this->element('tagsTable', array("tags" => $chunks[2])); ?>
-</div>
-<?php } ?>
-</div>
-
-<?php 
-}
-?>

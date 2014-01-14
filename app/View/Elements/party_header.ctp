@@ -43,7 +43,7 @@ if (isset($party)) {
 
 	if (isset($link) && isset($party['id']) && $link) {
 		echo $this->Html->link($image . $titleString,
-	    	array('controller' => 'parties', 'action' => 'view', 'name' => str_replace(' ', '_', strtolower($party['name']))), array('escape' => false, 'class' => isset($linkClass) ? $linkClass : null));
+	    	array('controller' => 'parties', 'action' => 'view', 'name' => $this->Url->slug($party['name'])), array('escape' => false, 'class' => isset($linkClass) ? $linkClass : 'party-logo-link'));
 	} else {
 		echo $image . $title;
 	}

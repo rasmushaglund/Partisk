@@ -30,9 +30,9 @@
 
 $this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
 $this->Html->addCrumb($answer['Question']['title'], Router::url(array('controller' => 'questions', 'action' => 'view', 
-                    'title' => str_replace(' ', '_', strtolower($answer['Question']['title']))), true));
+                    'title' => $this->Url->slug($answer['Question']['title'])), true));
 $this->Html->addCrumb(ucfirst($answer['Party']['name']), Router::url(array('controller' => 'parties', 'action' => 'view', 
-                    'name' => str_replace(' ', '_', strtolower($answer['Party']['name']))), true));
+                    'name' => $this->Url->slug($answer['Party']['name'])), true));
 $this->Html->addCrumb($answer['Answer']['answer']);
 
 $deleted = $answer['Answer']['deleted'];
@@ -42,7 +42,7 @@ $deleted = $answer['Answer']['deleted'];
     <div class="col-md-12">
 <h1<?php echo $deleted ? ' class="deleted"' : ''; ?>>
 <?php echo $answer['Question']['title']; ?>
-<?php if ($current_user) {
+<?php if ($this->Permissions->isLoggedIn()) {
   echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $answer['Question']['title']));
 } ?>
 </h1>
@@ -52,6 +52,7 @@ $deleted = $answer['Answer']['deleted'];
     <div class="col-md-6">
 <h2><?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => true)); ?>
     <span class="party-answer">: <?php echo ucfirst(h($answer['Answer']['answer'])); ?></span></h2>
+<?php echo $this->element("share"); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
@@ -66,7 +67,7 @@ $deleted = $answer['Answer']['deleted'];
 	}
 ?> <i class="source"><?php echo date('Y-m-d', strtotime($answer['Answer']['date'])); ?></i>
 
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
   <div class="tools">
 <?php echo $this->element('saveAnswer', array('partyId' => $answer['Party']['id'], 'questionId' => $answer['Question']['id'])); ?>
   </div>
@@ -85,7 +86,7 @@ $deleted = $answer['Answer']['deleted'];
       	<?php echo $this->Html->link($historicAnswer['Answer']['answer'],
                   array('controller' => 'answers', 'action' => 'view', $historicAnswer['Answer']['id'])); ?>      	
       </td>
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
       <td>
         <?php echo $this->element('answerAdminToolbox', array('answer' => $historicAnswer, 'questionTitle' => $answer['Question']['title'])); ?>
       </td>

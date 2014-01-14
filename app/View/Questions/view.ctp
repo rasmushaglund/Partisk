@@ -39,6 +39,7 @@ $deleted = $question['Question']['deleted'];
 <?php echo ucfirst(h($question['Question']['title'])); ?>
 <?php echo $this->element('questionAdminToolbox', array('question' => $question)); ?>
 </h1>
+<?php echo $this->element("share"); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
@@ -55,13 +56,13 @@ $deleted = $question['Question']['deleted'];
 
 <p><?php echo $question['Question']['description']; ?></p>
 
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php echo $this->element('saveAnswer', array('questionId' => $question['Question']['id'])); ?>
 </div>
 <?php } ?>
 
-<table class="table table-bordered table-striped qa-table narrow-table">
+<table class="table table-bordered table-striped qa-table narrow-table table-hover">
 <?php foreach ($answers as $answer): ?>
 	<tr>
       <th>
@@ -70,7 +71,7 @@ $deleted = $question['Question']['deleted'];
     	<?php 
         echo $this->element('answerTableCell', array('answer' => $answer));
       ?>   	
-      <?php if ($current_user) { ?>
+      <?php if ($this->Permissions->isLoggedIn()) { ?>
             <td>
               <?php echo $this->element('answerAdminToolbox', array('answer' => $answer, 'questionTitle' => $question['Question']['title'])); ?>
             </td>

@@ -32,7 +32,7 @@ $this->Html->addCrumb('Quiz', '/quizzes/');
 $this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
 ?>
 
-<?php if ($current_user) { ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
 	<div class="tools">
 	<?php  echo $this->element('addQuizQuestion', array('quizId' => $quiz['Quiz']['id'])); ?>
 	</div>

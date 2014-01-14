@@ -29,13 +29,12 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('AuthComponent', 'CakeLog', 'CakeRequest');
-APP::import('Model', 'Question');
-APP::import('Model', 'Quiz');
-APP::import('Model', 'Answer');
+App::uses('CakeLog', 'CakeRequest');
+App::import('Model', 'Question');
+App::import('Model', 'Quiz');
+App::import('Model', 'Answer');
 
 class Permissions {
-    
     public static function checkPermission($controller, $action) {
         $user = AuthComponent::user();
         $role = $user['Role']['name'];
@@ -58,6 +57,10 @@ class Permissions {
 
     public static function isLoggedIn() {
         return AuthComponent::user();
+    }
+
+    public static function getUser($field = null) {
+        return AuthComponent::user($field);
     }
     
     public static function isAdmin() { 
@@ -130,12 +133,12 @@ class Permissions {
         }
     }
 
-    public static function canModifyQuestionId($question, $type) {
+    public static function canModifyQuestion($question, $type) {
         $userId = AuthComponent::user('id');
         
         if (!isset($question['Question'])) {
-            $this->Question = new Question();
-            $question = $this->Question->getByIdOrTitle($question);
+            $questionModel = new Question();
+            $question = $questionModel->getByIdOrTitle($question);
         }
         
         if ($question['Question']['created_by'] == $userId && $question['Question']['approved'] == 0) {
@@ -153,8 +156,8 @@ class Permissions {
         $userId = AuthComponent::user('id');
         
         if (!isset($answer['Answer'])) {
-            $this->Answer = new Answer();
-            $answer = $this->Answer->getById($answer);
+            $answerModel = new Answer();
+            $answer = $answerModel->getById($answer);
         }
 
         if ($answer['Answer']['created_by'] == $userId && $answer['Answer']['approved'] == 0) {
@@ -172,8 +175,8 @@ class Permissions {
         $userId = AuthComponent::user('id');
         
         if (!isset($quiz['Quiz'])) {
-            $this->Quiz = new Quiz();
-            $quiz = $this->Quiz->getById($quiz);
+            $quizModel = new Quiz();
+            $quiz = $quizModel->getById($quiz);
         }
 
         if ($quiz['Quiz']['created_by'] == $userId && $quiz['Quiz']['approved'] == 0) {
@@ -189,6 +192,7 @@ class Permissions {
     
     public static function abuse($message) {
         $request = new CakeRequest();
+        
         $url = $request->url;
         //$this->customFlash(__('Du har inte tillåtelse att göra det du just försökte göra.'), "danger");
         CakeLog::write('abuse', $request->clientIp() . ', User:' . AuthComponent::user('username') . 

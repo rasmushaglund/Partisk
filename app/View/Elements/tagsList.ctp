@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
@@ -26,10 +26,30 @@
  * @link        https://www.partisk.nu
  * @package     app.View.Elements
  * @license     http://opensource.org/licenses/MIT MIT
- */
+ */ ?>
 
-if ($this->Permissions->canEditQuestion() || (!$question['approved'] && $question['created_by'] == $this->Permissions->getUser('id'))) {
-	echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-        	array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openModal(\'questions\',\'edit\',' . $question['id'] . ');return false;')); 
+<?php
+
+if ($tags) {
+    $chunks = array_chunk($tags, ceil(sizeof($tags) / 3));
+?>
+
+<div class="row">
+<?php if (isset($chunks[0])) { ?>
+<div class="col-md-4">
+        <?php echo $this->element('tagsTable', array("tags" => $chunks[0], "loggedIn" => isset($loggedIn) && $loggedIn)); ?>
+</div>
+<?php } if (isset($chunks[1])) { ?>
+<div class="col-md-4">
+        <?php echo $this->element('tagsTable', array("tags" => $chunks[1], "loggedIn" => isset($loggedIn) && $loggedIn)); ?>
+</div>
+<?php } if (isset($chunks[2])) { ?>
+<div class="col-md-4">
+        <?php echo $this->element('tagsTable', array("tags" => $chunks[2], "loggedIn" => isset($loggedIn) && $loggedIn)); ?>
+</div>
+<?php } ?>
+</div>
+
+<?php 
 }
 ?>
