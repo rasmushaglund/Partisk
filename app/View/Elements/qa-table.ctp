@@ -1,38 +1,38 @@
 <?php
-/** 
- * Question Answer table view
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+/**
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.View.Elements
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  */
 ?>
 
-<div class="table table-bordered table-striped qa-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
+<div class="table table-bordered table-striped qa-table collapsable-table <?php echo isset($fixedHeader) && $fixedHeader ? 'table-with-fixed-header' : '' ?>">
     <div class="table-row table-head">
       <div class="table-header table-header-text">
-        <div><?php if (isset($label)) { ?>
-          <h3><?php echo $label; ?></h3> 
-        <?php } ?>
           <a class="btn btn-link" data-toggle="modal" data-target="#parties-info"><i class="fa fa-info-circle"></i> Info om partier</a>
-        </div>
       </div>
       <?php foreach ($parties as $party): ?>
       <div class="table-header">
@@ -60,7 +60,7 @@
 
         if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
           echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
-                                                  'question' => $question));
+                                                  'question' => $question, 'party' => $party['Party']));
         } else { ?>
         <div class="table-cell"></div>
         <?php }?>

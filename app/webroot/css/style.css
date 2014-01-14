@@ -1,26 +1,30 @@
-/** 
- * Main css
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+/**
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.Webroot.css
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @package     app.webroot.css
+ * @license     http://opensource.org/licenses/MIT MIT
  */
 
 body { 
@@ -43,7 +47,13 @@ div.logo.small {
 }
 
 h1 {
-	display: inline-block;
+    display: inline-block;
+    font-size: 27px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 40px;
 }
 
 h1 a {
@@ -55,13 +65,26 @@ h1 a:hover {
 	color: inherit;
 }
 
-h1 .party-logo {
+h1 .party-logo, h2 .party-logo {
 	margin-right: 8px;
 }
 
-h1 .party-title {
-    top: -10px;
+h1 .party-title, h2 .party-title {
+    left: 0px;
+    top: -15px;
     position: relative;
+}
+
+h2 .party-answer {
+    display: inline;
+    top: -15px;
+    left: -6px;
+    position: relative;
+}
+
+.source {
+    font-size: 12px;
+    color: #666;
 }
 
 .table.table-nonfluid tbody > tr > th {
@@ -118,12 +141,22 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 	background-color: #ddffdd !important;
 }
 
-.no  {
+.no {
 	background-color: #ffdddd !important;
 }
 
-.narrow-table {
-	width: auto;
+.answer-cell {
+    display: table-cell;
+}
+
+.narrow-table.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.narrow-table td {
+    width: 60px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 #question-agree-rate-graph svg {
@@ -140,6 +173,8 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 
 .quiz-answers {
     margin: 15px 0px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .quiz-answers label {
@@ -148,6 +183,12 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
 
 .quiz-answers .input.radio {
     margin-bottom: 30px;
+}
+
+.quiz-answers h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 td.category {
@@ -331,6 +372,12 @@ input.datepicker {
 
 .author-info .description {
     text-align: left;
+    margin-bottom: 0px;
+}
+
+.author-info {
+    margin-bottom: 0px;
+    margin-top: 40px;
 }
 
 h1.deleted, h2.deleted {
@@ -357,8 +404,37 @@ h1 .admin-toolbox {
 }
 
 #footer {
-    margin-top: 60px;
+    margin-top: 50px;
     color: #777;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+}
+
+#footer .follow .fa {
+    font-size: 1.7em;
+}
+
+#footer .list-unstyled li {
+    margin-bottom: 4px;
+    margin-left: 1px;
+}
+
+#footer ul a {
+    text-decoration: none;
+}
+
+#footer .info {
+    margin-top: 30px;
+}
+
+#footer h4 {
+    padding-top: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1px;
+}
+
+#footer .contact li:first-child {
+    margin-bottom: 18px;
 }
 
 .tools {
@@ -381,6 +457,7 @@ h1 .admin-toolbox {
 
 .party-result-table {
     max-width: 600px;
+    margin-bottom: 0px;
 }
 
 .plus-points .result, .plus-points .answer {
@@ -466,8 +543,8 @@ text-decoration: underline;
     margin-left: 6px;
 }
 
-.list-unstyled li {
-    margin-bottom: 30px;
+.credits.list-unstyled li {
+    margin-top: 30px;
 }
 
 .dropdown-deleted {
@@ -531,6 +608,21 @@ text-decoration: underline;
     background-color: #f9f9f9;
 }
 
+.table-cell {
+    border-top: 1px solid #dddddd;
+    padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+}
+
+.table-header {
+    vertical-align: bottom;
+    border-bottom: 1px solid #dddddd;
+    padding: 8px;
+    line-height: 1.428571429;
+    font-weight: bold;
+}
+
 .table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -566,9 +658,8 @@ text-decoration: underline;
 
 
 .qa-table .table-head.table-row .table-header-text a {
-    padding-top: 0px;
-    right: 0;
-    position: absolute;
+    margin: 0;
+    padding: 0;
 }
 
 .table-fixed .table {
@@ -608,7 +699,7 @@ text-decoration: underline;
     left: 0px;
     top: 0px;
     position: fixed;
-    height: 71px;
+    height: 74px;
     width: 100%;
     background-color: white;
     box-shadow: 0px 2px 17px #999;
@@ -683,12 +774,12 @@ text-decoration: underline;
     visibility:hidden;
 }
 
-#partisk-search {
+#partisk-search{
     margin-bottom: 20px;
 }
 
-#partisk-search input, .tt-dropdown-menu {
-    width: 300px;
+#partisk-search .twitter-typeahead, .tt-dropdown-menu {
+    width: 100%;
 }
 
 .tt-suggestion {
@@ -701,4 +792,279 @@ text-decoration: underline;
 
 .table, .table-head-container {
     table-layout: fixed;
+}
+
+.table-head-container.table-fixed .table-bordered {
+    border-bottom: none;
+    border-left: none;
+} 
+
+.nvd3 .nv-x.nv-axis text {
+    display: none;
+}
+
+.nvd3 .nv-label text {
+    display: none;
+}
+
+.party-column {
+    width: 198px;
+}
+
+.question-summary-list h3 {
+    margin-top: 40px;
+}
+
+.date {
+    font-size: 15px;
+    color: #777;
+}
+
+.share {
+    display: inline-block;
+}
+
+.share a {
+    font-size: 1.7em;
+}
+
+.list-unstyled.question-summary-list li {
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-top: 60px;
+}
+
+.navbar-collapse .navbar-nav.navbar-right {
+    margin-top: 0;
+    margin-left: 0px;
+}
+
+.navbar-collapse .navbar-nav.navbar-left {
+    margin-bottom: 0;
+    margin-left: 0px;
+}
+
+.answer-party-cell {
+    display: none;
+}
+
+.quiz-buttons a, .quiz-buttons button {
+    margin-top: 10px;
+}
+
+.progress {
+    background-color: white;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-progress {
+    margin-bottom: 0px;
+    color: #777;
+}
+
+.party-answer {
+    display: none;
+}
+
+/* Credits: http://css-tricks.com/responsive-data-tables/ */
+@media (max-width: 1199px) {
+        /*.collapsable-table, .collapsable-table .table-head, .collapsable-table .table-body, .collapsable-table .table-header, .collapsable-table .table-cell, 
+        .collapsable-table .table-row { 
+		display: block; 
+	}*/
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.collapsable-table .table-head .table-row { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+        .collapsable-table .table-head .table-header, .qa-table .table-head .table-header {
+            display: none;
+        }
+        
+        .collapsable-table .table-row.table-head {
+            display: none;
+        }
+        
+        .collapsable-table .table-head-container {
+            display: none;
+        }
+        
+        .collapsable-table.table-bordered .table-row .table-header, .collapsable-table.table-bordered .table-row .table-cell {
+            border: none;
+        }
+        
+        .table-bordered .table-row .table-header {
+            background-color: transparent !important;
+            font-size: 17px;
+        }
+	
+	.table-bordered .table-row .table-cell { 
+		/* Behave  like a "row" */
+		border-bottom: none;
+                padding: 0;
+	}
+        
+        .qa-table.table-bordered {
+            border: none;
+        }
+	
+	.collapsable-table .table-cell:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+        .collapsable-table .table-cell {
+            display: inline-block;
+        }
+        
+        .collapsable-table .table-header-text {
+            width: 100% !important;
+        }
+        
+        .empty-cell {
+            display: none;
+        }
+        
+        .collapsable-table .table-row {
+            margin-top: 40px;
+        }
+        
+        .collapsable-table .answer-cell {
+            display: block;
+        }
+        
+        .answer-party-cell {
+            display: inline-block;
+        }	
+        
+        .collapsable-table .table-cell {
+            width: auto;
+            text-align: left;
+        }
+        
+        .collapsable-table .party-answer, .collapsable-table .popover-link {
+            display: inline-block;
+        }
+        
+        .collapsable-table .party-answer {
+            width: 180px;
+        }
+        
+        .collapsable-table .party-title {
+            font-weight: 200;
+        }
+        
+        .collapsable-table .popover-link {
+            position: relative;
+            top: -7px;
+        }
+        
+        .collapsable-table .table-cell {
+            background-color: transparent;
+            font-weight: 700;
+        }
+        
+        .collapsable-table .yes .popover-link {
+            color: green;
+        }
+        .collapsable-table .no .popover-link {
+            color: red;
+        }
+        
+        .collapsable-table.table-striped .table-row > .table-cell {
+            background-color: transparent !important;
+        }
+        
+        .collapsable-table .table-header-text {
+            margin-bottom: 10px;
+        }
+        
+        
+}
+
+@media (max-width: 990px) {
+    #feedbacksModalLink {
+        display: none;
+    }
+    
+    .collapsable-head {
+        display: none;
+    }
+    
+    .modal { 
+        position: fixed; 
+        width: auto; 
+        margin: 0; 
+    }
+
+    .modal-body { 
+        height: 60%; 
+    }
+
+    .modal-body { 
+        max-height: 350px; 
+        padding: 15px; 
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; 
+     }
+     
+     .party-table thead {
+         display: none;
+     }
+     
+     .party-table td {
+         display: none;
+     }
+}
+
+
+@media (max-width: 500px) {     
+     .popover {
+         left: 0 !important;
+         width: 100%;
+     }
+     
+     .popover.top .arrow {
+         display: none;
+     }
+}
+
+.breadcrumb {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.credits img {
+    float: left;
+    width: 110px;
+    margin-right: 10px;
+}
+
+.label {
+    font-weight: 200;
+}
+
+h1.label {
+    font-size: 20px;
+    padding: 0.2em 0.6em 0.2em;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+#no-svg {
+    margin-top: 20px;
+    display: none;
 }

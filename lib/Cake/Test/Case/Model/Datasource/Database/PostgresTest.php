@@ -2,15 +2,13 @@
 /**
  * DboPostgresTest file
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Model.Datasource.Database
  * @since         CakePHP(tm) v 1.2.0
@@ -69,7 +67,7 @@ class PostgresTestModel extends Model {
 /**
  * useTable property
  *
- * @var bool false
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -150,7 +148,7 @@ class PostgresClientTestModel extends Model {
 /**
  * useTable property
  *
- * @var bool false
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -568,6 +566,38 @@ class PostgresTest extends CakeTestCase {
 		$this->assertEquals($result, $result2);
 
 		$db1->query('DROP TABLE ' . $db1->fullTableName('datatype_tests'));
+	}
+
+/**
+ * testCakeSchemaBegserial method
+ *
+ * Test that schema generated postgresql queries are valid.
+ *
+ * @return void
+ */
+	public function testCakeSchemaBigserial() {
+		$db1 = ConnectionManager::getDataSource('test');
+		$db1->cacheSources = false;
+
+		$db1->rawQuery('CREATE TABLE ' . $db1->fullTableName('bigserial_tests') . ' (
+			"id" bigserial NOT NULL,
+			"varchar" character varying(40) NOT NULL,
+			PRIMARY KEY ("id")
+		)');
+
+		$schema = new CakeSchema(array('connection' => 'test'));
+		$result = $schema->read(array(
+			'connection' => 'test',
+			'models' => array('BigserialTest')
+		));
+		$schema->tables = array(
+			'bigserial_tests' => $result['tables']['missing']['bigserial_tests']
+		);
+		$result = $db1->createSchema($schema, 'bigserial_tests');
+
+		$this->assertContains('"id" bigserial NOT NULL,', $result);
+
+		$db1->query('DROP TABLE ' . $db1->fullTableName('bigserial_tests'));
 	}
 
 /**

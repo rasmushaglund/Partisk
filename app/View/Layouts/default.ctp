@@ -1,27 +1,31 @@
 <?php
 /**
- * Default layout
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.View.Layouts
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  */
 ?>
 
@@ -30,7 +34,7 @@
     <head>
         <?php echo $this->Html->charset(); ?>
         <title>
-            Partisk.nu (Testversion) - 
+            Partisk.nu Beta - 
             <?php echo $title_for_layout; ?>
         </title>
 
@@ -38,13 +42,20 @@
             var appRoot = "<?php echo Router::url('/', false); ?>";
         </script>
 
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Partisk.nu">
+        <meta name="author" content="Partisk.nu">
+        <link rel="shortcut icon" href="favicon.ico">
+
         <?php
         echo $this->Html->meta('icon');
 
-        if (Configure::read('debug')>0) { ?>
+        if (Configure::read('minimizeAssets')==0) { ?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite.png') no-repeat;}</style>
         <?php
-            echo $this->Html->css('bootstrap.min');
+            echo $this->Html->css('bootstrap');
             echo $this->Html->css('typeahead.js-bootstrap');
             echo $this->Html->css('font-awesome.min');
             echo $this->Html->css('nv.d3');
@@ -57,6 +68,7 @@
             echo $this->Html->script('typeahead');
             echo $this->Html->script('d3.v2');
             echo $this->Html->script('nv.d3');
+            echo $this->Html->script('matchMedia');
             echo $this->Html->script('partisk');
 
             echo $this->fetch('meta');
@@ -74,7 +86,7 @@
             
         <?php } ?>
     </head>
-    <body>
+    <body>        
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -98,7 +110,8 @@
                 ?></li>
                     <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false, 'class' => $currentPage == "contact" ? 'active' : ''));
                 ?></li>
-                    <?php if (isset($current_user)) { ?>
+                    <!--nocache-->
+                    <?php if ($this->Permissions->isLoggedIn()) { ?>
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#"><i class="fa fa-gears"></i> Administration</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -112,7 +125,7 @@
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Mina quizzar', array('controller' => 'quizzes', 'action' => 'status'), array('escape' => false));
                     ?></li>
-                        <?php if ($isAdmin) { ?>
+                        <?php if ($this->Permissions->isAdmin()) { ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quizöversikt', array('controller' => 'quizzes', 'action' => 'overview'), array('escape' => false));
                     ?></li>
                         <?php } ?>
@@ -123,12 +136,13 @@
                     <?php } else { ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-sign-in"></i> Logga in', array('controller' => 'users', 'action' => 'login'), array('escape' => false, 'class' => $currentPage == "login" ? 'active' : '')); ?></li>
                     <?php } ?>
+                    <!--/nocache-->
                 </ul>
-            </div><!-- /.navbar-collapse -->
+            </div>
         </nav>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <div id="partisk-search">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
@@ -140,7 +154,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $this->Html->getCrumbList(array('class' => 'breadcrumb'), 'Hem'); ?>
+                    <!--nocache-->
                     <?php echo $this->Session->flash(); ?>
+                    <!--/nocache-->
                 </div>
             </div>
             <div class="row">
@@ -148,7 +164,7 @@
                     <?php echo $this->fetch('content'); ?>
                 </div>
             </div>
-            <div class="row">
+           <!-- <div class="row">
                 <div class="col-md-12">
                     <?php if (Configure::read('debug') >= 2) { ?>
                         <div class="alert alert-info">
@@ -156,20 +172,61 @@
                         </div>
                     <?php } ?>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div id="footer">
             <div class="container">
-                <div class="row">
+                <div class="row section">
+                    <div class="col-md-3">
+                        <h4>Navigering</h4>
+                        <ul class="list-unstyled">
+                            <li><?php echo $this->Html->link('<i class="fa fa-thumbs-o-up"></i> Så här tycker partierna', array('controller' => 'questions', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-tags"></i> Taggar', array('controller' => 'tags', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-globe"></i> Partier', array('controller' => 'parties', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quiz', array('controller' => 'quizzes', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-info-circle"></i> Om sidan', array('controller' => 'pages', 'action' => 'about'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false)); ?></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Hjälp till</h4>
+                        <ul class="list-unstyled">
+                            <li><a data-toggle="modal" href="#feedbacksModal"><i class="fa fa-comments"></i> Skicka in feedback</a></li>
+                            <li><a href="mailto:info@partisk.nu"><i class="fa fa-envelope"></i> Berätta vad du tycker</a></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-user"></i> Ansök om konto', array('controller' => 'users', 'action' => 'login'), array('escape' => false)); ?></li>
+                            <li><a href="https://github.com/rasmushaglund/Partisk" title="GitHub"><i class="fa fa-github"></i> Utveckla sidan</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Kontakt</h4>
+                        <ul class="list-unstyled contact">
+                            <li>
+                                <p>
+                                    <b>Allmänna frågor</b> <br />
+                                    <a href="mailto:info@partisk.nu">info@partisk.nu</a>
+                                </p>
+                            </li>
+                            <li>
+                                <p><b>Media</b> <br />
+                                    Rasmus Haglund <br />
+                                    <a href="mailto:rasmus.haglund@partisk.nu">rasmus.haglund@partisk.nu</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 follow">
+                        <h4>Följ oss</h4>
+                        <a href="https://www.facebook.com/partisk.nu" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                        <a href="https://twitter.com/partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+                        <a href="https://plus.google.com/108714344898230265138" rel="publisher" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+                        <a href="http://www.linkedin.com/company/5005133" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                        <a href="https://github.com/rasmushaglund/Partisk" title="GitHub"><i class="fa fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="row info">
                     <div class="col-md-12">
-                        <p><i class="fa fa-check-square"></i> Partisk.nu är grundad av <a href="https://github.com/rasmushaglund/">Rasmus Haglund</a> 2013.
-                            <a href="mailto:info@partisk.nu">Maila oss</a> och berätta vad du tycker.
-                        </p>
-                        <p>Läs gärna mer
-                            <?php echo $this->Html->link('om sidan',
-                                    array('controller' => 'pages', 'action' => 'about')); ?> och
-                            <?php echo $this->Html->link('kontakta oss',
-                                    array('controller' => 'pages', 'action' => 'contact')); ?> om du har några frågor eller förslag.</p>
+                        <p><i class="fa fa-check-square"></i> Partisk.nu är skapad med kärlek 2013-2014.
+                            Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://opensource.org/licenses/MIT">MIT</a>.
                     </div>
                 </div>
             </div>

@@ -1,42 +1,51 @@
 <?php
-/** 
- * Controller for managing users
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+/**
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.Controller
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  */
 
+App::uses('AppController', 'Controller');
+App::uses('Permissions', 'Utils');
 App::uses('UserLogger', 'Log');
 
 class UsersController extends AppController {
-
+    public $helpers = array('Cache', 'Permissions');
+    //public $cacheAction = "1 hour";
+    
     private $currentPage = "users";
-
     public $components = array('Auth', 'Session');
+    private $Permissions;
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->loginError = "Fel användarnamn eller lösenord. Försök gärna igen.";  
         $this->Auth->authError = "Du har inte rättigheter att se denna sida.";
         $this->Auth->allow(array('login', 'logout', 'add'));
+        $this->Permissions = new Permissions();
     }
 
     public function beforeRender() {
@@ -88,9 +97,7 @@ class UsersController extends AppController {
         }
         
         $this->set('user', $user);
-        $this->set('title_for_layout', $user['User']['username']);
-        
-        
+        $this->set('title_for_layout', $user['User']['username']); 
     }
    
     public function add() {
@@ -115,7 +122,7 @@ class UsersController extends AppController {
     }
 
     public function edit($id = null) {
-        if (!$this->canEditUser) {
+        if (!$this->Permissions->canEditUser()) {
             $this->abuse("Not authorized to edit user with id " . $id);
             return $this->redirect($this->referer());
         }
@@ -169,7 +176,7 @@ class UsersController extends AppController {
     }
 
     public function delete($id = null) {
-        if (!$this->canDeleteUser) {
+        if (!$this->Permissions->canDeleteUser()) {
             $this->abuse("Not authorized to delete user with id " . $id);
             return $this->redirect($this->referer());
         }

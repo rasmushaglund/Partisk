@@ -1,66 +1,76 @@
 <?php
-/** 
- * About page
- *
- * Partisk : Political Party Opinion Visualizer
- * Copyright (c) Partisk.nu Team (https://www.partisk.nu)
- *
- * Partisk is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Partisk is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Partisk. If not, see http://www.gnu.org/licenses/.
- *
- * @copyright   Copyright (c) Partisk.nu Team (https://www.partisk.nu)
+/**
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.View.Pages
- * @license     http://www.gnu.org/licenses/ GPLv2
+ * @license     http://opensource.org/licenses/MIT MIT
  */
  ?>
 
 <div class="row">
+    <div class="col-md-6">
+        
+            <h1>Om sidan</h1>
+    </div>
+</div>
+<div class="row">
 	<div class="col-md-6">
-		<h2>Om Partisk.nu</h2>
-                <p>I dag är det väldigt svårt att ta reda på vad ett parti verkligen tycker i en fråga och sedan jämföra det med vad andra tycker.
-                    Detta involverar ofta en lång tids undersökande på partiernas hemsidor, artiklar och politiska manifest. Det kan ta mycket tid och 
-                    energi att själv göra en sammanställning av vad partierna tycker i de frågor man själv tycker är viktiga.</p>
-                    
-		<p>Sidan skapades av Rasmus Haglund 2013 med syfte att göra Sveriges största partiers åsikter tillgängliga på ett överskådligt sätt.
-                    Tjänsten drivs helt ideellt och vi har inga planer på att ta betalt för innehåll eller lägga in reklam. Detta för att sidan ska
-                    vara så oberoende som möjligt.</p>
+		<h2>Bakgrund</h2>
+		<p>Sidan skapades för att göra Sveriges största partiers åsikter lättare att förstå.
+                   Tjänsten drivs helt ideellt och målet är att fånga och visualisera de största partiernas viktigaste frågor på ett lätt sätt.
+                   Vi vill fungera som en oberoende part som ständigt granskar partiernas åsikter.</p>
 
-                <h3>Öppenhet</h3>
-                <p>Sidan drivs och ägs idag av Rasmus Haglund men tjänsten är släppt som öppen källkod och kan laddas ner på 
-                    <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Planen är att även släppa all data i ett öppet format
-                så att vem som helst kan skapa en liknande och eventuellt konkurrerande verksamhet. Datan kommer dels att bli tillgänglig via
-                ett API men så småning om även i andra tillgängliga format.</p>
+                <h2>Öppen källkod</h2>
+                <p>Tjänsten drivs idag ideellt och koden är släppt som öppen källkod. Källkoden kan laddas ner på 
+                    <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Planen är att släppa all data i ett öppet format
+                så att vem som helst kan skapa en liknande och eventuellt konkurrerande verksamhet. Datan kommer i framtiden att bli tillgänglig via
+                ett API och så småning om även i andra användbara format.</p>
+                <p>Sidan bygger helt på öppen källkod och allt från operativsystem till webbserver drivs enbart av mjukvara med öppen kod.</p>
                 <p>Målet är att skapa en tjänst som människor har nytta av, och om det innebär att någon annan tar tjänsten och gör den 
                     bättre har de vår välsignelse. Vi vill och uppmanar er att ta det vi gjort och göra bättre. Vi uppmanar er även att
                 hjälpa till att forma denna tjänst så att ni får ut så mycket nytta av den som möjligt.</p>
-                <p>Sidan bygger helt och hållet på öppen källkod och allt från operativsystem till webbserver drivs enbart av mjukvara med öppen kod.</p>
                 
-		<h3>Sortering av Partier</h3>
-		<p>Eftersom valåret 2014 består av både ett riksdagsval och ett EU-val baseras partiernas inbördes sortering på det bästa uppnådda 
+		<h2>Sortering av Partier</h2>
+		<p>Eftersom valåret 2014 består av både riksdagsval och EU-val baseras partiernas inbördes sortering på det bästa uppnådda 
                     resultatet av de två tidigare valen.</p>
-                
-		<h3>Om oss</h3>
-                <p>Total har vi lagt ned hundratals timmar på att skapa denna tjänst, men det har det varit värt. Vi som varit med och hjälpt till är:</p>
-                <ul class="list-unstyled">
+        </div>
+           <div class="col-md-6">     
+		<h2>Personerna bakom tjänsten</h2>
+                <p>Vi som varit med och hjälpt till att skapa denna tjänst är:</p>
+                <ul class="list-unstyled credits">
                     <li>
+                        <img src="img/rasmus.png" alt="Rasmus Haglund" class="img-thumbnail">
                         <b>Rasmus Haglund</b>
-                        <p>Webbutvecklare och entreprenör med stort intresse för politik.</p>
-                        <p>Rasmus finns på <a href="https://github.com/rasmushaglund/">GitHub</a>, <a href="http://www.linkedin.com/in/rasmushaglund">LinkedIn</a>, 
+                        <p>Webbutvecklare och entreprenör med stort intresse för politik. Grundade Partisk.nu 2013.
+                            Till vardags jobbar Rasmus som IT-konsult på <a href="http://egbs.se/">egbs consulting ab</a>.</p>
+                        <p>Han finns på <a href="https://github.com/rasmushaglund/">GitHub</a>, <a href="http://www.linkedin.com/in/rasmushaglund">LinkedIn</a>, 
                             <a href="https://www.facebook.com/rasmus.haglund">Facebook</a>, <a href="https://twitter.com/rasmushaglund">Twitter</a>, 
                             <a href="https://plus.google.com/+RasmusHaglund">Google+</a> och <a href="mailto:rasmus.haglund@gmail.com">mail</a>.</p>
                     </li>
                     <li>
+                        <img src="img/rikard.png" alt="Rikard Nordström" class="img-thumbnail">
                         <b>Rikard Nordström</b>
                         <p>Studerande på nackademin, sharepointutveckling.</p>
                         <p>Rikard finns på <a href="https://github.com/RikardNordstrom">GitHub</a>, 

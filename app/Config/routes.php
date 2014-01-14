@@ -5,10 +5,9 @@ Router::connect('/', array('controller' => 'pages', 'action' => 'index'));
 /*Router::connect('/about', array('controller' => 'pages', 'action' => 'about'));
 Router::connect('/contact', array('controller' => 'pages', 'action' => 'contact'));
 
-Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));*/
 
 // TODO: Remove eventually. For backwards compatibility only.
-Router::connect('/quiz/results/*', array('controller' => 'quizzes', 'action' => 'results'));*/
 
 // Swedish routes
 Router::connect('/om', array('controller' => 'pages', 'action' => 'about'));
@@ -37,13 +36,11 @@ Router::connect('/quiz/:id/fortsätt', array('controller' => 'quizzes', 'action'
 Router::connect('/quiz/frågor/nästa', array('controller' => 'quizzes', 'action' => 'next'));
 Router::connect('/quiz/frågor/föregående', array('controller' => 'quizzes', 'action' => 'prev'));
 Router::connect('/quiz/avsluta', array('controller' => 'quizzes', 'action' => 'close'));
+Router::connect('/quiz/resultat/:guid', array('controller' => 'quizzes', 'action' => 'results'), array('pass' => array('guid')));
+Router::connect('/quiz/results/*', array('controller' => 'quizzes', 'action' => 'results'));
 Router::connect('/quiz/:id', array('controller' => 'quizzes', 'action' => 'start'), array('pass' => array('id')));
 
 Router::connect('/api/search/:string', array('controller' => 'questions', 'action' => 'search'), array('pass' => array('string')));
-
-// TODO: Remove eventually. For backwards compatibility only.
-Router::connect('/quiz/resultat/:guid', array('controller' => 'quizzes', 'action' => 'results'), array('pass' => array('guid')));
-
 
 
 CakePlugin::routes();
