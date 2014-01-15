@@ -68,7 +68,7 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers);
+        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers, 2);
         
         $categories = $this->Question->Tag->getAllCategories();
         $this->set('categories', $categories);
@@ -104,7 +104,7 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
+        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers, 2);
         
         $this->set('questions', $questions);
         $this->set('parties', $parties);
