@@ -167,10 +167,9 @@ class Answer extends AppModel {
         }
 
         if (isset($tagId)) {
-            $conditions['Tag.id'] = $tagId;
             array_push($joins, array('type' => 'inner',
-                                     'table' => 'tags as Tag',
-                                    'conditions' => array('Tag.id' => $tagId)));
+                                     'table' => 'question_tags as QuestionTag',
+                                    'conditions' => array('QuestionTag.tag_id' => $tagId, 'QuestionTag.question_id = Answer.question_id')));
         }
 
         if (isset($questionId)) {

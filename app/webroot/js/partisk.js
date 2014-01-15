@@ -49,7 +49,7 @@ $(document).ready(function() {
         }
     ]).bind('typeahead:selected', function(event, obj) {
         if (obj.key) {
-            window.location = appRoot + "frågor/" + obj.value.split(' ').join('_');
+            window.location = appRoot + "frågor/" + obj.value.split(' ').join('_').replace('?', '%3f');
         }
 
         $(this).val("");
