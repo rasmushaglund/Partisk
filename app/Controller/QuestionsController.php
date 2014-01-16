@@ -142,18 +142,11 @@ class QuestionsController extends AppController {
      }
      
      private function getDescriptionForQuestion($answers) {
-         $results = "";
-         $first = true;
+         $results = array();
          foreach ($answers as $answer) {
-             if ($first) {
-                 $first = false;
-             } else {
-                 $results .= ", ";
-             }
-             
-             $results .= ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
+             $results[] = ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
          }
-         return $results;
+         return implode(", ", $results);
      }
 
      public function add() {
