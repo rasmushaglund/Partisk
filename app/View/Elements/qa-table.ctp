@@ -46,6 +46,7 @@
       <?php } ?>
     </div>
     <?php foreach ($questions as $question): ?>
+    <?php if (isset($answers[$question["Question"]["id"]])) { ?>
     <div class="table-row">
       <div class="table-cell table-header table-header-text">
         <?php 
@@ -73,5 +74,6 @@
         </div>
       <?php } ?>
     </div>
+    <?php } ?>
     <?php endforeach; ?>
 </div>

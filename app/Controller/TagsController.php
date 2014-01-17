@@ -73,6 +73,9 @@ class TagsController extends AppController {
         $answers = $this->Answer->getAnswers(array('tagId' => $tag['Tag']['id'], 'includeParty' => true));
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
+        
+         //debug($answers);
+        
         $this->set('tag', $tag);
         $this->set('questions', $questions);
         $this->set('parties', $parties);

@@ -68,7 +68,7 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers);
+        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers, 2);
         
         $categories = $this->Question->Tag->getAllCategories();
         $this->set('categories', $categories);
@@ -104,7 +104,7 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
+        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers, 2);
         
         $this->set('questions', $questions);
         $this->set('parties', $parties);
@@ -142,18 +142,11 @@ class QuestionsController extends AppController {
      }
      
      private function getDescriptionForQuestion($answers) {
-         $results = "";
-         $first = true;
+         $results = array();
          foreach ($answers as $answer) {
-             if ($first) {
-                 $first = false;
-             } else {
-                 $results .= ", ";
-             }
-             
-             $results .= ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
+             $results[] = ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
          }
-         return $results;
+         return implode(", ", $results);
      }
 
      public function add() {
