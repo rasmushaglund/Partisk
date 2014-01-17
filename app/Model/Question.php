@@ -114,11 +114,17 @@ class Question extends AppModel {
         if (isset($partyId)) { $conditions['party_id'] = $partyId; }
 
         if (isset($tagId)) {
+	   if ($tagId > 0 ) {
             array_push($joins, array(
                                 'table' => 'question_tags as QuestionTag',
                                 'conditions' => array('QuestionTag.tag_id' => $tagId,
                                                       'Question.id = QuestionTag.question_id')
                             ));
+           } else {
+            array_push($conditions, array(
+			      'Question.id not in (select question_id from question_tags inner join tags on tags.id = tag_id and tags.is_category = true where question_id = Question.id)')
+                            );
+	   }
         }
 
         $questions = $this->find('all', array(
@@ -126,7 +132,8 @@ class Question extends AppModel {
             'conditions' => $conditions,
             'joins' => $joins,
             'fields' => $fields,
-            'limit' => $limit
+            'limit' => $limit,
+	    'group' => 'Question.id'
             ));
 
         return $questions;
@@ -386,7 +393,8 @@ class Question extends AppModel {
     public function getVisibleTagQuestions($id) {
          $result = Cache::read('visible_tag_questions_' . $id, 'question');
          if (!$result) {
-             $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id));
+	     $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id));
+	     
              Cache::write('visible_tag_questions_' . $id, $result, 'question');
          }
          
