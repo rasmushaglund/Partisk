@@ -70,8 +70,7 @@ class PartiesController extends AppController {
             throw new NotFoundException("Ogiltigt parti");
         }
                     
-        $conditions = array('deleted' => false);
-
+        
         if(!$this->Permissions->isLoggedIn()) {
             $questions = $this->Party->Answer->Question->getVisibleQuestions();
         } else {
@@ -84,8 +83,14 @@ class PartiesController extends AppController {
             array_push($questionIds, $question['Question']['id']);  
         }
 
-        $party["Answer"] = $this->Party->Answer->getAnswers(array('partyId' => $party['Party']['id'], 'questionId' => $questionIds, 'includeParty' => true, 
-                        'includeQuestion' => true));
+        $conditions = array('partyId' => $party['Party']['id'], 'questionId' => $questionIds, 'includeParty' => true, 
+                        'includeQuestion' => true, 'deleted' => false);
+        
+        if(!$this->Permissions->isLoggedIn()) {
+            $conditions['approved'] = true;
+        }
+        
+        $party["Answer"] = $this->Party->Answer->getAnswers($conditions);
             
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));

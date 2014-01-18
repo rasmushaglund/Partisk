@@ -70,7 +70,14 @@ class TagsController extends AppController {
         $parties = $this->Party->getPartiesOrdered();
 
         $this->loadModel('Answer');
-        $answers = $this->Answer->getAnswers(array('tagId' => $tag['Tag']['id'], 'includeParty' => true));
+        
+        $conditions = array('tagId' => $tag['Tag']['id'], 'includeParty' => true, 'deleted' => false);
+        
+        if(!$this->Permissions->isLoggedIn()) {
+             $conditions['approved'] = true;
+         }
+        
+        $answers = $this->Answer->getAnswers($conditions);
         $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
         
         

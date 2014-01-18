@@ -28,7 +28,7 @@
  */
 
 var datepickerArgs = {autoclose: true, format: 'yyyy-mm-dd', language: "sv", calendarWeeks: true, endDate: new Date()};
-var bigMode = matchMedia('only screen and (min-width: 1200px)').matches;
+var bigMode = matchMedia('only screen and (min-width: 463px)').matches;
 
 $(document).ready(function() {
     $('.pop').popover();
@@ -139,7 +139,7 @@ var initPopovers = function($container) {
     });
 }
 
-$( window ).resize(function() {
+$(window).resize(function() {
     newBigMode = matchMedia('only screen and (min-width: 463px)').matches;
     
     if (bigMode !== newBigMode) {
@@ -178,7 +178,7 @@ var setupFixedHeader = function (table) {
             var faded = false;
             var headerVisible = false;
             $(window).scroll(function() {
-                //if (bigMode) {
+                if (bigMode) {
                     var scrollTop = $(window).scrollTop();
                     if (!faded && scrollTop >= table.offset().top + table.height()) {
                         qaTableHead.fadeOut("fast", function () { faded = true; });
@@ -188,8 +188,6 @@ var setupFixedHeader = function (table) {
                     
                         console.log($(window).scrollTop() + ">=" + (table.offset().top));
                     if (scrollTop >= table.offset().top) {
-                        //console.log($(window).scrollTop() + ">=" + (table.offset().top));
-                        //console.log(table.height());
                         if (!headerVisible) {
                             headerVisible = true;
                             qaTableHead.addClass('table-fixed');
@@ -203,7 +201,7 @@ var setupFixedHeader = function (table) {
                             table.removeClass('table-fixed-header');
                         }
                     }
-                //}
+                }
             });
 };
 
