@@ -159,7 +159,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $this->Html->getCrumbList(array('class' => 'breadcrumb'), 'Hem'); ?>
+                    <!--nocache-->
                     <?php echo $this->Session->flash(); ?>
+                    <!--/nocache-->
                 </div>
             </div>
             <div class="row">
