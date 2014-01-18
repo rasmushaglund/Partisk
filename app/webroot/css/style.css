@@ -117,10 +117,6 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
     overflow: hidden;
 }
 
-.table-fixed-header {
-    margin-top: 72px;
-}
-
 .table .party-title {
     position: relative;
     margin-left: 6px;
@@ -694,9 +690,14 @@ text-decoration: underline;
     padding: 0;
 }
 
+.table-head-container .table {
+    display: none;
+}
+
 .table-fixed .table {
     top: 0px;
     position: fixed;
+    display: block;
 }
 
 .qa-table {
@@ -825,6 +826,8 @@ text-decoration: underline;
 .table-head-container.table-fixed .table-bordered {
     border-bottom: none;
     border-left: none;
+    display: table;
+    width: 1139px;
 } 
 
 .nvd3 .nv-x.nv-axis text {
@@ -903,19 +906,36 @@ h3 {
     color: #777;
 }
 
+.popover-content .party-logo-small {
+    top: 7px;
+    position: relative;
+    margin-right: 3px;
+}
+
 .party-answer {
     display: none;
 }
 
+
+.collapsable-table .table-header .party-logo-small, .table-head-container .table-header .party-logo-small {
+    display: none;
+}
+      
+.table-head-container , .table-head-container .qa-table {
+    min-width: 1140px;
+}
+
+.table-scrolled-overflow-container {
+    overflow: auto;
+}
+
+.table-scrolled-overflow-container .table {
+    min-width: 350px;
+}
+        
 /* Credits: http://css-tricks.com/responsive-data-tables/ */
 @media (max-width: 1199px) {
-        /*.collapsable-table, .collapsable-table .table-head, .collapsable-table .table-body, .collapsable-table .table-header, .collapsable-table .table-cell, 
-        .collapsable-table .table-row { 
-		display: block; 
-	}*/
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	.collapsable-table .table-head .table-row { 
+	/*.collapsable-table .table-head .table-row { 
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
@@ -943,7 +963,6 @@ h3 {
         }
 	
 	.table-bordered .table-row .table-cell { 
-		/* Behave  like a "row" */
 		border-bottom: none;
                 padding: 0;
 	}
@@ -953,9 +972,7 @@ h3 {
         }
 	
 	.collapsable-table .table-cell:before { 
-		/* Now like a table header */
 		position: absolute;
-		/* Top/left values mimic padding */
 		top: 6px;
 		left: 6px;
 		width: 45%; 
@@ -1027,12 +1044,27 @@ h3 {
         
         .collapsable-table .table-header-text {
             margin-bottom: 10px;
+        }*/
+        .qa-table .table-header, .qa-table .table-cell {
+            width: 58px;
         }
         
+        .qa-table .table-head.table-row .table-header {
+            padding: 8px 0px;
+        }
+        
+        .qa-table .table-head.table-row .table-header.table-header-text {
+            padding: 8px;
+        }
+        
+        .table-head-container.table-fixed .table-bordered, .table-head-container {
+            width: 940px;
+            min-width: 940px;
+        }
         
 }
 
-@media (max-width: 990px) {
+@media (max-width: 991px) {
     #feedbacksModalLink {
         display: none;
     }
@@ -1069,6 +1101,102 @@ h3 {
      .party-table td {
          display: none;
      }
+     
+     
+    .qa-table .table-header, .qa-table .table-cell {
+        width: 38px;
+    }
+
+    .collapsable-table .table-header .party-logo, .table-head-container .table-header .party-logo {
+        display: none;
+    }
+
+    .collapsable-table .table-header .party-logo-small, .table-head-container .table-header .party-logo-small {
+        display: inline-block;
+    }
+    
+    
+    .table-head-container.table-fixed .table-bordered, .table-head-container {
+        width: 720px;
+        min-width: 720px;
+    }
+
+    .qa-table .table-row.table-head {
+        height: 38px;
+    }
+
+    .table-header-bg {
+        height: 39px;
+    }
+
+
+    .qa-table .table-head.table-row .table-header {
+        padding: 2px;
+    }
+}
+
+
+
+@media (max-width: 767px) {     
+    .qa-table .table-header, .qa-table .table-cell {
+        width: 6%;
+    }
+    
+    .qa-table .table-row .table-cell {
+        padding: 8px 0px;
+    }
+    
+    
+    .qa-table .table-header.table-cell {
+        padding: 8px;
+    }
+    
+    .qa-table .table-header-text, .qa-table .table-head.table-row .table-header-text {
+        width: 200px;
+    }
+    
+    .table-head-container.table-fixed .table-bordered, .table-head-container {
+        width: 100%;
+        min-width: 100%;
+        padding-right: 30px;
+    }
+}
+
+
+@media (max-width: 540px) {     
+    .qa-table .table-header, .qa-table .table-cell {
+        width: 6%;
+    }
+    
+    
+    .qa-table .table-row .table-cell {
+        padding: 8px 0px;
+    }
+    
+    .qa-table .table-header-text, .qa-table .table-head.table-row .table-header-text {
+        width: 150px;
+    }
+}
+@media (max-width: 463px) {
+    .qa-table {
+        min-width: 419px;
+    }
+    
+    .collapsable-table-container {
+        overflow-x: scroll;
+    }
+    
+    .table-head-container.table-fixed .table-header-bg, .table-head-container.table-fixed .table {
+        display: none;
+    }
+    
+    .table-head-container.table-fixed .table-bordered, .table-head-container {
+            width: 100%;
+            min-width: 100%;
+            padding-right: 30px;
+        }
+    
+    
 }
 
 
@@ -1082,6 +1210,8 @@ h3 {
          display: none;
      }
 }
+
+
 
 .breadcrumb {
     text-overflow: ellipsis;

@@ -140,7 +140,7 @@ var initPopovers = function($container) {
 }
 
 $( window ).resize(function() {
-    newBigMode = matchMedia('only screen and (min-width: 1200px)').matches;
+    newBigMode = matchMedia('only screen and (min-width: 463px)').matches;
     
     if (bigMode !== newBigMode) {
         bigMode = newBigMode;
@@ -152,7 +152,7 @@ $( window ).resize(function() {
 });
 
 var qaTableFixedHeader = function() {
-    if (matchMedia('only screen and (min-width: 1200px)').matches && $('.table-head-container').size() === 0) {
+    if (matchMedia('only screen and (min-width: 463px)').matches && $('.table-head-container').size() === 0) {
         var tables = $('.table-with-fixed-header');
         
         tables.each(function (item) {
@@ -171,24 +171,24 @@ var setupFixedHeader = function (table) {
             qaTableHead.append(qaTableHeadRow);
 
             table.before(qaTableHead);
-            table.find('.table-head.table-row').appendTo(qaTableHeadRow);
+            table.find('.table-head.table-row').clone().appendTo(qaTableHeadRow);
             var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
-            qaTableHeadRow.width(table.width());
+            //qaTableHeadRow.width(table.width());
             
             var faded = false;
-
             var headerVisible = false;
             $(window).scroll(function() {
-                if (bigMode) {
+                //if (bigMode) {
                     var scrollTop = $(window).scrollTop();
-                    if (!faded && scrollTop >= table.offset().top + table.height() - headerHeight) {
+                    if (!faded && scrollTop >= table.offset().top + table.height()) {
                         qaTableHead.fadeOut("fast", function () { faded = true; });
-                    } else if (faded && scrollTop <= table.offset().top + table.height() - headerHeight) {
+                    } else if (faded && scrollTop <= table.offset().top + table.height()) {
                         qaTableHead.fadeIn("fast", function () { faded = false; });
                     }
                     
-                    if (scrollTop >= table.offset().top - headerHeight) {
-                        //console.log($(window).scrollTop() + ">=" + (table.offset().top - headerHeight));
+                        console.log($(window).scrollTop() + ">=" + (table.offset().top));
+                    if (scrollTop >= table.offset().top) {
+                        //console.log($(window).scrollTop() + ">=" + (table.offset().top));
                         //console.log(table.height());
                         if (!headerVisible) {
                             headerVisible = true;
@@ -203,7 +203,7 @@ var setupFixedHeader = function (table) {
                             table.removeClass('table-fixed-header');
                         }
                     }
-                }
+                //}
             });
 };
 

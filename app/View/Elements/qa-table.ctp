@@ -29,51 +29,53 @@
  */
 ?>
 
-<div class="table table-bordered table-striped qa-table collapsable-table table-with-fixed-header table-hover">
-    <div class="table-row table-head">
-      <div class="table-header table-header-text">
-          <a class="btn btn-link" data-toggle="modal" data-target="#table-info"><i class="fa fa-info-circle"></i> Om tabellen</a>
-      </div>
-      <?php foreach ($parties as $party): ?>
-      <div class="table-header">
-        <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => false, 
-                      'linkClass' => 'popover-hover-link')); ?>
-        <div class="popover-data"><?php echo ucfirst($party['Party']['name']); ?></div>
-      </div>
-      <?php endforeach; ?>
-      <?php if ($this->Permissions->isLoggedIn()) { ?>
-      <div class="table-header">Verktyg</div>
-      <?php } ?>
-    </div>
-    <?php foreach ($questions as $question): ?>
-    <?php if (isset($answers[$question["Question"]["id"]])) { ?>
-    <div class="table-row">
-      <div class="table-cell table-header table-header-text">
-        <?php 
-        $notApproved = !$question['Question']['approved'];
-        echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
-            'title' => $this->Url->slug($question['Question']['title'])),
-                array('class' => $notApproved ? 'question-not-approved':''));  
-        ?>
-      </div>
-      <?php foreach ($parties as $party): ?>
-      <?php 
-
-        if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
-          echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
-                                                  'question' => $question, 'party' => $party['Party']));
-        } else { ?>
-        <div class="table-cell"></div>
-        <?php }?>
-      <?php endforeach; ?>
-      <?php if ($this->Permissions->isLoggedIn()) { ?>
-        <div class="table-cell">
-          <div class="tools">
-             <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>
-           </div>
+<div class="collapsable-table-container">
+    <div class="table table-bordered table-striped qa-table collapsable-table table-with-fixed-header table-hover">
+        <div class="table-row table-head">
+          <div class="table-header table-header-text">
+              <a class="btn btn-link" data-toggle="modal" data-target="#table-info"><i class="fa fa-info-circle"></i> Om tabellen</a>
+          </div>
+          <?php foreach ($parties as $party): ?>
+          <div class="table-header">
+            <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'small' => true, 'big' => true,
+                          'linkClass' => 'popover-hover-link')); ?>
+            <div class="popover-data"><?php echo ucfirst($party['Party']['name']); ?></div>
+          </div>
+          <?php endforeach; ?>
+          <?php if ($this->Permissions->isLoggedIn()) { ?>
+          <div class="table-header">Verktyg</div>
+          <?php } ?>
         </div>
-      <?php } ?>
+        <?php foreach ($questions as $question): ?>
+        <?php if (isset($answers[$question["Question"]["id"]])) { ?>
+        <div class="table-row">
+          <div class="table-cell table-header table-header-text">
+            <?php 
+            $notApproved = !$question['Question']['approved'];
+            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+                'title' => $this->Url->slug($question['Question']['title'])),
+                    array('class' => $notApproved ? 'question-not-approved':''));  
+            ?>
+          </div>
+          <?php foreach ($parties as $party): ?>
+          <?php 
+
+            if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
+              echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
+                                                      'question' => $question, 'party' => $party['Party']));
+            } else { ?>
+            <div class="table-cell"></div>
+            <?php }?>
+          <?php endforeach; ?>
+          <?php if ($this->Permissions->isLoggedIn()) { ?>
+            <div class="table-cell">
+              <div class="tools">
+                 <?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?>
+               </div>
+            </div>
+          <?php } ?>
+        </div>
+        <?php } ?>
+        <?php endforeach; ?>
     </div>
-    <?php } ?>
-    <?php endforeach; ?>
 </div>

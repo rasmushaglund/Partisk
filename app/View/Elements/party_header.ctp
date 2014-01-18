@@ -29,12 +29,15 @@
  */
 
 if (isset($party)) {
+        $image = "";
 	$class = 'party-logo';
 	if (isset($small) && $small == true) {
-		$class .= "-small";
+            $image .= "<div class='party-logo-small party-logo-small-" . $party['id'] . "'></div>";  
 	}
-
-	$image = "<div class='" . $class . " " . $class . "-" . $party['id'] . "'></div>"; //$this->Html->image($party['name'] . ".png", array('class' => $class)); 
+        
+        if (isset($big) && $big == true || !isset($small) || $small == false) {
+            $image .= "<div class='party-logo party-logo-" . $party['id'] . "'></div>";  
+	}
 
 	$titleString = "";
 	if (isset($title) && $title) {
