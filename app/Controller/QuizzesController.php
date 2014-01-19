@@ -144,7 +144,7 @@ class QuizzesController extends AppController {
     public function start($id) {
         $quizSession = $this->Quiz->generateQuizSession($id);
         $this->Session->write('quizSession', $quizSession);
-        return $this->redirect(array('action' => 'questions'));  
+        return $this->redirect("/quiz/fr%C3%A5gor");  
     }
 
     public function resume($id) {
@@ -205,7 +205,8 @@ class QuizzesController extends AppController {
                 return $this->redirect(array('action' => 'results', $quizSession['QuizSession']['id']));    
             } else {
                 $this->Session->write('quizSession', $quizSession);
-                return $this->redirect(array('action' => 'questions'));
+                //return $this->redirect(array('action' => 'questions'));
+		return $this->redirect("/quiz/fr%C3%A5gor");
             }
         } else {
             return $this->redirect(array('action' => 'index'));
@@ -372,7 +373,8 @@ class QuizzesController extends AppController {
             $this->Session->write('quizSession', $this->quizSession);
         }
 
-        return $this->redirect(array('action' => 'questions'));
+        //return $this->redirect(array('action' => 'questions'));
+	return $this->redirect("/quiz/fr%C3%A5gor");
     }
 
     public function close() {
