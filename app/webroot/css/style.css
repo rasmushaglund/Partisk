@@ -576,6 +576,10 @@ text-decoration: underline;
     float: right;
 }
 
+.popover-click-link:focus, .popover-click-link:active {
+    color: red;
+}
+
 .table {
     display: table;
   max-width: 100%;
