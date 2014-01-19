@@ -407,6 +407,10 @@ p.deleted {
     width: 50px;
 }
 
+.admin-toolbox.btn-group .btn {
+    margin-right: 0px;
+}
+
 h1 .admin-toolbox {
     margin-left: 7px;
 }

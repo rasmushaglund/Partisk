@@ -383,7 +383,7 @@ class Question extends AppModel {
     public function getLatestQuestions() {
         $result = Cache::read('latest', 'question');
         if (!$result) {
-            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'order' => 'approved_date', 'limit' => 5));
+            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'order' => 'approved_date desc', 'limit' => 5));
             Cache::write('latest', $result, 'question');
         }
         
