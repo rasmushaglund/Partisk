@@ -440,11 +440,6 @@ class QuizzesController extends AppController {
             $data = array();
             $data['QuestionQuiz'] = $this->request->data['Quiz'];
             
-            $existingEntry = $this->find('all', array(
-                'conditions' => array('question_id' => $data['QuestionQuiz']['question_id'],
-                                    'quiz_id' => $data['QuestionQuiz']['quiz_id'])
-            ));
-            
             if ($this->QuestionQuiz->save($data)) {
                 $this->customFlash(__('Frågan har lagts till i quizen.'));
                 $this->logUser('add', $this->QuestionQuiz->getLastInsertId(), "");
