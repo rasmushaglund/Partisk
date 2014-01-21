@@ -448,6 +448,9 @@ class QuizzesController extends AppController {
                 $this->Session->write('validationErrors', $this->QuestionQuiz->validationErrors);
                 $this->Session->write('formData', $this->data);
             }
+            
+            Cache::clear(false, 'quiz');
+            Cache::clear(false, 'question');
 
             return $this->redirect($this->referer());
         }
