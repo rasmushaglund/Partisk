@@ -385,7 +385,8 @@ class Question extends AppModel {
             'conditions' => array('Question.deleted' => false, 
                                   'Question.approved' => true,
                                   "Question.id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
-            'fields' => array('Question.id', 'Question.title')
+            'fields' => array('Question.id', 'Question.title'),
+            'order' => 'Question.title'
          )); 
         
         return $result;
