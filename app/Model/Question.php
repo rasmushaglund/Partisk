@@ -381,6 +381,7 @@ class Question extends AppModel {
     }
     
     public function getAvailableQuizQuestions($quizId) {
+    	$this->recursive = -1;
         $result = $this->find('all', array(
             'conditions' => array('Question.deleted' => false, 
                                   'Question.approved' => true,
