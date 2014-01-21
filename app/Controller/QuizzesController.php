@@ -416,8 +416,10 @@ class QuizzesController extends AppController {
     public function admin($id) {
         $this->Quiz->recursive = -1;
         $questions = $this->Quiz->Question->getQuestionsByQuizId($id);
+        $availableQuestions = $this->Quiz->Question->getAvailableQuizQuestions($id);
         $this->set('questions', $questions);
         $this->set('quiz', $this->Quiz->getById($id));
+        $this->set('availableQuestions', $availableQuestions);
     }
 
     public function overview() {
@@ -437,6 +439,12 @@ class QuizzesController extends AppController {
             $this->QuestionQuiz->create();
             $data = array();
             $data['QuestionQuiz'] = $this->request->data['Quiz'];
+            
+            $existingEntry = $this->find('all', array(
+                'conditions' => array('question_id' => $data['QuestionQuiz']['question_id'],
+                                    'quiz_id' => $data['QuestionQuiz']['quiz_id'])
+            ));
+            
             if ($this->QuestionQuiz->save($data)) {
                 $this->customFlash(__('Frågan har lagts till i quizen.'));
                 $this->logUser('add', $this->QuestionQuiz->getLastInsertId(), "");

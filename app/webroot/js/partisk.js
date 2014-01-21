@@ -44,12 +44,12 @@ $(document).ready(function() {
     $('#partisk-search input').typeahead([
         {
             name: 'questions',
-            remote: appRoot + 'frågor/search/%QUERY',
+            remote: appRoot + 'fr%C3%A5gor/search/%QUERY',
             minLength: 3
         }
     ]).bind('typeahead:selected', function(event, obj) {
         if (obj.key) {
-            window.location = appRoot + "frågor/" + encodeURI(obj.value.split(' ').join('_').toLowerCase()).replace('?', '%3f');
+            window.location = appRoot + "fr%C3%A5gor/" + encodeURI(obj.value.split(' ').join('_').toLowerCase()).replace('?', '%3f');
         }
 
         $(this).val("");

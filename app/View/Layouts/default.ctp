@@ -54,7 +54,7 @@
         <meta property="og:description" content="<?php echo $description_for_layout; ?>" />
         <meta property="og:image:secure_url" content="https://www.partisk.nu/img/logo.png" />
         <meta property="og:image:type" content="image/png" />
-        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
         <?php
         echo $this->Html->meta('icon');

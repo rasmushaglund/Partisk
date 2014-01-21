@@ -46,8 +46,6 @@ class Permissions {
         } else if ($role === 'contributor') {
             return $action === 'add' && ($controller === 'question' || $controller === 'answer');
         }
-        
-        Permissions::abuse("Not authorized to access view");
 
         $request = new CakeRequest();
         if ($request->is('ajax')) { die; }

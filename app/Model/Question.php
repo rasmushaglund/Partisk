@@ -222,7 +222,7 @@ class Question extends AppModel {
     }
 
     public function getQuestionsByQuizId($id) {
-        $result = Cache::read('visible_questions', 'question');
+        $result = Cache::read('quiz_questions_' . $id, 'question');
         if (!$result) {
             $this->recursive = -1; 
             
@@ -241,7 +241,7 @@ class Question extends AppModel {
                 ));
             }
            
-            Cache::write('visible_questions', $result, 'question');
+            Cache::write('quiz_questions_' . $id, $result, 'question');
         }
         
         return $result;
@@ -376,6 +376,17 @@ class Question extends AppModel {
              )); 
             Cache::write('quiz_questions_' . $id, $result, 'question');
         }
+        
+        return $result;
+    }
+    
+    public function getAvailableQuizQuestions($quizId) {
+        $result = $this->find('all', array(
+            'conditions' => array('Question.deleted' => false, 
+                                  'Question.approved' => true,
+                                  "Question.id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
+            'fields' => array('Question.id', 'Question.title')
+         )); 
         
         return $result;
     }
