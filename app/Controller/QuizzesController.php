@@ -526,7 +526,8 @@ class QuizzesController extends AppController {
             } else {
                 $this->customFlash(__('Kunde inte ta bort frågan som hör till quizen.'), 'danger');
             }
-
+            
+            Cache::clear(false, 'quiz');
             return $this->redirect($this->referer());
         }
         
@@ -534,19 +535,7 @@ class QuizzesController extends AppController {
             throw new NotFoundException("Ogiltig quiz");
         }
         
-       
-        
-//       $questionQuiz = $this->QuestionQuiz->getById($id); 
-//    
-//        if (empty($questionQuiz)) {
-//            throw new NotFoundException("Ogiltig quiz");
-//        }
-//        if (!$this->request->data) {
-//            $this->request->data = $questionQuiz;
-//        }
-       $this->set('quizQuestion', $id);  
-        
-
+        $this->set('quizQuestion', $id);  
         
         $this->renderModal('deleteQuizQuestionModal', array('setAjax' => true));
     }
