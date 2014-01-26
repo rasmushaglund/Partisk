@@ -387,7 +387,7 @@ class Question extends AppModel {
                                   'Question.approved' => true,
                                   "Question.id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
             'fields' => array('Question.id', 'Question.title', '(select count(*) from answers where question_id = Question.id) as number_of_answers'),
-            'order' => 'Question.title'
+            'order' => 'number_of_answers desc, Question.title'
          )); 
         return $result;
     }
