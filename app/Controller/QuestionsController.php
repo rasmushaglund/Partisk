@@ -277,6 +277,7 @@ class QuestionsController extends AppController {
         $data['Question']['updated_by'] = $this->Auth->user('id');
         $data['Question']['updated_date'] = date('c');
         $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
+        $data['Question']['done'] = isset($data['Question']['done']) ? $data['Question']['done'] : false;
         
         $existingQuestion = $this->Question->getByIdOrTitle($id);
        
