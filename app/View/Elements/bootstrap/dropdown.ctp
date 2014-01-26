@@ -44,14 +44,14 @@
 	<?php  foreach ($options as $option) { 
 		$isSelected = isset($selected) && $selected == $option[$modelField]['id']; 
                 $isDeleted = isset($option[$modelField]['deleted']) && $option[$modelField]['deleted'];
-                $hasFewAnswers = isset($option[0]['number_of_answers']) && $option[0]['number_of_answers'] <= 1;
+                $hasMultipleAnswers = isset($option[0]['multiple_answers']) && $option[0]['multiple_answers'] < 1;
                 $isNotApproved = isset($option[$modelField]['approved']) && !$option[$modelField]['approved'];
-                $classString = ($isDeleted ? 'dropdown-deleted ' : '') . ($hasFewAnswers ? 'dropdown-few-answers ' : '') . ($isNotApproved ? 'dropdown-not-approved' : '');
+                $classString = ($isDeleted ? 'dropdown-deleted ' : '') . ($hasMultipleAnswers ? 'dropdown-few-answers ' : '') . ($isNotApproved ? 'dropdown-not-approved' : '');
                 ?>
 	    <option value="<?php echo $option[$modelField]['id']; ?>" class="<?php echo $classString; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
-                <?php if ($hasFewAnswers) { echo "("; }
+                <?php if ($hasMultipleAnswers) { echo "("; }
                     echo ucfirst($option[$modelField][$titleField]); 
-                    if ($hasFewAnswers) { echo ")"; }
+                    if ($hasMultipleAnswers) { echo ")"; }
                     ?>
 	    </option>
 	<?php } ?>
