@@ -49,8 +49,10 @@
                 $classString = ($isDeleted ? 'dropdown-deleted ' : '') . ($hasFewAnswers ? 'dropdown-few-answers ' : '') . ($isNotApproved ? 'dropdown-not-approved' : '');
                 ?>
 	    <option value="<?php echo $option[$modelField]['id']; ?>" class="<?php echo $classString; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
-
-	    	<?php echo ucfirst($option[$modelField][$titleField]); ?>
+                <?php if ($hasFewAnswers) { echo "("; }
+                    echo ucfirst($option[$modelField][$titleField]); 
+                    if ($hasFewAnswers) { echo ")"; }
+                    ?>
 	    </option>
 	<?php } ?>
 	</select>
