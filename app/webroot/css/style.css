@@ -567,6 +567,10 @@ text-decoration: underline;
     color: #bbb;
 }
 
+.dropdown-few-answers {
+    color: #f0f;
+}
+
 .answer-not-approved {
     color: #ff6666;
     font-weight: bold;

@@ -101,7 +101,7 @@ class Question extends AppModel {
         $deleted = isset($args['deleted']) ? $args['deleted'] : null;
         $approved = isset($args['approved']) ? $args['approved'] : null;
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
-        $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted');
+        $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted', 'done');
         $conditions = isset($args['conditions']) ? $args['conditions'] : array();
         $order = isset($args['order']) ? $args['order'] : 'Question.title';
         $limit = isset($args['limit']) ? $args['limit'] : '500';
@@ -192,7 +192,7 @@ class Question extends AppModel {
                     'conditions' => $conditions,
                     'contain' => 'Tag.deleted = false',
                     'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
-                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date, Question.done')
                 ));
             $result = array_pop($questions);
             Cache::write('question_' . $id, $result, 'question');
@@ -386,10 +386,9 @@ class Question extends AppModel {
             'conditions' => array('Question.deleted' => false, 
                                   'Question.approved' => true,
                                   "Question.id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
-            'fields' => array('Question.id', 'Question.title'),
+            'fields' => array('Question.id', 'Question.title', '(select count(*) from answers where question_id = Question.id) as number_of_answers'),
             'order' => 'Question.title'
          )); 
-        
         return $result;
     }
     

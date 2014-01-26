@@ -52,6 +52,15 @@
           <div class="table-cell table-header table-header-text">
             <?php 
             $notApproved = !$question['Question']['approved'];
+            
+            if ($this->Permissions->isLoggedIn()) {
+                if($question['Question']['done']) {
+                    echo "<i class='fa fa-check-square'></i> ";
+                } else {
+                    echo "<i class='fa fa-square'></i> ";
+                }
+            }
+            
             echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
                 'title' => $this->Url->slug($question['Question']['title'])),
                     array('class' => $notApproved ? 'question-not-approved':''));  

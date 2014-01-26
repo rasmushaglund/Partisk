@@ -34,7 +34,9 @@ $this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
 
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 	<div class="tools">
+            
             <?php
+            
             if ($this->Permissions->canEditQuiz()) { 
                 echo $this->Bootstrap->create('Quiz', array('modal' => true, 'label' => "Lägg till fråga till quiz", 'action' => 'addQuestion'));
                 echo $this->Bootstrap->hidden('quiz_id', array('value' => $quiz['Quiz']['id']));

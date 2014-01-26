@@ -55,6 +55,8 @@ if ($this->Permissions->canAddQuestion()) { ?>
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $question['Question']['approved'] : null)); 
     } ?>
+    <?php echo $this->Bootstrap->checkbox('done', array('label' => 'Inga fler frågor kan hittas', 'type' => 'checkbox',
+                    'value' => $editMode ? $question['Question']['done'] : null)); ?>
     <?php echo $this->Bootstrap->dropdown('type', 'Question', array('label' => 'Typ av fråga', 'options' => 
                     array(array('Question' => array('id' => 'YESNO', 'name' => "Ja/Nej")), 
                           array('Question' => array('id' => 'CHOICE', 'name' => 'Fritext'))), 
