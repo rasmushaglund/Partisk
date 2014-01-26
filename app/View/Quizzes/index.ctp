@@ -54,11 +54,6 @@ Testen berättar inte för dig hur du ska rösta utan ger endast en indikation p
                                                        'adminTools' => true)); ?>			
     </li>
 <?php } ?>
-    <li>
-        <?php 
-    	echo $this->element('quizElement', array('quizSession' => $quizSession, 'quiz' => $allQuiz, 
-                                                 'adminTools' => false)); ?>
-    </li>
 </ul>
     </div>
 </div>

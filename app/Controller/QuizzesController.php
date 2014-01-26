@@ -63,7 +63,7 @@ class QuizzesController extends AppController {
         $this->set('quizSession', $this->quizSession);
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
-        $this->set('allQuiz', $this->Quiz->getAllQuiz());
+        //$this->set('allQuiz', $this->Quiz->getAllQuiz());
         $this->set('description_for_layout', 'Testa dig själv. Vilket parti passar dig?');
         $this->set('title_for_layout', 'Quiz');
     }
