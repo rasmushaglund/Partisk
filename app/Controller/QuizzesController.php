@@ -528,6 +528,7 @@ class QuizzesController extends AppController {
             }
             
             Cache::clear(false, 'quiz');
+            Cache::clear(false, 'question');
             return $this->redirect($this->referer());
         }
         
