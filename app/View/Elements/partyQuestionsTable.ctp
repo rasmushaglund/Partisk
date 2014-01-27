@@ -33,6 +33,13 @@
 <?php foreach ($answers as $answer): ?>
     <tr>
       <th>
+        <?php if ($this->Permissions->isLoggedIn()) {
+              if($answer['Question']['done']) {
+                  echo "<i class='fa fa-check-square'></i> ";
+              } else {
+                  echo "<i class='fa fa-square'></i> ";
+              }
+          }?>
         <?php echo $this->Html->link($answer['Question']['title'],
                   array('controller' => 'questions', 'action' => 'view', 'title' => $this->Url->slug($answer['Question']['title']))); ?>
       </th>

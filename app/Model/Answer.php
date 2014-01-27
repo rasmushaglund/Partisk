@@ -166,7 +166,7 @@ class Answer extends AppModel {
         if ($includeQuestion) {
             array_push($contain, 'Question');
             $order = 'Question.title';
-            array_push($fields, 'Question.id, Question.title');
+            array_push($fields, 'Question.id, Question.title', 'Question.done');
         }
 
         if (isset($partyId)) {
