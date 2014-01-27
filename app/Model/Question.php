@@ -104,7 +104,7 @@ class Question extends AppModel {
         $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted', 'done');
         $conditions = isset($args['conditions']) ? $args['conditions'] : array();
         $order = isset($args['order']) ? $args['order'] : 'Question.title';
-        $limit = isset($args['limit']) ? $args['limit'] : '500';
+        $limit = isset($args['limit']) ? $args['limit'] : '5000';
 
         $joins = array();
 
