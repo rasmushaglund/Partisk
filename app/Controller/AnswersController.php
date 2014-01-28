@@ -147,7 +147,7 @@ class AnswersController extends AppController {
      }
 
      public function delete($id) {
-        if (!$this->Permissions->canDeleteAnswer($this->Auth->user('id'), $id)) {
+       if (!$this->Permissions->canDeleteAnswer($id)) {
             $this->Permissions->abuse("Not authorized to delete answer with id ". $id);
             $this->customFlash("Du har inte tillåtelse att ta bort svar.");
             return $this->redirect($this->referer());
