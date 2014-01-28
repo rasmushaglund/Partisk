@@ -222,14 +222,15 @@ class Question extends AppModel {
     }
 
     public function getQuestionsByQuizId($id) {
-        $result = Cache::read('quiz_questions_' . $id, 'question');
-        if (!$result) {
+       $result = Cache::read('quiz_questions_' . $id, 'question');
+       if (!$result) {
             $this->recursive = -1; 
-            
+         
             if ($id === 'all') {
                 $result = $this->find('all', array(
                     'conditions' => array('deleted' => false, 'approved' => true)));
             } else {
+
                 $result = $this->find('all', array(
                     'conditions' => array('deleted' => false, 'approved' => true),
                     'joins' => array(array(
@@ -241,7 +242,7 @@ class Question extends AppModel {
                 ));
             }
            
-            Cache::write('quiz_questions_' . $id, $result, 'question');
+          Cache::write('quiz_questions_' . $id, $result, 'question');
         }
         
         return $result;
@@ -358,7 +359,7 @@ class Question extends AppModel {
     }
      
     public function getAllQuizQuestions($id) {
-        $result = Cache::read('quiz_questions_' . $id, 'question');
+        $result = Cache::read('all_quiz_questions_' . $id, 'question');
         if (!$result) {
             $result = $this->find('all', array(
                 'conditions' => array('Question.deleted' => false, 
@@ -374,7 +375,7 @@ class Question extends AppModel {
                     )
                  )
              )); 
-            Cache::write('quiz_questions_' . $id, $result, 'question');
+            Cache::write('all_quiz_questions_' . $id, $result, 'question');
         }
         
         return $result;
