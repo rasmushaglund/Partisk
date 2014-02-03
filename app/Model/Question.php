@@ -222,7 +222,7 @@ class Question extends AppModel {
     }
 
     public function getQuestionsByQuizId($id) {
-       $result = Cache::read('quiz_questions_' . $id, 'question');
+       $result = Cache::read('quiz_questions_by_quiz_' . $id, 'question');
        if (!$result) {
             $this->recursive = -1; 
          
@@ -242,7 +242,7 @@ class Question extends AppModel {
                 ));
             }
            
-          Cache::write('quiz_questions_' . $id, $result, 'question');
+          Cache::write('quiz_questions_by_quiz_' . $id, $result, 'question');
         }
         
         return $result;
@@ -425,35 +425,19 @@ class Question extends AppModel {
         return $result;
     }
     
-    /*public function getByIdOrTitle($id) {
-        $result = Cache::read('question_' . $id, 'question');
+    public function getNumberOfQuestions() {
+       $result = Cache::read('number_of_questions', 'question');
+        
         if (!$result) {
-            
-            if (is_numeric($id)) {
-                $conditions = array(
-                                'Question.id' => $id
-                            );
-            } else {
-                $conditions = array(
-                                "Question.title like" => $id
-                            );                
-            }
-            
             $this->recursive = -1;
-            $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
-            $this->Tag->virtualFields['number_of_questions'] = 0;
-            $questions = $this->find('all', array(
-                    'conditions' => $conditions,
-                    'contain' => 'Tag.deleted = false',
-                    'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
-                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+            $result = $this->find('count', array(
+                    'conditions' => array('approved' => true)
                 ));
-            $result = array_pop($questions);
-            Cache::write('question_' . $id, $result, 'question');
+            Cache::write('number_of_questions', $result, 'question');
         }
         
-        return $result;
-    }*/
+        return $result; 
+    }
     
     public function getPopularQuestions() {
         $result = Cache::read('popular_questions', 'question');

@@ -37,7 +37,8 @@
         <?php echo $this->Html->link('överskådligt sätt', array('controller' => 'questions', 'action' => 'index')); ?>.</p>
         <p>Nya frågor och svar läggs in fortlöpande och om du saknar någonting eller hittar felaktigheter tveka inte att 
         <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>.</p>
-        
+        <p>Antal frågor: <b><?php echo $this->requestAction('questions/getNumberOfQuestions'); ?></b>, 
+            antal svar: <b><?php echo $this->requestAction('answers/getNumberOfAnswers'); ?></b>.</p>
         <?php echo $this->element("share"); ?>
     </div>
     <div class="col-md-6">

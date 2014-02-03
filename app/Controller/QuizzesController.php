@@ -41,7 +41,7 @@ class QuizzesController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->quizSession = $this->Session->read('quizSession');
-        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume'));
+        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume', 'getQuestionSummaryTable'));
     }
 
     public function beforeRender() {
@@ -202,15 +202,48 @@ class QuizzesController extends AppController {
                 $quizSession['QuizSession']['done'] = true;
                 $quizSession['QuizSession']['saved'] = false;
                 $this->Session->write('quizSession', $quizSession);
+                $this->saveAnswers($quizSession);
                 return $this->redirect(array('action' => 'results', $quizSession['QuizSession']['id']));    
             } else {
                 $this->Session->write('quizSession', $quizSession);
-                //return $this->redirect(array('action' => 'questions'));
 		return $this->redirect("/quiz/fr%C3%A5gor");
             }
         } else {
             return $this->redirect(array('action' => 'index'));
         }
+    }
+    
+    private function saveAnswers($session) {
+        $tempQuizId = String::uuid();
+        $answers = array();
+        foreach ($session as $key => $question) {
+            if (is_numeric($key)) {
+                $answers[$key] = array(
+                    "id" => String::uuid(),
+                    "question_id" => $question['Question']['id'],
+                    "answer" => $question['Question']['answer'],
+                    "temp_quiz_id" => $tempQuizId,
+                    "date" => date('Y-m-d'),
+                    "importance" => $question['Question']['importance']
+                );
+            }
+        }
+        $this->loadModel('QuizAnswer');
+        $this->QuizAnswer->saveAll($answers);
+    }
+    
+    public function getQuestionSummaryTable($questionId) {
+        $this->cacheAction = "+999 days";
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        $quizSession = $this->quizSession;
+        
+        $this->loadModel('Party');
+        
+        $this->set('question', $quizSession['QuizSession']['points']['questions'][$questionId]);
+        $this->set('parties', $this->Party->getPartiesHash());
+        $this->render('/Elements/quizQuestionSummary');
     }
     
     private function attachQuestionData($data, $question) {

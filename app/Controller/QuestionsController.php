@@ -48,7 +48,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
     }
 
     public function index() {
@@ -113,6 +113,10 @@ class QuestionsController extends AppController {
         
         $this->render('/Elements/qa-table');
     }
+
+     public function getNumberOfQuestions() {
+        return $this->Question->getNumberOfQuestions();
+     }
 
     public function view($title = null) {
         $title = $this->deSlugUrl($title);

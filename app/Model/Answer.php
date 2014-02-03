@@ -195,6 +195,20 @@ class Answer extends AppModel {
         );
     }
     
+    public function getNumberOfAnswers() {
+       $result = Cache::read('number_of_answers', 'answers');
+        
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('count', array(
+                    'conditions' => array('approved' => true)
+                ));
+            Cache::write('number_of_answers', $result, 'answer');
+        }
+        
+        return $result; 
+    }
+    
     public function getUserAnswers($userId) {
         $this->recursive = -1;
         $this->contain(array('Question', 'Party'));

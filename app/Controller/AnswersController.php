@@ -39,6 +39,11 @@ class AnswersController extends AppController {
     
     public $components = array('Session');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow(array('getNumberOfAnswers'));
+    }
+    
     public function beforeRender() {
         parent::beforeRender();
         $this->set("currentPage", "questions");
@@ -144,6 +149,10 @@ class AnswersController extends AppController {
             'setModal' => true,
             'setAjax' => true,));
         
+     }
+     
+     public function getNumberOfAnswers() {
+        return $this->Answer->getNumberOfAnswers();
      }
 
      public function delete($id) {

@@ -69,16 +69,23 @@ $(document).ready(function() {
     
     $('#accordion .panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
        var id = $(this).attr('data-id');
+       var type = $(this).attr('data-type');
        var container = $(this);
+       
+       var method = type === "category" ? 'getCategoryTable' : 'getQuestionSummaryTable';
        
        if (!container.hasClass('table-loaded')) {
        $.ajax({
-            url: appRoot + 'frågor/getCategoryTable/' + id,
+            url: appRoot + 'frågor/' + method + '/' + id,
             success: function(data) {
                 var content = $(data);
                 content.hide();
                 container.append(content);
-                setupFixedHeader(content);
+                
+                if (type === "category") {
+                    setupFixedHeader(content);
+                }
+                
                 initPopovers(container);
                 content.fadeIn('slow');
                 container.addClass('table-loaded');
@@ -100,7 +107,7 @@ $(document).ready(function() {
 
     // Open modal without fade if it contains an error
     $('.modal').each(function(index, modal) {
-        if ($(modal).find('p.error').size() > 0) {
+        if ($(modal).find('p.error').size() > 0 || $(modal).hasClass('open-modal-on-load')) {
             $(modal).removeClass('fade');
             $(modal).on('shown.bs.modal', function() {
                 $(this).addClass('fade in');
@@ -186,7 +193,7 @@ var setupFixedHeader = function (table) {
                         qaTableHead.fadeIn("fast", function () { faded = false; });
                     }
                     
-                        console.log($(window).scrollTop() + ">=" + (table.offset().top));
+                        //console.log($(window).scrollTop() + ">=" + (table.offset().top));
                     if (scrollTop >= table.offset().top) {
                         if (!headerVisible) {
                             headerVisible = true;
