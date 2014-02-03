@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 14, 2014 at 08:08 PM
+-- Generation Time: Feb 03, 2014 at 11:31 PM
 -- Server version: 5.5.34-0ubuntu0.13.04.1
 -- PHP Version: 5.4.9-4ubuntu2.4
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `approved_by` int(11) NOT NULL,
   `approved_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=225 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=230 ;
 
 --
 -- Dumping data for table `answers`
@@ -103,7 +103,7 @@ INSERT INTO `answers` (`id`, `party_id`, `answer`, `question_id`, `source`, `dat
 (60, 7, 'ja', 15, 'http://www.vansterpartiet.se/v-och-mp-motsatter-sig-okad-signalspaning/', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
 (61, 9, 'ja', 15, 'http://www.mp.se/politik/internet-och-integritet', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
 (62, 1, 'nej', 28, 'http://www.socialdemokraterna.se/Var-politik/Var-politik-A-till-O/Sociala-fragor/Alkohol/', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
-(63, 2, 'ja', 28, 'http://www.moderat.se/sundsvall/alkohol-och-narkotikafragor', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
+(63, 2, 'ja', 28, 'http://www.moderat.se/sundsvall/alkohol-och-narkotikafragor', '2013-12-07 23:00:00', 2, 0, 2, '2013-10-21 12:35:49', '2014-01-18 16:14:00', '', 0, 0, '0000-00-00 00:00:00'),
 (64, 3, 'nej', 28, 'http://www.folkpartiet.se/var-politik/var-politik-a-o/alkohol/', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
 (65, 5, 'ja', 28, 'http://www.centerpartiet.se/Centerpolitik/Politikomraden/Jobb-och-arbetsliv/Politik-A---O/Gardsforsa', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
 (66, 8, 'ja', 28, 'https://sverigedemokraterna.se/?p=4043‎', '2013-12-08 16:28:54', 2, 0, NULL, '2013-10-21 12:35:49', NULL, NULL, 1, 0, '0000-00-00 00:00:00'),
@@ -235,7 +235,12 @@ INSERT INTO `answers` (`id`, `party_id`, `answer`, `question_id`, `source`, `dat
 (221, 5, 'ja', 77, 'adsasdads', '2013-12-08 16:28:54', 2, 0, NULL, '2013-12-05 20:35:17', NULL, '', 1, 0, '0000-00-00 00:00:00'),
 (222, 4, 'ja', 77, 'dsadsadsa', '2013-12-08 16:28:54', 2, 0, NULL, '2013-12-05 20:35:34', NULL, '', 1, 0, '0000-00-00 00:00:00'),
 (223, 1, 'sad 2,5år', 84, 'http://expo.se/2011/sa-tycker-riksdagspartierna-om-heltackande-slojor_3935.html', '2013-12-02 23:00:00', 2, 0, 2, '2013-12-11 11:02:13', '2013-12-11 11:02:50', 'ads', 1, 2, '2013-12-11 11:02:50'),
-(224, 1, 'ja', 97, 'dsadsadsa', '2014-01-08 23:00:00', 2, 0, 2, '2014-01-10 18:53:48', '2014-01-10 19:07:19', 'dsa', 1, 2, '2014-01-10 19:07:19');
+(224, 1, 'ja', 97, 'dsadsadsa', '2014-01-08 23:00:00', 2, 0, 2, '2014-01-10 18:53:48', '2014-01-10 19:07:19', 'dsa', 1, 2, '2014-01-10 19:07:19'),
+(225, 1, 'blaj', 72, 'dsadsa', '2014-01-07 23:00:00', 2, 0, 2, '2014-01-15 20:45:08', '2014-01-15 20:45:12', 'sad', 1, 2, '2014-01-15 20:45:12'),
+(226, 1, 'aaa', 98, 'sad', '2014-01-13 23:00:00', 2, 0, 2, '2014-01-18 21:54:16', '2014-01-18 21:54:57', '', 1, 2, '2014-01-18 21:54:57'),
+(227, 1, 'ja', 100, 'dsa', '2014-01-01 23:00:00', 2, 0, 2, '2014-01-26 20:14:22', '2014-01-26 20:14:41', 'dsa', 1, 2, '2014-01-26 20:14:41'),
+(228, 1, 'asdsad', 100, 'asd', '2013-12-31 23:00:00', 2, 0, 2, '2014-01-26 20:14:54', '2014-01-26 20:16:38', '', 1, 2, '2014-01-26 20:16:38'),
+(229, 2, 'nej', 100, 'dsadsa', '2013-12-31 23:00:00', 2, 0, 2, '2014-01-26 20:29:52', '2014-01-26 20:30:30', '', 1, 2, '2014-01-26 20:30:30');
 
 -- --------------------------------------------------------
 
@@ -265,7 +270,16 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `referer` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `name`, `email`, `text`, `ip`, `date`, `referer`) VALUES
+(1, 'asdasd', 'sad', 'sad', '127.0.0.1', '2014-01-18 16:53:16', 'http://localhost/Partisk/om'),
+(2, 'asdasd', 'asd', 'sad', '127.0.0.1', '2014-01-18 16:54:41', 'http://localhost/Partisk/om'),
+(3, 'asdasd', 'asdasd', 'asdasd', '127.0.0.1', '2014-01-18 16:55:49', 'http://localhost/Partisk/om');
 
 -- --------------------------------------------------------
 
@@ -280,8 +294,8 @@ CREATE TABLE IF NOT EXISTS `parties` (
   `color` text COLLATE utf8_swedish_ci NOT NULL,
   `created_by` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `last_result_parliment` float NOT NULL DEFAULT '0',
-  `last_result_eu` float NOT NULL DEFAULT '0',
+  `last_result_parliment` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `last_result_eu` decimal(10,2) NOT NULL DEFAULT '0.00',
   `updated_by` int(11) DEFAULT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` timestamp NULL DEFAULT NULL,
@@ -295,18 +309,18 @@ CREATE TABLE IF NOT EXISTS `parties` (
 --
 
 INSERT INTO `parties` (`id`, `name`, `website`, `color`, `created_by`, `deleted`, `last_result_parliment`, `last_result_eu`, `updated_by`, `created_date`, `updated_date`, `description`, `short_name`) VALUES
-(1, 'socialdemokraterna', 'http://www.socialdemokraterna.se', '#ed1b34', 2, 0, 30.7, 24.4, 2, '2013-10-21 12:58:30', '2013-12-15 10:51:41', '', 'S'),
-(2, 'moderaterna', 'http://www.modarat.se', '#66bee6', 2, 0, 30.1, 18.8, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'M'),
-(3, 'folkpartiet', 'http://www.folkpartiet.se', '#004990', 2, 0, 7.1, 13.6, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'FP'),
-(4, 'piratpartiet', 'http://www.piratpartiet.se', '#660087', 2, 0, 0.7, 7.1, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'PP'),
-(5, 'centerpartiet', 'http://www.centerpartiet.se', '#099a54', 2, 0, 6.6, 5.5, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'C'),
-(6, 'kristdemokraterna', 'http://www.kristdemokraterna.se', '#005aa9', 2, 0, 5.6, 4.7, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'KD'),
-(7, 'vänsterpartiet', 'http://www.vansterpartiet.se', '#ed1c24', 2, 0, 5.6, 5.7, 2, '2013-10-21 12:58:30', '2013-12-05 14:46:02', '', 'V'),
-(8, 'sverigedemokraterna', 'http://www.sverigedemokraterna.se', '#009ddc', 2, 0, 5.7, 3.3, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'SD'),
-(9, 'miljöpartiet', 'http://www.mp.se', '#499754', 2, 0, 7.3, 11, NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'MP'),
-(10, 'Feministiskt Initiativ', 'http://feministisktinitiativ.se/', '#cc0066', 2, 0, 0.4, 2.22, NULL, '2013-12-08 20:04:50', NULL, '', 'F!'),
-(11, 'Junilistan', 'http://junilistan.se/', '#f89a1c', 2, 0, 0, 3.55, NULL, '2013-12-08 20:05:17', NULL, '', 'JL'),
-(12, 'bajs', 'dsadsa', '', 2, 1, 0, 0, 2, '2013-12-16 18:34:13', NULL, 'dsadsadsadsa', '');
+(1, 'socialdemokraterna', 'http://www.socialdemokraterna.se', '#ed1b34', 2, 0, '32.40', '44.55', 2, '2013-10-21 12:58:30', '2013-12-15 10:51:41', '', 'S'),
+(2, 'moderaterna', 'http://www.modarat.se', '#66bee6', 2, 0, '30.00', '19.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'M'),
+(3, 'folkpartiet', 'http://www.folkpartiet.se', '#004990', 2, 0, '7.00', '14.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'FP'),
+(4, 'piratpartiet', 'http://www.piratpartiet.se', '#660087', 2, 0, '1.00', '7.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'PP'),
+(5, 'centerpartiet', 'http://www.centerpartiet.se', '#099a54', 2, 0, '7.00', '6.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'C'),
+(6, 'kristdemokraterna', 'http://www.kristdemokraterna.se', '#005aa9', 2, 0, '6.00', '5.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'KD'),
+(7, 'vänsterpartiet', 'http://www.vansterpartiet.se', '#ed1c24', 2, 0, '6.00', '6.00', 2, '2013-10-21 12:58:30', '2013-12-05 14:46:02', '', 'V'),
+(8, 'sverigedemokraterna', 'http://www.sverigedemokraterna.se', '#009ddc', 2, 0, '6.00', '3.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'SD'),
+(9, 'miljöpartiet', 'http://www.mp.se', '#499754', 2, 0, '7.00', '11.00', NULL, '2013-10-21 12:58:30', '0000-00-00 00:00:00', NULL, 'MP'),
+(10, 'Feministiskt Initiativ', 'http://feministisktinitiativ.se/', '#cc0066', 2, 0, '0.00', '2.00', NULL, '2013-12-08 20:04:50', NULL, '', 'F!'),
+(11, 'Junilistan', 'http://junilistan.se/', '#f89a1c', 2, 0, '0.00', '4.00', NULL, '2013-12-08 20:05:17', NULL, '', 'JL'),
+(12, 'bajs', 'dsadsa', '', 2, 1, '0.00', '0.00', 2, '2013-12-16 18:34:13', NULL, 'dsadsadsadsa', '');
 
 -- --------------------------------------------------------
 
@@ -327,81 +341,85 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `approved` tinyint(1) NOT NULL DEFAULT '0',
   `approved_by` int(11) NOT NULL,
   `approved_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `done` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=98 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `title`, `type`, `created_by`, `deleted`, `updated_by`, `updated_date`, `created_date`, `description`, `approved`, `approved_by`, `approved_date`) VALUES
-(14, 'Patentsystemet ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:29:04', '2013-10-21 13:05:42', '', 0, 0, '0000-00-00 00:00:00'),
-(15, 'FRA-lagen ska avvecklas', 'YESNO', 2, 0, 2, '2013-12-08 11:31:54', '2013-10-21 13:05:42', 'dsadsa', 1, 2, '2013-12-08 11:31:54'),
-(17, 'Sverige ska införa euro som valuta', 'YESNO', 2, 0, 2, '2013-11-12 10:04:21', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:04:21'),
-(18, 'Vinster i välfärden ska vara tillåtet', 'YESNO', 2, 0, 2, '2013-11-12 10:04:34', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:04:34'),
-(19, 'Kvinnor ska ha rätt till lagliga och säkra abort', 'YESNO', 2, 0, 2, '2013-11-13 11:18:43', '2013-10-21 13:05:42', '', 1, 2, '2013-11-13 11:18:43'),
-(20, 'Barnbidraget ska höjas', 'YESNO', 2, 0, 2, '2013-11-07 22:26:28', '2013-10-21 13:05:42', '', 0, 2, '2013-11-07 22:26:04'),
-(21, 'Patienter ska ha rätt till dödshjälp', 'YESNO', 2, 0, 2, '2013-11-12 10:04:01', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:04:01'),
-(22, 'Barn under 18 år ska kunna ingå i äktenskap', 'YESNO', 2, 0, 2, '2013-11-07 22:26:11', '2013-10-21 13:05:42', '', 0, 2, '2013-11-07 22:24:47'),
-(23, 'Turkiet ska tillåtas gå med i EU', 'YESNO', 2, 0, 2, '2014-01-10 18:51:25', '2013-10-21 13:05:42', '', 1, 2, '2014-01-10 18:51:25'),
-(24, 'Järnvägen ska återregleras', 'YESNO', 2, 0, 2, '2013-11-13 11:13:09', '2013-10-21 13:05:42', 'En återreglering av järnvägen skulle innebära att endast staten får nytja stambanorna för kommersiell trafik.', 1, 2, '2013-11-13 11:13:09'),
-(25, 'Kärnkraften ska byggas ut', 'YESNO', 2, 0, 2, '2013-11-12 10:03:28', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:03:28'),
-(26, 'Kärnkraften ska avvecklas', 'YESNO', 2, 0, 2, '2013-11-12 10:03:23', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:03:23'),
-(27, 'Sverige ska gå med i NATO', 'YESNO', 2, 0, 2, '2013-11-12 10:04:15', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:04:15'),
-(28, 'Gårdsförsäljning ska vara tillåtet', 'YESNO', 2, 0, 2, '2013-11-11 17:32:24', '2013-10-21 13:05:42', '', 1, 2, '2013-11-11 17:32:24'),
-(29, 'Modersmålsundervisning ska vara en rättighet', 'YESNO', 2, 0, 2, '2013-11-12 10:03:42', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:03:42'),
-(30, 'Nytillverkade bilar ska utrustas med alkolås', 'YESNO', 2, 0, 2, '2013-12-02 21:00:34', '2013-10-21 13:05:42', '', 1, 2, '2013-12-02 21:00:34'),
-(31, 'Receptfria läkemedel ska kunna köpas i vanliga affärer', 'YESNO', 2, 0, 2, '2013-11-05 21:30:45', '2013-10-21 13:05:42', '', 0, 0, '0000-00-00 00:00:00'),
-(32, 'Från vilken årskurs  ska elever ha betyg?', 'CHOICE', 2, 0, 2, '2014-01-10 18:36:51', '2013-10-21 13:05:42', '', 1, 2, '2014-01-10 18:36:51'),
-(48, 'Trängselskatt ska införas i flera städer', 'YESNO', 2, 0, 2, '2013-11-05 21:32:57', '2013-10-22 08:33:53', '', 0, 0, '0000-00-00 00:00:00'),
-(49, 'Sverige ska investera i höghastighetståg', 'YESNO', 2, 0, 2, '2013-11-05 21:32:23', '2013-10-22 08:35:04', '', 0, 0, '0000-00-00 00:00:00'),
-(50, 'Licensjakt på varg ska vara tillåten', 'YESNO', 2, 0, 2, '2013-11-05 21:27:49', '2013-10-22 08:39:56', '', 0, 0, '0000-00-00 00:00:00'),
-(51, 'Bensinskatten ska höjas', 'YESNO', 2, 0, 2, '2013-11-08 23:10:43', '2013-10-22 08:40:34', '', 1, 2, '2013-11-08 23:10:43'),
-(52, 'Statliga museer ska ha fri entré', 'YESNO', 2, 0, 2, '2013-11-05 21:31:27', '2013-10-22 08:41:35', '', 0, 0, '0000-00-00 00:00:00'),
-(53, 'Icke-kommersiell kopiering av upphovsrättsskyddat material ska vara tillåten', 'YESNO', 2, 0, 2, '2013-11-11 17:32:35', '2013-10-22 08:45:02', '', 1, 2, '2013-11-11 17:32:35'),
-(54, 'TV-licensen ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:33:13', '2013-10-22 08:45:54', '', 0, 0, '0000-00-00 00:00:00'),
-(55, 'Kommuner ska kunna säga nej till att ta emot flyktingar', 'YESNO', 2, 0, 2, '2013-11-05 21:26:49', '2013-10-22 08:47:27', '', 0, 0, '0000-00-00 00:00:00'),
-(56, 'Papperslösa flyktingar ska ha rätt till vård', 'YESNO', 2, 0, 2, '2013-11-13 11:25:29', '2013-10-22 08:48:10', '', 1, 2, '2013-11-13 11:25:29'),
-(57, 'Förbud för lärare att bära heltäckande slöja', 'YESNO', 2, 0, 2, '2013-11-11 17:32:02', '2013-10-22 08:49:45', '', 1, 2, '2013-11-11 17:32:02'),
-(58, 'Vårdnadsbidraget ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:33:35', '2013-10-22 08:51:57', '', 0, 0, '0000-00-00 00:00:00'),
-(59, 'Förmögenhetsskatten ska återinföras', 'YESNO', 2, 0, 2, '2013-11-11 17:32:09', '2013-10-22 08:52:38', '', 1, 2, '2013-11-11 17:32:09'),
-(60, 'Det ska vara samma skatt på pension och lön2', 'YESNO', 2, 0, 2, '2013-12-04 21:37:50', '2013-10-22 08:53:39', '', 1, 2, '2013-12-04 21:37:50'),
-(61, 'Rut-avdraget ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:30:51', '2013-10-22 08:54:01', '', 0, 0, '0000-00-00 00:00:00'),
-(62, 'Sexköpslagen ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:31:02', '2013-10-22 08:57:43', '', 0, 0, '0000-00-00 00:00:00'),
-(63, 'Rattfyllerister ska få hårdare straff', 'YESNO', 2, 0, 2, '2013-11-05 21:30:31', '2013-10-22 09:00:32', '', 0, 0, '0000-00-00 00:00:00'),
-(64, 'Våldsbrott ska bestraffas hårdare', 'YESNO', 2, 0, 2, '2013-11-05 21:33:30', '2013-10-22 09:00:54', '', 0, 0, '0000-00-00 00:00:00'),
-(65, 'Förtidspension ska vara möjlig när man är23', 'YESNO', 2, 0, 2, '2013-11-17 10:00:21', '2013-10-22 09:03:57', 'adsdsa', 0, 0, '0000-00-00 00:00:00'),
-(66, 'Sjukförsäkringen ska vara tidsbegränsad', 'YESNO', 2, 0, 2, '2013-11-05 21:31:13', '2013-10-22 09:17:45', '', 0, 0, '0000-00-00 00:00:00'),
-(67, 'Tandvård ska ingå i sjukförsäkringen', 'YESNO', 2, 0, 2, '2013-11-05 21:32:48', '2013-10-22 09:18:05', '', 0, 0, '0000-00-00 00:00:00'),
-(68, 'A-kassan ska vara obligatorisk', 'YESNO', 6, 1, 2, '2013-11-07 22:26:17', '2013-10-22 09:19:03', '', 0, 2, '2013-11-07 22:21:49'),
-(69, 'Omskärelse ska vara tillåtet endast av medicinska skäl', 'YESNO', 2, 0, 2, '2013-11-05 21:28:44', '2013-10-22 09:33:47', '', 0, 0, '0000-00-00 00:00:00'),
-(70, 'Alkoholmonopolet ska avskaffas23', 'YESNO', 2, 1, 2, '2013-12-08 11:32:14', '2013-10-22 09:35:16', '', 0, 2, '2013-12-08 11:32:14'),
-(71, 'Svenska soldater ska tas hem ifrån Afghanistan', 'YESNO', 2, 0, 2, '2013-11-05 21:31:35', '2013-10-22 09:58:47', '', 0, 0, '0000-00-00 00:00:00'),
-(72, 'Sverige ska sluta exportera vapen', 'YESNO', 2, 0, 2, '2013-11-05 21:32:31', '2013-10-22 09:59:27', '', 0, 0, '0000-00-00 00:00:00'),
-(73, 'Värnplikten ska återinföras', 'YESNO', 2, 0, 2, '2013-11-05 21:33:42', '2013-10-22 10:00:04', '', 0, 0, '0000-00-00 00:00:00'),
-(74, 'Sverige ska gå ur EU', 'YESNO', 2, 0, 2, '2013-11-05 21:31:45', '2013-10-22 10:00:31', '', 0, 0, '0000-00-00 00:00:00'),
-(75, 'Förstatliga skolan', 'YESNO', 2, 0, 2, '2013-11-11 17:32:16', '2013-10-22 10:00:59', '', 1, 2, '2013-11-11 17:32:16'),
-(76, 'Begränsa antal friskolor', 'YESNO', 2, 0, 2, '2013-11-05 21:24:17', '2013-10-22 10:02:01', '', 0, 0, '0000-00-00 00:00:00'),
-(77, 'Alla gymnasieprogram ska leda till högskolebehörighet4', 'YESNO', 2, 0, 2, '2013-12-14 23:06:43', '2013-10-22 10:02:27', '', 1, 2, '2013-12-14 23:06:43'),
-(78, 'Monarkin ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-12 10:03:48', '2013-10-22 10:03:36', '', 1, 2, '2013-11-12 10:03:48'),
-(79, 'Sverige ska hålla fler folkomröstningar', 'YESNO', 2, 0, 2, '2013-11-05 21:32:06', '2013-10-22 10:04:21', '', 0, 0, '0000-00-00 00:00:00'),
-(81, 'habana2', 'YESNO', 2, 1, 2, '2013-11-17 09:41:24', '2013-11-17 09:31:30', 'dsa\r\n', 1, 2, '2013-11-17 09:41:24'),
-(82, 'aaaTest', 'YESNO', 2, 1, 2, '0000-00-00 00:00:00', '2013-11-25 12:22:08', 'testestestest', 0, 0, '0000-00-00 00:00:00'),
-(83, 'AATEST', 'YESNO', 2, 1, 2, '0000-00-00 00:00:00', '2013-11-25 12:24:04', 'TEst', 0, 0, '0000-00-00 00:00:00'),
-(84, 'Contributorfråga2', 'YESNO', 6, 0, 2, '2013-12-11 11:02:56', '2013-12-02 19:28:20', '', 1, 2, '2013-12-11 11:02:56'),
-(85, 'Contributorfråga 2', 'YESNO', 6, 0, NULL, '0000-00-00 00:00:00', '2013-12-02 19:31:42', 'dsafds', 0, 0, '0000-00-00 00:00:00'),
-(86, 'Contributorfråga 3', 'YESNO', 6, 1, 6, '0000-00-00 00:00:00', '2013-12-02 19:32:19', '', 0, 0, '0000-00-00 00:00:00'),
-(87, 'rasnusfråga 1', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:01:51', 'saddsadsa', 0, 0, '0000-00-00 00:00:00'),
-(88, 'rasmus fråga 3', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:03:45', 'saddsadsa', 0, 0, '0000-00-00 00:00:00'),
-(89, 'rasmus fråga 3', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:06:52', 'saddsadsa', 0, 0, '0000-00-00 00:00:00'),
-(90, 'rasmus fin fråga', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:07:14', 'dsa', 0, 0, '0000-00-00 00:00:00'),
-(91, 'sadsaddsadsa', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2013-12-05 13:20:52', '', 0, 0, '0000-00-00 00:00:00'),
-(92, 'dsadsadsadsa', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2013-12-05 13:48:06', '', 0, 0, '0000-00-00 00:00:00'),
-(93, 'asdasdsad', 'YESNO', 2, 1, 2, '0000-00-00 00:00:00', '2013-12-05 14:35:40', '', 0, 0, '0000-00-00 00:00:00'),
-(94, 'dsadsadsa', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2013-12-05 18:21:12', '', 0, 0, '0000-00-00 00:00:00'),
-(95, 'testfråga 1337', 'YESNO', 2, 0, 2, '2013-12-08 13:55:26', '2013-12-08 13:38:56', 'sad', 1, 2, '2013-12-08 13:55:26'),
-(96, 'abc1234', 'YESNO', 2, 1, 2, '2013-12-15 10:49:12', '2013-12-09 20:09:58', 'dsa', 0, 0, '0000-00-00 00:00:00'),
-(97, 'Testfråga', 'CHOICE', 2, 0, 2, '2014-01-10 18:53:38', '2014-01-10 18:53:24', 'blaj', 1, 2, '2014-01-10 18:53:38');
+INSERT INTO `questions` (`id`, `title`, `type`, `created_by`, `deleted`, `updated_by`, `updated_date`, `created_date`, `description`, `approved`, `approved_by`, `approved_date`, `done`) VALUES
+(14, 'Patentsystemet ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:29:04', '2013-10-21 13:05:42', '', 0, 0, '0000-00-00 00:00:00', 0),
+(15, 'FRA-lagen ska avvecklas', 'YESNO', 2, 0, 2, '2013-12-08 11:31:54', '2013-10-21 13:05:42', 'dsadsa', 1, 2, '2013-12-08 11:31:54', 0),
+(17, 'Sverige ska införa euro som valuta?', 'YESNO', 2, 0, 2, '2014-01-15 18:26:08', '2013-10-21 13:05:42', '', 1, 2, '2014-01-15 18:26:08', 0),
+(18, 'Vinster i välfärden ska vara tillåtet', 'YESNO', 2, 0, 2, '2014-01-26 20:43:26', '2013-10-21 13:05:42', '', 1, 2, '2014-01-26 20:43:26', 0),
+(19, 'Kvinnor ska ha rätt till lagliga och säkra abort', 'YESNO', 2, 0, 2, '2013-11-13 11:18:43', '2013-10-21 13:05:42', '', 1, 2, '2013-11-13 11:18:43', 0),
+(20, 'Barnbidraget ska höjas', 'YESNO', 2, 0, 2, '2013-11-07 22:26:28', '2013-10-21 13:05:42', '', 0, 2, '2013-11-07 22:26:04', 0),
+(21, 'Patienter ska ha rätt till dödshjälp', 'YESNO', 2, 0, 2, '2013-11-12 10:04:01', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:04:01', 0),
+(22, 'Barn under 18 år ska kunna ingå i äktenskap', 'YESNO', 2, 0, 2, '2013-11-07 22:26:11', '2013-10-21 13:05:42', '', 0, 2, '2013-11-07 22:24:47', 0),
+(23, 'Turkiet ska tillåtas gå med i EU', 'YESNO', 2, 0, 2, '2014-01-10 18:51:25', '2013-10-21 13:05:42', '', 1, 2, '2014-01-10 18:51:25', 0),
+(24, 'Järnvägen ska återregleras', 'YESNO', 2, 0, 2, '2013-11-13 11:13:09', '2013-10-21 13:05:42', 'En återreglering av järnvägen skulle innebära att endast staten får nytja stambanorna för kommersiell trafik.', 1, 2, '2013-11-13 11:13:09', 0),
+(25, 'Kärnkraften ska byggas ut', 'YESNO', 2, 0, 2, '2013-11-12 10:03:28', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:03:28', 0),
+(26, 'Kärnkraften ska avvecklas', 'YESNO', 2, 0, 2, '2013-11-12 10:03:23', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:03:23', 0),
+(27, 'Sverige ska gå med i NATO', 'YESNO', 2, 0, 2, '2014-01-26 20:36:53', '2013-10-21 13:05:42', '', 1, 2, '2014-01-26 20:36:53', 1),
+(28, 'Gårdsförsäljning ska vara tillåtet', 'YESNO', 2, 0, 2, '2013-11-11 17:32:24', '2013-10-21 13:05:42', '', 1, 2, '2013-11-11 17:32:24', 0),
+(29, 'Modersmålsundervisning ska vara en rättighet', 'YESNO', 2, 0, 2, '2013-11-12 10:03:42', '2013-10-21 13:05:42', '', 1, 2, '2013-11-12 10:03:42', 0),
+(30, 'Nytillverkade bilar ska utrustas med alkolås', 'YESNO', 2, 0, 2, '2013-12-02 21:00:34', '2013-10-21 13:05:42', '', 1, 2, '2013-12-02 21:00:34', 0),
+(31, 'Receptfria läkemedel ska kunna köpas i vanliga affärer', 'YESNO', 2, 0, 2, '2013-11-05 21:30:45', '2013-10-21 13:05:42', '', 0, 0, '0000-00-00 00:00:00', 0),
+(32, 'Från vilken årskurs  ska elever ha betyg?', 'CHOICE', 2, 0, 2, '2014-01-10 18:36:51', '2013-10-21 13:05:42', '', 1, 2, '2014-01-10 18:36:51', 0),
+(48, 'Trängselskatt ska införas i flera städer', 'YESNO', 2, 0, 2, '2013-11-05 21:32:57', '2013-10-22 08:33:53', '', 0, 0, '0000-00-00 00:00:00', 0),
+(49, 'Sverige ska investera i höghastighetståg', 'YESNO', 2, 0, 2, '2013-11-05 21:32:23', '2013-10-22 08:35:04', '', 0, 0, '0000-00-00 00:00:00', 0),
+(50, 'Licensjakt på varg ska vara tillåten', 'YESNO', 2, 0, 2, '2013-11-05 21:27:49', '2013-10-22 08:39:56', '', 0, 0, '0000-00-00 00:00:00', 0),
+(51, 'Bensinskatten ska höjas', 'YESNO', 2, 0, 2, '2013-11-08 23:10:43', '2013-10-22 08:40:34', '', 1, 2, '2013-11-08 23:10:43', 0),
+(52, 'Statliga museer ska ha fri entré', 'YESNO', 2, 0, 2, '2013-11-05 21:31:27', '2013-10-22 08:41:35', '', 0, 0, '0000-00-00 00:00:00', 0),
+(53, 'Icke-kommersiell kopiering av upphovsrättsskyddat material ska vara tillåten', 'YESNO', 2, 0, 2, '2013-11-11 17:32:35', '2013-10-22 08:45:02', '', 1, 2, '2013-11-11 17:32:35', 0),
+(54, 'TV-licensen ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:33:13', '2013-10-22 08:45:54', '', 0, 0, '0000-00-00 00:00:00', 0),
+(55, 'Kommuner ska kunna säga nej till att ta emot flyktingar', 'YESNO', 2, 0, 2, '2013-11-05 21:26:49', '2013-10-22 08:47:27', '', 0, 0, '0000-00-00 00:00:00', 0),
+(56, 'Papperslösa flyktingar ska ha rätt till vård', 'YESNO', 2, 0, 2, '2013-11-13 11:25:29', '2013-10-22 08:48:10', '', 1, 2, '2013-11-13 11:25:29', 0),
+(57, 'Förbud för lärare att bära heltäckande slöja', 'YESNO', 2, 0, 2, '2013-11-11 17:32:02', '2013-10-22 08:49:45', '', 1, 2, '2013-11-11 17:32:02', 0),
+(58, 'Vårdnadsbidraget ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:33:35', '2013-10-22 08:51:57', '', 0, 0, '0000-00-00 00:00:00', 0),
+(59, 'Förmögenhetsskatten ska återinföras', 'YESNO', 2, 0, 2, '2013-11-11 17:32:09', '2013-10-22 08:52:38', '', 1, 2, '2013-11-11 17:32:09', 0),
+(60, 'Det ska vara samma skatt på pension och lön2', 'YESNO', 2, 0, 2, '2013-12-04 21:37:50', '2013-10-22 08:53:39', '', 1, 2, '2013-12-04 21:37:50', 0),
+(61, 'Rut-avdraget ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:30:51', '2013-10-22 08:54:01', '', 0, 0, '0000-00-00 00:00:00', 0),
+(62, 'Sexköpslagen ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-05 21:31:02', '2013-10-22 08:57:43', '', 0, 0, '0000-00-00 00:00:00', 0),
+(63, 'Rattfyllerister ska få hårdare straff', 'YESNO', 2, 0, 2, '2013-11-05 21:30:31', '2013-10-22 09:00:32', '', 0, 0, '0000-00-00 00:00:00', 0),
+(64, 'Våldsbrott ska bestraffas hårdare', 'YESNO', 2, 0, 2, '2013-11-05 21:33:30', '2013-10-22 09:00:54', '', 0, 0, '0000-00-00 00:00:00', 0),
+(65, 'Förtidspension ska vara möjlig när man är23', 'YESNO', 2, 0, 2, '2013-11-17 10:00:21', '2013-10-22 09:03:57', 'adsdsa', 0, 0, '0000-00-00 00:00:00', 0),
+(66, 'Sjukförsäkringen ska vara tidsbegränsad', 'YESNO', 2, 0, 2, '2013-11-05 21:31:13', '2013-10-22 09:17:45', '', 0, 0, '0000-00-00 00:00:00', 0),
+(67, 'Tandvård ska ingå i sjukförsäkringen', 'YESNO', 2, 0, 2, '2013-11-05 21:32:48', '2013-10-22 09:18:05', '', 0, 0, '0000-00-00 00:00:00', 0),
+(68, 'A-kassan ska vara obligatorisk', 'YESNO', 6, 1, 2, '2013-11-07 22:26:17', '2013-10-22 09:19:03', '', 0, 2, '2013-11-07 22:21:49', 0),
+(69, 'Omskärelse ska vara tillåtet endast av medicinska skäl', 'YESNO', 2, 0, 2, '2013-11-05 21:28:44', '2013-10-22 09:33:47', '', 0, 0, '0000-00-00 00:00:00', 0),
+(70, 'Alkoholmonopolet ska avskaffas23', 'YESNO', 2, 1, 2, '2013-12-08 11:32:14', '2013-10-22 09:35:16', '', 0, 2, '2013-12-08 11:32:14', 0),
+(71, 'Svenska soldater ska tas hem ifrån Afghanistan', 'YESNO', 2, 0, 2, '2013-11-05 21:31:35', '2013-10-22 09:58:47', '', 0, 0, '0000-00-00 00:00:00', 0),
+(72, 'Sverige ska sluta exportera vapen', 'YESNO', 2, 0, 2, '2014-01-15 20:45:16', '2013-10-22 09:59:27', '', 1, 2, '2014-01-15 20:45:16', 0),
+(73, 'Värnplikten ska återinföras', 'YESNO', 2, 0, 2, '2013-11-05 21:33:42', '2013-10-22 10:00:04', '', 0, 0, '0000-00-00 00:00:00', 0),
+(74, 'Sverige ska gå ur EU', 'YESNO', 2, 0, 2, '2013-11-05 21:31:45', '2013-10-22 10:00:31', '', 0, 0, '0000-00-00 00:00:00', 0),
+(75, 'Förstatliga skolan', 'YESNO', 2, 0, 2, '2013-11-11 17:32:16', '2013-10-22 10:00:59', '', 1, 2, '2013-11-11 17:32:16', 0),
+(76, 'Begränsa antal friskolor', 'YESNO', 2, 0, 2, '2013-11-05 21:24:17', '2013-10-22 10:02:01', '', 0, 0, '0000-00-00 00:00:00', 0),
+(77, 'Alla gymnasieprogram ska leda till högskolebehörighet4', 'YESNO', 2, 0, 2, '2013-12-14 23:06:43', '2013-10-22 10:02:27', '', 1, 2, '2013-12-14 23:06:43', 0),
+(78, 'Monarkin ska avskaffas', 'YESNO', 2, 0, 2, '2013-11-12 10:03:48', '2013-10-22 10:03:36', '', 1, 2, '2013-11-12 10:03:48', 0),
+(79, 'Sverige ska hålla fler folkomröstningar', 'YESNO', 2, 0, 2, '2013-11-05 21:32:06', '2013-10-22 10:04:21', '', 0, 0, '0000-00-00 00:00:00', 0),
+(81, 'habana2', 'YESNO', 2, 1, 2, '2013-11-17 09:41:24', '2013-11-17 09:31:30', 'dsa\r\n', 1, 2, '2013-11-17 09:41:24', 0),
+(82, 'aaaTest', 'YESNO', 2, 1, 2, '0000-00-00 00:00:00', '2013-11-25 12:22:08', 'testestestest', 0, 0, '0000-00-00 00:00:00', 0),
+(83, 'AATEST', 'YESNO', 2, 1, 2, '0000-00-00 00:00:00', '2013-11-25 12:24:04', 'TEst', 0, 0, '0000-00-00 00:00:00', 0),
+(84, 'Contributorfråga2', 'YESNO', 6, 0, 2, '2013-12-11 11:02:56', '2013-12-02 19:28:20', '', 1, 2, '2013-12-11 11:02:56', 0),
+(85, 'Contributorfråga 2', 'YESNO', 6, 0, NULL, '0000-00-00 00:00:00', '2013-12-02 19:31:42', 'dsafds', 0, 0, '0000-00-00 00:00:00', 0),
+(86, 'Contributorfråga 3', 'YESNO', 6, 1, 6, '0000-00-00 00:00:00', '2013-12-02 19:32:19', '', 0, 0, '0000-00-00 00:00:00', 0),
+(87, 'rasnusfråga 1', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:01:51', 'saddsadsa', 0, 0, '0000-00-00 00:00:00', 0),
+(88, 'rasmus fråga 3', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:03:45', 'saddsadsa', 0, 0, '0000-00-00 00:00:00', 0),
+(89, 'rasmus fråga 3', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:06:52', 'saddsadsa', 0, 0, '0000-00-00 00:00:00', 0),
+(90, 'rasmus fin fråga', 'YESNO', 26, 0, NULL, '0000-00-00 00:00:00', '2013-12-04 18:07:14', 'dsa', 0, 0, '0000-00-00 00:00:00', 0),
+(91, 'sadsaddsadsa', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2013-12-05 13:20:52', '', 0, 0, '0000-00-00 00:00:00', 0),
+(92, 'dsadsadsadsa', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2013-12-05 13:48:06', '', 0, 0, '0000-00-00 00:00:00', 0),
+(93, 'asdasdsad', 'YESNO', 2, 1, 2, '0000-00-00 00:00:00', '2013-12-05 14:35:40', '', 0, 0, '0000-00-00 00:00:00', 0),
+(94, 'dsadsadsa', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2013-12-05 18:21:12', '', 0, 0, '0000-00-00 00:00:00', 0),
+(95, 'testfråga 1337', 'YESNO', 2, 0, 2, '2013-12-08 13:55:26', '2013-12-08 13:38:56', 'sad', 1, 2, '2013-12-08 13:55:26', 0),
+(96, 'abc1234', 'YESNO', 2, 1, 2, '2013-12-15 10:49:12', '2013-12-09 20:09:58', 'dsa', 0, 0, '0000-00-00 00:00:00', 0),
+(97, 'Testfråga', 'CHOICE', 2, 0, 2, '2014-01-26 19:31:56', '2014-01-10 18:53:24', 'blaj', 1, 2, '2014-01-26 19:31:56', 1),
+(98, 'Testfråga', 'YESNO', 2, 0, 2, '2014-01-18 21:54:37', '2014-01-18 21:53:57', '', 1, 2, '2014-01-18 21:54:37', 0),
+(99, 'blablabla %', 'YESNO', 2, 0, NULL, '0000-00-00 00:00:00', '2014-01-19 09:40:18', '', 0, 0, '0000-00-00 00:00:00', 0),
+(100, 'uuuu', 'YESNO', 2, 0, 2, '2014-01-26 20:14:37', '2014-01-26 20:14:13', '', 1, 2, '2014-01-26 20:14:37', 0);
 
 -- --------------------------------------------------------
 
@@ -414,7 +432,7 @@ CREATE TABLE IF NOT EXISTS `question_quizzes` (
   `question_id` int(11) NOT NULL,
   `quiz_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `question_quizzes`
@@ -432,7 +450,6 @@ INSERT INTO `question_quizzes` (`id`, `question_id`, `quiz_id`) VALUES
 (9, 59, 2),
 (10, 26, 2),
 (11, 53, 2),
-(12, 51, 3),
 (13, 65, 3),
 (15, 79, 3),
 (16, 26, 4),
@@ -441,7 +458,8 @@ INSERT INTO `question_quizzes` (`id`, `question_id`, `quiz_id`) VALUES
 (19, 17, 4),
 (20, 32, 6),
 (21, 53, 4),
-(22, 97, 3);
+(23, 15, 3),
+(25, 77, 3);
 
 -- --------------------------------------------------------
 
@@ -454,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `question_tags` (
   `question_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=253 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=257 ;
 
 --
 -- Dumping data for table `question_tags`
@@ -484,9 +502,6 @@ INSERT INTO `question_tags` (`id`, `question_id`, `tag_id`) VALUES
 (67, 74, 34),
 (68, 79, 44),
 (72, 49, 41),
-(73, 72, 38),
-(74, 72, 39),
-(75, 72, 43),
 (76, 67, 37),
 (77, 67, 79),
 (78, 67, 80),
@@ -522,12 +537,6 @@ INSERT INTO `question_tags` (`id`, `question_id`, `tag_id`) VALUES
 (158, 78, 71),
 (161, 21, 37),
 (162, 21, 73),
-(165, 27, 27),
-(166, 27, 45),
-(167, 17, 34),
-(168, 17, 42),
-(169, 17, 43),
-(172, 18, 32),
 (175, 24, 41),
 (176, 24, 62),
 (182, 56, 37),
@@ -555,7 +564,10 @@ INSERT INTO `question_tags` (`id`, `question_id`, `tag_id`) VALUES
 (242, 95, 43),
 (248, 77, 51),
 (250, 32, 51),
-(252, 97, 100);
+(253, 17, 43),
+(254, 72, 38),
+(255, 72, 43),
+(256, 97, 100);
 
 -- --------------------------------------------------------
 
@@ -591,6 +603,49 @@ INSERT INTO `quizzes` (`id`, `name`, `description`, `approved`, `date`, `created
 (5, 'hmm', 'dsadsadsadsa', 0, '2013-11-19 19:14:49', 2, '2013-11-19 19:05:59', 2, NULL, 1, NULL, NULL),
 (6, 'dsadsa', 'aa', 0, '0000-00-00 00:00:00', 2, '2013-12-05 14:45:34', NULL, NULL, 0, NULL, NULL),
 (7, 'dsadsadsa', 'dsadsadsa', 0, '2013-12-05 18:36:32', 2, '2013-12-05 18:36:27', 2, NULL, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quiz_answers`
+--
+
+CREATE TABLE IF NOT EXISTS `quiz_answers` (
+  `id` varchar(40) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `answer` varchar(20) DEFAULT NULL,
+  `date` date NOT NULL,
+  `temp_quiz_id` varchar(40) NOT NULL,
+  `importance` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `quiz_answers`
+--
+
+INSERT INTO `quiz_answers` (`id`, `question_id`, `answer`, `date`, `temp_quiz_id`, `importance`) VALUES
+('52effac1-2ec0-454c-b7e3-06d47ddeb986', 15, '0', '0000-00-00', '52effac1-1c64-4678-9f79-06d47ddeb986', 2),
+('52effac1-3ba4-4103-bb24-06d47ddeb986', 77, '0', '0000-00-00', '52effac1-1c64-4678-9f79-06d47ddeb986', 2),
+('52effca9-0a34-4705-918a-11597ddeb986', 21, NULL, '2014-02-03', '52effca9-d8fc-4c8a-bb3c-11597ddeb986', 2),
+('52effca9-1b64-436a-a9a8-11597ddeb986', 26, 'nej', '2014-02-03', '52effca9-d8fc-4c8a-bb3c-11597ddeb986', 3),
+('52effca9-2bcc-4c67-8597-11597ddeb986', 17, 'ja', '2014-02-03', '52effca9-d8fc-4c8a-bb3c-11597ddeb986', 2),
+('52effca9-3bd0-4e23-95fb-11597ddeb986', 28, NULL, '2014-02-03', '52effca9-d8fc-4c8a-bb3c-11597ddeb986', 3),
+('52effca9-ec84-40c2-ab41-11597ddeb986', 53, 'ja', '2014-02-03', '52effca9-d8fc-4c8a-bb3c-11597ddeb986', 2),
+('52f00017-e49c-4026-96a5-11a97ddeb986', 15, 'ja', '2014-02-03', '52f00017-d36c-4a23-aa57-11a97ddeb986', 2),
+('52f00017-fcd4-4f90-b5d8-11a97ddeb986', 77, 'nej', '2014-02-03', '52f00017-d36c-4a23-aa57-11a97ddeb986', 2),
+('52f00072-506c-4caf-a29f-1acf7ddeb986', 17, 'ja', '2014-02-03', '52f00072-3d48-415a-9401-1acf7ddeb986', 2),
+('52f00072-6db8-4340-8d69-1acf7ddeb986', 21, 'nej', '2014-02-03', '52f00072-3d48-415a-9401-1acf7ddeb986', 2),
+('52f00072-7e84-425c-8983-1acf7ddeb986', 53, NULL, '2014-02-03', '52f00072-3d48-415a-9401-1acf7ddeb986', 2),
+('52f00072-8eec-4f67-ab0c-1acf7ddeb986', 26, 'nej', '2014-02-03', '52f00072-3d48-415a-9401-1acf7ddeb986', 2),
+('52f00072-9ef0-4f78-9071-1acf7ddeb986', 28, 'ja', '2014-02-03', '52f00072-3d48-415a-9401-1acf7ddeb986', 2),
+('52f0021a-8b80-45f7-ad2d-17177ddeb986', 21, 'ja', '2014-02-03', '52f0021a-78c0-4641-b6ef-17177ddeb986', 2),
+('52f0021a-a7a0-456c-898f-17177ddeb986', 28, 'nej', '2014-02-03', '52f0021a-78c0-4641-b6ef-17177ddeb986', 3),
+('52f0021a-b808-47df-a3a6-17177ddeb986', 53, 'ja', '2014-02-03', '52f0021a-78c0-4641-b6ef-17177ddeb986', 1),
+('52f0021a-c80c-4464-81bf-17177ddeb986', 26, 'nej', '2014-02-03', '52f0021a-78c0-4641-b6ef-17177ddeb986', 3),
+('52f0021a-d7ac-4f05-92fc-17177ddeb986', 17, 'ja', '2014-02-03', '52f0021a-78c0-4641-b6ef-17177ddeb986', 1),
+('52f0046e-d1e4-4afd-b301-11a87ddeb986', 15, NULL, '2014-02-03', '52f0046e-c118-4427-b47b-11a87ddeb986', 2),
+('52f0046e-ea1c-48d1-8a1e-11a87ddeb986', 77, NULL, '2014-02-03', '52f0046e-c118-4427-b47b-11a87ddeb986', 2);
 
 -- --------------------------------------------------------
 
@@ -721,7 +776,18 @@ INSERT INTO `quiz_results` (`id`, `data`, `created`, `version`, `quiz_id`) VALUE
 ('52d054a9-de34-42c0-9aca-19f67ddeb986', '{"question_agree_rate":{"1":{"result":100,"range":6,"plus_points":6,"minus_points":0},"2":{"result":0,"range":3,"plus_points":0,"minus_points":3},"3":{"result":0,"range":3,"plus_points":0,"minus_points":3},"9":{"result":100,"range":3,"plus_points":3,"minus_points":0},"4":{"result":0,"range":0,"plus_points":0,"minus_points":0},"5":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":0,"range":0,"plus_points":0,"minus_points":0},"8":{"result":0,"range":3,"plus_points":0,"minus_points":3},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":67,"range":9,"points":6},"2":{"result":0,"range":9,"points":-3},"3":{"result":0,"range":9,"points":-3},"9":{"result":33,"range":9,"points":3},"4":{"result":0,"range":9,"points":0},"5":{"result":0,"range":9,"points":-3},"7":{"result":0,"range":9,"points":0},"8":{"result":0,"range":9,"points":-3},"6":{"result":0,"range":9,"points":-3},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-01-10 20:14:44', 2, 3),
 ('52d19ba7-46a8-4fa5-a593-16a67ddeb986', '{"question_agree_rate":{"1":{"result":100,"range":6,"plus_points":6,"minus_points":0},"2":{"result":0,"range":3,"plus_points":0,"minus_points":3},"3":{"result":0,"range":3,"plus_points":0,"minus_points":3},"9":{"result":100,"range":3,"plus_points":3,"minus_points":0},"4":{"result":0,"range":0,"plus_points":0,"minus_points":0},"5":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":0,"range":0,"plus_points":0,"minus_points":0},"8":{"result":0,"range":3,"plus_points":0,"minus_points":3},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":67,"range":9,"points":6},"2":{"result":0,"range":9,"points":-3},"3":{"result":0,"range":9,"points":-3},"9":{"result":33,"range":9,"points":3},"4":{"result":0,"range":9,"points":0},"5":{"result":0,"range":9,"points":-3},"7":{"result":0,"range":9,"points":0},"8":{"result":0,"range":9,"points":-3},"6":{"result":0,"range":9,"points":-3},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-01-11 19:32:05', 2, 3),
 ('52d44079-02e4-4d07-9e27-06d37ddeb986', '{"question_agree_rate":{"1":{"result":33,"range":9,"plus_points":3,"minus_points":6},"2":{"result":25,"range":12,"plus_points":3,"minus_points":9},"3":{"result":0,"range":9,"plus_points":0,"minus_points":9},"9":{"result":50,"range":12,"plus_points":6,"minus_points":6},"4":{"result":50,"range":6,"plus_points":3,"minus_points":3},"5":{"result":50,"range":12,"plus_points":6,"minus_points":6},"7":{"result":67,"range":9,"plus_points":6,"minus_points":3},"8":{"result":25,"range":12,"plus_points":3,"minus_points":9},"6":{"result":0,"range":12,"plus_points":0,"minus_points":12},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":3,"points":-3},"2":{"result":0,"range":3,"points":-6},"3":{"result":0,"range":3,"points":-9},"9":{"result":0,"range":3,"points":0},"4":{"result":0,"range":3,"points":0},"5":{"result":0,"range":3,"points":0},"7":{"result":100,"range":3,"points":3},"8":{"result":0,"range":3,"points":-6},"6":{"result":0,"range":3,"points":-12},"11":{"result":0,"range":3,"points":0},"10":{"result":0,"range":3,"points":0}}}', '2014-01-13 19:39:14', 2, 4),
-('52d44134-6868-4085-99d6-14e27ddeb986', '{"question_agree_rate":{"1":{"result":25,"range":12,"plus_points":3,"minus_points":9},"2":{"result":20,"range":15,"plus_points":3,"minus_points":12},"3":{"result":0,"range":12,"plus_points":0,"minus_points":12},"9":{"result":40,"range":15,"plus_points":6,"minus_points":9},"4":{"result":50,"range":6,"plus_points":3,"minus_points":3},"5":{"result":60,"range":15,"plus_points":9,"minus_points":6},"7":{"result":75,"range":12,"plus_points":9,"minus_points":3},"8":{"result":25,"range":12,"plus_points":3,"minus_points":9},"6":{"result":0,"range":15,"plus_points":0,"minus_points":15},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":9,"points":-6},"2":{"result":0,"range":9,"points":-9},"3":{"result":0,"range":9,"points":-12},"9":{"result":0,"range":9,"points":-3},"4":{"result":0,"range":9,"points":0},"5":{"result":33,"range":9,"points":3},"7":{"result":67,"range":9,"points":6},"8":{"result":0,"range":9,"points":-6},"6":{"result":0,"range":9,"points":-15},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-01-13 19:40:48', 2, 4);
+('52d44134-6868-4085-99d6-14e27ddeb986', '{"question_agree_rate":{"1":{"result":25,"range":12,"plus_points":3,"minus_points":9},"2":{"result":20,"range":15,"plus_points":3,"minus_points":12},"3":{"result":0,"range":12,"plus_points":0,"minus_points":12},"9":{"result":40,"range":15,"plus_points":6,"minus_points":9},"4":{"result":50,"range":6,"plus_points":3,"minus_points":3},"5":{"result":60,"range":15,"plus_points":9,"minus_points":6},"7":{"result":75,"range":12,"plus_points":9,"minus_points":3},"8":{"result":25,"range":12,"plus_points":3,"minus_points":9},"6":{"result":0,"range":15,"plus_points":0,"minus_points":15},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":9,"points":-6},"2":{"result":0,"range":9,"points":-9},"3":{"result":0,"range":9,"points":-12},"9":{"result":0,"range":9,"points":-3},"4":{"result":0,"range":9,"points":0},"5":{"result":33,"range":9,"points":3},"7":{"result":67,"range":9,"points":6},"8":{"result":0,"range":9,"points":-6},"6":{"result":0,"range":9,"points":-15},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-01-13 19:40:48', 2, 4),
+('52da81a1-d638-4516-8438-66e87ddeb986', '{"question_agree_rate":{"1":{"result":100,"range":12,"plus_points":12,"minus_points":0},"2":{"result":0,"range":3,"plus_points":0,"minus_points":3},"3":{"result":0,"range":3,"plus_points":0,"minus_points":3},"9":{"result":100,"range":3,"plus_points":3,"minus_points":0},"4":{"result":0,"range":0,"plus_points":0,"minus_points":0},"5":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":0,"range":0,"plus_points":0,"minus_points":0},"8":{"result":0,"range":3,"plus_points":0,"minus_points":3},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":80,"range":15,"points":12},"2":{"result":0,"range":15,"points":-3},"3":{"result":0,"range":15,"points":-3},"9":{"result":20,"range":15,"points":3},"4":{"result":0,"range":15,"points":0},"5":{"result":0,"range":15,"points":-3},"7":{"result":0,"range":15,"points":0},"8":{"result":0,"range":15,"points":-3},"6":{"result":0,"range":15,"points":-3},"11":{"result":0,"range":15,"points":0},"10":{"result":0,"range":15,"points":0}}}', '2014-01-18 13:29:18', 2, 3),
+('52dacb56-e958-4cf0-8fcd-682b7ddeb986', '{"question_agree_rate":{"1":{"result":100,"range":6,"plus_points":6,"minus_points":0},"2":{"result":0,"range":3,"plus_points":0,"minus_points":3},"3":{"result":0,"range":3,"plus_points":0,"minus_points":3},"9":{"result":100,"range":3,"plus_points":3,"minus_points":0},"4":{"result":0,"range":0,"plus_points":0,"minus_points":0},"5":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":0,"range":0,"plus_points":0,"minus_points":0},"8":{"result":0,"range":3,"plus_points":0,"minus_points":3},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":67,"range":9,"points":6},"2":{"result":0,"range":9,"points":-3},"3":{"result":0,"range":9,"points":-3},"9":{"result":33,"range":9,"points":3},"4":{"result":0,"range":9,"points":0},"5":{"result":0,"range":9,"points":-3},"7":{"result":0,"range":9,"points":0},"8":{"result":0,"range":9,"points":-3},"6":{"result":0,"range":9,"points":-3},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-01-18 18:43:42', 2, 3);
+INSERT INTO `quiz_results` (`id`, `data`, `created`, `version`, `quiz_id`) VALUES
+('52dae7cf-ae54-4011-8782-7d857ddeb986', '{"question_agree_rate":{"1":{"result":100,"range":6,"plus_points":6,"minus_points":0},"2":{"result":0,"range":3,"plus_points":0,"minus_points":3},"3":{"result":0,"range":3,"plus_points":0,"minus_points":3},"9":{"result":100,"range":3,"plus_points":3,"minus_points":0},"4":{"result":0,"range":0,"plus_points":0,"minus_points":0},"5":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":0,"range":0,"plus_points":0,"minus_points":0},"8":{"result":0,"range":3,"plus_points":0,"minus_points":3},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":67,"range":9,"points":6},"2":{"result":0,"range":9,"points":-3},"3":{"result":0,"range":9,"points":-3},"9":{"result":33,"range":9,"points":3},"4":{"result":0,"range":9,"points":0},"5":{"result":0,"range":9,"points":-3},"7":{"result":0,"range":9,"points":0},"8":{"result":0,"range":9,"points":-3},"6":{"result":0,"range":9,"points":-3},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-01-18 20:45:10', 2, 3),
+('52eeb8df-ab88-4cf2-bed9-48327ddeb986', '{"question_agree_rate":{"1":{"result":0,"range":3,"plus_points":0,"minus_points":3},"2":{"result":50,"range":6,"plus_points":3,"minus_points":3},"3":{"result":50,"range":6,"plus_points":3,"minus_points":3},"9":{"result":50,"range":6,"plus_points":3,"minus_points":3},"4":{"result":50,"range":6,"plus_points":3,"minus_points":3},"5":{"result":0,"range":6,"plus_points":0,"minus_points":6},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":50,"range":6,"plus_points":3,"minus_points":3},"8":{"result":100,"range":3,"plus_points":3,"minus_points":0},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":3,"points":-3},"2":{"result":0,"range":3,"points":0},"3":{"result":0,"range":3,"points":0},"9":{"result":0,"range":3,"points":0},"4":{"result":0,"range":3,"points":0},"5":{"result":0,"range":3,"points":-6},"6":{"result":0,"range":3,"points":-3},"7":{"result":0,"range":3,"points":0},"8":{"result":100,"range":3,"points":3},"11":{"result":0,"range":3,"points":0},"10":{"result":0,"range":3,"points":0}}}', '2014-02-02 21:30:11', 2, 3),
+('52eeb8e9-bcf4-41b2-bffa-48327ddeb986', '{"question_agree_rate":{"1":{"result":25,"range":12,"plus_points":3,"minus_points":9},"2":{"result":50,"range":12,"plus_points":6,"minus_points":6},"3":{"result":50,"range":12,"plus_points":6,"minus_points":6},"9":{"result":0,"range":15,"plus_points":0,"minus_points":15},"4":{"result":0,"range":6,"plus_points":0,"minus_points":6},"5":{"result":60,"range":15,"plus_points":9,"minus_points":6},"6":{"result":40,"range":15,"plus_points":6,"minus_points":9},"7":{"result":25,"range":12,"plus_points":3,"minus_points":9},"8":{"result":75,"range":12,"plus_points":9,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":9,"points":-6},"2":{"result":0,"range":9,"points":0},"3":{"result":0,"range":9,"points":0},"9":{"result":0,"range":9,"points":-15},"4":{"result":0,"range":9,"points":-6},"5":{"result":33,"range":9,"points":3},"6":{"result":0,"range":9,"points":-3},"7":{"result":0,"range":9,"points":-6},"8":{"result":67,"range":9,"points":6},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-02-02 21:30:28', 2, 4),
+('52eebc2f-0da4-4770-af90-4a5f7ddeb986', '{"question_agree_rate":{"1":{"result":67,"range":18,"plus_points":12,"minus_points":6},"2":{"result":50,"range":18,"plus_points":9,"minus_points":9},"3":{"result":50,"range":18,"plus_points":9,"minus_points":9},"9":{"result":89,"range":27,"plus_points":24,"minus_points":3},"4":{"result":100,"range":12,"plus_points":12,"minus_points":0},"5":{"result":56,"range":27,"plus_points":15,"minus_points":12},"6":{"result":67,"range":27,"plus_points":18,"minus_points":9},"7":{"result":100,"range":18,"plus_points":18,"minus_points":0},"8":{"result":38,"range":24,"plus_points":9,"minus_points":15},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":9,"range":69,"points":6},"2":{"result":0,"range":69,"points":0},"3":{"result":0,"range":69,"points":0},"9":{"result":30,"range":69,"points":21},"4":{"result":17,"range":69,"points":12},"5":{"result":4,"range":69,"points":3},"6":{"result":13,"range":69,"points":9},"7":{"result":26,"range":69,"points":18},"8":{"result":0,"range":69,"points":-6},"11":{"result":0,"range":69,"points":0},"10":{"result":0,"range":69,"points":0}}}', '2014-02-02 21:45:08', 2, 4),
+('52efef7f-ce04-4d30-ba77-11b57ddeb986', '{"question_agree_rate":{"1":{"result":0,"range":3,"plus_points":0,"minus_points":3},"2":{"result":50,"range":6,"plus_points":3,"minus_points":3},"3":{"result":50,"range":6,"plus_points":3,"minus_points":3},"9":{"result":50,"range":6,"plus_points":3,"minus_points":3},"4":{"result":50,"range":6,"plus_points":3,"minus_points":3},"5":{"result":0,"range":6,"plus_points":0,"minus_points":6},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":50,"range":6,"plus_points":3,"minus_points":3},"8":{"result":100,"range":3,"plus_points":3,"minus_points":0},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":3,"points":-3},"2":{"result":0,"range":3,"points":0},"3":{"result":0,"range":3,"points":0},"9":{"result":0,"range":3,"points":0},"4":{"result":0,"range":3,"points":0},"5":{"result":0,"range":3,"points":-6},"6":{"result":0,"range":3,"points":-3},"7":{"result":0,"range":3,"points":0},"8":{"result":100,"range":3,"points":3},"11":{"result":0,"range":3,"points":0},"10":{"result":0,"range":3,"points":0}}}', '2014-02-03 19:35:33', 2, 3),
+('52eff942-d920-46da-a78c-06d37ddeb986', '{"question_agree_rate":{"1":{"result":0,"range":3,"plus_points":0,"minus_points":3},"2":{"result":50,"range":6,"plus_points":3,"minus_points":3},"3":{"result":50,"range":6,"plus_points":3,"minus_points":3},"9":{"result":50,"range":6,"plus_points":3,"minus_points":3},"4":{"result":50,"range":6,"plus_points":3,"minus_points":3},"5":{"result":0,"range":6,"plus_points":0,"minus_points":6},"6":{"result":0,"range":3,"plus_points":0,"minus_points":3},"7":{"result":50,"range":6,"plus_points":3,"minus_points":3},"8":{"result":100,"range":3,"plus_points":3,"minus_points":0},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":3,"points":-3},"2":{"result":0,"range":3,"points":0},"3":{"result":0,"range":3,"points":0},"9":{"result":0,"range":3,"points":0},"4":{"result":0,"range":3,"points":0},"5":{"result":0,"range":3,"points":-6},"6":{"result":0,"range":3,"points":-3},"7":{"result":0,"range":3,"points":0},"8":{"result":100,"range":3,"points":3},"11":{"result":0,"range":3,"points":0},"10":{"result":0,"range":3,"points":0}}}', '2014-02-03 20:17:42', 2, 3),
+('52f00067-9fb8-4285-acaf-1acf7ddeb986', '{"question_agree_rate":{"1":{"result":33,"range":9,"plus_points":3,"minus_points":6},"2":{"result":67,"range":9,"plus_points":6,"minus_points":3},"3":{"result":67,"range":9,"plus_points":6,"minus_points":3},"9":{"result":25,"range":12,"plus_points":3,"minus_points":9},"4":{"result":0,"range":3,"plus_points":0,"minus_points":3},"5":{"result":25,"range":12,"plus_points":3,"minus_points":9},"6":{"result":50,"range":12,"plus_points":6,"minus_points":6},"7":{"result":0,"range":9,"plus_points":0,"minus_points":9},"8":{"result":67,"range":9,"plus_points":6,"minus_points":3},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":9,"points":-3},"2":{"result":33,"range":9,"points":3},"3":{"result":33,"range":9,"points":3},"9":{"result":0,"range":9,"points":-6},"4":{"result":0,"range":9,"points":-3},"5":{"result":0,"range":9,"points":-6},"6":{"result":0,"range":9,"points":0},"7":{"result":0,"range":9,"points":-9},"8":{"result":33,"range":9,"points":3},"11":{"result":0,"range":9,"points":0},"10":{"result":0,"range":9,"points":0}}}', '2014-02-03 20:47:46', 2, 4),
+('52f0020c-b328-4fde-83b9-17177ddeb986', '{"question_agree_rate":{"1":{"result":41,"range":22,"plus_points":9,"minus_points":13},"2":{"result":64,"range":14,"plus_points":9,"minus_points":5},"3":{"result":82,"range":22,"plus_points":18,"minus_points":4},"9":{"result":43,"range":23,"plus_points":10,"minus_points":13},"4":{"result":50,"range":2,"plus_points":1,"minus_points":1},"5":{"result":13,"range":23,"plus_points":3,"minus_points":20},"6":{"result":78,"range":23,"plus_points":18,"minus_points":5},"7":{"result":29,"range":14,"plus_points":4,"minus_points":10},"8":{"result":45,"range":20,"plus_points":9,"minus_points":11},"11":{"result":0,"range":0,"plus_points":0,"minus_points":0},"10":{"result":0,"range":0,"plus_points":0,"minus_points":0}},"points_percentage":{"1":{"result":0,"range":31,"points":-4},"2":{"result":13,"range":31,"points":4},"3":{"result":45,"range":31,"points":14},"9":{"result":0,"range":31,"points":-3},"4":{"result":0,"range":31,"points":0},"5":{"result":0,"range":31,"points":-17},"6":{"result":42,"range":31,"points":13},"7":{"result":0,"range":31,"points":-6},"8":{"result":0,"range":31,"points":-2},"11":{"result":0,"range":31,"points":0},"10":{"result":0,"range":31,"points":0}}}', '2014-02-03 20:54:51', 2, 4);
 
 -- --------------------------------------------------------
 
@@ -894,7 +960,7 @@ CREATE TABLE IF NOT EXISTS `user_logs` (
   `text` text NOT NULL,
   `ip` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=296 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=325 ;
 
 --
 -- Dumping data for table `user_logs`
@@ -1195,7 +1261,36 @@ INSERT INTO `user_logs` (`id`, `user_id`, `model`, `action`, `object_id`, `date`
 (292, 2, 'quiz', 'edit', 4, '2014-01-10 20:10:08', '', '127.0.0.1'),
 (293, 2, 'quiz', 'edit', 3, '2014-01-10 20:10:51', '', '127.0.0.1'),
 (294, 2, 'quiz', 'edit', 3, '2014-01-10 20:11:29', '', '127.0.0.1'),
-(295, 2, 'quiz', 'edit', 3, '2014-01-10 20:14:26', '', '127.0.0.1');
+(295, 2, 'quiz', 'edit', 3, '2014-01-10 20:14:26', '', '127.0.0.1'),
+(296, 2, 'question', 'edit', 17, '2014-01-15 18:26:08', '', '127.0.0.1'),
+(297, 2, 'answer', 'add', 225, '2014-01-15 20:45:09', 'blaj', '127.0.0.1'),
+(298, 2, 'answer', 'edit', 225, '2014-01-15 20:45:12', '', '127.0.0.1'),
+(299, 2, 'question', 'edit', 72, '2014-01-15 20:45:16', '', '127.0.0.1'),
+(300, 2, 'answer', 'edit', 63, '2014-01-18 16:14:00', '', '127.0.0.1'),
+(301, 2, 'question', 'add', 98, '2014-01-18 21:53:57', 'Testfråga', '127.0.0.1'),
+(302, 2, 'answer', 'add', 226, '2014-01-18 21:54:16', 'aaa', '127.0.0.1'),
+(303, 2, 'question', 'edit', 98, '2014-01-18 21:54:37', '', '127.0.0.1'),
+(304, 2, 'answer', 'edit', 226, '2014-01-18 21:54:57', '', '127.0.0.1'),
+(305, 2, 'question', 'add', 99, '2014-01-19 09:40:18', 'blablabla %', '127.0.0.1'),
+(306, 2, 'quiz', 'add', 23, '2014-01-21 21:43:22', '', '127.0.0.1'),
+(307, 2, 'quiz', 'add', 24, '2014-01-21 21:49:51', '', '127.0.0.1'),
+(308, 2, 'quiz', 'delete', 24, '2014-01-21 21:49:57', '', '127.0.0.1'),
+(309, 2, 'quiz', 'add', 25, '2014-01-21 22:09:14', '', '127.0.0.1'),
+(310, 2, 'question', 'edit', 18, '2014-01-26 19:17:38', '', '127.0.0.1'),
+(311, 2, 'question', 'edit', 97, '2014-01-26 19:31:56', '', '127.0.0.1'),
+(312, 2, 'quiz', 'delete', 12, '2014-01-26 19:45:48', '', '127.0.0.1'),
+(313, 2, 'quiz', 'delete', 22, '2014-01-26 19:45:52', '', '127.0.0.1'),
+(314, 2, 'question', 'add', 100, '2014-01-26 20:14:13', 'uuuu', '127.0.0.1'),
+(315, 2, 'answer', 'add', 227, '2014-01-26 20:14:22', 'ja', '127.0.0.1'),
+(316, 2, 'question', 'edit', 100, '2014-01-26 20:14:37', '', '127.0.0.1'),
+(317, 2, 'answer', 'edit', 227, '2014-01-26 20:14:41', '', '127.0.0.1'),
+(318, 2, 'answer', 'add', 228, '2014-01-26 20:14:54', 'asdsad', '127.0.0.1'),
+(319, 2, 'answer', 'edit', 228, '2014-01-26 20:16:38', '', '127.0.0.1'),
+(320, 2, 'answer', 'add', 229, '2014-01-26 20:29:52', 'nej', '127.0.0.1'),
+(321, 2, 'answer', 'edit', 229, '2014-01-26 20:30:30', '', '127.0.0.1'),
+(322, 2, 'question', 'edit', 27, '2014-01-26 20:36:53', '', '127.0.0.1'),
+(323, 2, 'question', 'edit', 18, '2014-01-26 20:41:44', '', '127.0.0.1'),
+(324, 2, 'question', 'edit', 18, '2014-01-26 20:43:26', '', '127.0.0.1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

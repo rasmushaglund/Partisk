@@ -110,16 +110,17 @@
                             <a href="https://github.com/RikardNordstrom" title="GitHub"><i class="fa fa-github"></i></a></p>-->
                         </div>
                     </li>
-                   <!-- <li>
+                   <li>
                         <div class="alert alert-info">
                             <img src="img/kristoffer.png" alt="Kristoffer Bjelkmark" class="img-thumbnail">
                             <b>Kristoffer Bjelkmark</b>
-                            <p>Studerande på nackademin, sharepointutveckling.</p>
-                            <p class="social"><a href="https://www.facebook.com/rikard.nordstrom.7" title="Facebook"><i class="fa fa-facebook-square"></i></a>
-                            <a href="http://www.linkedin.com/pub/rikard-nordstr%C3%B6m/83/807/213" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
-                            <a href="https://github.com/RikardNordstrom" title="GitHub"><i class="fa fa-github"></i></a></p>
+                            <p>Studerande på Nackademin YH, Sharepointutveckling.</p>
+                            <p class="social"><a href="https://www.facebook.com/Poffn" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                            <a href="https://plus.google.com/u/0/109899012980016136654" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+                            <a href="http://www.linkedin.com/profile/view?id=293245801" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="https://github.com/poffn/" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
-                    </li>-->
+                    </li>
                 </ul>
 	</div>
 </div>
