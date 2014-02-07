@@ -41,7 +41,7 @@ class QuizzesController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->quizSession = $this->Session->read('quizSession');
-        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume'));
+        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume', 'getQuestionSummaryTable'));
     }
 
     public function beforeRender() {
@@ -63,7 +63,7 @@ class QuizzesController extends AppController {
         $this->set('quizSession', $this->quizSession);
         $this->set('quizzes', $quizzes);
         $this->set('quizIsDone', $this->quizIsDone());
-        $this->set('allQuiz', $this->Quiz->getAllQuiz());
+        //$this->set('allQuiz', $this->Quiz->getAllQuiz());
         $this->set('description_for_layout', 'Testa dig själv. Vilket parti passar dig?');
         $this->set('title_for_layout', 'Quiz');
     }
@@ -144,7 +144,7 @@ class QuizzesController extends AppController {
     public function start($id) {
         $quizSession = $this->Quiz->generateQuizSession($id);
         $this->Session->write('quizSession', $quizSession);
-        return $this->redirect(array('action' => 'questions'));  
+        return $this->redirect("/quiz/fr%C3%A5gor");  
     }
 
     public function resume($id) {
@@ -202,14 +202,48 @@ class QuizzesController extends AppController {
                 $quizSession['QuizSession']['done'] = true;
                 $quizSession['QuizSession']['saved'] = false;
                 $this->Session->write('quizSession', $quizSession);
+                $this->saveAnswers($quizSession);
                 return $this->redirect(array('action' => 'results', $quizSession['QuizSession']['id']));    
             } else {
                 $this->Session->write('quizSession', $quizSession);
-                return $this->redirect(array('action' => 'questions'));
+		return $this->redirect("/quiz/fr%C3%A5gor");
             }
         } else {
             return $this->redirect(array('action' => 'index'));
         }
+    }
+    
+    private function saveAnswers($session) {
+        $tempQuizId = String::uuid();
+        $answers = array();
+        foreach ($session as $key => $question) {
+            if (is_numeric($key)) {
+                $answers[$key] = array(
+                    "id" => String::uuid(),
+                    "question_id" => $question['Question']['id'],
+                    "answer" => $question['Question']['answer'],
+                    "temp_quiz_id" => $tempQuizId,
+                    "date" => date('Y-m-d'),
+                    "importance" => $question['Question']['importance']
+                );
+            }
+        }
+        $this->loadModel('QuizAnswer');
+        $this->QuizAnswer->saveAll($answers);
+    }
+    
+    public function getQuestionSummaryTable($questionId) {
+        $this->cacheAction = "+999 days";
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        $quizSession = $this->quizSession;
+        
+        $this->loadModel('Party');
+        
+        $this->set('question', $quizSession['QuizSession']['points']['questions'][$questionId]);
+        $this->set('parties', $this->Party->getPartiesHash());
+        $this->render('/Elements/quizQuestionSummary');
     }
     
     private function attachQuestionData($data, $question) {
@@ -372,7 +406,8 @@ class QuizzesController extends AppController {
             $this->Session->write('quizSession', $this->quizSession);
         }
 
-        return $this->redirect(array('action' => 'questions'));
+        //return $this->redirect(array('action' => 'questions'));
+	return $this->redirect("/quiz/fr%C3%A5gor");
     }
 
     public function close() {
@@ -414,8 +449,10 @@ class QuizzesController extends AppController {
     public function admin($id) {
         $this->Quiz->recursive = -1;
         $questions = $this->Quiz->Question->getQuestionsByQuizId($id);
+        $availableQuestions = $this->Quiz->Question->getAvailableQuizQuestions($id);
         $this->set('questions', $questions);
         $this->set('quiz', $this->Quiz->getById($id));
+        $this->set('availableQuestions', $availableQuestions);
     }
 
     public function overview() {
@@ -435,6 +472,7 @@ class QuizzesController extends AppController {
             $this->QuestionQuiz->create();
             $data = array();
             $data['QuestionQuiz'] = $this->request->data['Quiz'];
+            
             if ($this->QuestionQuiz->save($data)) {
                 $this->customFlash(__('Frågan har lagts till i quizen.'));
                 $this->logUser('add', $this->QuestionQuiz->getLastInsertId(), "");
@@ -443,6 +481,9 @@ class QuizzesController extends AppController {
                 $this->Session->write('validationErrors', $this->QuestionQuiz->validationErrors);
                 $this->Session->write('formData', $this->data);
             }
+            
+            Cache::clear(false, 'quiz');
+            Cache::clear(false, 'question');
 
             return $this->redirect($this->referer());
         }
@@ -518,7 +559,9 @@ class QuizzesController extends AppController {
             } else {
                 $this->customFlash(__('Kunde inte ta bort frågan som hör till quizen.'), 'danger');
             }
-
+            
+            Cache::clear(false, 'quiz');
+            Cache::clear(false, 'question');
             return $this->redirect($this->referer());
         }
         
@@ -526,19 +569,7 @@ class QuizzesController extends AppController {
             throw new NotFoundException("Ogiltig quiz");
         }
         
-       
-        
-//       $questionQuiz = $this->QuestionQuiz->getById($id); 
-//    
-//        if (empty($questionQuiz)) {
-//            throw new NotFoundException("Ogiltig quiz");
-//        }
-//        if (!$this->request->data) {
-//            $this->request->data = $questionQuiz;
-//        }
-       $this->set('quizQuestion', $id);  
-        
-
+        $this->set('quizQuestion', $id);  
         
         $this->renderModal('deleteQuizQuestionModal', array('setAjax' => true));
     }

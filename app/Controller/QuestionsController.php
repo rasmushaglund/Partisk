@@ -48,7 +48,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
     }
 
     public function index() {
@@ -68,7 +68,7 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers);
+        $answersMatrix = $this->Answer->getAnswersMatrix($popularQuestions, $answers, 2);
         
         $categories = $this->Question->Tag->getAllCategories();
         $this->set('categories', $categories);
@@ -104,7 +104,7 @@ class QuestionsController extends AppController {
         
         $this->loadModel('Answer');
         $answers = $this->Answer->getAnswers($answersConditions);
-        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers);
+        $answersMatrix = $this->Answer->getAnswersMatrix($questions, $answers, 2);
         
         $this->set('questions', $questions);
         $this->set('parties', $parties);
@@ -113,6 +113,10 @@ class QuestionsController extends AppController {
         
         $this->render('/Elements/qa-table');
     }
+
+     public function getNumberOfQuestions() {
+        return $this->Question->getNumberOfQuestions();
+     }
 
     public function view($title = null) {
         $title = $this->deSlugUrl($title);
@@ -142,18 +146,11 @@ class QuestionsController extends AppController {
      }
      
      private function getDescriptionForQuestion($answers) {
-         $results = "";
-         $first = true;
+         $results = array();
          foreach ($answers as $answer) {
-             if ($first) {
-                 $first = false;
-             } else {
-                 $results .= ", ";
-             }
-             
-             $results .= ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
+             $results[] = ucfirst($answer['Party']['name']) . ": " . $answer['Answer']['answer'];
          }
-         return $results;
+         return implode(", ", $results);
      }
 
      public function add() {
@@ -284,6 +281,7 @@ class QuestionsController extends AppController {
         $data['Question']['updated_by'] = $this->Auth->user('id');
         $data['Question']['updated_date'] = date('c');
         $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
+        $data['Question']['done'] = isset($data['Question']['done']) ? $data['Question']['done'] : false;
         
         $existingQuestion = $this->Question->getByIdOrTitle($id);
        

@@ -38,12 +38,12 @@ class AppModel extends Model {
         if($created) {
             $this->inserted_ids[] = $this->getInsertID();
         }
-        clearCache('partisk*');
+        clearCache('*');
         return true;
     }
     
     function afterDelete() {
-        clearCache('partisk*');
+        clearCache('*');
         return true;
     }
 

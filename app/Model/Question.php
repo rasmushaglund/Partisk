@@ -101,10 +101,10 @@ class Question extends AppModel {
         $deleted = isset($args['deleted']) ? $args['deleted'] : null;
         $approved = isset($args['approved']) ? $args['approved'] : null;
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
-        $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted');
+        $fields = isset($args['fields']) ? $args['fields'] : array('id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted', 'done');
         $conditions = isset($args['conditions']) ? $args['conditions'] : array();
         $order = isset($args['order']) ? $args['order'] : 'Question.title';
-        $limit = isset($args['limit']) ? $args['limit'] : '500';
+        $limit = isset($args['limit']) ? $args['limit'] : '5000';
 
         $joins = array();
 
@@ -114,11 +114,17 @@ class Question extends AppModel {
         if (isset($partyId)) { $conditions['party_id'] = $partyId; }
 
         if (isset($tagId)) {
+	   if ($tagId > 0 ) {
             array_push($joins, array(
                                 'table' => 'question_tags as QuestionTag',
                                 'conditions' => array('QuestionTag.tag_id' => $tagId,
                                                       'Question.id = QuestionTag.question_id')
                             ));
+           } else {
+            array_push($conditions, array(
+			      'Question.id not in (select question_id from question_tags inner join tags on tags.id = tag_id and tags.is_category = true where question_id = Question.id)')
+                            );
+	   }
         }
 
         $questions = $this->find('all', array(
@@ -126,7 +132,8 @@ class Question extends AppModel {
             'conditions' => $conditions,
             'joins' => $joins,
             'fields' => $fields,
-            'limit' => $limit
+            'limit' => $limit,
+	    'group' => 'Question.id'
             ));
 
         return $questions;
@@ -185,7 +192,7 @@ class Question extends AppModel {
                     'conditions' => $conditions,
                     'contain' => 'Tag.deleted = false',
                     'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
-                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date, Question.done')
                 ));
             $result = array_pop($questions);
             Cache::write('question_' . $id, $result, 'question');
@@ -215,14 +222,15 @@ class Question extends AppModel {
     }
 
     public function getQuestionsByQuizId($id) {
-        $result = Cache::read('visible_questions', 'question');
-        if (!$result) {
+       $result = Cache::read('quiz_questions_by_quiz_' . $id, 'question');
+       if (!$result) {
             $this->recursive = -1; 
-            
+         
             if ($id === 'all') {
                 $result = $this->find('all', array(
                     'conditions' => array('deleted' => false, 'approved' => true)));
             } else {
+
                 $result = $this->find('all', array(
                     'conditions' => array('deleted' => false, 'approved' => true),
                     'joins' => array(array(
@@ -234,7 +242,7 @@ class Question extends AppModel {
                 ));
             }
            
-            Cache::write('visible_questions', $result, 'question');
+          Cache::write('quiz_questions_by_quiz_' . $id, $result, 'question');
         }
         
         return $result;
@@ -351,7 +359,7 @@ class Question extends AppModel {
     }
      
     public function getAllQuizQuestions($id) {
-        $result = Cache::read('quiz_questions_' . $id, 'question');
+        $result = Cache::read('all_quiz_questions_' . $id, 'question');
         if (!$result) {
             $result = $this->find('all', array(
                 'conditions' => array('Question.deleted' => false, 
@@ -367,16 +375,29 @@ class Question extends AppModel {
                     )
                  )
              )); 
-            Cache::write('quiz_questions_' . $id, $result, 'question');
+            Cache::write('all_quiz_questions_' . $id, $result, 'question');
         }
         
+        return $result;
+    }
+    
+    public function getAvailableQuizQuestions($quizId) {
+    	$this->recursive = -1;
+        $result = $this->find('all', array(
+            'conditions' => array('Question.deleted' => false, 
+                                  'Question.approved' => true,
+                                  "Question.id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
+            'fields' => array('Question.id', 
+                              'Question.title', '1 < (select count(distinct party_id) from answers where question_id = Question.id and approved) as multiple_answers'),
+            'order' => 'multiple_answers desc, Question.title'
+         )); 
         return $result;
     }
     
     public function getLatestQuestions() {
         $result = Cache::read('latest', 'question');
         if (!$result) {
-            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'order' => 'approved_date', 'limit' => 5));
+            $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'order' => 'approved_date desc', 'limit' => 5));
             Cache::write('latest', $result, 'question');
         }
         
@@ -386,7 +407,8 @@ class Question extends AppModel {
     public function getVisibleTagQuestions($id) {
          $result = Cache::read('visible_tag_questions_' . $id, 'question');
          if (!$result) {
-             $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id));
+	     $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id));
+	     
              Cache::write('visible_tag_questions_' . $id, $result, 'question');
          }
          
@@ -403,35 +425,19 @@ class Question extends AppModel {
         return $result;
     }
     
-    /*public function getByIdOrTitle($id) {
-        $result = Cache::read('question_' . $id, 'question');
+    public function getNumberOfQuestions() {
+       $result = Cache::read('number_of_questions', 'question');
+        
         if (!$result) {
-            
-            if (is_numeric($id)) {
-                $conditions = array(
-                                'Question.id' => $id
-                            );
-            } else {
-                $conditions = array(
-                                "Question.title like" => $id
-                            );                
-            }
-            
             $this->recursive = -1;
-            $this->contain(array("CreatedBy", "UpdatedBy", "ApprovedBy", "Tag.id", "Tag.name"));
-            $this->Tag->virtualFields['number_of_questions'] = 0;
-            $questions = $this->find('all', array(
-                    'conditions' => $conditions,
-                    'contain' => 'Tag.deleted = false',
-                    'fields' => array('Question.id, Question.title, Question.created_date, Question.updated_date, Question.description, Question.type, 
-                                       Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date')
+            $result = $this->find('count', array(
+                    'conditions' => array('approved' => true)
                 ));
-            $result = array_pop($questions);
-            Cache::write('question_' . $id, $result, 'question');
+            Cache::write('number_of_questions', $result, 'question');
         }
         
-        return $result;
-    }*/
+        return $result; 
+    }
     
     public function getPopularQuestions() {
         $result = Cache::read('popular_questions', 'question');

@@ -81,7 +81,7 @@ class Answer extends AppModel {
         )
     );
 
-    public function getAnswersMatrix($questions, $answers) {
+    public function getAnswersMatrix($questions, $answers, $minAnswers = 0) {
         $answersMatrix = array();
 
         foreach ($answers as $answer) {
@@ -107,7 +107,15 @@ class Answer extends AppModel {
             $answersMatrix[$questionId]["hasAnswers"] = true;
             $answersMatrix[$questionId]['answers'][$partyId] = $answer;
         }
-
+        
+        if ($minAnswers > 0) {
+            foreach ($answersMatrix as $key => $value) {
+                if (sizeof($answersMatrix[$key]['answers']) < $minAnswers) {
+                    unset($answersMatrix[$key]);
+                }
+            }
+        }
+        
         return $answersMatrix;
     }
    
@@ -146,7 +154,6 @@ class Answer extends AppModel {
         if ($includeParty) {
             array_push($contain, 'Party');
             array_push($fields, 'Party.id, Party.name, (greatest(Party.last_result_parliment, Party.last_result_eu)) as Party__best_result');
-            //$groupBy .= ', question_id';
             $conditions['Party.deleted'] = false;
             $order = 'Party__best_result DESC';
         }
@@ -159,7 +166,7 @@ class Answer extends AppModel {
         if ($includeQuestion) {
             array_push($contain, 'Question');
             $order = 'Question.title';
-            array_push($fields, 'Question.id, Question.title');
+            array_push($fields, 'Question.id, Question.title', 'Question.done');
         }
 
         if (isset($partyId)) {
@@ -167,10 +174,9 @@ class Answer extends AppModel {
         }
 
         if (isset($tagId)) {
-            $conditions['Tag.id'] = $tagId;
             array_push($joins, array('type' => 'inner',
-                                     'table' => 'tags as Tag',
-                                    'conditions' => array('Tag.id' => $tagId)));
+                                     'table' => 'question_tags as QuestionTag',
+                                    'conditions' => array('QuestionTag.tag_id' => $tagId, 'QuestionTag.question_id = Answer.question_id')));
         }
 
         if (isset($questionId)) {
@@ -187,6 +193,20 @@ class Answer extends AppModel {
                 'order' => $order
             )
         );
+    }
+    
+    public function getNumberOfAnswers() {
+       $result = Cache::read('number_of_answers', 'answers');
+        
+        if (!$result) {
+            $this->recursive = -1;
+            $result = $this->find('count', array(
+                    'conditions' => array('approved' => true)
+                ));
+            Cache::write('number_of_answers', $result, 'answer');
+        }
+        
+        return $result; 
     }
     
     public function getUserAnswers($userId) {

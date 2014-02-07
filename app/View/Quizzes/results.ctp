@@ -61,7 +61,7 @@ if (Configure::read('minimizeResources')==1) {
                     $first = false; ?>
                 <div class="alert alert-info results">
                     <?php echo $this->element('party_header', array('party' => $parties[$key], 'link' => true, 'small' => false, 'title' => false)); ?>
-                    <h4><b>Grattis!</b> Ditt resultat stämmer bäst överens med 
+                    <h4>Dina åsikter stämmer bäst överens med 
                         <b><?php echo $this->Html->link(ucfirst($parties[$key]['name']), array('controller' => 'parties', 'action' => 'view', 
                 'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
                         (<?php echo $value; ?>%)</h4>
@@ -117,33 +117,35 @@ if (Configure::read('minimizeResources')==1) {
 </div>
 
 <h3>Sammanställning av resultatet</h3>
-<table class="table table-striped table-hover">
-  <thead>
-    <th class="party-column">Parti</th>
-    <th><i class="popover-click-link fa fa-thumbs-up" data-content="Matchande svar" data-placement="top"></i> <span class="collapsable-head">Matchande svar</span></th>
-    <th><i class="popover-click-link fa fa-thumbs-down" data-content="Ej matchande svar" data-placement="top"></i> <span class="collapsable-head">Ej matchande svar</span></th>
-    <th><i class="popover-click-link fa fa-question" data-content="Besvarade frågor" data-placement="top"></i> <span class="collapsable-head">Besvarade frågor</span></th>
-    <th><i class="popover-click-link fa fa-plus" data-content="Summa poäng" data-placement="top"></i> <span class="collapsable-head">Summa poäng</span></th>
-  </thead>
-  <tbody>
-<?php foreach ($parties as $party) { 
-    $partyPoints = $quizSession['QuizSession']['points']['parties'][$party['id']];
+<div class="table-scrolled-overflow-container">
+    <table class="table table-striped table-hover">
+      <thead>
+        <th class="party-column">Parti</th>
+        <th><i class="popover-click-link fa fa-thumbs-up" data-content="Matchande svar" data-placement="top"></i> <span class="collapsable-head">Matchande svar</span></th>
+        <th><i class="popover-click-link fa fa-thumbs-down" data-content="Ej matchande svar" data-placement="top"></i> <span class="collapsable-head">Ej matchande svar</span></th>
+        <th><i class="popover-click-link fa fa-question" data-content="Besvarade frågor" data-placement="top"></i> <span class="collapsable-head">Besvarade frågor</span></th>
+        <th><i class="popover-click-link fa fa-plus" data-content="Summa poäng" data-placement="top"></i> <span class="collapsable-head">Summa poäng</span></th>
+      </thead>
+      <tbody>
+    <?php foreach ($parties as $party) { 
+        $partyPoints = $quizSession['QuizSession']['points']['parties'][$party['id']];
 
-    $pointsClass = "";
-    $pointsPrefix = "";
-    if ($partyPoints['points'] > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
-    if ($partyPoints['points'] < 0) { $pointsClass = "minus-points"; } ?>
-  
-    <tr class="<?php echo $pointsClass; ?>">
-    <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
-    <td><?php echo $partyPoints['matched_questions']; ?> st</td>
-    <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
-    <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
-    <td><span class="result"><?php echo $pointsPrefix . $partyPoints['points']; ?>p</span>  </td>
-    </tr>
-<?php } ?>
-</tbody>
-</table>
+        $pointsClass = "";
+        $pointsPrefix = "";
+        if ($partyPoints['points'] > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
+        if ($partyPoints['points'] < 0) { $pointsClass = "minus-points"; } ?>
+
+        <tr class="<?php echo $pointsClass; ?>">
+        <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
+        <td><?php echo $partyPoints['matched_questions']; ?> st</td>
+        <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
+        <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
+        <td><span class="result"><?php echo $pointsPrefix . $partyPoints['points']; ?>p</span>  </td>
+        </tr>
+    <?php } ?>
+    </tbody>
+    </table>
+</div>
 
 <h3>Resultat per fråga</h3>
 <div class="panel-group" id="accordion">
@@ -151,9 +153,6 @@ if (Configure::read('minimizeResources')==1) {
 <ul class="list-unstyled question-summary-list">
     
 <?php foreach ($quizSession['QuizSession']['points']['questions'] as $question) { 
-  $userAnswer = $question['answer'];
-  $importance = $question['importance'];
-  $title = $question['title'];
   ?>
   <li>
     <div class="panel panel-default">
@@ -164,57 +163,8 @@ if (Configure::read('minimizeResources')==1) {
             </a>
           </h4>
         </div>
-        <div id="collapse<?php echo $question['id']; ?>" class="panel-collapse collapse">
-          <div class="panel-body">
-            <p><?php echo $this->Html->link($question['title'], array('controller' => 'questions', 'action' => 'view', 
-                'title' => $this->Url->slug($question['title']))); ?></p>
-            <p>Ditt svar: <b><?php echo $userAnswer !== null ? ucfirst($userAnswer) : "Ingen åsikt"; ?></b></p>
-            <p>Viktighet (1-9): <b><?php echo $importance; ?></b></p>
-                   
-            <div class="table table-striped party-result-table">
-              <div class="table-row table-head">
-                <div class="table-header party-column">Parti</div>
-                <div class="table-header">Svar</div>
-                <div class="table-header">Poäng</div>
-              </div>
-                <?php foreach ($parties as $party) { 
-                  $partyId = $party['id']; 
-                  $sameAnswer = null; 
-                  $partyPoints = 0; ?>
-
-
-                  <?php 
-                    $partyAnswer = $question['parties'][$partyId]['answer'];
-                    $partyPoints = $question['parties'][$partyId]['points'];
-
-                    $pointsClass = "";
-                    $pointsPrefix = "";
-                    if ($partyPoints > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
-                    if ($partyPoints < 0) { $pointsClass = "minus-points"; } ?>
-
-                    <div class="table-row <?php echo $pointsClass; ?>">
-                      <div class="table-cell"><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></div>
-
-                    <?php if ($partyAnswer === null) { ?>
-                      <div class="table-cell">Inget svar</div>
-                      <div class="table-cell"><span class="result"><?php echo $partyPoints . 'p'; ?></span></div>
-                    <?php } else if ($question['parties'][$partyId]['answer'] != null) {
-                    $sameAnswer = $partyAnswer['answer'] == $userAnswer;
-                    ?>
-                      <div class="table-cell <?php echo $sameAnswer ? 'matching-answer' : '' ?>">
-                          <span class="answer popover-link" data-id="<?php echo $partyAnswer['id']; ?>" href="#"><?php 
-                          echo $partyAnswer['answer'];?></span>
-                      </div>
-                      <div class="table-cell">
-                        <span class="result"><?php echo $pointsPrefix . $partyPoints . 'p'; ?></span></div>
-                    <?php } else { ?>
-                      <div class="table-cell">Inget svar</div>
-                      <div class="table-cell"><span class="result"><?php echo $partyPoints . 'p'; ?></span></div>
-                    <?php } ?>
-                    </div>
-                <?php } ?>
-            </div>
-          </div>
+        <div id="collapse<?php echo $question['id']; ?>" data-type="quiz-question" data-id="<?php echo $question['id']; ?>" 
+             class="ajax-load-table panel-collapse collapse">
         </div>
       </div>
   </li>

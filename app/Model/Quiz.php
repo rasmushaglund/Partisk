@@ -39,7 +39,7 @@ class Quiz extends AppModel {
         'description' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Du måste ange en hemsida för partiet'
+                'message' => 'Du måste en beskrivning för quizen'
             )
         )
     );

@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
@@ -24,37 +24,12 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Quizzes
+ * @package     app.Model
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-$this->Html->addCrumb('Quiz');
+class QuizAnswer extends AppModel {
+
+}
+
 ?>
-
-<h1>Quiz</h1>
-<?php echo $this->element("share"); ?>
-<?php if ($this->Permissions->isLoggedIn()) { ?>
-    <div class="tools">
-    <?php echo $this->element('saveQuiz'); ?>
-    </div>
-<?php } ?>
-
-<div class="row">
-    <div class="col-md-6">
-<p>Här kan du testa dig i olika quiz och se hur mycket du håller med de olika partierna i olika frågor.
-Testen berättar inte för dig hur du ska rösta utan ger endast en indikation på vilka partier du håller med mest i olika frågor.</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-<ul class="list-unstyled">
-<?php foreach ($quizzes as $quiz) { ?>
-    <li>
-    	<?php echo $this->element('quizElement', array('quizSession' => $quizSession, 'quiz' => $quiz, 
-                                                       'adminTools' => true)); ?>			
-    </li>
-<?php } ?>
-</ul>
-    </div>
-</div>
-

@@ -28,7 +28,7 @@
  */
 
 var datepickerArgs = {autoclose: true, format: 'yyyy-mm-dd', language: "sv", calendarWeeks: true, endDate: new Date()};
-var bigMode = matchMedia('only screen and (min-width: 1200px)').matches;
+var bigMode = matchMedia('only screen and (min-width: 463px)').matches;
 
 $(document).ready(function() {
     $('.pop').popover();
@@ -44,12 +44,12 @@ $(document).ready(function() {
     $('#partisk-search input').typeahead([
         {
             name: 'questions',
-            remote: appRoot + 'frågor/search/%QUERY',
+            remote: appRoot + 'fr%C3%A5gor/search/%QUERY',
             minLength: 3
         }
     ]).bind('typeahead:selected', function(event, obj) {
         if (obj.key) {
-            window.location = appRoot + "frågor/" + obj.value.split(' ').join('_');
+            window.location = appRoot + "fr%C3%A5gor/" + encodeURI(obj.value.split(' ').join('_').toLowerCase()).replace('?', '%3f');
         }
 
         $(this).val("");
@@ -69,16 +69,23 @@ $(document).ready(function() {
     
     $('#accordion .panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
        var id = $(this).attr('data-id');
+       var type = $(this).attr('data-type');
        var container = $(this);
+       
+       var method = type === "category" ? 'getCategoryTable' : 'getQuestionSummaryTable';
        
        if (!container.hasClass('table-loaded')) {
        $.ajax({
-            url: appRoot + 'frågor/getCategoryTable/' + id,
+            url: appRoot + 'frågor/' + method + '/' + id,
             success: function(data) {
                 var content = $(data);
                 content.hide();
                 container.append(content);
-                setupFixedHeader(content);
+                
+                if (type === "category") {
+                    setupFixedHeader(content);
+                }
+                
                 initPopovers(container);
                 content.fadeIn('slow');
                 container.addClass('table-loaded');
@@ -100,7 +107,7 @@ $(document).ready(function() {
 
     // Open modal without fade if it contains an error
     $('.modal').each(function(index, modal) {
-        if ($(modal).find('p.error').size() > 0) {
+        if ($(modal).find('p.error').size() > 0 || $(modal).hasClass('open-modal-on-load')) {
             $(modal).removeClass('fade');
             $(modal).on('shown.bs.modal', function() {
                 $(this).addClass('fade in');
@@ -139,8 +146,8 @@ var initPopovers = function($container) {
     });
 }
 
-$( window ).resize(function() {
-    newBigMode = matchMedia('only screen and (min-width: 1200px)').matches;
+$(window).resize(function() {
+    newBigMode = matchMedia('only screen and (min-width: 463px)').matches;
     
     if (bigMode !== newBigMode) {
         bigMode = newBigMode;
@@ -152,7 +159,7 @@ $( window ).resize(function() {
 });
 
 var qaTableFixedHeader = function() {
-    if (matchMedia('only screen and (min-width: 1200px)').matches && $('.table-head-container').size() === 0) {
+    if (matchMedia('only screen and (min-width: 463px)').matches && $('.table-head-container').size() === 0) {
         var tables = $('.table-with-fixed-header');
         
         tables.each(function (item) {
@@ -171,25 +178,23 @@ var setupFixedHeader = function (table) {
             qaTableHead.append(qaTableHeadRow);
 
             table.before(qaTableHead);
-            table.find('.table-head.table-row').appendTo(qaTableHeadRow);
+            table.find('.table-head.table-row').clone().appendTo(qaTableHeadRow);
             var headerHeight = qaTableHeadRow.find('.table-row.table-head').height();
-            qaTableHeadRow.width(table.width());
+            //qaTableHeadRow.width(table.width());
             
             var faded = false;
-
             var headerVisible = false;
             $(window).scroll(function() {
                 if (bigMode) {
                     var scrollTop = $(window).scrollTop();
-                    if (!faded && scrollTop >= table.offset().top + table.height() - headerHeight) {
+                    if (!faded && scrollTop >= table.offset().top + table.height()) {
                         qaTableHead.fadeOut("fast", function () { faded = true; });
-                    } else if (faded && scrollTop <= table.offset().top + table.height() - headerHeight) {
+                    } else if (faded && scrollTop <= table.offset().top + table.height()) {
                         qaTableHead.fadeIn("fast", function () { faded = false; });
                     }
                     
-                    if (scrollTop >= table.offset().top - headerHeight) {
-                        //console.log($(window).scrollTop() + ">=" + (table.offset().top - headerHeight));
-                        //console.log(table.height());
+                        //console.log($(window).scrollTop() + ">=" + (table.offset().top));
+                    if (scrollTop >= table.offset().top) {
                         if (!headerVisible) {
                             headerVisible = true;
                             qaTableHead.addClass('table-fixed');

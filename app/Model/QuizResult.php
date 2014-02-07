@@ -37,15 +37,11 @@ class QuizResult extends AppModel {
     );
         
     public function getQuizResults() {
-        $result = Cache::read('latest', 'result');
-        if (!$result) {
-            $result = $this->find('all', array(
-                    'limit' => 40,
-                    'order' => 'created desc'
-                ));
-            Cache::write('latest', $result, 'result');
-        }
-        
+        $result = $this->find('all', array(
+                'limit' => 40,
+                'order' => 'created desc'
+            ));
+
         return $result;
     }
     

@@ -107,9 +107,10 @@ class Tag extends AppModel {
     
     public function getAllCategories() {
         $result = Cache::read('all_categories', 'tag');
-        if (!$result) {
+        if (true || !$result) {
             $this->recursive = -1;
             $result = $this->getTags(array('category' => true));
+	    $result[] = array('Tag' => array('name' => 'Övrigt', 'id' => '-1'));
             Cache::write('all_categories', $result, 'tag');
         }
         

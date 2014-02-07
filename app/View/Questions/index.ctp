@@ -62,7 +62,7 @@ $this->Html->addCrumb('Frågor');
                             <i class="fa fa-plus-square toggle"></i> <?php echo ucfirst($category['Tag']['name']); ?></a>
                     </h4>
                 </div>
-                <div id="collapse<?php echo $category['Tag']['id']; ?>" data-id="<?php echo $category['Tag']['id']; ?>" 
+                <div id="collapse<?php echo $category['Tag']['id']; ?>" data-type='category' data-id="<?php echo $category['Tag']['id']; ?>" 
                      class="ajax-load-table panel-collapse collapse">
                 </div>
             </div>
