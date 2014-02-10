@@ -30,10 +30,10 @@
 
 App::uses('AppController', 'Controller');
 App::uses('UserLogger', 'Log');
+App::uses('Security', 'Utility');
 
 class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
-    //public $cacheAction = array("results" => "+999 days");
     
     const DEFAULT_IMPORTANCE = 2;
     const QUIZ_VERSION = 2;
@@ -195,15 +195,16 @@ class QuizzesController extends AppController {
             $index++;
             $quizSession['QuizSession']['index'] = $index;
             $quizSession['QuizSession']['has_answers'] = 
-                    $quizSession['QuizSession']['has_answers'] || 
-                    $this->request->data['QuizSession']['answer'] !== 'NO_OPINION';
+                $quizSession['QuizSession']['has_answers'] || 
+                $this->request->data['QuizSession']['answer'] !== 'NO_OPINION';
             
             if ($quizSession['QuizSession']['index'] >= $quizSession['QuizSession']['questions']) {
                 $quizSession['QuizSession']['done'] = true;
                 $quizSession['QuizSession']['saved'] = false;
                 $this->Session->write('quizSession', $quizSession);
                 $this->saveAnswers($quizSession);
-                return $this->redirect(array('action' => 'results', $quizSession['QuizSession']['id']));    
+                $key = $this->randomString();
+                return $this->redirect(array('action' => 'results', '?' => array('key' => $key),$quizSession['QuizSession']['id']));    
             } else {
                 $this->Session->write('quizSession', $quizSession);
 		return $this->redirect("/quiz/fr%C3%A5gor");
@@ -260,7 +261,8 @@ class QuizzesController extends AppController {
     }
 
     public function results($guid = null) {
-        $quizSession = $this->getQuizSession($guid);
+        $key = $this->params->query['key'];
+        $quizSession = $this->getQuizSession($guid, $key);
         
         if (empty($quizSession) && empty($guid) || empty($guid)) {
             return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
@@ -283,6 +285,8 @@ class QuizzesController extends AppController {
             $quizResults = $this->getQuizResults($guid);
             $quiz = $quizResults;
         }
+        
+        $quizResults['QuizResult']['data'] = Security::cipher(base64_decode($quizResults['QuizResult']['data']), $key);
         
         if (empty($quizResults) && empty($quizResults)) {
             $this->customFlash(__('Kunde inte hitta quizen.'), 'danger');
@@ -359,7 +363,7 @@ class QuizzesController extends AppController {
         return $quiz;
     }
     
-    private function getQuizSession($guid) {
+    private function getQuizSession($guid, $key) {
         $quizSession = $this->quizSession;
         $quizInSession = isset($quizSession['QuizSession']) && isset($quizSession['QuizSession']['id'])
                 && $quizSession['QuizSession']['id'] == $guid;
@@ -369,7 +373,7 @@ class QuizzesController extends AppController {
             $quizSession['QuizSession']['points'] = $points;
 
             $generatedData = $this->Quiz->generateGraphData($points['parties']);
-            $quizSession['QuizSession']['data'] = json_encode($generatedData);
+            $quizSession['QuizSession']['data'] = base64_encode(Security::cipher(json_encode($generatedData), $key));
             
             return $quizSession;
         }
