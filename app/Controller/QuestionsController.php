@@ -51,6 +51,12 @@ class QuestionsController extends AppController {
         $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
     }
 
+    public function  noDescription(){
+        $questions = $this->Question->getNoDescription();
+        $this->set('questions', $questions); 
+        
+    }
+
     public function notApproved(){
         
         $questions = $this->Question->getNotApproved();

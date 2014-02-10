@@ -17,6 +17,7 @@ Router::connect('/logga_ut', array('controller' => 'users', 'action' => 'logout'
 
 Router::connect('/frågor', array('controller' => 'questions', 'action' => 'index'));
 Router::connect('/frågor/ej_godkända', array('controller' => 'questions', 'action' => 'notApproved'));
+Router::connect('/frågor/utan_beskrivning', array('controller' => 'questions', 'action' => 'noDescription'));
 Router::connect('/frågor/:title', array('controller' => 'questions', 'action' => 'view'), array('pass' => array('title')));
 Router::connect('/taggar', array('controller' => 'tags', 'action' => 'index'));
 Router::connect('/taggar/:name', array('controller' => 'tags', 'action' => 'view'), array('pass' => array('name')));
