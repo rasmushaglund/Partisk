@@ -44,7 +44,7 @@
     <div class="col-md-6">
         <h2>Vilket parti matchar dig?</h2>
         <p>Här finns det flera quiz att göra för att ta reda på vilka partier som passar dig bäst.</p>
-        <?php echo $this->Html->link('<i class="fa fa-success"></i> Testa dig nu!', array('controller'  => 'quizzes', 'action' => 'index'),
+        <?php echo $this->Html->link('<i class="fa fa-warning"></i> Testa dig nu!', array('controller'  => 'quizzes', 'action' => 'index'),
                 array('class' => 'btn btn-success btn-xl', 'escape' => false)); ?>
     </div>
 </div>
