@@ -34,6 +34,8 @@
 		                  array('controller' => 'questions', 'action' => 'index')); ?> och dessutom göra en 
 		<?php echo $this->Html->link('quiz',
 		                  array('controller' => 'quiz', 'action' => 'index')); ?> för att se hur mycket du håller med olika partier.</p>
+        <?php echo $this->Html->link('<i class="fa fa-success"></i> Testa dig nu!', array('controller' => 'quizzes', 'action' => 'index'),
+                  array('class' => 'btn btn-success btn-xl', 'escape' => false)); ?>
 	</div>
 
 	<div class="col-md-6">
