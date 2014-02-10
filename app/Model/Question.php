@@ -220,7 +220,17 @@ class Question extends AppModel {
         
         return $result;
     }
-
+    
+    public function getNotApproved(){
+        $results = Cache::read('not_Approved_');
+        
+        if(!$results){
+            $results = $this->getQuestions(array('approved' => false));
+            Cache::write('not_Approved_',$results);  
+        }
+        
+        return $results;
+    }
     public function getQuestionsByQuizId($id) {
        $result = Cache::read('quiz_questions_by_quiz_' . $id, 'question');
        if (!$result) {
@@ -330,7 +340,9 @@ class Question extends AppModel {
         return $result;
     }
     
-     
+  
+
+
     public function getNotAnswered($partyId){
         $result = Cache::read('not_ansered_' . $partyId, 'question');
         if (!$result) {

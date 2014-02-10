@@ -34,10 +34,11 @@ $this->Html->addCrumb('Frågor');
 <h1>Så här tycker partierna</h1>
 <?php echo $this->element("share"); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
-<div class="tools">
-<?php  echo $this->element('saveQuestion'); 
-  echo $this->element('saveAnswer'); ?>
-  </div>
+    <div class="tools">
+        <?php  echo $this->element('saveQuestion'); 
+            echo $this->element('saveAnswer'); ?>
+        <?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej godkända frågor', array('controller' => 'questions', 'action' => 'notApproved'), array('class' => 'btn btn-s btn-info', 'escape' => false)); ?>
+    </div>
  <?php } ?>
 
 <h2>Populäraste frågorna just nu</h2>

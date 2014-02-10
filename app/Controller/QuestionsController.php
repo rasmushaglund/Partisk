@@ -51,6 +51,13 @@ class QuestionsController extends AppController {
         $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
     }
 
+    public function notApproved(){
+        
+        $questions = $this->Question->getNotApproved();
+        $this->set('questions', $questions);       
+    }
+
+
     public function index() {
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
