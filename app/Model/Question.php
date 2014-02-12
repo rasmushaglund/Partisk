@@ -94,6 +94,8 @@ class Question extends AppModel {
         return $result;
     }
 
+    
+    
     public function getQuestions($args) {
         $this->recursive = -1; 
 
@@ -220,7 +222,34 @@ class Question extends AppModel {
         
         return $result;
     }
+    public function getNoDescription(){
+        /*
+         *Om Caching
+        $results = Cache::read('no_Description_');
+        
+        if(!$results){
+            $results = $this->getQuestions(array('deleted' => false, 'conditions' => array('description' => "")));
+            Cache::write('no_Description_',$results);          
+        }*/
+        
+        $results = $this->getQuestions(array('deleted' => false, 'conditions' => array('description' => "")));
 
+        return $results;       
+    } 
+    public function getNotApproved(){
+        /*
+         *Om Cachning
+        $results = Cache::read('not_Approved_');
+        
+        if(!$results){
+            $results = $this->getQuestions(array('approved' => false, 'deleted' => false));
+            Cache::write('not_Approved_',$results);  
+        }
+        */
+        $results = $this->getQuestions(array('approved' => false, 'deleted' => false));
+        
+        return $results;
+    }
     public function getQuestionsByQuizId($id) {
        $result = Cache::read('quiz_questions_by_quiz_' . $id, 'question');
        if (!$result) {
@@ -330,7 +359,9 @@ class Question extends AppModel {
         return $result;
     }
     
-     
+  
+
+
     public function getNotAnswered($partyId){
         $result = Cache::read('not_ansered_' . $partyId, 'question');
         if (!$result) {

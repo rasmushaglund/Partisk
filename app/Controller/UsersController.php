@@ -74,6 +74,10 @@ class UsersController extends AppController {
     }
     
     public function index() {
+        if(!$this->Permissions->isLoggedIn())
+        {
+            return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
         $this->set('users', $this->User->getAll());
         $this->set('description_for_layout', 'Sidans alla användare');
         $this->set('title_for_layout', 'Alla användare');
