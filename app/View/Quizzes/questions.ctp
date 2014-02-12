@@ -38,15 +38,14 @@ $this->Html->addCrumb('Frågor');
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        
+                          <p class="quiz-progress"><?php echo "Fråga " . ($quizSession['QuizSession']['index'] +1) . " av " . 
+                                $quizSession['QuizSession']['questions']; ?></p>
                         <div class="progress progress-striped">
                           <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" 
                                style="width: <?php echo (($quizSession['QuizSession']['index'])/ $quizSession['QuizSession']['questions'])*100; ?>%">
-                            <span class="sr-only">40% Complete (success)</span>
                           </div>
                         </div>
-                        <p class="quiz-progress"><?php echo "Fråga " . ($quizSession['QuizSession']['index'] +1) . " av " . 
-                                $quizSession['QuizSession']['questions']; ?></p>
+                      
                      </div>   
                         <h2 class="text-center"><?php echo $question['Question']['title']; ?></h2>
                         <?php 
