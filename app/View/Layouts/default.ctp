@@ -85,11 +85,14 @@
             $version = Configure::read('PartiskVersion'); 
             $versionString = $version != null ? "-v" . $version : "";?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
+            <?php echo $this->Html->css("partisk$versionString.min"); ?>
             
-            <?php
-            echo $this->Html->css("partisk$versionString.min");
-            echo $this->Html->script("partisk$versionString.min");
-            ?>
+            <!--[if !IE]><!-->            
+                <?php echo $this->Html->script("partisk$versionString.min"); ?>
+            <!--<![endif]>--> 
+            <!--[if lt IE 8]>
+                <?php echo $this->Html->script("partisk-ie$versionString.min"); ?>
+            <![endif]-->
             
         <?php } ?>
     </head>
