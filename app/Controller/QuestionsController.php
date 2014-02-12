@@ -48,8 +48,27 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
+        $this->Auth->allow(array('search', 'notApproved', 'noDescription', 'getCategoryTable', 'getNumberOfQuestions'));
     }
+
+    public function  noDescription(){
+        if(!$this->Permissions->isLoggedIn()){
+            return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+            
+        $questions = $this->Question->getNoDescription();
+        $this->set('questions', $questions); 
+        
+    }
+
+    public function notApproved(){
+        if(!$this->Permissions->isLoggedIn()){
+            return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        $questions = $this->Question->getNotApproved();
+        $this->set('questions', $questions);       
+    }
+
 
     public function index() {
         $this->loadModel('Party');
