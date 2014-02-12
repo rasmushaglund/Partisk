@@ -48,7 +48,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'notApproved', 'noDescription', 'getCategoryTable', 'getNumberOfQuestions'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
     }
 
     public function  noDescription(){
@@ -258,12 +258,12 @@ class QuestionsController extends AppController {
 
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
-
-        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'addTags'))) {
+        
+        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'addTags', 'notApproved', 'noDescription'))) {
             return true;
         }
 
-        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status'))) {
+        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'notApproved', 'noDescription'))) {
             return true;
         }
         
