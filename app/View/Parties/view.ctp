@@ -50,8 +50,10 @@ $deleted = $party['Party']['deleted'];
  
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
-<?php  echo $this->element('saveQuestion'); 
-  echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>
+    <?php  echo $this->element('saveQuestion'); 
+        echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>
+    <?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
+       'name' => $this->Url->slug($party['Party']['name'])), array('class' => 'btn btn-s btn-info', 'escape' => false)); ?>
 </div>
 <?php } ?>
 
