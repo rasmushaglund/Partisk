@@ -48,7 +48,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions', 'getQuestionsApi'));
     }
 
     public function  noDescription(){
@@ -335,14 +335,12 @@ class QuestionsController extends AppController {
         }
     }
     
+    public function getQuestionsApi() {
+        $this->renderJson($this->Question->getVisibleQuestions());    
+    }
+    
     public function search($string) {
-        $this->cacheAction = "+999 days";
-        $this->layout = 'ajax';
-        $this->autoRender=false;
-        
-        $this->set('data', json_encode($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn())));
-        
-        $this->render('/Elements/json');
+        $this->renderJson($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn()));       
     }
 
     public function logUser($action, $object_id, $text = "") {

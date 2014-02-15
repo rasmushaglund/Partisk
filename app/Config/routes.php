@@ -46,6 +46,9 @@ Router::connect('/frågor/search/:string', array('controller' => 'questions', 'a
 Router::connect('/frågor/getCategoryTable/:tagId', array('controller' => 'questions', 'action' => 'getCategoryTable'), array('pass' => array('tagId')));
 Router::connect('/frågor/getQuestionSummaryTable/:questionId', array('controller' => 'quizzes', 'action' => 'getQuestionSummaryTable'), array('pass' => array('questionId')));
 
+Router::connect('/api/partier', array('controller' => 'parties', 'action' => 'getPartiesApi'));
+Router::connect('/api/frågor', array('controller' => 'questions', 'action' => 'getQuestionsApi'));
+Router::connect('/api/svar', array('controller' => 'answers', 'action' => 'getAnswersApi'));
 
 CakePlugin::routes();
 
