@@ -91,11 +91,11 @@ class QuestionsController extends AppController {
         
         $categories = $this->Question->Tag->getAllCategories();
         $this->set('categories', $categories);
-        $this->set('parties', $parties);
+        $this->set('parties', $parties);        
         $this->set('answers', $answersMatrix);
         $this->set('popularQuestions', $popularQuestions);
         $this->set('description_for_layout', 'Vad tycker partierna egentligen? Frågor och svar.');
-        $this->set('title_for_layout', 'Frågor');
+        $this->set('title_for_layout', 'Frågor');       
     }
     
     public function getCategoryTable($tagId) {
@@ -342,7 +342,7 @@ class QuestionsController extends AppController {
         
         $this->set('data', json_encode($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn())));
         
-        $this->render('/Elements/search');
+        $this->render('/Elements/json');
     }
 
     public function logUser($action, $object_id, $text = "") {
