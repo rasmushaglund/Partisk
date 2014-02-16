@@ -30,8 +30,8 @@
 
 <?php $url = Router::url(null, true ); ?>
 <div class="share">
-    <a href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $url; ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
-    <a href="https://twitter.com/intent/tweet?url=<?php echo $url; ?>&text=<?php echo $title_for_layout; ?>&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
-    <a href="https://plus.google.com/share?url=<?php echo $url; ?>" title="Google+"><i class="fa fa-google-plus-square"></i></a>
-    <a href="http://www.linkedin.com/shareArticle?url=<?php echo $url; ?>&t=<?php echo $title_for_layout; ?>" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+    <a href="http://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+    <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($url); ?>&text=<?php echo $title_for_layout; ?>&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+    <a href="https://plus.google.com/share?url=<?php echo urlencode($url); ?>" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+    <a href="http://www.linkedin.com/shareArticle?url=<?php echo urlencode($url); ?>&t=<?php echo $title_for_layout; ?>" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
 </div>

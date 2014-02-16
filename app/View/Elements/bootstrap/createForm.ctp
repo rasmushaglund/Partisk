@@ -38,8 +38,7 @@
 <?php } ?>
 
 <?php if ($modal) { ?>
-<div class="modal fade" id="<?php echo $modalId; ?>Modal" tabindex="-1" role="dialog" 
-	aria-labelledby="<?php echo $modalId; ?>ModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?php echo $modalId; ?>Modal" tabindex="-1" role="dialog" aria-hidden="true">
 	<form action="<?php echo Router::url('/', false) . $controller; ?>/<?php echo $action; ?>" role="form" id="<?php echo $modalId; ?>AdminForm" method="post" accept-charset="utf-8">
 	    <div class="modal-dialog">
 	      <div class="modal-content">
