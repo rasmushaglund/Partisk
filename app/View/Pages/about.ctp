@@ -104,10 +104,12 @@
                         <div class="alert alert-info">
                             <img src="img/emil.jpg" alt="Emil Wall" class="img-thumbnail">
                             <b>Emil Wall</b>
-                            <p>Civ. ing. från Uppsala, systemutvecklare och teknisk konsult på <a href="http://www.valtech.se/sv">valtech</a></p>
-                            <!--<p class="social"><a href="https://www.facebook.com/rikard.nordstrom.7" title="Facebook"><i class="fa fa-facebook-square"></i></a>
-                            <a href="http://www.linkedin.com/pub/rikard-nordstr%C3%B6m/83/807/213" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
-                            <a href="https://github.com/RikardNordstrom" title="GitHub"><i class="fa fa-github"></i></a></p>-->
+                            <p>Civ. ing. från Uppsala, arbetar som teknisk konsult på <a href="http://www.valtech.se">valtech</a>.</p>
+                            <p class="social"><a href="https://www.facebook.com/erif89" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+                            <a href="https://twitter.com/erif89" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+                            <a href="https://plus.google.com/+EmilWall" rel="publisher" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+                            <a href="http://www.linkedin.com/pub/emil-wall/56/779/633/" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="https://github.com/emilwall" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
                     </li>
                    <li>
