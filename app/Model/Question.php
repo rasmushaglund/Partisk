@@ -59,9 +59,7 @@ class Question extends AppModel {
             'className' => 'User',
             'foreignKey' => 'approved_by',
             'fields' => array('id', 'username')
-        ),
-        'QuestionTag'
-	);
+        ));
 
     public $hasAndBelongsToMany = array(
         'Tag'=> array(
@@ -146,7 +144,7 @@ class Question extends AppModel {
         return !empty($questions) ? array_pop($questions) : null; 
     }
     
-    public function getQuestionWithAnswers($id) {
+    public function getQuestionWithAnswers($id) {   
         $this->recursive = -1;
         $this->contain(array('Answer.answer', 'Answer.id'));
         $questions = $this->find('all', array(
@@ -226,7 +224,11 @@ class Question extends AppModel {
         $results = Cache::read('no_description', 'question');
         
         if(!$results){
-            $results = $this->getQuestions(array('deleted' => false, 'conditions' => array('description' => "")));
+            $results = $this->getQuestions(array(
+                'deleted' => false, 
+                'conditions' => array('description' => ""),
+                'fields' => array('Question.title'),
+                ));
             Cache::write('no_description', $results, 'question');          
         }
 
@@ -236,7 +238,11 @@ class Question extends AppModel {
         $results = Cache::read('not_approved', 'question');
         
         if(!$results){
-            $results = $this->getQuestions(array('approved' => false, 'deleted' => false));
+            $results = $this->getQuestions(array(
+                'approved' => false, 
+                'deleted' => false,
+                'fields' => array('Question.title'),
+                ));
             Cache::write('not_approved', $results, 'question');  
         }
         

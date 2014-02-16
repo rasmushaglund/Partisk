@@ -48,15 +48,19 @@ class PartiesController extends AppController {
     
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('notAnswered'));
+        $this->Auth->allow(array('notAnswered','getPartiesApi'));
     }
 
-    public function index() {
+    public function index() {        
         $this->set('parties', $this->Party->getPartiesOrdered());
         $this->set('title_for_layout', 'Partier');
-        $this->set('description_for_layout', 'Alla partier');
+        $this->set('description_for_layout', 'Alla partier');       
     }
-
+    
+    public function getPartiesApi() {
+        $this->renderJson($this->Party->getPartiesOrdered());    
+    }
+    
     public function view($name = null) { 
         $name = $this->deSlugUrl($name);
         

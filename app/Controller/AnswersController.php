@@ -41,7 +41,7 @@ class AnswersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('getNumberOfAnswers'));
+        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi'));
     }
     
     public function beforeRender() {
@@ -207,6 +207,12 @@ class AnswersController extends AppController {
         }
 
         return parent::isAuthorized($user);
+    }
+    
+    public function getAnswersApi() {
+        debug($this->Answer->getAnswers(array()));
+        $this->renderJson($this->Answer->getAnswers(array())); 
+        
     }
     
     public function info($id) {
