@@ -39,6 +39,13 @@ if (Configure::read('minimizeResources')==1) {
             $versionString = $version != null ? "-v" . $version : ""; 
             echo $this->Html->script("graph$versionString.min");
  } ?>
+
+<script type="text/javascript">
+  var parties = <?php echo json_encode($parties); ?>;
+  var data = <?php echo $quizResults['QuizResult']['data'] === null ? "null" : $quizResults['QuizResult']['data']; ?>;
+  var quizId = "<?php echo $guid; ?>";
+</script>
+
 <div class="row">
     <div class="col-md-12">
         <div class="row">
@@ -56,6 +63,8 @@ if (Configure::read('minimizeResources')==1) {
         </div>
         <?php
             $first = true;
+            
+            if ($winners) {
             foreach ($winners as $key => $value) { 
                 if ($first) {
                     $first = false; ?>
@@ -66,9 +75,11 @@ if (Configure::read('minimizeResources')==1) {
                 'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
                         (<?php echo $value; ?>%)</h4>
                 </div>
-            <?php } ?>
-                
-        <?php }
+                <?php }
+            }
+            } else { ?>
+            <div class="alert alert-danger">För att kunna visa detta resultat måste du ange rätt nyckel.</div>
+            <?php }
         ?>
         
                    
@@ -101,78 +112,25 @@ if (Configure::read('minimizeResources')==1) {
         </div>
     </div>
 </div>
-    
-<script type="text/javascript">
-  var parties = <?php echo json_encode($parties); ?>;
-  var data = <?php echo $quizResults['QuizResult']['data']; ?>;
-</script>
 
-<?php if ($quizSession) { ?>
-
-<div class="row">
-    <div class="col-md-12 share-line">
-        <p>Innehållet nedan visas inte vid delning</p>
-        <hr></hr>
+<div id="quiz-summary">
+    <h3>Sammanställning av resultatet</h3>
+    <div id="result-table" class="table-scrolled-overflow-container">
+        <table class="table table-striped table-hover">
+          <thead>
+            <th class="party-column">Parti</th>
+            <th><i class="popover-click-link fa fa-thumbs-up" data-content="Matchande svar" data-placement="top"></i> <span class="collapsable-head">Matchande svar</span></th>
+            <th><i class="popover-click-link fa fa-thumbs-down" data-content="Ej matchande svar" data-placement="top"></i> <span class="collapsable-head">Ej matchande svar</span></th>
+            <th><i class="popover-click-link fa fa-plus" data-content="Summa poäng" data-placement="top"></i> <span class="collapsable-head">Summa poäng</span></th>
+            <th><i class="popover-click-link" data-content="Procent av poängen" data-placement="top">%</i> <span class="collapsable-head">Procent</span></th>
+         </thead>
+          <tbody>
+        </tbody>
+        </table>
     </div>
 </div>
-
-<h3>Sammanställning av resultatet</h3>
-<div class="table-scrolled-overflow-container">
-    <table class="table table-striped table-hover">
-      <thead>
-        <th class="party-column">Parti</th>
-        <th><i class="popover-click-link fa fa-thumbs-up" data-content="Matchande svar" data-placement="top"></i> <span class="collapsable-head">Matchande svar</span></th>
-        <th><i class="popover-click-link fa fa-thumbs-down" data-content="Ej matchande svar" data-placement="top"></i> <span class="collapsable-head">Ej matchande svar</span></th>
-        <th><i class="popover-click-link fa fa-question" data-content="Besvarade frågor" data-placement="top"></i> <span class="collapsable-head">Besvarade frågor</span></th>
-        <th><i class="popover-click-link fa fa-plus" data-content="Summa poäng" data-placement="top"></i> <span class="collapsable-head">Summa poäng</span></th>
-      </thead>
-      <tbody>
-    <?php foreach ($parties as $party) { 
-        $partyPoints = $quizSession['QuizSession']['points']['parties'][$party['id']];
-
-        $pointsClass = "";
-        $pointsPrefix = "";
-        if ($partyPoints['points'] > 0) { $pointsClass = "plus-points"; $pointsPrefix = "+"; }
-        if ($partyPoints['points'] < 0) { $pointsClass = "minus-points"; } ?>
-
-        <tr class="<?php echo $pointsClass; ?>">
-        <td><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></td>
-        <td><?php echo $partyPoints['matched_questions']; ?> st</td>
-        <td><?php echo $partyPoints['missmatched_questions']; ?> st</td>
-        <td><?php echo $partyPoints['matched_questions']+$partyPoints['missmatched_questions']; ?> st</td>
-        <td><span class="result"><?php echo $pointsPrefix . $partyPoints['points']; ?>p</span>  </td>
-        </tr>
-    <?php } ?>
-    </tbody>
-    </table>
-</div>
-
-<h3>Resultat per fråga</h3>
-<div class="panel-group" id="accordion">
     
-<ul class="list-unstyled question-summary-list">
-    
-<?php foreach ($quizSession['QuizSession']['points']['questions'] as $question) { 
-  ?>
-  <li>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $question['id']; ?>" class="collapsed">
-              <i class="fa fa-plus-square toggle"></i> <?php echo $question['title']; ?>
-            </a>
-          </h4>
-        </div>
-        <div id="collapse<?php echo $question['id']; ?>" data-type="quiz-question" data-id="<?php echo $question['id']; ?>" 
-             class="ajax-load-table panel-collapse collapse">
-        </div>
-      </div>
-  </li>
-<?php } ?>
-</ul>
-</div>
-
-<?php } ?>
+<div id="session-results"></div>
 
 <div class="modal fade" id="quizCalculationInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -1365,3 +1365,15 @@ background-color: #f5f5f5;
 .stats {
     float: right;
 }
+
+#result-table .percent {
+    font-weight: bold;
+}
+
+#graphs {
+    display: none;
+}
+
+#quiz-summary {
+    display: none;
+}

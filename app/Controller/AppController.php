@@ -131,8 +131,7 @@ class AppController extends Controller {
     }
     
     // http://stackoverflow.com/questions/6826106/generate-random-string
-    public function randomString() {
-        $length = 20;
+    public function randomString($length = 40) {
         $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $str = "";    
 
