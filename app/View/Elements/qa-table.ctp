@@ -73,8 +73,10 @@
               echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
                                                       'question' => $question, 'party' => $party['Party']));
             } else { ?>
-            <div class="table-cell"></div>
-            <?php }?>
+            <div class="table-cell empty"></div>
+            <?php }
+          
+          ?>
           <?php endforeach; ?>
           <?php if ($this->Permissions->isLoggedIn()) { ?>
             <div class="table-cell">

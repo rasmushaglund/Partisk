@@ -37,9 +37,9 @@ $notApproved = !$answer['Answer']['approved'];
 
 if($answer['Answer']['answer'] == "ja") { $answerClass = 'class="table-cell yes"'; } 
 else if($answer['Answer']['answer'] == "nej") { $answerClass = 'class="table-cell no"'; } 
-else { $answerClass = 'class="table-cell"'; }?>
+else { $answerClass = 'class="table-cell etc"'; } ?>
 
-<div <?php echo $answerClass ?>>
+<div <?php echo $answerClass  ?>>
   <div class="party-answer"><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></div>
   <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" 
         data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
