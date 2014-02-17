@@ -306,13 +306,25 @@ class Quiz extends AppModel {
 
         $quizSession["QuizSession"] = array(
             'index' => 0,
-            'id' => String::uuid(),
+            'id' => Security::hash($this->randomString() . microtime()),
             'quiz_id' => $id, 
             'has_answers' => false,
             'questions' => sizeof($quizSession)
         );
 
         return $quizSession;
+    }
+    
+    private function randomString() {
+        $length = 20;
+        $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $str = "";    
+
+        for ($i = 0; $i < $length; $i++) {
+            $str .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+
+        return $str;
     }
     
     public function getAllQuiz() {

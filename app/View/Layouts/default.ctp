@@ -70,6 +70,8 @@
             echo $this->Html->css('datepicker');
             echo $this->Html->css('style');
             echo $this->Html->script('jquery');
+            echo $this->Html->script('jquery.cookie');
+            echo $this->Html->script('rijndael');
             echo $this->Html->script('bootstrap');
             echo $this->Html->script('bootstrap-datepicker');
             echo $this->Html->script('bootstrap-datepicker.sv.js', false);

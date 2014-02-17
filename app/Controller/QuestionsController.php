@@ -133,8 +133,8 @@ class QuestionsController extends AppController {
         $this->render('/Elements/qa-table');
     }
 
-     public function getNumberOfQuestions() {
-        return $this->Question->getNumberOfQuestions();
+     public function getNumberOfQuestions() { 
+       return $this->Question->getNumberOfQuestions();
      }
 
     public function view($title = null) {

@@ -49,50 +49,13 @@ $(document).ready(function() {
         }
     ]).bind('typeahead:selected', function(event, obj) {
         if (obj.key) {
-            window.location = appRoot + "fr%C3%A5gor/" + encodeURI(obj.value.split(' ').join('_').toLowerCase()).replace('?', '%3f');
+            window.location = appRoot + "fr%C3%A5gor/" + encodeString(obj.value);
         }
 
         $(this).val("");
     }).focus();
        
-    $('#accordion .panel-collapse').on('show.bs.collapse', function () {
-       $(this).parent().find(".toggle").removeClass("fa-plus-square").addClass("fa-minus-square");
-       $(this).parent().addClass("accordion-expanded");
-       $(this).find('.table-head-container').removeClass('table-fixed').show();
-       $(this).find('.table-with-fixed-header').removeClass('table-fixed-header');
-    });
-
-    $('#accordion .panel-collapse').on('hide.bs.collapse', function () {
-       $(this).parent().find(".toggle").removeClass("fa-minus-square").addClass("fa-plus-square");
-       $(this).parent().removeClass("accordion-expanded");
-    });
-    
-    $('#accordion .panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
-       var id = $(this).attr('data-id');
-       var type = $(this).attr('data-type');
-       var container = $(this);
-       
-       var method = type === "category" ? 'getCategoryTable' : 'getQuestionSummaryTable';
-       
-       if (!container.hasClass('table-loaded')) {
-       $.ajax({
-            url: appRoot + 'frågor/' + method + '/' + id,
-            success: function(data) {
-                var content = $(data);
-                content.hide();
-                container.append(content);
-                
-                if (type === "category") {
-                    setupFixedHeader(content);
-                }
-                
-                initPopovers(container);
-                content.fadeIn('slow');
-                container.addClass('table-loaded');
-            }
-        });
-        }
-    });
+    attachAccordions($('#accordion'));
     
     if (!supportsSvg()) {
         $("#graphs").hide();
@@ -118,6 +81,51 @@ $(document).ready(function() {
         }
     });
 });
+
+var attachAccordions = function (accordion) {
+    accordion.find('.panel-collapse').on('show.bs.collapse', function () {
+       $(this).parent().find(".toggle").removeClass("fa-plus-square").addClass("fa-minus-square");
+       $(this).parent().addClass("accordion-expanded");
+       $(this).find('.table-head-container').removeClass('table-fixed').show();
+       $(this).find('.table-with-fixed-header').removeClass('table-fixed-header');
+    });
+
+    accordion.find('.panel-collapse').on('hide.bs.collapse', function () {
+       $(this).parent().find(".toggle").removeClass("fa-minus-square").addClass("fa-plus-square");
+       $(this).parent().removeClass("accordion-expanded");
+    });
+    
+    accordion.find('.panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
+       var id = $(this).attr('data-id');
+       var type = $(this).attr('data-type');
+       var container = $(this);
+       
+       var method = type === "category" ? 'getCategoryTable' : 'getQuestionSummaryTable';
+       
+       if (!container.hasClass('table-loaded')) {
+       $.ajax({
+            url: appRoot + 'frågor/' + method + '/' + id,
+            success: function(data) {
+                var content = $(data);
+                content.hide();
+                container.append(content);
+                
+                if (type === "category") {
+                    setupFixedHeader(content);
+                }
+                
+                initPopovers(container);
+                content.fadeIn('slow');
+                container.addClass('table-loaded');
+            }
+        });
+        }
+    });
+}
+
+var encodeString = function(str) {
+    return encodeURI(str.split(' ').join('_').toLowerCase()).replace('?', '%3f');
+};
 
 var initPopovers = function($container) {
     $container.find('.popover-hover-link').popover({
@@ -273,7 +281,57 @@ function getPointsPercentage() {
 
 
 $(document).ready(function() {
-    if (typeof data !== 'undefined') {
+    if (typeof data !== 'undefined' && data != null) {
+        $("#quiz-summary").show();
+        $("#graphs").show();
+        
+        if ($.cookie('p[q]') === quizId) {
+            $.ajax({
+                url: appRoot + "quiz/session_results/" + quizId,
+                success: function(data) {
+                    var container = $("#session-results");
+                    var content = $(data);
+                    content.hide();
+                    container.append(content);
+                    
+                    attachAccordions(container);
+                    
+                    content.fadeIn('slow');
+                }
+        });
+       }
+        
+        var items = [];
+        
+        for (party in parties) {
+            var item = {plus: data.question_agree_rate[party].plus_points,
+                minus: data.question_agree_rate[party].minus_points,
+                party: party,
+                agree_rate: data.question_agree_rate[party].result,
+                percentage: data.points_percentage[party].result};
+            items.push(item);
+        }
+        
+        items.sort(function(a, b) {
+            return b.percentage - a.percentage;
+        });
+        
+        for (current_item in items) {
+            var item = items[current_item];
+            var points = (item.plus - item.minus);
+            $row = $('<tr class="' + (points > 0 ? "plus" : (points < 0 ? "minus" : "")) + '-points"></tr>');
+            $row.append('<td><a href="/Partisk/partier/' + encodeString(parties[item.party].name) + 
+                        '" class="party-logo-link"><div class="party-logo-small party-logo-small-' + item.party + 
+                        '"></div><div class="party-title">' + capitalizeFirstLetter(parties[item.party].name) + '</div></a></td>');
+            $row.append("<td>" + item.minus + " st</td>");
+            $row.append("<td>" + item.plus + " st</td>");
+            $row.append('<td class="result"><span class="result">' + (points > 0 ? "+" : "") + points + 'p</span></td>');
+            $row.append('<td class="percent">' + item.percentage + "%</td>");
+            $("#result-table tbody").append($row);
+        }
+        
+        
+
     nv.addGraph(function() {
         var data = getPointsPercentage();
         var chart = nv.models.pieChart()
