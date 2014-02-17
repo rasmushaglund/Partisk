@@ -42,7 +42,5 @@ else { $answerClass = 'class="table-cell etc"'; } ?>
 <div <?php echo $answerClass  ?>>
   <div class="party-answer"><?php echo $this->element('party_header', array('party' => $party, 'link' => true, 'small' => true, 'title' => true)); ?></div>
   <span class="popover-link<?php echo $notApproved?' answer-not-approved':''; ?>" 
-        data-id="<?php echo $answer['Answer']['id']; ?>" href="#"><?php 
-    echo $answer['Answer']['answer'];
-  ?></span>
+        data-id="<?php echo $answer['Answer']['id']; ?>"><?php echo $answer['Answer']['answer']; ?></span>
 </div>
