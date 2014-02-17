@@ -112,7 +112,7 @@
                             <a href="https://github.com/emilwall" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
                     </li>
-                   <li>
+                   <!--<li>
                         <div class="alert alert-info">
                             <img src="img/kristoffer.png" alt="Kristoffer Bjelkmark" class="img-thumbnail">
                             <b>Kristoffer Bjelkmark</b>
@@ -122,7 +122,7 @@
                             <a href="http://www.linkedin.com/profile/view?id=293245801" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                             <a href="https://github.com/poffn/" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
 	</div>
 </div>
