@@ -194,7 +194,7 @@ class Answer extends AppModel {
             )
         );
     }
-    
+     
     public function getNumberOfAnswers() {
        $result = Cache::read('number_of_answers', 'answers');
         

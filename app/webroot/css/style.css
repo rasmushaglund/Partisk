@@ -1191,6 +1191,31 @@ h3 {
 @media (max-width: 463px) {
     .qa-table {
         min-width: 419px;
+        
+    }
+    
+    .table-head{
+        display: none;
+    }
+    
+    .party-answer{
+        display: none;
+    }
+    
+    .table-cell.no{
+        display: none;
+    }
+    
+    .table-cell.yes{
+        display: none;
+    }
+
+    .table-cell.empty{
+        display: none;
+    }
+    
+    .table-cell.etc{
+        display: none;
     }
     
     .collapsable-table-container {
@@ -1208,6 +1233,33 @@ h3 {
         }
     
     
+}
+
+
+
+@media (max-width: 360px) {
+  
+    .qa-table {
+        min-width: 200px;  
+        
+    }
+    
+    .qa-table .party-title {
+        display: none;        
+    }
+    
+    .qa-table th{
+        width: 60px;  
+         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+     
+    h1{
+        font-size: 20px;         
+    
+    }
+
 }
 
 

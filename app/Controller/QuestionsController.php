@@ -48,7 +48,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions', 'getQuestionsApi'));
     }
 
     public function  noDescription(){
@@ -91,11 +91,11 @@ class QuestionsController extends AppController {
         
         $categories = $this->Question->Tag->getAllCategories();
         $this->set('categories', $categories);
-        $this->set('parties', $parties);
+        $this->set('parties', $parties);        
         $this->set('answers', $answersMatrix);
         $this->set('popularQuestions', $popularQuestions);
         $this->set('description_for_layout', 'Vad tycker partierna egentligen? Frågor och svar.');
-        $this->set('title_for_layout', 'Frågor');
+        $this->set('title_for_layout', 'Frågor');       
     }
     
     public function getCategoryTable($tagId) {
@@ -335,14 +335,12 @@ class QuestionsController extends AppController {
         }
     }
     
+    public function getQuestionsApi() {
+        $this->renderJson($this->Question->getVisibleQuestions());    
+    }
+    
     public function search($string) {
-        $this->cacheAction = "+999 days";
-        $this->layout = 'ajax';
-        $this->autoRender=false;
-        
-        $this->set('data', json_encode($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn())));
-        
-        $this->render('/Elements/search');
+        $this->renderJson($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn()));       
     }
 
     public function logUser($action, $object_id, $text = "") {

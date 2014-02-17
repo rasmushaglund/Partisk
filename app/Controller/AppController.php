@@ -122,6 +122,14 @@ class AppController extends Controller {
         }      
     }
     
+    public function renderJson($data) {  
+        $this->cacheAction = "+999 days";
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        $this->set('data', json_encode($data));
+        $this->render('/Elements/json');        
+    }
+    
     // http://stackoverflow.com/questions/6826106/generate-random-string
     public function randomString($length = 40) {
         $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
