@@ -119,10 +119,10 @@ if (Configure::read('minimizeResources')==1) {
         <table class="table table-striped table-hover">
           <thead>
             <th class="party-column">Parti</th>
-            <th><i class="popover-click-link fa fa-thumbs-up" data-content="Matchande svar" data-placement="top"></i> <span class="collapsable-head">Matchande svar</span></th>
-            <th><i class="popover-click-link fa fa-thumbs-down" data-content="Ej matchande svar" data-placement="top"></i> <span class="collapsable-head">Ej matchande svar</span></th>
+            <th><i class="popover-click-link fa fa-thumbs-up" data-content="Pluspoäng" data-placement="top"></i> <span class="collapsable-head">Pluspoäng</span></th>
+            <th><i class="popover-click-link fa fa-thumbs-down" data-content="Minuspoäng" data-placement="top"></i> <span class="collapsable-head">Minuspoäng</span></th>
             <th><i class="popover-click-link fa fa-plus" data-content="Summa poäng" data-placement="top"></i> <span class="collapsable-head">Summa poäng</span></th>
-            <th><i class="popover-click-link" data-content="Procent av poängen" data-placement="top">%</i> <span class="collapsable-head">Procent</span></th>
+            <th><i class="popover-click-link" data-content="Totalt" data-placement="top">%</i> <span class="collapsable-head">Totalt</span></th>
          </thead>
           <tbody>
         </tbody>

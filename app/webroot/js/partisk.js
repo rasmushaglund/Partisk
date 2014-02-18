@@ -313,7 +313,7 @@ $(document).ready(function() {
         }
         
         items.sort(function(a, b) {
-            return b.percentage - a.percentage;
+            return (b.plus - b.minus) - (a.plus - a.minus);
         });
         
         for (current_item in items) {
@@ -323,8 +323,8 @@ $(document).ready(function() {
             $row.append('<td><a href="/Partisk/partier/' + encodeString(parties[item.party].name) + 
                         '" class="party-logo-link"><div class="party-logo-small party-logo-small-' + item.party + 
                         '"></div><div class="party-title">' + capitalizeFirstLetter(parties[item.party].name) + '</div></a></td>');
-            $row.append("<td>" + item.minus + " st</td>");
-            $row.append("<td>" + item.plus + " st</td>");
+            $row.append("<td>" + item.plus + "p</td>");
+            $row.append("<td>" + item.minus + "p</td>");
             $row.append('<td class="result"><span class="result">' + (points > 0 ? "+" : "") + points + 'p</span></td>');
             $row.append('<td class="percent">' + item.percentage + "%</td>");
             $("#result-table tbody").append($row);

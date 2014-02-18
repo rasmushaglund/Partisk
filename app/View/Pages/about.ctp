@@ -91,15 +91,15 @@
                             <a href="https://github.com/RikardNordstrom" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
                     </li>
-                   <!-- <li>
+                    <li>
                         <div class="alert alert-info">
                             <img src="img/johan.jpg" alt="Johan Gudmundsson" class="img-thumbnail">
                             <b>Johan Gudmundsson</b>
-                            <p>...</p>
+                            <p>Entreprenör med stort intresse för politik, integritetfrågor och IT. Till vardags jobbar Johan som konstruktör på ABB Power Transformers.</p>
                             <p class="social">
                             <a href="mailto:johan.gudmundsson2012@gmail.com" title="Mail"><i class="fa fa-envelope"></i></a></p>
                         </div>
-                    </li>-->
+                    </li>
                     <li>
                         <div class="alert alert-info">
                             <img src="img/emil.jpg" alt="Emil Wall" class="img-thumbnail">
