@@ -125,8 +125,13 @@ class AppController extends Controller {
     public function renderJson($data) {  
         $this->cacheAction = "+999 days";
         $this->layout = 'ajax';
-        $this->autoRender=false;
-        $this->set('data', json_encode($data));
+        $this->autoRender = false;
+              
+        $data = count($data) == 1? $data[0]: $data;    
+        $obj = isset($data[0]) ? "/".key($data[0])."/." : key($data);
+      
+        $this->set('data', json_encode(Set::extract($obj, $data)));
+        
         $this->render('/Elements/json');        
     }
     
