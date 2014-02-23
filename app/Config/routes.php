@@ -35,6 +35,7 @@ Router::connect('/quiz/frågor', array('controller' => 'quizzes', 'action' => 'q
 Router::connect('/quiz/översikt', array('controller' => 'quizzes', 'action' => 'overview'));
 Router::connect('/quiz/:id/starta_om', array('controller' => 'quizzes', 'action' => 'restart'), array('pass' => array('id')));
 Router::connect('/quiz/:id/fortsätt', array('controller' => 'quizzes', 'action' => 'resume'), array('pass' => array('id')));
+Router::connect('/quiz/session_results/:guid', array('controller' => 'quizzes', 'action' => 'sessionResults'), array('pass' => array('guid')));
 Router::connect('/quiz/frågor/nästa', array('controller' => 'quizzes', 'action' => 'next'));
 Router::connect('/quiz/frågor/föregående', array('controller' => 'quizzes', 'action' => 'prev'));
 Router::connect('/quiz/avsluta', array('controller' => 'quizzes', 'action' => 'close'));

@@ -34,6 +34,7 @@ App::uses('Security', 'Utility');
 
 class QuizzesController extends AppController {
     public $helpers = array('Html', 'Form', 'Cache');
+    public $components = array('Cookie');
     
     const DEFAULT_IMPORTANCE = 2;
     const QUIZ_VERSION = 2;
@@ -41,7 +42,16 @@ class QuizzesController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->quizSession = $this->Session->read('quizSession');
-        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume', 'getQuestionSummaryTable'));
+        $this->Auth->allow(array('next', 'prev', 'results', 'close', 'questions' ,'restart', 'start', 'resume', 
+                                'getQuestionSummaryTable', 'sessionResults'));
+        
+        $this->Cookie->name = 'p';
+        /*$this->Cookie->time = 3600;  // or '1 hour'
+        $this->Cookie->path = '/partisk/preferences/';
+        $this->Cookie->domain = 'partisk.nu';*/
+        //$this->Cookie->secure = true;  // i.e. only sent if using secure HTTPS
+        //$this->Cookie->key = 'qSI232qs*&sXOw!adre@34SAv!@*(XSL#$%)asGb$@11~_+!@#HKis~#^';
+        //$this->Cookie->httpOnly = true;
     }
 
     public function beforeRender() {
@@ -143,6 +153,7 @@ class QuizzesController extends AppController {
 
     public function start($id) {
         $quizSession = $this->Quiz->generateQuizSession($id);
+        $this->Cookie->write('q', $quizSession['QuizSession']['id'], false, 3600);
         $this->Session->write('quizSession', $quizSession);
         return $this->redirect("/quiz/fr%C3%A5gor");  
     }
@@ -203,7 +214,7 @@ class QuizzesController extends AppController {
                 $quizSession['QuizSession']['saved'] = false;
                 $this->Session->write('quizSession', $quizSession);
                 $this->saveAnswers($quizSession);
-                $key = $this->randomString();
+                $key = $this->randomString(33);
                 return $this->redirect(array('action' => 'results', '?' => array('key' => $key),$quizSession['QuizSession']['id']));    
             } else {
                 $this->Session->write('quizSession', $quizSession);
@@ -215,12 +226,12 @@ class QuizzesController extends AppController {
     }
     
     private function saveAnswers($session) {
-        $tempQuizId = String::uuid();
+        $tempQuizId = $this->getRandomId();
         $answers = array();
         foreach ($session as $key => $question) {
             if (is_numeric($key)) {
                 $answers[$key] = array(
-                    "id" => String::uuid(),
+                    "id" => $this->getRandomId(),
                     "question_id" => $question['Question']['id'],
                     "answer" => $question['Question']['answer'],
                     "temp_quiz_id" => $tempQuizId,
@@ -286,7 +297,14 @@ class QuizzesController extends AppController {
             $quiz = $quizResults;
         }
         
-        $quizResults['QuizResult']['data'] = Security::cipher(base64_decode($quizResults['QuizResult']['data']), $key);
+        if ($quizResults['QuizResult']['data'] !== null) {
+            $jsonString = Security::rijndael(base64_decode($quizResults['QuizResult']['data']), $key, 'decrypt');
+            if (json_decode($jsonString) === null || json_last_error() !== JSON_ERROR_NONE) {
+                $quizResults['QuizResult']['data'] = null;
+            } else {
+                $quizResults['QuizResult']['data'] = $jsonString;
+            }
+        } 
         
         if (empty($quizResults) && empty($quizResults)) {
             $this->customFlash(__('Kunde inte hitta quizen.'), 'danger');
@@ -308,12 +326,46 @@ class QuizzesController extends AppController {
         
         $this->set('quiz', $quiz);
         $this->set('guid', $guid);
-        $this->set('quizSession', $quizSession);
         $this->set('quizResults', $quizResults);
+        $this->set('guid', $guid);
         $this->set('parties', $parties);
         $this->set('winners', $winners);
         $this->set('description_for_layout', $this->getWinnersDescription($winners, $parties));
         $this->set('title_for_layout', 'Resultat');
+    }
+    
+    public function sessionResults($guid) {
+        //$this->cacheAction = "+999 days";
+        $this->layout = 'ajax';
+        $this->autoRender=false;
+        
+        $quizSession = $this->getQuizSession($guid);
+        
+        if (empty($quizSession) && empty($guid) || empty($guid)) {
+            return $this->redirect(array('controller' => 'quizzes','action' => 'index'));
+        }
+        
+        if (!empty($quizSession) && isset($quizSession['QuizSession']['has_answers']) &&
+                !$quizSession['QuizSession']['has_answers']) {
+            $this->Session->delete('quizSession');
+            $this->customFlash(__('Du har inte svarat på någon fråga i quizen, försök igen.'), 'danger');
+            return $this->redirect(array('action' => 'index'));      
+        }
+      
+        if (!empty($quizSession) && $quizSession['QuizSession']['done'] && !$quizSession['QuizSession']['saved']) {
+            $quizResults = $this->getNewQuizResults($guid, $quizSession);
+            $quizResults['QuizResult']['data'] = $quizSession['QuizSession']['data'];
+            $quizSession['QuizSession']['saved'] = true;
+            $this->Session->write('quizSession', $quizSession);
+            $quiz = $this->getQuiz($quizSession);
+        } else {
+            $quizResults = $this->getQuizResults($guid);
+            $quiz = $quizResults;
+        }
+        
+        $this->set('quizSession', $quizSession);
+        
+        $this->render('/Quizzes/session_results');
     }
     
     private function getWinnersDescription($winners, $parties) {
@@ -341,13 +393,18 @@ class QuizzesController extends AppController {
     private function getWinnersByResult($result) {
         $data = json_decode($result['QuizResult']['data']);
         
-        $results = array();
-        foreach ($data->points_percentage as $key => $value) {
-            if ($value->result > 0) {
-                $results[$key] = $value->result;
+        if ($data) {
+            $results = array();
+            foreach ($data->points_percentage as $key => $value) {
+                if ($value->result > 0) {
+                    $results[$key] = $value->result;
+                }
             }
+            arsort($results);
+        } else {
+            $results = null;
         }
-        arsort($results);
+        
         return $results;
     }
     
@@ -363,7 +420,7 @@ class QuizzesController extends AppController {
         return $quiz;
     }
     
-    private function getQuizSession($guid, $key) {
+    private function getQuizSession($guid, $key = null) {
         $quizSession = $this->quizSession;
         $quizInSession = isset($quizSession['QuizSession']) && isset($quizSession['QuizSession']['id'])
                 && $quizSession['QuizSession']['id'] == $guid;
@@ -373,7 +430,10 @@ class QuizzesController extends AppController {
             $quizSession['QuizSession']['points'] = $points;
 
             $generatedData = $this->Quiz->generateGraphData($points['parties']);
-            $quizSession['QuizSession']['data'] = base64_encode(Security::cipher(json_encode($generatedData), $key));
+            
+            if ($key) {
+                $quizSession['QuizSession']['data'] = base64_encode(Security::rijndael(json_encode($generatedData), $key, 'encrypt'));
+            }
             
             return $quizSession;
         }
@@ -603,6 +663,11 @@ class QuizzesController extends AppController {
     
     public function status() {
         $this->set('quizzes', $this->Quiz->getUserQuizzes($this->Auth->user('id')));
+    }
+    
+        // thtp://stackoverflow.com/questions/17899091/unique-token-in-cakephp
+    public function getRandomId() {
+        return Security::hash($this->randomString() . microtime());
     }
 }
 

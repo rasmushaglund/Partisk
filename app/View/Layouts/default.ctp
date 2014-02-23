@@ -46,7 +46,6 @@
         <![endif]-->
 
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Partisk.nu">
         <meta name="author" content="Partisk.nu">
@@ -70,6 +69,8 @@
             echo $this->Html->css('datepicker');
             echo $this->Html->css('style');
             echo $this->Html->script('jquery');
+            echo $this->Html->script('jquery.cookie');
+            echo $this->Html->script('rijndael');
             echo $this->Html->script('bootstrap');
             echo $this->Html->script('bootstrap-datepicker');
             echo $this->Html->script('bootstrap-datepicker.sv.js', false);
@@ -87,13 +88,8 @@
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
             <?php echo $this->Html->css("partisk$versionString.min"); ?>
             
-            <!--[if !IE]><!-->            
-                <?php echo $this->Html->script("partisk$versionString.min"); ?>
-            <!--<![endif]>--> 
-            <!--[if lt IE 8]>
-                <?php echo $this->Html->script("partisk-ie$versionString.min"); ?>
-            <![endif]-->
-            
+            <!--[if lte IE 8]><?php echo $this->Html->script("partisk-ie$versionString.min"); ?><![endif]-->
+            <!--[if gt IE 8]><!--><?php echo $this->Html->script("partisk$versionString.min"); ?><!-- <![endif]-->
         <?php } ?>
     </head>
     <body>        

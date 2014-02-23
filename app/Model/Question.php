@@ -59,7 +59,8 @@ class Question extends AppModel {
             'className' => 'User',
             'foreignKey' => 'approved_by',
             'fields' => array('id', 'username')
-        ));
+        )
+	);
 
     public $hasAndBelongsToMany = array(
         'Tag'=> array(

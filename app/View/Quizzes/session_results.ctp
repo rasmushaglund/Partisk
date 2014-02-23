@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
@@ -24,14 +24,42 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Quizzes
  * @license     http://opensource.org/licenses/MIT MIT
- */ ?>
+ */
 
-<?php $url = Router::url(null, true ); ?>
-<div class="share">
-    <a href="http://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
-    <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($url); ?>&text=<?php echo $title_for_layout; ?>&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
-    <a href="https://plus.google.com/share?url=<?php echo urlencode($url); ?>" title="Google+"><i class="fa fa-google-plus-square"></i></a>
-    <a href="http://www.linkedin.com/shareArticle?url=<?php echo urlencode($url); ?>&t=<?php echo $title_for_layout; ?>" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
-</div>
+if ($quizSession) { ?>
+
+    <div class="row">
+        <div class="col-md-12 share-line">
+            <p>Innehållet nedan visas inte vid delning</p>
+            <hr></hr>
+        </div>
+    </div>
+
+    <h3>Resultat per fråga</h3>
+    <div class="panel-group" id="accordion">
+
+    <ul class="list-unstyled question-summary-list">
+
+    <?php foreach ($quizSession['QuizSession']['points']['questions'] as $question) { 
+      ?>
+      <li>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $question['id']; ?>" class="collapsed">
+                  <i class="fa fa-plus-square toggle"></i> <?php echo $question['title']; ?>
+                </a>
+              </h4>
+            </div>
+            <div id="collapse<?php echo $question['id']; ?>" data-type="quiz-question" data-id="<?php echo $question['id']; ?>" 
+                 class="ajax-load-table panel-collapse collapse">
+            </div>
+          </div>
+      </li>
+    <?php } ?>
+    </ul>
+    </div>
+
+<?php } ?>
