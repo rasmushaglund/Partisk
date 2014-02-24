@@ -94,7 +94,29 @@ class Question extends AppModel {
     }
 
     
-    
+    public function getQuestionsApi($id = null){
+        $result = Cache::read('questionsApi', 'question');
+        
+        if(!$result){
+            $this->recursive = -1; 
+
+            $conditions = array('deleted' => false, 'approved' => true);
+
+            if(isset($id)){
+                array_push($conditions, array('id' => $id));}
+
+            $result = $this->find('all', array(
+
+                'conditions' => $conditions,          
+                'fields' => array('id', 'title', 'type', 'description', 'created_date', 'updated_date')
+
+            ));
+            Cache::write('questionsApi', $result, 'question');
+        }
+        
+        return $result;
+    }
+
     public function getQuestions($args) {
         $this->recursive = -1; 
 

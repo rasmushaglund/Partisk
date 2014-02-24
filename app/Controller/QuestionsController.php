@@ -335,10 +335,6 @@ class QuestionsController extends AppController {
         }
     }
     
-    public function getQuestionsApi() {
-        $this->renderJson($this->Question->getVisibleQuestions());    
-    }
-    
     public function search($string) {
         $this->renderJson($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn()));       
     }

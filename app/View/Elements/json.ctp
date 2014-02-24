@@ -27,6 +27,5 @@
  * @package     app.View.Elements
  * @license     http://opensource.org/licenses/MIT MIT
  */
-?><!--nocache--><?php configure::write('debug',0); header('Content-type: text/x-json'); ?><!--/nocache-->
-    <?php echo $data; ?>
+?><!--nocache--><?php configure::write('debug',0); header('Content-type: text/x-json'); ?><!--/nocache--><?php echo $data;?>
 

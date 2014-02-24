@@ -208,13 +208,7 @@ class AnswersController extends AppController {
 
         return parent::isAuthorized($user);
     }
-    
-    public function getAnswersApi() {
-        debug($this->Answer->getAnswers(array()));
-        $this->renderJson($this->Answer->getAnswers(array())); 
-        
-    }
-    
+     
     public function info($id) {
         if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
