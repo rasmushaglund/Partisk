@@ -57,10 +57,6 @@ class PartiesController extends AppController {
         $this->set('description_for_layout', 'Alla partier');       
     }
     
-    public function getPartiesApi() {
-        $this->renderJson($this->Party->getPartiesOrdered());    
-    }
-    
     public function view($name = null) { 
         $name = $this->deSlugUrl($name);
         
