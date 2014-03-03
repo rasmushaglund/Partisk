@@ -37,6 +37,7 @@ class QuestionsController extends AppController {
         "index" => "+999 days",
         "view" => "+999 days",
         "search" => "+999 days",
+        "emptyAnswer" => "+999 days",
         "all" => "+999 days");
 
     public $components = array('Session');
@@ -48,7 +49,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions', 'getQuestionsApi'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions', 'getQuestionsApi', 'emptyAnswer'));
     }
 
     public function  noDescription(){
@@ -112,7 +113,7 @@ class QuestionsController extends AppController {
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
         
-        $questionIds = $this->Question->getIdsFromModel('Question', $questions);
+        $questionIds = $this->Question->getIdsFromModel('Question', $questions, 'question_id');
         $partyIds = $this->Party->getIdsFromModel('Party', $parties);
         
         $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
@@ -144,16 +145,25 @@ class QuestionsController extends AppController {
         }
 
         $question = $this->Question->getByIdOrTitle(urldecode($title));
+        
+        if ($this->Auth->loggedIn()) {
+            $emptyQuestion = false;
+            
+            if (empty($question)) {
+                $emptyQuestion = true;
+                $question = $this->Question->getByIdOrTitle(urldecode($title), false, true); 
+            }
 
+            $revisions = $this->Question->getRevisions($question['Question']['question_id']);
+
+            $this->set('revisions', $revisions);
+        }
+        
         if (empty($question)) {
             return $this->redirect(array('controller' => 'questions', 'action' => 'index'));
         }
 
-        $conditions = array('questionId' => $question['Question']['id'], 'includeParty' => true);
-        
-        if (!$this->Auth->loggedIn()) {
-            $conditions['approved'] = true;
-        }
+        $conditions = array('questionId' => $question['Question']['question_id'], 'includeParty' => true);
         
         $answers = $this->Question->Answer->getAnswers($conditions);
         $description = $this->getDescriptionForQuestion($answers);
@@ -181,12 +191,16 @@ class QuestionsController extends AppController {
 
         if ($this->request->is('post')) {
             $this->createQuestion($this->request->data);
-            return $this->redirect($this->referer());
+            return $this->redirect(array(
+                'controller' => 'questions',
+                'action' => 'view',
+                $this->Url->slug($this->request->data['Question']['title'])
+            ));
         }
      }
 
      public function delete($id) {
-        if (!$this->Permissions->canDeleteQuestion($this->Auth->user('id'), $id)) {
+        if (!$this->Permissions->canDeleteQuestion($id)) {
             $this->Permissions->abuse("Not authorized to delete question with id " . $id);
             $this->customFlash("Du har inte tillåtelse att ta bort frågan.");
             return $this->redirect($this->referer());
@@ -201,7 +215,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException("Ogiltig fråga");
         }
 
-        $question = $this->Question->getByIdOrTitle($id);
+        $question = $this->Question->getByIdOrTitle($id, false, true, true);
         
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
@@ -213,6 +227,66 @@ class QuestionsController extends AppController {
         
         $this->set('question', $question);        
         $this->renderModal('deleteQuestionModal', array('setAjax' => true));
+     }
+
+     public function approveRevision($id) {
+        if (!$this->Permissions->canApproveQuestion($id)) {
+            $this->Permissions->abuse("Not authorized to approve question with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att godkänna frågan.");
+            return $this->redirect($this->referer());
+        }
+        
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->approveQuestionRevision($id);                    
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
+
+        $question = $this->Question->getRevision($id);
+        
+        if (empty($question)) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
+        
+        if (!$this->request->data) {
+            $this->request->data = $question;
+        }
+        
+        $this->set('question', $question);        
+        $this->renderModal('approveQuestionRevisionModal', array('setAjax' => true));
+     }
+     
+     public function deleteRevision($id) {
+        if (!$this->Permissions->canApproveQuestion($id)) {
+            $this->Permissions->abuse("Not authorized to delete question revision with id " . $id);
+            $this->customFlash("Du har inte tillåtelse att ta bort revisionen.");
+            return $this->redirect($this->referer());
+        }
+        
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->deleteQuestionRevision($id);                    
+            return $this->redirect($this->referer());
+        }
+        
+        if (!$id) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
+
+        $question = $this->Question->getRevision($id);
+        
+        if (empty($question)) {
+            throw new NotFoundException("Ogiltig fråga");
+        }
+        
+        if (!$this->request->data) {
+            $this->request->data = $question;
+        }
+        
+        $this->set('question', $question);        
+        $this->renderModal('deleteQuestionRevisionModal', array('setAjax' => true));
      }
 
      public function edit($id = null) { 
@@ -231,12 +305,8 @@ class QuestionsController extends AppController {
             return $this->redirect($this->referer());
         } 
 
-        if (!$id) {
-            throw new NotFoundException("Ogiltig fråga");
-        }
-
-        $question = $this->Question->getByIdOrTitle($id);
-
+        $question = $this->Question->getByIdOrTitle($id, false, true, true);
+        
         if (empty($question)) {
             throw new NotFoundException("Ogiltig fråga");
         }
@@ -278,11 +348,14 @@ class QuestionsController extends AppController {
         $this->Question->create();
         $data['Question']['created_by'] = $this->Auth->user('id');
         $data['Question']['created_date'] = date('c');
-        $data['Question']['type'] = "YESNO";
+        $data['Question']['question_id'] = String::uuid();
 
         if ($this->Question->save($data)) {
             if ($this->Permissions->canAddTag()) {
-                $this->Question->Tag->addTags($data, $this->Question->getLastInsertId());
+                $id = $this->Question->getLastInsertId();
+                $this->Question->recursive = -1;
+                $newQuestion = $this->Question->findById($id);
+                $this->Question->Tag->addTags($data, $id);
             }
             $this->customFlash(__('Frågan skapad.'));
             $this->logUser('add', $this->Question->getLastInsertId(), $data['Question']['title']);
@@ -295,23 +368,23 @@ class QuestionsController extends AppController {
 
     private function saveQuestion($data) {
         $id = $data['Question']['id'];
-        $this->Question->Tag->addTags($data, $id);
+        unset($data['Question']['id']);
 
+        $existingQuestion = $this->Question->getByIdOrTitle($id, false, true, true);
+        
         $data['Question']['updated_by'] = $this->Auth->user('id');
         $data['Question']['updated_date'] = date('c');
-        $data['Question']['approved'] = isset($data['Question']['approved']) ? $data['Question']['approved'] : false;
         $data['Question']['done'] = isset($data['Question']['done']) ? $data['Question']['done'] : false;
+        $data['Question']['question_id'] = $existingQuestion['Question']['question_id'];
         
-        $existingQuestion = $this->Question->getByIdOrTitle($id);
-       
-        if ($existingQuestion['Question']['approved'] !== $data['Question']['approved']) {
-            $data['Question']['approved'] = $data['Question']['approved'];
-            $data['Question']['approved_by'] = $this->Auth->user('id');
-            $data['Question']['approved_date'] = date('c');
-        } 
+        $data['Question']['created_by'] = $existingQuestion['Question']['created_by'];
+        $data['Question']['created_date'] = $existingQuestion['Question']['created_date'];
+        $data['Question']['version'] = $existingQuestion['Question']['version'] + 1;
+        $data['Question']['approved'] = false;
         
         if ($this->Question->save($data)) {
-            $this->customFlash(__('Frågan har uppdaterats.'));
+            $this->Question->Tag->addTags($data, $this->Question->getLastInsertId());
+            $this->customFlash(__('En revision av frågan har skapats och väntar på att godkännas.'));
             $this->logUser('edit', $id);
         } else {
             $this->customFlash(__('Kunde inte uppdatera frågan.'), 'danger');
@@ -319,19 +392,69 @@ class QuestionsController extends AppController {
             $this->Session->write('formData', $this->data);
         }
     }
-
+    
     private function deleteQuestion($id) {
-        $this->Question->set(
-            array('id' => $id,
+        $question = $this->Question->getByIdOrTitle($id, false, true, true);
+        
+        $params = array('question_id' => $question['Question']['question_id'],
                   'deleted' => true,
+                  'approved' => false,
+                  'version' => $question['Question']['version'] + 1,
                   'updated_by' => $this->Auth->user('id'),
-                  'update_date' => date('c')));
-
-        if ($this->Question->save()) {
+                  'updated_date' => date('c'));
+                
+        $data = array_merge($question['Question'], $params);
+        unset($data['id']);
+        
+        if ($this->Question->save($data)) {
             $this->customFlash(__('Tog bort frågan med id: %s.', h($id)));
             $this->logUser('delete', $id);
         } else {
             $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
+        }
+    }
+    
+    private function approveQuestionRevision($id) {
+        $revision = $this->Question->getRevision($id);
+        
+        $currentApprovedQuestion = $this->Question->getByIdOrTitle($revision['Question']['question_id'], true, false, true);
+ 
+        $currentApprovedQuestion['Question']['approved'] = false;
+        if ($this->Question->save($currentApprovedQuestion['Question'])) {
+            $this->logUser('unapprove', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
+        }
+        
+        $newApprovedQuestion = array('Question' => 
+            array(
+                  'id' => $id,
+                  'approved_date' => date('c'),
+                  'approved' => true));
+        
+        if ($this->Question->save($newApprovedQuestion)) {
+            $this->customFlash(__('Godkände frågan med id: %s.', h($id)));
+            $this->logUser('approve', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort frågan.'), 'danger');
+        }
+    }
+    
+    private function deleteQuestionRevision($id) {
+        if ($this->Question->delete($id)) {
+            $this->customFlash(__('Tog bort revisionen med id: %s.', h($id)));
+            $this->logUser('delete', $id);
+        } else {
+            $this->customFlash(__('Kunde inte ta bort revisionen.'), 'danger');
+        }
+    }
+    
+    public function emptyAnswer($questionId, $partyId) {
+        if ($this->request->is('ajax')) {
+            $this->layout = 'ajax';
+            $this->set('questionId', $questionId);
+            $this->set('partyId', $partyId);
+            $this->render('/Elements/emptyAnswer');
         }
     }
     

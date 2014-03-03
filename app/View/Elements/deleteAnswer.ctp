@@ -30,6 +30,6 @@
 
     if ($this->Permissions->canDeleteAnswer() || (!$answer['approved'] && $answer['created_by'] == $this->Permissions->getUser('id'))) {
         echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
-	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'answers\',\'delete\',' . $answer['id'] . ');return false;')); 
+	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'answers\',\'delete\',[' . $answer['id'] . ']);return false;')); 
     }
 ?>

@@ -608,6 +608,19 @@ text-decoration: underline;
     vertical-align: middle;
 }
 
+.popover .btn {
+    margin-left: 0px;
+}
+
+.table-cell.empty span {
+    font-size: 14px;
+    color: #bbb;
+}
+
+.table-cell.empty span:hover {
+    color: #999;
+}
+
 .table-header {
   text-align: left;
     display: table-cell;
@@ -1378,4 +1391,16 @@ background-color: #f5f5f5;
 
 #quiz-summary {
     display: none;
+}
+    
+.panel .btn {
+    margin-right: 0px;
+}
+
+.panel-revision {
+    margin-bottom: 20px;
+}
+
+.panel-primary .panel-heading a {
+    color: white;
 }

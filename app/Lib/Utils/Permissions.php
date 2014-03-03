@@ -44,7 +44,9 @@ class Permissions {
         } else if ($role === 'moderator') {
             return in_array($controller, array('tag', 'question', 'quiz', 'answer'));
         } else if ($role === 'contributor') {
-            return $action === 'add' && ($controller === 'question' || $controller === 'answer');
+            return $action === 'add' && ($controller === 'question' || $controller === 'answer' || $controller === 'tag') ||
+                    $action === 'edit' && ($controller === 'question') ||
+                    $action === 'delete' && ($controller === 'question');
         }
 
         $request = new CakeRequest();
@@ -132,16 +134,12 @@ class Permissions {
     }
 
     public static function canModifyQuestion($question, $type) {
-        $userId = AuthComponent::user('id');
-        
+        /*$userId = AuthComponent::user('id');
         if (!isset($question['Question'])) {
             $questionModel = new Question();
-            $question = $questionModel->getByIdOrTitle($question);
-        }
-        
-        if ($question['Question']['created_by'] == $userId && $question['Question']['approved'] == 0) {
-            return true;
-        }
+            $question = $questionModel->getByIdOrTitle($question, false, false, true);
+            debug ($question);
+        }*/
 
         if ($type == "edit") {
             return Permissions::canEditQuestion();
@@ -156,10 +154,6 @@ class Permissions {
         if (!isset($answer['Answer'])) {
             $answerModel = new Answer();
             $answer = $answerModel->getById($answer);
-        }
-
-        if ($answer['Answer']['created_by'] == $userId && $answer['Answer']['approved'] == 0) {
-            return true;
         }
 
         if ($type == "edit") {

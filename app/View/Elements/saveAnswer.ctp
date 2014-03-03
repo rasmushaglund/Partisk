@@ -62,7 +62,7 @@ if ($this->Permissions->canAddAnswer()) { ?>
                     'value' => $editMode ? $answer['Answer']['approved'] : null)); 
     } ?>
     <?php echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $questions, 
-    				'selected' => isset($questionId) ? $questionId : null, 'titleField' => 'title')); ?>
+    				'selected' => isset($questionId) ? $questionId : null, 'titleField' => 'title'), 'question_id'); ?>
     <?php echo $this->Bootstrap->textarea('description', array('label' => 'Beskrivning', 
                     'placeholder' => 'Här kan du skriva mer om svaret, t ex ett citat från källan',
                     'value' => $editMode ? $answer['Answer']['description'] : null)); ?>

@@ -24,42 +24,21 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.Model
+ * @package     app.View.Elements
  * @license     http://opensource.org/licenses/MIT MIT
  */
+ 
+    $ajaxMode = isset($ajax) && $ajax;
 
-App::uses('Model', 'Model');
-
-class AppModel extends Model {
-    public $actsAs = array('Containable');
-	var $inserted_ids = array();
-	
-    function afterSave($created, $options = array()) {
-        if($created) {
-            $this->inserted_ids[] = $this->getInsertID();
-        }
-        clearCache('*');
-        return true;
-    }
-    
-    function afterDelete() {
-        clearCache('*');
-        return true;
+    if(!isset($itemText)){
+        $itemText = null;
+    }else{
+       $itemText = ' "' . $itemText . '"';            
     }
 
-    public function getIdsFromModel($model, $parties, $idField = "id") {
-        $partyIds = array();
-
-        foreach ($parties as $party) {
-            array_push($partyIds, $party[$model][$idField]);
-        }
-
-        return $partyIds;
-    }
-    
-    public function getControllerCacheName($controller) {
-        $explodedRoute = explode("/", Router::url(array('controller' => $controller, 'action' => 'index')));
-        $name = rawurlencode($explodedRoute[2]);
-        return strtolower(str_replace("%", "_", $name));
-    }
-}
+    echo $this->Bootstrap->create($model, array('modal' => true, 'action'=> $action , 'label' => $label, 
+         'ajax' => $ajaxMode));             
+    echo '<p>Är du säker på att du vill godkänna revisionen</p>';       
+    echo $this->Bootstrap->end('Ja, godkänn', array('modal' => true, 'submitClass' => 'btn-success', 'abortText' => 'Nej, avbryt'));
+        
+?>

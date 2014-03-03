@@ -41,7 +41,7 @@ class AnswersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi'));
+        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi', 'tip'));
     }
     
     public function beforeRender() {
@@ -221,6 +221,16 @@ class AnswersController extends AppController {
             $this->set('answer', $this->Answer->getById($id));
             $this->render('/Elements/answerInfo');
         }
+    }
+    
+    public function tip($questionId, $partyId) {
+        $this->layout = 'ajax';
+        $this->set("questionId", $questionId);
+        $this->set("partyId", $partyId);
+        $this->renderModal('tipAnswer', array(
+            'setEdit' => false,
+            'setModal' => true,
+            'setAjax' => true));
     }
 
     public function logUser($action, $object_id, $text = "") {

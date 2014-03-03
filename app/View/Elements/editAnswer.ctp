@@ -30,6 +30,6 @@
 
 	if ($this->Permissions->canEditAnswer() || (!$answer['approved'] && $answer['created_by'] == $this->Permissions->getUser('id'))) {
 		echo $this->Html->link('<i class="fa fa-edit"></i>','#',	
-        		array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openModal(\'answers\',\'edit\',' . $answer['id'] . ');return false;')); 
+        		array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openModal(\'answers\',\'edit\',[' . $answer['id'] . ']);return false;')); 
 	}
 ?>

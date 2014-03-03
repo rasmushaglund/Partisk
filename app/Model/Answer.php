@@ -129,8 +129,8 @@ class Answer extends AppModel {
         $includeQuestion = isset($args['includeQuestion']) ? $args['includeQuestion'] : false; 
         $includeBestResult = isset($args['includeBestResult']) ? $args['includeBestResult'] : false;
 
-        $fields = array('id', 'party_id', 'answer', 'question_id', 'approved', 'created_by', 'deleted', 'description', 'source');
-        $groupBy = 'party_id, question_id';
+        $fields = array('id', 'party_id', 'answer', 'Answer.question_id', 'approved', 'created_by', 'deleted', 'description', 'source');
+        $groupBy = 'party_id, Answer.question_id';
         $order = '';
         $contain = array();
 
@@ -166,7 +166,7 @@ class Answer extends AppModel {
         if ($includeQuestion) {
             array_push($contain, 'Question');
             $order = 'Question.title';
-            array_push($fields, 'Question.id, Question.title', 'Question.done');
+            array_push($fields, 'Question.question_id, Question.title', 'Question.done');
         }
 
         if (isset($partyId)) {

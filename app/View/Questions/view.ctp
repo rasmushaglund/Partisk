@@ -31,6 +31,7 @@
 $this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), true));
 $this->Html->addCrumb(ucfirst($question['Question']['title']));
 $deleted = $question['Question']['deleted'];
+$approved = $question['Question']['approved'];
 ?>
 
 <div class="row">
@@ -41,8 +42,18 @@ $deleted = $question['Question']['deleted'];
 </h1>
 <?php echo $this->element("share"); ?>
 <?php if ($deleted) { ?>
-<p class="deleted">(Borttagen)</p>
+<div class="alert alert-warning">Frågan är borttagen</div>
 <?php } ?>
+<?php if (!$approved) { ?>
+<div class="alert alert-warning">Frågan är ej godkänd</div>
+<?php } ?>
+<?php if (!$approved) { ?>
+<div class="alert alert-warning">Revision 
+    <?php echo $question['Question']['id']; ?>
+    <?php echo !(int)$question['Question']['updated_date'] ? "(Orginal)":"";?>
+</div>
+<?php } ?>
+                    
 <div class="tags">
 <?php foreach ($question['Tag'] as $tag): ?>
   <?php echo $this->Html->link('<i class="fa fa-tag"></i> ' . $tag['name'], array('controller' => 'tags', 'action' => 'view', 'name' => $tag['name']), array('class' => 'label label-primary', 'escape' => false)); ?>
@@ -59,8 +70,18 @@ $deleted = $question['Question']['deleted'];
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
 <?php echo $this->element('saveAnswer', array('questionId' => $question['Question']['id'])); ?>
+    <?php if (!$question['Question']['approved']) { ?>
+<div class="btn-group">
+    <?php echo $this->element('approveQuestionRevision', array('question' => $question['Question'])); ?>
+    <?php echo $this->element('deleteQuestionRevision', array('question' => $question['Question'])); ?>
+</div>
+    <?php } ?>
 </div>
 <?php } ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
 
 <table class="table table-bordered table-striped qa-table narrow-table table-hover">
 <?php foreach ($answers as $answer): ?>
@@ -80,6 +101,73 @@ $deleted = $question['Question']['deleted'];
 <?php endforeach; ?>
 </table>
 
+    </div>
+    
+    <div class="col-md-6">
+        <?php  if ($this->Permissions->isLoggedIn()) { 
+            foreach ($revisions as $revision) { 
+                    $revisionDate = $revision['Question']['updated_date'];
+                    if (!(int)$revisionDate) {
+                        $revisionText = "Orginal";
+                    } else {
+                        $revisionText = $revisionDate;
+                    }
+                    
+                    $alertClass = "warning";
+                    $revisionIsCurrent = false;
+                    
+                    if ($revision['Question']['approved']) {
+                        $alertClass = "success";
+                    } else if ($revision['Question']['id'] === $question['Question']['id']) {
+                        $alertClass = "primary";
+                    }
+                    
+                ?>
+                <div class="panel panel-<?php echo $alertClass ?> panel-revision">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> 
+                            <i><?php echo $this->Html->link("Revision med id " . $revision['Question']['id'] . ", " . $revisionText, array('controller' => 'questions', 'action' => 'view', $revision['Question']['id'])); ?></i></h3>
+                    </div>
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>Titel</th>
+                                    <td><?php echo $revision['Question']['title']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Godkänd</th>
+                                    <td><?php echo $revision['Question']['approved'] ? "Ja" : "Nej"; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Borrttagen</th>
+                                    <td><?php echo $revision['Question']['deleted'] ? "Ja" : "Nej"; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Typ</th>
+                                    <td><?php echo $revision['Question']['type']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Beskrivning</th>
+                                    <td><?php echo $revision['Question']['description']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Fler frågor kan hittas</th>
+                                    <td><?php echo $revision['Question']['done'] ? "Nej" : "Ja"; ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <div class="panel-footer">
+                        <?php if (!$revision['Question']['approved']) { ?>
+                        <div class="btn-group">
+                            <?php echo $this->element('approveQuestionRevision', array('question' => $revision['Question'])); ?>
+                            <?php echo $this->element('deleteQuestionRevision', array('question' => $revision['Question'])); ?>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php 
+                }
+        } ?>
     </div>
 </div>
 

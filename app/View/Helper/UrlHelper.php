@@ -29,12 +29,10 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('Url', 'Utils');
 
 class UrlHelper extends AppHelper {
-    
-    public function slug($string) {
-        return urlencode(str_replace(' ', '_', strtolower($string)));
-    }
+    public function slug($string) { return Url::slug($string); }
 }
         
 ?>

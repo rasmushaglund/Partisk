@@ -29,6 +29,7 @@
  */
 
 App::uses('Permissions', 'Utils');
+App::uses('Url', 'Utils');
 
 class AppController extends Controller {
     public $helpers = array('Session', 'Permissions', 'Url');
@@ -59,6 +60,7 @@ class AppController extends Controller {
         $this->set("description_for_layout", "");
         
         $this->Permissions = new Permissions();
+        $this->Url = new Url();
     }
     
     public function isAuthorized($user) {

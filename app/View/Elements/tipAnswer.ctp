@@ -24,42 +24,24 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.Model
+ * @package     app.View.Elements
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
-App::uses('Model', 'Model');
 
-class AppModel extends Model {
-    public $actsAs = array('Containable');
-	var $inserted_ids = array();
-	
-    function afterSave($created, $options = array()) {
-        if($created) {
-            $this->inserted_ids[] = $this->getInsertID();
-        }
-        clearCache('*');
-        return true;
-    }
-    
-    function afterDelete() {
-        clearCache('*');
-        return true;
-    }
+$parties = $this->requestAction('parties/all');
+$questions = $this->requestAction('questions/all');
 
-    public function getIdsFromModel($model, $parties, $idField = "id") {
-        $partyIds = array();
+echo $this->Bootstrap->create('TipAnswer', array('modal' => true, 'ajax' => true, 'label' => 'Tipsa om svar'));
+echo $this->Bootstrap->input('name', array('label' => 'Namn', 'placeholder' => 'Ditt namn (frivilligt)'));
+echo $this->Bootstrap->input('email', array('label' => 'E-post', 'placeholder' => 'Din e-postadress (frivilligt)'));
+echo $this->Bootstrap->dropdown('party_id', 'Party', array('label' => 'Parti', 'options' => $parties, 
+    				'selected' => isset($partyId) ? $partyId : null)); 
+echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $questions, 'titleField' => 'title', 
+    				'selected' => isset($questionId) ? $questionId : null)); 
+echo $this->Bootstrap->input('answer', array('label' => 'Svar', 'placeholder' => 'Skriv in partiets svar för frågan'));
+echo $this->Bootstrap->input('source', array('label' => 'Källa', 'placeholder' => 'Skriv in vart du hittade svaret'));
+echo $this->Bootstrap->textarea('text', array('label' => 'Kommentar', 'placeholder' => 'Skriv om du har någon kommentar'));
+echo $this->Bootstrap->end("Skicka in feedback", array('modal' => true)); 
 
-        foreach ($parties as $party) {
-            array_push($partyIds, $party[$model][$idField]);
-        }
-
-        return $partyIds;
-    }
-    
-    public function getControllerCacheName($controller) {
-        $explodedRoute = explode("/", Router::url(array('controller' => $controller, 'action' => 'index')));
-        $name = rawurlencode($explodedRoute[2]);
-        return strtolower(str_replace("%", "_", $name));
-    }
-}
+?>
