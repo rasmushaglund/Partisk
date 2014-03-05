@@ -48,14 +48,15 @@ class ApiController extends AppController{
               
         
         if ($this->request->is('get'))
-        {   
+        {            
             $question = !isset($id) ? $this->Question->getQuestionsApi() : $this->Question->getQuestionsApi($id);
-
+            $isSingleObj = isset($id) ? true : false;
+            
             if (empty($question)) {
                 throw new NotFoundException("Ogiltigt question");
             }
-            
-            return $this->renderJson($question);
+            $question = Set::extract("/Question/.", $question);          
+            return $this->renderJson($question, $isSingleObj);
         }  
         
         throw new Exception("Bad request method");
@@ -68,12 +69,14 @@ class ApiController extends AppController{
         if ($this->request->is('get'))
         {            
             $party = !isset($id) ? $this->Party->getPartiesApi() : $this->Party->getPartiesApi($id);
-
+            $isSingleObj = isset($id) ? true : false;
+            
             if (empty($party)) {
                 throw new NotFoundException("Ogiltigt parti");
             }
             
-            return $this->renderJson($party);
+            $party = Set::extract("/Party/.", $party);
+            return $this->renderJson($party, $isSingleObj);
         }  
         
         throw new Exception("Bad request method");
@@ -84,14 +87,16 @@ class ApiController extends AppController{
         $this->loadModel('Answer');
               
         if ($this->request->is('get'))
-        {            
+        {      
             $answers = !isset($id) ? $this->Answer->getAnswersApi() : $this->Answer->getAnswersApi($id);
-
+            $isSingleObj = isset($id) ? true : false;
+            
             if (empty($answers)) {
                 throw new NotFoundException("Ogiltigt svar");
             }
             
-            return $this->renderJson($answers);
+            $answers = Set::extract("/Answer/.", $answers);
+            return $this->renderJson($answers, $isSingleObj);
         }  
         
         throw new Exception("Bad request method");
