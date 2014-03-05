@@ -55,7 +55,7 @@ class ApiController extends AppController{
             if (empty($question)) {
                 throw new NotFoundException("Ogiltigt question");
             }
-            $question = Set::extract("/Question/.", $question);          
+                 
             return $this->renderJson($question, $isSingleObj);
         }  
         
@@ -74,8 +74,7 @@ class ApiController extends AppController{
             if (empty($party)) {
                 throw new NotFoundException("Ogiltigt parti");
             }
-            
-            $party = Set::extract("/Party/.", $party);
+                       
             return $this->renderJson($party, $isSingleObj);
         }  
         
@@ -94,8 +93,7 @@ class ApiController extends AppController{
             if (empty($answers)) {
                 throw new NotFoundException("Ogiltigt svar");
             }
-            
-            $answers = Set::extract("/Answer/.", $answers);
+                      
             return $this->renderJson($answers, $isSingleObj);
         }  
         

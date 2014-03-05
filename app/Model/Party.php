@@ -111,7 +111,8 @@ class Party extends AppModel {
         
             Cache::write('partiesApi', $result, 'party');
         }
-        return $result;
+        
+        return Set::extract("/Party/.", $result);
     }
 
 
