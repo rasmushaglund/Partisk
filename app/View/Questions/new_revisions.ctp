@@ -24,23 +24,44 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Parties
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
+$this->Html->addCrumb('Frågor', Router::url(array('controller' => 'questions', 'action' => 'index'), TRUE));
+$this->Html->addCrumb('Nya revisioner');
 
-$parties = $this->requestAction('parties/all');
-$questions = $this->requestAction('questions/all');
-
-echo $this->Bootstrap->create('Answer', array('modal' => true, 'ajax' => true, 'action' => 'tipAnswer', 'label' => 'Tipsa om svar'));
-echo $this->Bootstrap->dropdown('party_id', 'Party', array('label' => 'Parti', 'options' => $parties, 
-    				'selected' => isset($partyId) ? $partyId : null)); 
-echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $questions, 'titleField' => 'title', 
-    				'selected' => isset($questionId) ? $questionId : null)); 
-echo $this->Bootstrap->input('answer', array('label' => 'Svar', 'placeholder' => 'Skriv in partiets svar för frågan (obligatoriskt)'));
-echo $this->Bootstrap->input('source', array('label' => 'Källa', 'placeholder' => 'Skriv in vart du hittade svaret (obligatoriskt)'));
-echo $this->Bootstrap->date('date', array('label' => 'Datum för källa (obligatoriskt)', 'placeholder' => 'Datumet källan är ifrån. Skriv dagens datum om inget datum anges.')); 
-echo $this->Bootstrap->textarea('description', array('label' => 'Kommentar', 'placeholder' => 'Skriv om du har någon kommentar'));
-echo $this->Bootstrap->end("Skicka in fråga", array('modal' => true)); 
 
 ?>
+
+<?php 
+
+if (!empty($questions)) {
+    $chunks = array_chunk($questions, ceil(sizeof($questions) / 2));
+    
+?>
+  <div class="row">
+    <?php if (isset($chunks[0])) { ?>
+    <div class="col-md-6">
+        <table class="table table-bordered table-striped">
+        <?php foreach ($chunks[0] as $question) { ?>
+            <tr><td><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+                'title' => $this->Url->slug($question['Question']['title']))); ?></td></tr>
+        <?php } ?>
+        </table>
+    </div>
+    <?php } if (isset($chunks[1])) { ?>
+    <div class="col-md-6">
+        <table class="table table-bordered table-striped">
+        <?php foreach ($chunks[1] as $question) { ?>
+            <tr><td><?php echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', 
+                'title' => $this->Url->slug($question['Question']['title']))); ?></td></tr>
+        <?php } ?>
+        </table>
+    </div>
+    <?php } ?>
+  </div>
+
+<?php } ?>
+
+

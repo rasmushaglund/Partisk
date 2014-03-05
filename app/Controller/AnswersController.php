@@ -41,7 +41,7 @@ class AnswersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi', 'tip'));
+        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi', 'tip', 'tipAnswer'));
     }
     
     public function beforeRender() {
@@ -86,6 +86,24 @@ class AnswersController extends AppController {
             } else {
                 $this->customFlash(__('Kunde inte skapa svaret.'), 'danger');
                 $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors, 'mode' => 'create'));
+                $this->Session->write('formData', $this->data);
+            }
+        }
+
+        return $this->redirect($this->referer());
+    }
+    
+    public function tipAnswer() {
+        if ($this->request->is('post')) {
+            $this->Answer->create();
+            $this->request->data['Answer']['created_by'] = 0;
+            $this->request->data['Answer']['created_date'] = date('c');
+            if ($this->Answer->save($this->request->data)) {
+                $this->customFlash(__('Svaret har skickats in, tack.'));
+                $this->logUser('add', $this->Answer->getLastInsertId(), $this->request->data['Answer']['answer']);
+            } else {
+                $this->customFlash(__('Kunde inte skicka in svaret, se till så att alla fält är ifyllda.'), 'danger');
+                $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors, 'mode' => 'tip'));
                 $this->Session->write('formData', $this->data);
             }
         }

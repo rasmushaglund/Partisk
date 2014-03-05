@@ -70,6 +70,14 @@ class QuestionsController extends AppController {
         $this->set('questions', $questions);       
     }
 
+    public function newRevisions(){
+        if(!$this->Permissions->isLoggedIn()){
+            return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        $questions = $this->Question->getNewRevisions();
+        $this->set('questions', $questions);       
+    }
+
 
     public function index() {
         $this->loadModel('Party');
@@ -144,7 +152,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-        $question = $this->Question->getByIdOrTitle(urldecode($title));
+        $question = $this->Question->getByIdOrTitle(urldecode($title), false, true);
         
         if ($this->Auth->loggedIn()) {
             $emptyQuestion = false;
@@ -155,7 +163,7 @@ class QuestionsController extends AppController {
             }
 
             $revisions = $this->Question->getRevisions($question['Question']['question_id']);
-
+            
             $this->set('revisions', $revisions);
         }
         
@@ -459,7 +467,7 @@ class QuestionsController extends AppController {
     }
     
     public function search($string) {
-        $this->renderJson($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn()));       
+        $this->renderJson($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn()), false);       
     }
 
     public function logUser($action, $object_id, $text = "") {

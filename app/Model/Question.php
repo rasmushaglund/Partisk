@@ -288,7 +288,7 @@ class Question extends AppModel {
 
             $result = $this->getQuestions(array(
                     'conditions' => $conditions,
-                    'fields' => array('Question.question_id', 'Question.title', 'Question.approved', 'Question.deleted')
+                    'fields' => array('Question.question_id', 'Question.id', 'Question.title', 'Question.approved', 'Question.deleted')
                 ));
             
             Cache::write('all_questions_list_' . $loggedIn ? 'logged_in' : '', $result, 'question');
@@ -323,6 +323,16 @@ class Question extends AppModel {
         }
         
         return $results;
+    }
+    
+    public function getNewRevisions(){
+        return $this->query("SELECT * 
+                    FROM questions Question, questions q
+                    WHERE q.question_id = Question.question_id
+                    AND q.approved = 
+                    TRUE AND Question.approved = 
+                    FALSE AND Question.updated_date > q.updated_date
+                    group by Question.question_id");
     }
     
     public function getQuestionsByQuizId($id) {
@@ -396,7 +406,6 @@ class Question extends AppModel {
     public function searchQuestion($what, $loggedIn = false) {
         $loggedInString = isset($loggedIn) && $loggedIn ? 'logged_in_' : '';
         $result = Cache::read('search_' . $loggedInString . $what, 'question');
-        
         if (strlen($what) < 3) {
             $result = array();
             Cache::write('search_' . $loggedInString . $what, $result, 'question');
@@ -549,18 +558,15 @@ class Question extends AppModel {
         $result = Cache::read('popular_questions', 'question');
         
         if (!$result) {
-            $file = new File('../tmp/statistics/popular_questions.txt');
-            $data = explode("\n", $file->read(true, 'r'));
-
-            $names = array();
-            foreach ($data as $item) {
-                $names[] = str_replace("_", " ", urldecode($item));
-            }
-            
-            $this->recursive = -1;
-            $result = $this->find('all', array(
-                    'conditions' => array('Question.title' => $names, 'Question.approved' => true)
-                ));
+            // Hottest questions last 14 days 
+           $result = $this->query("SELECT Question.* , SUM( a.importance ) AS points
+                            FROM questions Question, quiz_answers a
+                            WHERE Question.question_id = a.question_id
+                            and Question.approved = true and Question.deleted = false 
+                            and a.date > DATE_ADD(CURDATE(), INTERVAL -14 DAY)
+                            GROUP BY Question.question_id
+                            ORDER BY points DESC 
+                            LIMIT 5");
             Cache::write('popular_questions', $result, 'question');
         }
         
