@@ -39,7 +39,7 @@ echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fr�
     				'selected' => isset($questionId) ? $questionId : null)); 
 echo $this->Bootstrap->input('answer', array('label' => 'Svar', 'placeholder' => 'Skriv in partiets svar för frågan (obligatoriskt)'));
 echo $this->Bootstrap->input('source', array('label' => 'Källa', 'placeholder' => 'Skriv in vart du hittade svaret (obligatoriskt)'));
-echo $this->Bootstrap->date('date', array('label' => 'Datum för källa (obligatoriskt)', 'placeholder' => 'Datumet källan är ifrån. Skriv dagens datum om inget datum anges.')); 
+echo $this->Bootstrap->date('date', array('label' => 'Datum för källa', 'placeholder' => 'Datumet källan är ifrån. Skriv dagens datum om inget datum anges (obligatoriskt)')); 
 echo $this->Bootstrap->textarea('description', array('label' => 'Kommentar', 'placeholder' => 'Skriv om du har någon kommentar'));
 echo $this->Bootstrap->end("Skicka in fråga", array('modal' => true)); 
 

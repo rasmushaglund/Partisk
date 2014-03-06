@@ -98,6 +98,7 @@ class AnswersController extends AppController {
             $this->Answer->create();
             $this->request->data['Answer']['created_by'] = 0;
             $this->request->data['Answer']['created_date'] = date('c');
+            $this->request->data['Answer']['approved'] = false;
             if ($this->Answer->save($this->request->data)) {
                 $this->customFlash(__('Svaret har skickats in, tack.'));
                 $this->logUser('add', $this->Answer->getLastInsertId(), $this->request->data['Answer']['answer']);
@@ -246,8 +247,9 @@ class AnswersController extends AppController {
     }
 
     public function logUser($action, $object_id, $text = "") {
+        $userId = $this->Auth->user('id') !== null ? $this->Auth->user('id') : 0;
         UserLogger::write(array('model' => 'answer', 'action' => $action,
-                                'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
+                                'user_id' => $userId, 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
     }
     
     public function status() {
