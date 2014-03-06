@@ -112,9 +112,9 @@
                             <a href="https://github.com/emilwall" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
                     </li>
-                   <!--<li>
+                   <li>
                         <div class="alert alert-info">
-                            <img src="img/kristoffer.png" alt="Kristoffer Bjelkmark" class="img-thumbnail">
+                            <img src="img/kristoffer.jpg" alt="Kristoffer Bjelkmark" class="img-thumbnail">
                             <b>Kristoffer Bjelkmark</b>
                             <p>Studerande på Nackademin YH, Sharepointutveckling.</p>
                             <p class="social"><a href="https://www.facebook.com/Poffn" title="Facebook"><i class="fa fa-facebook-square"></i></a>
@@ -122,7 +122,14 @@
                             <a href="http://www.linkedin.com/profile/view?id=293245801" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                             <a href="https://github.com/poffn/" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
-                    </li>-->
+                    </li>
+                   <li>
+                        <div class="alert alert-info">
+                            <img src="img/sara.jpg" alt="Sara Klasson" class="img-thumbnail">
+                            <b>Sara Klasson</b>
+                            <p>Retorikstuderande vid Uppsala universitet med intresse för politik och kommunikation.</p>
+                        </div>
+                    </li>
                 </ul>
 	</div>
 </div>
