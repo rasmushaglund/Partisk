@@ -336,7 +336,7 @@ $(document).ready(function() {
             var item = items[current_item];
             var points = (item.plus - item.minus);
             $row = $('<tr class="' + (points > 0 ? "plus" : (points < 0 ? "minus" : "")) + '-points"></tr>');
-            $row.append('<td><a href="/Partisk/partier/' + encodeString(parties[item.party].name) + 
+            $row.append('<td><a href="' + appRoot + 'partier/' + encodeString(parties[item.party].name) + 
                         '" class="party-logo-link"><div class="party-logo-small party-logo-small-' + item.party + 
                         '"></div><div class="party-title">' + capitalizeFirstLetter(parties[item.party].name) + '</div></a></td>');
             $row.append("<td>" + item.plus + "p</td>");
