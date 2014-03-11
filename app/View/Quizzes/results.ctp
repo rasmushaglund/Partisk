@@ -86,7 +86,7 @@ if (Configure::read('minimizeResources')==1) {
                         <i class="fa fa-exclamation-circle"></i>
                         Resultatet berättar inte hur du ska rösta, utan visar endast hur mycket du håller med partierna baserat
                         på de frågor och svar som finns inlagda i systemet. Syftet är att få dig som besökare att tänka till och reflektera
-                        över vad du själv tycker och förhoppningsvis få en ögonöppnare.
+                        över vad du själv tycker samt att förhoppningsvis ge dig en ögonöppnare.
                     </p>
                 </div>
             </div>
