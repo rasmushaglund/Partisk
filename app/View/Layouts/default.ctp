@@ -33,7 +33,7 @@
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
-        <title>Partisk.nu Beta - <?php echo $title_for_layout; ?></title>
+        <title>Partisk.nu - <?php echo $title_for_layout; ?></title>
 
         <script type="text/javascript">
             var appRoot = "<?php echo Router::url('/', false); ?>";
