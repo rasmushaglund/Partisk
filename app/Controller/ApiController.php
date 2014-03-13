@@ -29,6 +29,7 @@
  */
 
 
+App::uses('AppController', 'Controller');
 
 class ApiController extends AppController{
     public $helpers = array('Cache');
