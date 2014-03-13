@@ -337,11 +337,11 @@ class QuestionsController extends AppController {
     public function isAuthorized($user) {
         $role = $user['Role']['name'];
         
-        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'addTags', 'notApproved', 'noDescription'))) {
+        if ($role == 'moderator' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'addTags', 'notApproved', 'noDescription', 'newRevisions'))) {
             return true;
         }
 
-        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'notApproved', 'noDescription'))) {
+        if ($role == 'contributor' && in_array($this->action, array('edit', 'add', 'delete', 'status', 'notApproved', 'noDescription', 'newRevisions'))) {
             return true;
         }
         
