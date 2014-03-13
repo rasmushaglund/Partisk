@@ -95,7 +95,7 @@ class Question extends AppModel {
 
     
     public function getQuestionsApi($id = null){
-        $result = Cache::read('questionsApi', 'question');
+        $result = Cache::read('questionsApi' . $id, 'question');
         
         if(!$result){
             $this->recursive = -1; 
@@ -111,7 +111,7 @@ class Question extends AppModel {
                 'fields' => array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date')
 
             ));
-            Cache::write('questionsApi', $result, 'question');
+            Cache::write('questionsApi' . $id, $result, 'question');
         }
         return Set::extract($result, "/Question/.");
     }
