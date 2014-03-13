@@ -78,7 +78,7 @@
                             <a href="https://plus.google.com/+RasmusHaglund" rel="publisher" title="Google+"><i class="fa fa-google-plus-square"></i></a>
                             <a href="http://www.linkedin.com/in/rasmushaglund" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                             <a href="https://github.com/rasmushaglund/" title="GitHub"><i class="fa fa-github"></i></a>
-                            <a href="mailto:rasmus.haglund@gmail.com" title="Mail"><i class="fa fa-envelope"></i></a></p>
+                            <a href="mailto:rasmus.haglund@partisk.nu" title="Mail"><i class="fa fa-envelope"></i></a></p>
                         </div>
                     </li>
                     <li>
