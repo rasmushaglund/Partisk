@@ -120,7 +120,7 @@ class Answer extends AppModel {
     }
    
     public function getAnswersApi($id = null){
-        $result = Cache::read('answersApi', 'answer');
+        $result = Cache::read('answersApi' . $id, 'answer');
         
         if (!$result) {
             
@@ -147,7 +147,7 @@ class Answer extends AppModel {
                 )
             );
         
-            Cache::write('answersApi', $result, 'answer');
+            Cache::write('answersApi' , $id, $result, 'answer');
         }
         
         return Set::extract($result, "/Answer/.");
