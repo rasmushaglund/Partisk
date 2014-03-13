@@ -53,7 +53,7 @@ class PagesController extends AppController {
         $this->loadModel('Question');
         
         $questions = $this->Question->getLatestQuestions();
-        $questionIds = $this->Question->getIdsFromModel('Question', $questions);
+        $questionIds = $this->Question->getIdsFromModel('Question', $questions, 'question_id');
         
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();

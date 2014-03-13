@@ -29,6 +29,7 @@
  */
 
 App::uses('Permissions', 'Utils');
+App::uses('Url', 'Utils');
 
 class AppController extends Controller {
     public $helpers = array('Session', 'Permissions', 'Url');
@@ -59,6 +60,7 @@ class AppController extends Controller {
         $this->set("description_for_layout", "");
         
         $this->Permissions = new Permissions();
+        $this->Url = new Url();
     }
     
     public function isAuthorized($user) {
@@ -122,16 +124,16 @@ class AppController extends Controller {
         }      
     }
     
-    public function renderJson($data) {  
-        $this->cacheAction = "+999 days";
+    public function renderJson($data, $singleAsObject = false) {  
+        $this->cacheAction = "+1h";
         $this->layout = 'ajax';
         $this->autoRender = false;
               
-        $data = count($data) == 1? $data[0]: $data;    
-        $obj = isset($data[0]) ? "/".key($data[0])."/." : key($data);
-      
-        $this->set('data', json_encode(Set::extract($obj, $data)));
+        if ($singleAsObject) {
+            $data = count($data) == 1 ? $data[0] : $data;  
+        }
         
+            $this->set('data', json_encode($data));
         $this->render('/Elements/json');        
     }
     

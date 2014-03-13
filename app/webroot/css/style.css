@@ -127,6 +127,7 @@ table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
     position: relative;
     margin-left: 6px;
     top: -6px;
+    font-weight: 200;
 }
 
 .party-table .table-row {
@@ -606,6 +607,20 @@ text-decoration: underline;
     padding: 5px 0;
     display: table-cell;
     vertical-align: middle;
+}
+
+.popover .btn {
+    margin-left: 0px;
+}
+
+.table-cell.empty span {
+    font-size: 14px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+.table-cell.empty span:hover {
+    color: #999;
 }
 
 .table-header {
@@ -1342,7 +1357,7 @@ background-color: #f5f5f5;
 }
 
 .share-line {
-    margin-top: 80px;
+    margin-top: 44px;
 }
 
 .share-line p {
@@ -1378,4 +1393,32 @@ background-color: #f5f5f5;
 
 #quiz-summary {
     display: none;
+}
+    
+.panel .btn {
+    margin-right: 0px;
+}
+
+.panel-revision {
+    margin-bottom: 20px;
+}
+
+.panel-primary .panel-heading a {
+    color: white;
+}
+
+.disclaimer-warning {
+    font-size: 13px;
+    color: #888;
+}
+
+.disclaimer-warning .fa {
+    color: #aaa;
+    font-size: 69px;
+    float: left;
+    margin: 0 10px 0px 5px;
+}
+
+.disclaimer {
+    margin-top: 40px;
 }

@@ -29,6 +29,10 @@ Router::connect('/användare/:name', array('controller' => 'users', 'action' => 
 
 Router::connect('/svar/:id', array('controller' => 'answers', 'action' => 'view'), array('pass' => array('id')));
 Router::connect('/answers/info/:id', array('controller' => 'answers', 'action' => 'info'), array('pass' => array('id')));
+Router::connect('/answers/tip/:questionId/:partyId', array('controller' => 'answers', 'action' => 'tip'), 
+        array('pass' => array('questionId', 'partyId')));
+Router::connect('/questions/empty_answer/:questionId/:partyId', array('controller' => 'questions', 'action' => 'emptyAnswer'), 
+        array('pass' => array('questionId', 'partyId')));
 
 Router::connect('/quiz', array('controller' => 'quizzes', 'action' => 'index'));
 Router::connect('/quiz/frågor', array('controller' => 'quizzes', 'action' => 'questions'));
@@ -47,12 +51,12 @@ Router::connect('/frågor/search/:string', array('controller' => 'questions', 'a
 Router::connect('/frågor/getCategoryTable/:tagId', array('controller' => 'questions', 'action' => 'getCategoryTable'), array('pass' => array('tagId')));
 Router::connect('/frågor/getQuestionSummaryTable/:questionId', array('controller' => 'quizzes', 'action' => 'getQuestionSummaryTable'), array('pass' => array('questionId')));
 
-Router::connect('/api/frågor', array('controller' => 'api', 'action' => 'questions'));
-Router::connect('/api/frågor/:id', array('controller' => 'api', 'action' => 'questions'), array('pass' => array('id')));
-Router::connect('/api/partier', array('controller' => 'api', 'action' => 'parties'));
-Router::connect('/api/partier/:id', array('controller' => 'api', 'action' => 'parties'), array('pass' => array('id')));
-Router::connect('/api/svar', array('controller' => 'api', 'action' => 'answers'));
-Router::connect('/api/svar/:id', array('controller' => 'api', 'action' => 'answers'), array('pass' => array('id')));
+Router::connect('/api/questions', array('controller' => 'api', 'action' => 'questions'));
+Router::connect('/api/questions/:id', array('controller' => 'api', 'action' => 'questions'), array('pass' => array('id')));
+Router::connect('/api/parties', array('controller' => 'api', 'action' => 'parties'));
+Router::connect('/api/parties/:id', array('controller' => 'api', 'action' => 'parties'), array('pass' => array('id')));
+Router::connect('/api/answers', array('controller' => 'api', 'action' => 'answers'));
+Router::connect('/api/answers/:id', array('controller' => 'api', 'action' => 'answers'), array('pass' => array('id')));
 
 CakePlugin::routes();
 

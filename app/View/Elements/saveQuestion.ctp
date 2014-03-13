@@ -55,6 +55,10 @@ if ($this->Permissions->canAddQuestion()) { ?>
         echo $this->Bootstrap->checkbox('approved', array('label' => 'Godkänd', 'type' => 'checkbox',
                     'value' => $editMode ? $question['Question']['approved'] : null)); 
     } ?>
+    <?php if ($this->Permissions->canDeleteQuestion() && $editMode) {
+        echo $this->Bootstrap->checkbox('deleted', array('label' => 'Borttagen', 'type' => 'checkbox',
+                    'value' => $editMode ? $question['Question']['deleted'] : null)); 
+    } ?>
     <?php echo $this->Bootstrap->checkbox('done', array('label' => 'Inga fler frågor kan hittas', 'type' => 'checkbox',
                     'value' => $editMode ? $question['Question']['done'] : null)); ?>
     <?php echo $this->Bootstrap->dropdown('type', 'Question', array('label' => 'Typ av fråga', 'options' => 

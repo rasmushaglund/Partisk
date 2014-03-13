@@ -30,6 +30,6 @@
 
 if ($this->Permissions->canEditQuiz() || (!$quiz['approved'] && $quiz['created_by'] == $this->Permissions->getUser('id'))) {
 	echo $this->Html->link('<i class="fa fa-edit"></i> Ändra','#',	
-    		array('class' => 'btn btn-info', 'escape' => false, 'onclick' => 'openModal(\'quizzes\',\'edit\',' . $quiz['id'] . ');return false;')); 
+    		array('class' => 'btn btn-info', 'escape' => false, 'onclick' => 'openModal(\'quizzes\',\'edit\',[' . $quiz['id'] . ']);return false;')); 
 }
 ?>

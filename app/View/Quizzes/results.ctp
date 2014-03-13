@@ -64,7 +64,11 @@ if (Configure::read('minimizeResources')==1) {
         <?php
             $first = true;
             
-            if ($winners) {
+            if ($winners) { ?>
+        
+            <div class="row">
+                <div class="col-md-12">
+        <?php
             foreach ($winners as $key => $value) { 
                 if ($first) {
                     $first = false; ?>
@@ -75,12 +79,25 @@ if (Configure::read('minimizeResources')==1) {
                 'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
                         (<?php echo $value; ?>%)</h4>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 disclaimer">
+                    <p class="disclaimer-warning">
+                        <i class="fa fa-exclamation-circle"></i>
+                        Resultatet berättar inte hur du ska rösta, utan visar endast hur mycket du håller med partierna baserat
+                        på de frågor och svar som finns inlagda i systemet. Syftet är att få dig som besökare att tänka till och reflektera
+                        över vad du själv tycker samt att förhoppningsvis ge dig en ögonöppnare.
+                    </p>
+                </div>
+            </div>
                 <?php }
             }
             } else { ?>
             <div class="alert alert-danger">För att kunna visa detta resultat måste du ange rätt nyckel.</div>
             <?php }
         ?>
+            </div>
+        </div>
         
                    
     </div>
@@ -101,7 +118,7 @@ if (Configure::read('minimizeResources')==1) {
     <div class="col-md-6">
         <div id="question-agree-rate-graph" class="graph">
           <svg></svg>
-          <p class="description">Diagrammet visar hur mycket du håller med om varje partis svar.</p>
+          <p class="description">Diagrammet visar hur mycket du håller med svaren för varje parti.</p>
         </div>
     </div>
     </div>

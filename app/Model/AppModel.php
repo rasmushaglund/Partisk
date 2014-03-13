@@ -47,11 +47,11 @@ class AppModel extends Model {
         return true;
     }
 
-    public function getIdsFromModel($model, $parties) {
+    public function getIdsFromModel($model, $parties, $idField = "id") {
         $partyIds = array();
 
         foreach ($parties as $party) {
-            array_push($partyIds, $party[$model]['id']);
+            array_push($partyIds, $party[$model][$idField]);
         }
 
         return $partyIds;

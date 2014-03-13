@@ -30,6 +30,6 @@
 
     if ($this->Permissions->canDeleteUser()) {   
         echo $this->Html->link('<i class="fa fa-times"></i>','#' ,	
-	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'users\',\'delete\',' .  $userId . ');return false;'));    	
+	        	array('class' => 'btn btn-xs btn-danger', 'escape' => false, 'onclick' => 'openModal(\'users\',\'delete\',[' .  $userId . ']);return false;'));    	
     }             
 ?>

@@ -49,9 +49,6 @@ class ApiController extends AppController{
         
         if ($this->request->is('get'))
         {   
-        
-            
-            
             $question = !isset($id) ? $this->Question->getQuestionsApi() : $this->Question->getQuestionsApi($id);
 
             if (empty($question)) {

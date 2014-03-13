@@ -78,24 +78,11 @@
                 <p>Moderatorernas uppgift är att godkänna vilka frågor och svar som ska synas för de som ej är inloggade. De granskar alltså alla frågor
                     och svar innan de skickas ut till alla. De kan även ändra allas frågor/svar och lägga till/ta bort taggar.</p>
                 <p>En administratör kan göra allt, kort och gott. Administratören lägger till och godkänner partier och användare.</p>
-                
-                
-
+              
 		<h2>Ägandeskap</h2>
-		<p>Jag vill vara noga med att poängtera att vi skapar denna sida tillsammans och ska kunna forma den som vi vill. 
+		<p>Vi vill vara noga med att poängtera att vi skapar denna sida tillsammans och ska kunna forma den som vi vill. 
                     Därför kommer alla som bidrar få tillgång till all data och källkoden för hela systemet. </p>
 		<p>Ni kan läsa mer om sidans öppna källkod och data 
                     <?php echo $this->Html->link('här', array('controller' => 'pages', 'action' => 'about')); ?>.</p>
-                
-		<h2>Om Rasmus</h2>
-		<p>Jag är en entreprenör/utvecklare som jobbar som IT-konsult i Uppsala. </p>
-		<p>Rent ideologiskt har jag svårt att placera mig i ett fack. Jag har deltagit i 2 riksdagsval och 1 EU-val där jag röstat på 
-		<?php echo $this->Html->link('Moderaterna', array('controller' => 'parties', 'action' => 'view', 2)); ?>, 
-		<?php echo $this->Html->link('Folkpartiet', array('controller' => 'parties', 'action' => 'view', 3)); ?>, 
-		<?php echo $this->Html->link('Piratpartiet', array('controller' => 'parties', 'action' => 'view', 4)); ?>, 
-		<?php echo $this->Html->link('Vänsterpartiet', array('controller' => 'parties', 'action' => 'view', 7)); ?> och 
-		<?php echo $this->Html->link('Socialdemokraterna', array('controller' => 'parties', 'action' => 'view', 1)); ?>. 
-                Alla är vi partiska, men jag hoppas att jag kan vara så oberoende som möjligt. Under det senaste året har jag engagerat mig i 
-		<?php echo $this->Html->link('Piratpartiet', array('controller' => 'parties', 'action' => 'view', 4)); ?> i och med de integritetsfrågor som dykt upp under 2013.</p>
-	</div>
+ 	</div>
 </div>

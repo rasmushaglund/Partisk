@@ -41,7 +41,7 @@ class AnswersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi'));
+        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi', 'tip', 'tipAnswer'));
     }
     
     public function beforeRender() {
@@ -86,6 +86,25 @@ class AnswersController extends AppController {
             } else {
                 $this->customFlash(__('Kunde inte skapa svaret.'), 'danger');
                 $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors, 'mode' => 'create'));
+                $this->Session->write('formData', $this->data);
+            }
+        }
+
+        return $this->redirect($this->referer());
+    }
+    
+    public function tipAnswer() {
+        if ($this->request->is('post')) {
+            $this->Answer->create();
+            $this->request->data['Answer']['created_by'] = 0;
+            $this->request->data['Answer']['created_date'] = date('c');
+            $this->request->data['Answer']['approved'] = false;
+            if ($this->Answer->save($this->request->data)) {
+                $this->customFlash(__('Svaret har skickats in, tack.'));
+                $this->logUser('add', $this->Answer->getLastInsertId(), $this->request->data['Answer']['answer']);
+            } else {
+                $this->customFlash(__('Kunde inte skicka in svaret, se till så att alla fält är ifyllda.'), 'danger');
+                $this->Session->write('validationErrors', array('Answer' => $this->Answer->validationErrors, 'mode' => 'tip'));
                 $this->Session->write('formData', $this->data);
             }
         }
@@ -216,10 +235,21 @@ class AnswersController extends AppController {
             $this->render('/Elements/answerInfo');
         }
     }
+    
+    public function tip($questionId, $partyId) {
+        $this->layout = 'ajax';
+        $this->set("questionId", $questionId);
+        $this->set("partyId", $partyId);
+        $this->renderModal('tipAnswer', array(
+            'setEdit' => false,
+            'setModal' => true,
+            'setAjax' => true));
+    }
 
     public function logUser($action, $object_id, $text = "") {
+        $userId = $this->Auth->user('id') !== null ? $this->Auth->user('id') : 0;
         UserLogger::write(array('model' => 'answer', 'action' => $action,
-                                'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
+                                'user_id' => $userId, 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
     }
     
     public function status() {

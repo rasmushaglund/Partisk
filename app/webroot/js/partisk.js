@@ -65,7 +65,7 @@ $(document).ready(function() {
     initPopovers($("body"));
 
     $('body').on('click', function(e) {
-        $('.popover.in').prev().not(e.target).popover('toggle');
+        $('.popover.in').prev().not(e.target).not($(e.target).parent()).popover('toggle');
     });
 
     // Open modal without fade if it contains an error
@@ -152,6 +152,21 @@ var initPopovers = function($container) {
                 }).popover('show');
             }});
     });
+    
+    $container.find('.empty-answer-popover').bind('click', function() {
+        var $popover = $(this);
+        $.ajax({url: appRoot + "questions/empty_answer/" + $popover.attr('data-question-id') + "/" 
+                    + $popover.attr('data-party-id'), success: function(data) {
+                $popover.unbind('click');
+                $popover.popover({
+                    html: true,
+                    placement: "auto",
+                    content: function() {
+                        return data;
+                    }
+                }).popover('show');
+            }});
+    });
 }
 
 $(window).resize(function() {
@@ -220,9 +235,10 @@ var setupFixedHeader = function (table) {
             });
 };
 
-var openModal = function(controller, action, id) {
+var openModal = function(controller, action, parameters) {
+    
     $.ajax({
-        url: appRoot + controller + '/' + action + '/' + id,
+        url: appRoot + controller + '/' + action + '/' + parameters.join("/"),
         success: function(data) {
             $modal = $(data);
             $("body").append($modal);
@@ -320,7 +336,7 @@ $(document).ready(function() {
             var item = items[current_item];
             var points = (item.plus - item.minus);
             $row = $('<tr class="' + (points > 0 ? "plus" : (points < 0 ? "minus" : "")) + '-points"></tr>');
-            $row.append('<td><a href="/Partisk/partier/' + encodeString(parties[item.party].name) + 
+            $row.append('<td><a href="' + appRoot + 'partier/' + encodeString(parties[item.party].name) + 
                         '" class="party-logo-link"><div class="party-logo-small party-logo-small-' + item.party + 
                         '"></div><div class="party-title">' + capitalizeFirstLetter(parties[item.party].name) + '</div></a></td>');
             $row.append("<td>" + item.plus + "p</td>");

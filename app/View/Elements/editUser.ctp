@@ -30,6 +30,6 @@
 
 	if ($this->Permissions->canEditUser()) {
 		echo $this->Html->link('<i class="fa fa-edit"></i>','#' ,	
-	        	array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openModal(\'users\',\'edit\',' . $userId . ');return false;')); 
+	        	array('class' => 'btn btn-xs btn-info', 'escape' => false, 'onclick' => 'openModal(\'users\',\'edit\',[' . $userId . ']);return false;')); 
 	}
 ?>
