@@ -211,8 +211,7 @@
                             </li>
                             <li>
                                 <p><b>Media</b> <br />
-                                    Rasmus Haglund <br />
-                                    <a href="mailto:rasmus.haglund@partisk.nu">rasmus.haglund@partisk.nu</a>
+                                    <a href="mailto:media@partisk.nu">media@partisk.nu</a>
                                 </p>
                             </li>
                         </ul>

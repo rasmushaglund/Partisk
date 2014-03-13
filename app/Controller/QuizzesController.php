@@ -226,7 +226,7 @@ class QuizzesController extends AppController {
     }
     
     private function saveAnswers($session) {
-        $tempQuizId = $this->getRandomId();
+        //$tempQuizId = $this->getRandomId();
         $answers = array();
         foreach ($session as $key => $question) {
             if (is_numeric($key)) {
@@ -234,7 +234,7 @@ class QuizzesController extends AppController {
                     "id" => $this->getRandomId(),
                     "question_id" => $question['Question']['id'],
                     "answer" => $question['Question']['answer'],
-                    "temp_quiz_id" => $tempQuizId,
+                    //"temp_quiz_id" => $tempQuizId,
                     "date" => date('Y-m-d'),
                     "importance" => $question['Question']['importance']
                 );

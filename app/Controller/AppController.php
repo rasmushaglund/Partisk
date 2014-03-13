@@ -133,7 +133,7 @@ class AppController extends Controller {
             $data = count($data) == 1 ? $data[0] : $data;  
         }
         
-            $this->set('data', json_encode($data));
+            $this->set('data', json_encode($data, JSON_UNESCAPED_SLASHES));
         $this->render('/Elements/json');        
     }
     

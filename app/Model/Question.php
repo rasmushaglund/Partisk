@@ -108,13 +108,12 @@ class Question extends AppModel {
             $result = $this->find('all', array(
 
                 'conditions' => $conditions,          
-                'fields' => array('id', 'title', 'type', 'description', 'created_date', 'updated_date')
+                'fields' => array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date')
 
             ));
             Cache::write('questionsApi', $result, 'question');
         }
-        
-        return $result;
+        return Set::extract($result, "/Question/.");
     }
 
     public function getQuestions($args) {
@@ -439,7 +438,6 @@ class Question extends AppModel {
             
             Cache::write('search_' . $loggedInString . $what, $result, 'question');
         }
-        
         return $result;
     }
     
