@@ -177,7 +177,7 @@ class QuizzesController extends AppController {
         $quizSession = $this->quizSession;
         $index = $quizSession['QuizSession']['index'];
         
-        $question = $this->Quiz->Question->getQuestionWithAnswers($quizSession[$index]['Question']['id']);
+        $question = $this->Quiz->Question->getQuestionWithAnswers($quizSession[$index]['Question']['question_id']);
         $choices = $this->Quiz->Question->getChoicesFromQuestion($question);
         
         $answer = $this->getCurrentAnswer($quizSession, $index);
@@ -232,7 +232,7 @@ class QuizzesController extends AppController {
             if (is_numeric($key)) {
                 $answers[$key] = array(
                     "id" => $this->getRandomId(),
-                    "question_id" => $question['Question']['id'],
+                    "question_id" => $question['Question']['question_id'],
                     "answer" => $question['Question']['answer'],
                     //"temp_quiz_id" => $tempQuizId,
                     "date" => date('Y-m-d'),
@@ -252,7 +252,6 @@ class QuizzesController extends AppController {
         $quizSession = $this->quizSession;
         
         $this->loadModel('Party');
-        
         $this->set('question', $quizSession['QuizSession']['points']['questions'][$questionId]);
         $this->set('parties', $this->Party->getPartiesHash());
         $this->render('/Elements/quizQuestionSummary');

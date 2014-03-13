@@ -48,12 +48,12 @@ if ($quizSession) { ?>
         <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $question['id']; ?>" class="collapsed">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $question['question_id']; ?>" class="collapsed">
                   <i class="fa fa-plus-square toggle"></i> <?php echo $question['title']; ?>
                 </a>
               </h4>
             </div>
-            <div id="collapse<?php echo $question['id']; ?>" data-type="quiz-question" data-id="<?php echo $question['id']; ?>" 
+            <div id="collapse<?php echo $question['question_id']; ?>" data-type="quiz-question" data-id="<?php echo $question['question_id']; ?>" 
                  class="ajax-load-table panel-collapse collapse">
             </div>
           </div>

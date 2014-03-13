@@ -287,7 +287,8 @@ class Question extends AppModel {
 
             $result = $this->getQuestions(array(
                     'conditions' => $conditions,
-                    'fields' => array('Question.question_id', 'Question.id', 'Question.title', 'Question.approved', 'Question.deleted')
+                    'fields' => array('Question.question_id', 'Question.id', 'Question.title', 'Question.approved', 'Question.deleted'),
+                    'groupBy' => 'Question.question_id'
                 ));
             
             Cache::write('all_questions_list_' . $loggedIn ? 'logged_in' : '', $result, 'question');
@@ -339,10 +340,6 @@ class Question extends AppModel {
        if (!$result) {
             $this->recursive = -1; 
          
-            if ($id === 'all') {
-                $result = $this->find('all', array(
-                    'conditions' => array('deleted' => false, 'approved' => true)));
-            } else {
 
                 $result = $this->find('all', array(
                     'conditions' => array('deleted' => false, 'approved' => true),
@@ -351,9 +348,9 @@ class Question extends AppModel {
                                     'conditions' => array('QuestionQuiz.quiz_id' => $id,
                                                           'Question.question_id = QuestionQuiz.question_id')
                                 )),
-                    'fields' => array('Question.*, QuestionQuiz.id')
+                    'fields' => array('Question.*, QuestionQuiz.id'),
+                    'group' => 'Question.question_id'
                 ));
-            }
            
           Cache::write('quiz_questions_by_quiz_' . $id, $result, 'question');
         }
@@ -477,7 +474,7 @@ class Question extends AppModel {
             $result = $this->find('all', array(
                 'conditions' => array('Question.deleted' => false, 
                                       'Question.approved' => true),
-                'fields' => array('Question.id'),
+                'fields' => array('Question.question_id'),
                 'joins' => array(
                     array(
                         'table' => 'question_quizzes as QuestionQuiz',
@@ -502,7 +499,8 @@ class Question extends AppModel {
                                   "Question.question_id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
             'fields' => array('Question.question_id', 'Question.id',
                               'Question.title', '1 < (select count(distinct party_id) from answers where question_id = Question.question_id and approved) as multiple_answers'),
-            'order' => 'multiple_answers desc, Question.title'
+            'order' => 'multiple_answers desc, Question.title',
+            'group' => 'Question.question_id'
          )); 
         return $result;
     }
