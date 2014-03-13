@@ -326,6 +326,7 @@ class QuizzesController extends AppController {
         
         $this->set('quiz', $quiz);
         $this->set('guid', $guid);
+        $this->set('key', $key);
         $this->set('quizResults', $quizResults);
         $this->set('guid', $guid);
         $this->set('parties', $parties);

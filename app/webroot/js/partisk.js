@@ -407,7 +407,7 @@ $(document).ready(function() {
                 .y(function (d) {
                     return d.value;
                 })
-                .margin({left: 40, top: 0, bottom: 40, right: 0})
+                .margin({left: 40, top: 5, bottom: 40, right: 0})
                 .staggerLabels(false)
                 .tooltips(true)
                 .tooltipContent(function (id, key, value, item) {
