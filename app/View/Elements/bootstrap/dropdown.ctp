@@ -46,7 +46,8 @@
                 $hasMultipleAnswers = isset($option[0]['multiple_answers']) && $option[0]['multiple_answers'] < 1;
                 $isNotApproved = isset($option[$modelField]['approved']) && !$option[$modelField]['approved'];
                 $classString = ($isDeleted ? 'dropdown-deleted ' : '') . ($hasMultipleAnswers ? 'dropdown-few-answers ' : '') . ($isNotApproved ? 'dropdown-not-approved' : '');
-                ?>
+                print_r($option[$modelField]['question_id']); 
+                echo $idField; ?>
 	    <option value="<?php echo $option[$modelField][$idField]; ?>" class="<?php echo $classString; ?>" <?php echo $isSelected ? 'selected' : ''; ?>>
                 <?php if ($hasMultipleAnswers) { echo "("; }
                     echo ucfirst($option[$modelField][$titleField]); 
