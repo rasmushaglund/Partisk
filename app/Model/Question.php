@@ -500,7 +500,7 @@ class Question extends AppModel {
             'conditions' => array('Question.deleted' => false, 
                                   'Question.approved' => true,
                                   "Question.question_id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
-            'fields' => array('Question.question_id', 
+            'fields' => array('Question.question_id', 'Question.id',
                               'Question.title', '1 < (select count(distinct party_id) from answers where question_id = Question.question_id and approved) as multiple_answers'),
             'order' => 'multiple_answers desc, Question.title'
          )); 

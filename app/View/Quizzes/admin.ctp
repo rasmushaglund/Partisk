@@ -40,7 +40,7 @@ $this->Html->addCrumb(ucfirst($quiz['Quiz']['name']));
             if ($this->Permissions->canEditQuiz()) { 
                 echo $this->Bootstrap->create('Quiz', array('modal' => true, 'label' => "Lägg till fråga till quiz", 'action' => 'addQuestion'));
                 echo $this->Bootstrap->hidden('quiz_id', array('value' => $quiz['Quiz']['id']));
-                echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $availableQuestions, 'titleField' => 'title'), 'question_id');
+                echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $availableQuestions, 'titleField' => 'title'));
                 echo $this->Bootstrap->end("Lägg till", array('modal' => true));
             } ?>
 	</div>
