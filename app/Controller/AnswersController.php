@@ -89,8 +89,8 @@ class AnswersController extends AppController {
                 $this->Session->write('formData', $this->data);
             }
         }
-debug ($this->request->data);
-//        return $this->redirect($this->referer());
+        //debug ($this->request->data);
+        return $this->redirect($this->referer());
     }
     
     public function tipAnswer() {
