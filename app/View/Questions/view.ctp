@@ -69,7 +69,7 @@ $approved = $question['Question']['approved'];
 
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
-<?php echo $this->element('saveAnswer', array('questionId' => $question['Question']['id'])); ?>
+<?php echo $this->element('saveAnswer', array('questionId' => $question['Question']['question_id'])); ?>
     <?php if (!$question['Question']['approved']) { ?>
 <div class="btn-group">
     <?php echo $this->element('approveQuestionRevision', array('question' => $question['Question'])); ?>

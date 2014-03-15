@@ -38,7 +38,7 @@ class Answer extends AppModel {
         ),
         'question_id' => array(
             'ruleEmpty' => array(
-                'rule' => 'numeric',
+                'rule' => array('notEmpty'),
                 'allowEmpty' => false,
                 'message' => 'Du måste välja en fråga')
         ),
@@ -199,7 +199,11 @@ class Answer extends AppModel {
         }
 
         if ($includeQuestion) {
-            array_push($contain, 'Question');
+            array_push($joins, array(
+                'type' => 'left',
+                'table' => 'questions as Question',
+                'conditions' => 'Answer.question_id = Question.question_id'
+            ));
             $order = 'Question.title';
             array_push($fields, 'Question.question_id, Question.title', 'Question.done');
         }

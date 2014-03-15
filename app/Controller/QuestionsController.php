@@ -170,7 +170,7 @@ class QuestionsController extends AppController {
         if (empty($question)) {
             return $this->redirect(array('controller' => 'questions', 'action' => 'index'));
         }
-
+        
         $conditions = array('questionId' => $question['Question']['question_id'], 'includeParty' => true);
         
         $answers = $this->Question->Answer->getAnswers($conditions);

@@ -76,11 +76,11 @@ class PartiesController extends AppController {
         } else {
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
         }
-                   
+        
         $questionIds = array();
 
         foreach ($questions as $question) {
-            array_push($questionIds, $question['Question']['id']);  
+            array_push($questionIds, $question['Question']['question_id']);  
         }
 
         $conditions = array('partyId' => $party['Party']['id'], 'questionId' => $questionIds, 'includeParty' => true, 
@@ -91,7 +91,7 @@ class PartiesController extends AppController {
         }
         
         $party["Answer"] = $this->Party->Answer->getAnswers($conditions);
-            
+
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));
         $this->set('description_for_layout', ucfirst($party['Party']['name']));
