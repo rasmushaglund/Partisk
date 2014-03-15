@@ -260,8 +260,19 @@ class Answer extends AppModel {
         $result = Cache::read('answer_' . $id, 'answer');
         if (!$result) {
             $this->recursive = 1;
-            $this->contain(array("CreatedBy", "UpdatedBy", 'ApprovedBy', 'Party', 'Question'));
-            $result = $this->findById($id);
+            $this->contain(array("CreatedBy", "UpdatedBy", 'ApprovedBy', 'Party'));
+            $result = $this->find('all', array(
+                'conditions' => 'Answer.id = ' . $id,
+                'joins' => array(
+                        array(
+                            'type' => 'left',
+                            'table' => 'questions as Question',
+                            'conditions' => 'Question.question_id = Answer.question_id'
+                        )
+                    ),
+                'fields' => 'Question.*, Answer.*, Party.*'
+            ));
+            $result = $result[0];
             
             $this->Question->recursive = -1;
             $this->contain();
@@ -269,8 +280,15 @@ class Answer extends AppModel {
                     'conditions' => array(
                         'Answer.deleted' => false,
                         'party_id' => $result['Party']['id'],
-                        'question_id' => $result['Answer']['question_id']),
+                        'Question.question_id' => $result['Answer']['question_id']),
                     'fields' => array('Answer.*'),
+                    'joins' => array(
+                            array(
+                                'type' => 'left',
+                                'table' => 'questions as Question',
+                                'conditions' => 'Question.question_id = Answer.question_id'
+                            )
+                        ),
                     'order' => 'Answer.date DESC'
                 )
             );

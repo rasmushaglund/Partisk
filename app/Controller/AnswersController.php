@@ -229,11 +229,11 @@ class AnswersController extends AppController {
     }
      
     public function info($id) {
-        if ($this->request->is('ajax')) {
+        //if ($this->request->is('ajax')) {
             $this->layout = 'ajax';
             $this->set('answer', $this->Answer->getById($id));
             $this->render('/Elements/answerInfo');
-        }
+        //}
     }
     
     public function tip($questionId, $partyId) {
