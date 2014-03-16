@@ -140,7 +140,7 @@ class Question extends AppModel {
             array_push($joins, array(
                                 'table' => 'question_tags as QuestionTag',
                                 'conditions' => array('QuestionTag.tag_id' => $tagId,
-                                                      'Question.question_id = QuestionTag.question_id')
+                                                      'Question.id = QuestionTag.question_id')
                             ));
            } else {
             array_push($conditions, array(
@@ -157,7 +157,7 @@ class Question extends AppModel {
             'limit' => $limit,
 	    'group' => 'Question.question_id'
             ));
-
+        
         return $questions;
     }
     
