@@ -85,7 +85,7 @@ class QuestionsController extends AppController {
         
         $popularQuestions = $this->Question->getPopularQuestions();
         
-        $questionIds = $this->Question->getIdsFromModel('Question', $popularQuestions);
+        $questionIds = $this->Question->getIdsFromModel('Question', $popularQuestions, 'question_id');
         $partyIds = $this->Party->getIdsFromModel('Party', $parties);
         
         $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
