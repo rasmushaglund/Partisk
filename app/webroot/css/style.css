@@ -616,11 +616,11 @@ text-decoration: underline;
 .table-cell.empty span {
     font-size: 14px;
     cursor: pointer;
-    color: #bbb;
+    color: #ddd;
 }
 
 .table-cell.empty span:hover {
-    color: #999;
+    color: #bbb;
 }
 
 .table-header {
