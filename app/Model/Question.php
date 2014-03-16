@@ -144,7 +144,7 @@ class Question extends AppModel {
                             ));
            } else {
             array_push($conditions, array(
-			      'Question.id not in (select question_id from question_tags inner join tags on tags.id = question_tags.tag_id and tags.is_category = true where question_tags.question_id = Question.id)')
+			      'Question.id not in (select question_id from question_tags inner join tags on tags.id = question_tags.tag_id and tags.is_category = true where question_tags.question_id = Question.id and Question.approved = true)')
                             );
 	   }
         }
