@@ -173,6 +173,10 @@ class QuestionsController extends AppController {
         
         $conditions = array('questionId' => $question['Question']['question_id'], 'includeParty' => true);
         
+        if (!$this->Auth->loggedIn()) {
+            $conditions['approved'] = true;
+        }
+        
         $answers = $this->Question->Answer->getAnswers($conditions);
         $description = $this->getDescriptionForQuestion($answers);
         
