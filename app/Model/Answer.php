@@ -129,8 +129,6 @@ class Answer extends AppModel {
                
             if(isset($id)){
                 array_push($conditions, array('id' => $id));}
-        
-
             
             $result = $this->find('all', array(
                 'conditions' => $conditions,

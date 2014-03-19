@@ -82,7 +82,7 @@ class Party extends AppModel {
     }
 
     public function getPartiesApi($id = null){
-        $result = Cache::read('partiesApi', 'party');
+        $result = Cache::read('partiesApi' . $id, 'party');
         
         if (!$result) {
             
@@ -92,8 +92,6 @@ class Party extends AppModel {
             if(isset($id)){
                 array_push($conditions, array('Party.id' => $id));}
         
-
-            
             $result = $this->find('all', array(
                 'conditions' => $conditions,
                 'fields' => array(
@@ -109,7 +107,7 @@ class Party extends AppModel {
                 )
             );
         
-            Cache::write('partiesApi', $result, 'party');
+            Cache::write('partiesApi' . $id, $result, 'party');
         }
         
         return Set::extract("/Party/.", $result);
