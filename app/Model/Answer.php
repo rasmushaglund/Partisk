@@ -147,7 +147,7 @@ class Answer extends AppModel {
                 )
             );
         
-            Cache::write('answersApi' , $id, $result, 'answer');
+            Cache::write('answersApi' . $id, $result, 'answer');
         }
         
         return Set::extract($result, "/Answer/.");

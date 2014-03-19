@@ -526,6 +526,18 @@ class Question extends AppModel {
          return $result;
      }
      
+    public function getApiTagQuestions($id) {
+         $result = Cache::read('api_tag_questions_' . $id, 'question');
+         if (!$result) {
+	     $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id, 
+                 'fields' => array('id', 'title', 'description', 'type', 'created_date', 'updated_date')));
+	     
+             Cache::write('api_tag_questions_' . $id, $result, 'question');
+         }
+         
+         return $result;
+     }
+     
      public function getLoggedInTagQuestions($id) {
         $result = Cache::read('loggedin_tag_questions_' . $id, 'question');
         if (!$result) {

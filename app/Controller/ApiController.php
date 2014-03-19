@@ -37,7 +37,7 @@ class ApiController extends AppController{
        
     public function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('parties', 'questions', 'answers'));
+        $this->Auth->allow(array('parties', 'questions', 'answers', 'tags', 'api'));
     }
 
     public function index(){
@@ -96,6 +96,33 @@ class ApiController extends AppController{
             }
                       
             return $this->renderJson($answers, $isSingleObj);
+        }  
+        
+        throw new Exception("Bad request method");
+                   
+    }
+     
+    public function tags($id = null){
+        $this->loadModel('Tag');
+        $this->loadModel('Question');
+              
+        if ($this->request->is('get'))
+        {      
+            $tags = !isset($id) ? $this->Tag->getAllApprovedTags() : $this->Tag->getTagApi($id);
+            $isSingleObj = isset($id) ? true : false;
+            
+            if ($isSingleObj) {
+                $questions = $this->Question->getApiTagQuestions($id);
+                $tags[0]['questions'] = Set::extract($questions, "/Question/.");
+            } else {
+                $tags = Set::extract($tags, "/Tag/."); 
+            }
+            
+            if (empty($tags)) {
+                throw new NotFoundException("Ogiltig tagg");
+            }
+                      
+            return $this->renderJson($tags, $isSingleObj);
         }  
         
         throw new Exception("Bad request method");

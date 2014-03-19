@@ -234,6 +234,26 @@ class Tag extends AppModel {
         
         return $result;
     }
+   
+    public function getTagApi($id = null){
+        $result = Cache::read('tagApi' . $id, 'tag');
+        
+        if (!$result) {
+            
+            $this->recursive = -1;
+            
+            $result = $this->find('all', array(
+                'conditions' => array(
+                    'id' => $id
+                ),
+                'fields' => array('Tag.id', 'Tag.name')
+            ));
+        
+            Cache::write('tagApi' . $id, $result, 'tag');
+        }
+        
+        return Set::extract($result, "/Tag/.");
+    }
     
     public function afterSave($created, $options = array()) {
         parent::afterSave($created, $options);

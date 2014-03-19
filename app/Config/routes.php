@@ -57,6 +57,8 @@ Router::connect('/api/parties', array('controller' => 'api', 'action' => 'partie
 Router::connect('/api/parties/:id', array('controller' => 'api', 'action' => 'parties'), array('pass' => array('id')));
 Router::connect('/api/answers', array('controller' => 'api', 'action' => 'answers'));
 Router::connect('/api/answers/:id', array('controller' => 'api', 'action' => 'answers'), array('pass' => array('id')));
+Router::connect('/api/tags', array('controller' => 'api', 'action' => 'tags'));
+Router::connect('/api/tags/:id', array('controller' => 'api', 'action' => 'tags'), array('pass' => array('id')));
 
 CakePlugin::routes();
 
