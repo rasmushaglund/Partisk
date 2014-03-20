@@ -51,9 +51,8 @@
 
                 <h2>Öppen källkod</h2>
                 <p>Tjänsten drivs idag ideellt och koden är släppt som öppen källkod. Källkoden kan laddas ner på 
-                    <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Planen är att släppa all data i ett öppet format
-                så att vem som helst kan skapa en liknande och eventuellt konkurrerande verksamhet. Datan kommer i framtiden att bli tillgänglig via
-                ett API och så småning om även i andra användbara format.</p>
+                    <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Data om tjänstens frågor, svar, partier och taggar kan hämtas
+                    via <?php echo $this->Html->link('vårt API', array('controller' => 'api', 'action' => 'index')); ?>.</p>
                 <p>Sidan bygger helt på öppen källkod och allt från operativsystem till webbserver drivs enbart av mjukvara med öppen kod.</p>
                 <p>Målet är att skapa en tjänst som människor har nytta av, och om det innebär att någon annan tar tjänsten och gör den 
                     bättre har de vår välsignelse. Vi vill och uppmanar er att ta det vi gjort och göra bättre. Vi uppmanar er även att

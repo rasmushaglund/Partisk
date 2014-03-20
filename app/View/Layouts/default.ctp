@@ -189,6 +189,7 @@
                             <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quiz', array('controller' => 'quizzes', 'action' => 'index'), array('escape' => false)); ?></li>
                             <li><?php echo $this->Html->link('<i class="fa fa-info-circle"></i> Om sidan', array('controller' => 'pages', 'action' => 'about'), array('escape' => false)); ?></li>
                             <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-gears"></i> API', array('controller' => 'api', 'action' => 'index'), array('escape' => false)); ?></li>
                         </ul>
                     </div>
                     <div class="col-md-3">
@@ -228,7 +229,7 @@
                 <div class="row info">
                     <div class="col-md-12">
                         <p><i class="fa fa-check-square"></i> Partisk.nu är skapad med kärlek 2013-2014.
-                            Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://opensource.org/licenses/MIT">MIT</a>.
+                            Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://opensource.org/licenses/MIT">MIT</a> (förutom profilbilderna).
                     </div>
                 </div>
             </div>
