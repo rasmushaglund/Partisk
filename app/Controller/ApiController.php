@@ -46,12 +46,18 @@ class ApiController extends AppController{
       
     public function questions($id = null){
         $this->loadModel('Question');
+        $this->loadModel('Answer');
               
         
         if ($this->request->is('get'))
         {            
             $question = !isset($id) ? $this->Question->getQuestionsApi() : $this->Question->getQuestionsApi($id);
             $isSingleObj = isset($id) ? true : false;
+            
+            if ($isSingleObj) {
+                $answers = $this->Answer->getApiQuestionAnswers($id);
+                $question[0]['answers'] = Set::extract($answers, "/Answer/.");
+            }
             
             if (empty($question)) {
                 throw new NotFoundException("Ogiltigt question");

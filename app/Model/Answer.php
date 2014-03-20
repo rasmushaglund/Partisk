@@ -151,6 +151,17 @@ class Answer extends AppModel {
         return Set::extract($result, "/Answer/.");
     }
 
+    public function getApiQuestionAnswers($id) {
+         $result = Cache::read('api_question_answers_' . $id, 'question');
+         if (!$result) {
+        
+	     $result = $this->getAnswers(array('questionId' => $id, 'includeParty' => false, 'approved' => true));
+	     
+             Cache::write('api_question_answers_' . $id, $result, 'question');
+         }
+         
+         return $result;
+     }
 
     public function getAnswers($args) {
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
