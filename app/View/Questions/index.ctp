@@ -34,6 +34,7 @@ $this->Html->addCrumb('Frågor');
 <h1>Så här tycker partierna</h1>
 <div class="row">
     <div class="col-md-6">
+        <h2>Om frågorna och svaren</h2>
         <p>
             Svaren är i första hand baserade på partiprogram och partiernas hemsidor. I
             vissa fall har information hämtats från uttalanden i media och debatt. Se
@@ -47,13 +48,26 @@ $this->Html->addCrumb('Frågor');
             på sidan genom att klicka på krysset där svaret annars skulle vara, alternativt
             <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>
             eller
-            <?php echo $this->Html->link('ansök om eget konto', array('controller' => 'pages', 'action' => 'logga_in')); ?>.
+            <?php echo $this->Html->link('ansök om eget konto', array('controller' => 'pages', 'action' => 'logga_in')); ?>. För tillfället finns
+            <?php echo $this->requestAction('answers/getNumberOfAnswers'); ?>
+            godkända svar registrerade.
         </p>
         <p>
-            Här visas de populäraste frågorna först, vilket avgörs av vad folk
-            svarat i Quiz-frågorna. Längre ner kan du se frågorna sorterade
-            efter kategori.
+            Vilka frågor som visas under på den här sidan under
+            "Populäraste frågorna just nu" avgörs helt av vad folk svarat i
+            Quiz-frågorna. Längre ner kan du se samtliga frågor (just nu
+            <?php echo $this->requestAction('questions/getNumberOfQuestions'); ?>
+            stycken), sorterade efter kategori.
         <p/>
+    </div>
+    <div class="col-md-6">
+        <h2>Vilket parti matchar dig?</h2>
+        <p>
+            Här finns det flera quiz att göra för att ta reda på vilka partier som passar dig bäst.
+        </p>
+        <?php echo $this->Html->link('<i class="fa fa-play"></i> Testa dig nu!',
+            array('controller'  => 'quizzes', 'action' => 'index'),
+            array('class' => 'btn btn-success btn-xl', 'escape' => false)); ?>
     </div>
 </div>
 
