@@ -244,15 +244,34 @@
                   <h4 class="modal-title" id="myModalLabel">Om tabellen</h4>
                 </div>
                 <div class="modal-body">
+                    <h4>Information om frågor</h4>
+                    <p>
+                        Klicka på en fråga för att se detaljer om vad partierna
+                        svarat, vilka taggar frågan ingår i och ibland en
+                        förklaring av frågan.
+                    </p>
+                    <br />
                     <h4>Information om svar</h4>
-                    <p>Vill du veta mer om ett svar kan du helt enkelt klicka på det. Då kommer det upp en informationsruta 
-                        bland annat med var svaret kommer ifrån.</p><br />
-                    <h4>Synliga partier</h4>
-                    <p>För att göra sidan enklare och inte visa för mycket information samtidigt visas endast partier som har fått minst 1% av de Svenska 
-                        rösterna i det senaste EU-parlamentsvalet eller senaste riksdagsvalet.</p><br />
-                    <h4>Sortering av partier</h4>
-                    <p>Partierna är sorterade efter deras bästa resultat i senaste EU-parlementsvalet eller riksdagsvalet. Det parti med
-                       bäst resultat hamnar till vänster, och partiet med sämst resultat av de som visas hamnar till höger.</p>
+                    <p>
+                        Klicka på ett svar för att se källa till påståendet.
+                    </p>
+                    <p>
+                        Kryss betyder att svar saknas, då kan du föreslå vad
+                        svaret borde vara. Om du anger en bra källa så kommer
+                        teamet bakom partisk.nu att lägga upp svaret inom kort.
+                    </p>
+                    <br />
+                    <h4>Partier som visas</h4>
+                    <p>
+                        Endast partier med minst 1% av de Svenska rösterna i
+                        senaste EU-parlamentsvalet eller senaste riksdagsvalet
+                        visas.
+                    <p>
+                    </p>
+                        Partierna är sorterade efter bästa resultat i senaste
+                        EU-parlementsvalet eller riksdagsvalet. Partiet med
+                        bäst resultat hamnar längst till vänster.
+                    </p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-primary" data-dismiss="modal">Stäng</button>
