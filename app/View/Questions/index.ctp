@@ -42,23 +42,8 @@ $this->Html->addCrumb('Frågor');
             för mer information.
         <p/>
         <p>
-            Att ett svar saknas betyder oftast att det inte framgår på partiets hemsida
-            och att ansträngningar ännu inte gjorts för att hitta en annan källa som
-            kan stödja ett påstående om frågan. Du kan själv ge förslag direkt
-            på sidan genom att klicka på krysset där svaret annars skulle vara, alternativt
-            <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>
-            eller
-            <?php echo $this->Html->link('ansök om eget konto', array('controller' => 'pages', 'action' => 'logga_in')); ?>. För tillfället finns
-            <?php echo $this->requestAction('answers/getNumberOfAnswers'); ?>
-            godkända svar registrerade.
+            <a data-toggle="modal" data-target="#questions-info" style="cursor: pointer;">Läs mer</a>
         </p>
-        <p>
-            Vilka frågor som visas under på den här sidan under
-            "Populäraste frågorna just nu" avgörs helt av vad folk svarat i
-            Quiz-frågorna. Längre ner kan du se samtliga frågor (just nu
-            <?php echo $this->requestAction('questions/getNumberOfQuestions'); ?>
-            stycken), sorterade efter kategori.
-        <p/>
     </div>
     <div class="col-md-6">
         <h2>Vilket parti matchar dig?</h2>
