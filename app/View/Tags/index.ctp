@@ -36,7 +36,7 @@ if ($tags) {
 
 <h1>Taggar</h1>
 <?php echo $this->element("share", array(
-    "text" => "Kategorisering av politiska frågor " . Router::url(null, true)
+    "text" => "Kategorisering av politiska frågor"
 )); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="row">

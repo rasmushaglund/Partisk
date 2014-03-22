@@ -47,7 +47,7 @@ if (Configure::read('minimizeResources')==1) {
                     <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
 
                 <?php echo $this->element("share", array(
-    "text" => "Mitt quizresultat: " . Router::url(null, true)
+    "text" => "Mitt quizresultat"
 )); ?>
             </div>
             <div class="col-md-6">
