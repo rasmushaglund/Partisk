@@ -61,6 +61,8 @@
                 <h2>Kakor</h2>
                 <p>Vi använder cookies (så kallade "kakor") på hemsidan. Denna används endast för att göra det möjligt för besökarna att
                     göra våra quiz på ett lätt sätt. Likt övriga delar av tjänsten är våra kakor bakade med mycket kärlek och omsorg.
+                    
+                
         </div>
            <div class="col-md-6">     
 		<h2>Personerna bakom tjänsten</h2>

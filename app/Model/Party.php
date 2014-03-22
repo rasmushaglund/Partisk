@@ -81,39 +81,6 @@ class Party extends AppModel {
         return $result;
     }
 
-    public function getPartiesApi($id = null){
-        $result = Cache::read('partiesApi' . $id, 'party');
-        
-        if (!$result) {
-            
-            $this->recursive = -1;
-            $conditions = array('Party.deleted' => false);
-               
-            if(isset($id)){
-                array_push($conditions, array('Party.id' => $id));}
-        
-            $result = $this->find('all', array(
-                'conditions' => $conditions,
-                'fields' => array(
-                    'id', 
-                    'name',                         
-                    'last_result_parliment', 
-                    'last_result_eu', 
-                    'color', 
-                    'short_name',
-                    'created_date',
-                    'updated_date',
-                    'description')
-                )
-            );
-        
-            Cache::write('partiesApi' . $id, $result, 'party');
-        }
-        
-        return Set::extract("/Party/.", $result);
-    }
-
-
     public function getPartiesOrdered() {
         $result = Cache::read('parties_ordered', 'party');
         if (!$result) {
@@ -128,12 +95,15 @@ class Party extends AppModel {
         return $result;
     }
 
-    public function getByIdOrName($id) {
+    public function getByIdOrName($id, $includeModificationAttrs = true) {
         $result = Cache::read('party_' . $id, 'party');
         if (!$result) {
             
             $this->recursive = -1;
-            $this->contain(array('CreatedBy', 'UpdatedBy'));
+            
+            if ($includeModificationAttrs) {
+                $this->contain(array('CreatedBy', 'UpdatedBy'));
+            }
             
             if (is_numeric($id)) {
                 $result = $this->findById($id);

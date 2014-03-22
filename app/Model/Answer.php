@@ -118,38 +118,6 @@ class Answer extends AppModel {
         
         return $answersMatrix;
     }
-   
-    public function getAnswersApi($id = null){
-        $result = Cache::read('answersApi' . $id, 'answer');
-        
-        if (!$result) {
-            
-            $this->recursive = -1;
-            $conditions = array('deleted' => false, 'approved' => true);
-               
-            if(isset($id)){
-                array_push($conditions, array('id' => $id));}
-            
-            $result = $this->find('all', array(
-                'conditions' => $conditions,
-                'fields' => array(
-                    'id', 
-                    'answer',                         
-                    'date', 
-                    'description', 
-                    'party_id', 
-                    'question_id',
-                    'created_date',
-                    'updated_date',
-                    'source')
-                )
-            );
-        
-            Cache::write('answersApi' . $id, $result, 'answer');
-        }
-        
-        return Set::extract($result, "/Answer/.");
-    }
 
     public function getApiQuestionAnswers($id) {
          $result = Cache::read('api_question_answers_' . $id, 'question');

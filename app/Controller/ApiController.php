@@ -33,7 +33,6 @@ App::uses('AppController', 'Controller');
 
 class ApiController extends AppController{
     public $helpers = array('Cache');
-
        
     public function beforeFilter(){
         parent::beforeFilter();
@@ -45,94 +44,123 @@ class ApiController extends AppController{
     }
       
     public function questions($id = null){
-        $this->loadModel('Question');
-        $this->loadModel('Answer');
-              
         
-        if ($this->request->is('get'))
-        {            
-            $question = !isset($id) ? $this->Question->getQuestionsApi() : $this->Question->getQuestionsApi($id);
-            $isSingleObj = isset($id) ? true : false;
+        $json = Cache::read('questions' . $id, 'api');
+        $isSingleObj = isset($id);
+
+        if (!$json) {
+            $this->loadModel('Question');
             
-            if ($isSingleObj) {
-                $answers = $this->Answer->getApiQuestionAnswers($id);
-                $question[0]['answers'] = Set::extract($answers, "/Answer/.");
+            if(!$isSingleObj) {
+                $result = Set::extract($this->Question->getQuestions(array('approved' => true, 'deleted' => false, 
+                    'fields' => array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'description'))), "/Question/.");
+            } else {
+                
+                $this->loadModel('Tag');
+                $result = Set::extract($this->Question->getQuestions(array('question_id' => $id,'approved' => true, 'deleted' => false,
+                    'fields' => array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'description', 'id'))), "/Question/.");
+                $answers = $answers = $this->Question->Answer->getAnswers(
+                        array('questionId' => $id, 'includeParty' => false));
+                $result[0]['answers'] = Set::extract($answers, "/Answer/.");
+                $tags = $this->Tag->getQuestionTags($result[0]['id']);
+                $result[0]['tags'] = Set::extract($tags, "/Tag/id");
+                unset($result[0]['id']);
             }
-            
-            if (empty($question)) {
+
+            if (empty($result)) {
                 throw new NotFoundException("Ogiltigt question");
             }
-                 
-            return $this->renderJson($question, $isSingleObj);
-        }  
-        
-        throw new Exception("Bad request method");
+
+            $json = $this->renderJson($result, $isSingleObj);
+            Cache::write('questions' . $id, $json, 'api');
+        }
+
+        return $json;
                    
     }
     
     public function parties($id = null){
-        $this->loadModel('Party');
+        $json = Cache::read('parties' . $id, 'api');
+        $isSingleObj = isset($id);
               
-        if ($this->request->is('get'))
-        {            
-            $party = !isset($id) ? $this->Party->getPartiesApi() : $this->Party->getPartiesApi($id);
-            $isSingleObj = isset($id) ? true : false;
+        if (!$json) {     
+            $this->loadModel('Party');
+            if(!$isSingleObj) {
+                $result = Set::extract($this->Party->getPartiesOrdered(),"/Party/.");
+            } else {
+                $this->Party->recursive = 1;
+                $this->Party->contain(array('Answer'));
+                $party = $this->Party->findById($id);
+                $result = Set::extract($party, "/Party/.");
+                $result[0]['answers'] = Set::extract($party, "/Answer/.");
+            }
             
-            if (empty($party)) {
+            if (empty($result)) {
                 throw new NotFoundException("Ogiltigt parti");
             }
                        
-            return $this->renderJson($party, $isSingleObj);
+            $json = $this->renderJson($result, $isSingleObj);
+            Cache::write('parties' . $id, $json, 'api');
         }  
         
-        throw new Exception("Bad request method");
-                   
+        return $json;
     }
      
     public function answers($id = null){
-        $this->loadModel('Answer');
+        $json = Cache::read('answers' . $id, 'api');
+        $isSingleObj = isset($id);
               
-        if ($this->request->is('get'))
-        {      
-            $answers = !isset($id) ? $this->Answer->getAnswersApi() : $this->Answer->getAnswersApi($id);
-            $isSingleObj = isset($id) ? true : false;
-            
-            if (empty($answers)) {
-                throw new NotFoundException("Ogiltigt svar");
+        
+        if (!$json) {      
+            $this->loadModel('Answer');
+            $this->Answer->recursive = -1;
+            if(!$isSingleObj) {
+                $result = Set::extract($this->Answer->find('all', array('conditions' => 
+                    array('deleted' => false, 'approved' => true))), "/Answer/.");
+            } else {
+                $result = Set::extract($this->Answer->findById($id), "/Answer/.");
             }
-                      
-            return $this->renderJson($answers, $isSingleObj);
+            
+            if (empty($result)) {
+                throw new NotFoundException("Ogiltigt svar");
+            } 
+            
+            $json = $this->renderJson($result, $isSingleObj);
+            Cache::write('answers' . $id, $json, 'api');
         }  
         
-        throw new Exception("Bad request method");
+        return $json;
                    
     }
      
     public function tags($id = null){
-        $this->loadModel('Tag');
-        $this->loadModel('Question');
+        $json = Cache::read('tags' . $id, 'api');
+        $isSingleObj = isset($id);
               
-        if ($this->request->is('get'))
-        {      
-            $tags = !isset($id) ? $this->Tag->getAllApprovedTags() : $this->Tag->getTagApi($id);
-            $isSingleObj = isset($id) ? true : false;
-            
-            if ($isSingleObj) {
-                $questions = $this->Question->getApiTagQuestions($id);
-                $tags[0]['questions'] = Set::extract($questions, "/Question/.");
+        if (!$json) {       
+            $this->loadModel('Tag');
+            $this->Tag->recursive = -1;
+            if (!$isSingleObj) {
+                $result = Set::extract($this->Tag->getAllApprovedTags(), '/Tag/.');
             } else {
-                $tags = Set::extract($tags, "/Tag/."); 
+                $this->loadModel('Question');
+                
+                $this->Tag->virtualFields['number_of_questions'] = 0;
+                $result = Set::extract($this->Tag->findById($id), '/Tag/.');
+                unset($result[0]['number_of_questions']);
+                $questions = $this->Question->getTagQuestions($id);
+                $result[0]['questions'] = Set::extract($questions, "/Question/id");
             }
             
-            if (empty($tags)) {
+            if (empty($result)) {
                 throw new NotFoundException("Ogiltig tagg");
             }
-                      
-            return $this->renderJson($tags, $isSingleObj);
+            
+            $json = $this->renderJson($result, $isSingleObj);
+            Cache::write('tags' . $id, $json, 'api');
         }  
         
-        throw new Exception("Bad request method");
-                   
+        return $json;  
     }
 }?>
 

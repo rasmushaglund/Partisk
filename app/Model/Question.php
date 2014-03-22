@@ -93,29 +93,6 @@ class Question extends AppModel {
         return $result;
     }
 
-    
-    public function getQuestionsApi($id = null){
-        $result = Cache::read('questionsApi' . $id, 'question');
-        
-        if(!$result){
-            $this->recursive = -1; 
-
-            $conditions = array('deleted' => false, 'approved' => true);
-
-            if(isset($id)){
-                array_push($conditions, array('id' => $id));}
-
-            $result = $this->find('all', array(
-
-                'conditions' => $conditions,          
-                'fields' => array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date')
-
-            ));
-            Cache::write('questionsApi' . $id, $result, 'question');
-        }
-        return Set::extract($result, "/Question/.");
-    }
-
     public function getQuestions($args) {
         $this->recursive = -1; 
 
@@ -214,19 +191,7 @@ class Question extends AppModel {
             
             if (!empty($question)) {
                 $this->Tag->recursive = -1;
-                $question['Tag'] = Set::extract('/Tag/.', $this->Tag->find('all', array(
-                        'joins' => array(
-                            array(
-                                'table' => 'question_tags as QuestionTag',
-                                'type' => 'inner',
-                                'conditions' => array(
-                                    'QuestionTag.question_id' => $question['Question']['id'],
-                                    'QuestionTag.tag_id = Tag.id'
-                                )
-                            )
-                        ),
-                        'fields' => 'Tag.*'
-                )));
+                $question['Tag'] = Set::extract('/Tag/.', $this->Tag->getQuestionTags($question['Question']['id']));
             }
             
             $result = $question;
@@ -526,13 +491,13 @@ class Question extends AppModel {
          return $result;
      }
      
-    public function getApiTagQuestions($id) {
-         $result = Cache::read('api_tag_questions_' . $id, 'question');
+    public function getTagQuestions($id) {
+         $result = Cache::read('tag_questions_' . $id, 'question');
          if (!$result) {
 	     $result = $this->getQuestions(array('deleted' => false, 'approved' => true, 'tagId' => $id, 
-                 'fields' => array('id', 'title', 'description', 'type', 'created_date', 'updated_date')));
+                 'fields' => array('id')));
 	     
-             Cache::write('api_tag_questions_' . $id, $result, 'question');
+             Cache::write('tag_questions_' . $id, $result, 'question');
          }
          
          return $result;
