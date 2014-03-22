@@ -32,6 +32,31 @@ $this->Html->addCrumb('Frågor');
 
 ?>
 <h1>Så här tycker partierna</h1>
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            Svaren är i första hand baserade på partiprogram och partiernas hemsidor. I
+            vissa fall har information hämtats från uttalanden i media och debatt. Se
+            "<a data-toggle="modal" data-target="#table-info" style="cursor: pointer;">Om tabellen</a>"
+            för mer information.
+        <p/>
+        <p>
+            Att ett svar saknas betyder oftast att det inte framgår på partiets hemsida
+            och att ansträngningar ännu inte gjorts för att hitta en annan källa som
+            kan stödja ett påstående om frågan. Du kan själv ge förslag direkt
+            på sidan genom att klicka på krysset där svaret annars skulle vara, alternativt
+            <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>
+            eller
+            <?php echo $this->Html->link('ansök om eget konto', array('controller' => 'pages', 'action' => 'logga_in')); ?>.
+        </p>
+        <p>
+            Här visas de populäraste frågorna först, vilket avgörs av vad folk
+            svarat i Quiz-frågorna. Längre ner kan du se frågorna sorterade
+            efter kategori.
+        <p/>
+    </div>
+</div>
+
 <?php echo $this->element("share"); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
