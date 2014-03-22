@@ -243,15 +243,73 @@
                   <h4 class="modal-title" id="myModalLabel">Om tabellen</h4>
                 </div>
                 <div class="modal-body">
+                    <h4>Information om frågor</h4>
+                    <p>
+                        Klicka på en fråga för att se detaljer om vad partierna
+                        svarat, vilka taggar frågan ingår i och ibland en
+                        förklaring av frågan.
+                    </p>
+                    <br />
                     <h4>Information om svar</h4>
-                    <p>Vill du veta mer om ett svar kan du helt enkelt klicka på det. Då kommer det upp en informationsruta 
-                        bland annat med var svaret kommer ifrån.</p><br />
-                    <h4>Synliga partier</h4>
-                    <p>För att göra sidan enklare och inte visa för mycket information samtidigt visas endast partier som har fått minst 1% av de Svenska 
-                        rösterna i det senaste EU-parlamentsvalet eller senaste riksdagsvalet.</p><br />
-                    <h4>Sortering av partier</h4>
-                    <p>Partierna är sorterade efter deras bästa resultat i senaste EU-parlementsvalet eller riksdagsvalet. Det parti med
-                       bäst resultat hamnar till vänster, och partiet med sämst resultat av de som visas hamnar till höger.</p>
+                    <p>
+                        Klicka på ett svar för att se källa till påståendet.
+                    </p>
+                    <p>
+                        Kryss betyder att svar saknas, då kan du föreslå vad
+                        svaret borde vara. Om du anger en bra källa så kommer
+                        teamet bakom partisk.nu att lägga upp svaret inom kort.
+                    </p>
+                    <br />
+                    <h4>Partier som visas</h4>
+                    <p>
+                        Endast partier med minst 1% av de Svenska rösterna i
+                        senaste EU-parlamentsvalet eller senaste riksdagsvalet
+                        visas.
+                    <p>
+                    </p>
+                        Partierna är sorterade efter bästa resultat i senaste
+                        EU-parlementsvalet eller riksdagsvalet. Partiet med
+                        bäst resultat hamnar längst till vänster.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Stäng</button>
+                </div>
+              </div>
+            </div>
+         </div>
+         <div class="modal fade" id="questions-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="myModalLabel">Om frågorna och svaren</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Ofullständiga eller felaktiva svar</h4>
+                    <p>
+                        Att ett svar saknas betyder oftast att det inte framgår på partiets hemsida
+                        och att ansträngningar ännu inte gjorts för att hitta en annan källa som
+                        kan stödja ett påstående om frågan.
+                    </p>
+                    <p>
+                        Du kan själv ge förslag direkt på sidan genom att klicka
+                        på krysset där svaret annars skulle vara, alternativt
+                        <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>
+                        eller
+                        <?php echo $this->Html->link('ansök om eget konto', array('controller' => 'pages', 'action' => 'logga_in')); ?>. För tillfället finns
+                        <?php echo $this->requestAction('answers/getNumberOfAnswers'); ?>
+                        godkända svar registrerade.
+                    </p>
+                    <br />
+                    <h4>Sortering av frågor</h4>
+                    <p>
+                        Vilka frågor som visas under "Populäraste frågorna just nu"
+                        avgörs helt av vad folk svarat i Quiz-frågorna.
+                        Längre ner kan du se samtliga frågor (just nu
+                        <?php echo $this->requestAction('questions/getNumberOfQuestions'); ?>
+                        stycken), sorterade efter kategori.
+                    <p/>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-primary" data-dismiss="modal">Stäng</button>

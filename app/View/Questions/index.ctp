@@ -32,6 +32,30 @@ $this->Html->addCrumb('Frågor');
 
 ?>
 <h1>Så här tycker partierna</h1>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Om frågorna och svaren</h2>
+        <p>
+            Svaren är i första hand baserade på partiprogram och partiernas hemsidor. I
+            vissa fall har information hämtats från uttalanden i media och debatt. Se
+            "<a data-toggle="modal" data-target="#table-info" style="cursor: pointer;">Om tabellen</a>"
+            för mer information.
+        <p/>
+        <p>
+            <a data-toggle="modal" data-target="#questions-info" style="cursor: pointer;">Läs mer</a>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h2>Vilket parti matchar dig?</h2>
+        <p>
+            Här finns det flera quiz att göra för att ta reda på vilka partier som passar dig bäst.
+        </p>
+        <?php echo $this->Html->link('<i class="fa fa-play"></i> Testa dig nu!',
+            array('controller'  => 'quizzes', 'action' => 'index'),
+            array('class' => 'btn btn-success btn-xl', 'escape' => false)); ?>
+    </div>
+</div>
+
 <?php echo $this->element("share"); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
     <div class="tools">

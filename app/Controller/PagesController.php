@@ -81,4 +81,10 @@ class PagesController extends AppController {
         $this->set('description_for_layout', "Kontakta oss");
         $this->currentPage = "contact";
     }
+
+    public function logga_in() {
+        $this->set('title_for_layout', 'Logga in');
+        $this->set('description_for_layout', "Logga in eller ansök om konto");
+        $this->currentPage = "logga_in";
+    }
 }
