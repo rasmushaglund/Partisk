@@ -35,7 +35,9 @@ if ($tags) {
 ?>
 
 <h1>Taggar</h1>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+    "text" => "Kategorisering av politiska frågor " . Router::url(null, true)
+)); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="row">
   <div class="col-md-4 tools">

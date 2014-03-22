@@ -39,7 +39,9 @@ $this->Html->addCrumb(ucfirst($tag['Tag']['name']));
 <?php echo ucfirst(h($tag['Tag']['name'])); ?>
         <?php echo $this->element('tagAdminToolbox', array('tag' => $tag)); ?>
 </h1>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+    "text" => "Frågor om " . ucfirst(h($tag['Tag']['name'])) . ": " . Router::url(null, true)
+)); ?>
 <?php 
 if (!$this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
