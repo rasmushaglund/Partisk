@@ -32,11 +32,20 @@
 <div class="row">
     <div class="col-md-6">
         <h2>Vi gör politik lättare</h2>
-        <p>Partisk.nu finns här för att göra Sveriges största partiers åsikter lättare att förstå.
-        Vi samlar de viktigaste frågorna och presenterar svaren på ett 
-        <?php echo $this->Html->link('överskådligt sätt', array('controller' => 'questions', 'action' => 'index')); ?>.</p>
-        <p>Nya frågor och svar läggs in fortlöpande och om du saknar någonting eller hittar felaktigheter tveka inte att 
-        <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>.</p>
+        <p>
+            Partisk.nu är ett ideelt och politiskt oberoende initiativ för att
+            göra Sveriges största partiers åsikter lättare att förstå. Vi
+            samlar de viktigaste frågorna och presenterar svaren på ett
+            <?php echo $this->Html->link('överskådligt sätt', array('controller' => 'questions', 'action' => 'index')); ?>.
+        </p>
+        <p>
+            Nya frågor och svar läggs in löpande, om du hittar ofullständig
+            eller felaktig information så kan du i vissa fall ge förslag direkt
+            på sidan, alternativt
+            <?php echo $this->Html->link('kontakta oss', array('controller' => 'pages', 'action' => 'contact')); ?>
+            eller
+            <?php echo $this->Html->link('ansök om eget konto', array('controller' => 'pages', 'action' => 'logga_in')); ?>.
+        </p>
         <p>Antal frågor: <b><?php echo $this->requestAction('questions/getNumberOfQuestions'); ?></b>, 
             antal svar: <b><?php echo $this->requestAction('answers/getNumberOfAnswers'); ?></b>.</p>
         <?php echo $this->element("share"); ?>
