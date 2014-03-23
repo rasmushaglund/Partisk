@@ -33,7 +33,7 @@
     <div class="col-md-6">
             <h1>Om sidan</h1>
             <?php echo $this->element("share", array(
-                "text" => "Gör det lättare att sätta sig in i Svensk politik"
+                "text" => "Nu är det lättare att sätta sig in i Svensk politik"
             )); ?>
     </div>
 </div>
