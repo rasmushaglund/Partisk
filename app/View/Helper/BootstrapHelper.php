@@ -128,7 +128,7 @@ class BootstrapHelper extends AppHelper {
         return $this->_View->element('bootstrap/textarea', $args);
     }
 
-    public function dropdown($field, $modelField, $args = null) {
+    public function dropdown($field, $modelField, $args = null, $idField = "id") {
         if ($args == null) {
             $args = array();
         }
@@ -137,6 +137,7 @@ class BootstrapHelper extends AppHelper {
         $args['modelField'] = $modelField;
         $args['mode'] = $this->mode;
         $args['id'] = ucfirst($this->model) . ucfirst($field);
+        $args['idField'] = $idField;
         
         if (!isset($args['options'])) {
             $args['options'] = array();

@@ -60,13 +60,16 @@ $this->Html->addCrumb('Frågor');
     "text" => "Så här tycker partierna"
 )); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
-<div class="tools">
-<?php  echo $this->element('saveQuestion'); 
-  echo $this->element('saveAnswer'); ?>
-  </div>
+    <div class="tools">
+        <?php  echo $this->element('saveQuestion'); 
+            echo $this->element('saveAnswer'); ?>
+        <?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej godkända frågor', array('controller' => 'questions', 'action' => 'notApproved'), array('class' => 'btn btn-s btn-info', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa frågor utan beskrivning', array('controller' => 'questions', 'action' => 'noDescription'), array('class' => 'btn btn-s btn-info', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa frågor med ej godkända revisioner', array('controller' => 'questions', 'action' => 'newRevisions'), array('class' => 'btn btn-s btn-info', 'escape' => false)); ?>
+    </div>
  <?php } ?>
 
-<h2>Populäraste frågorna just nu</h2>
+<h2>Hetaste frågorna just nu</h2>
 <?php echo $this->element('qa-table', array(
                   'parties' => $parties,
                   'questions' => $popularQuestions,

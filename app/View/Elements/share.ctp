@@ -28,8 +28,10 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */ ?>
 
-<?php $url = urlencode(Router::url(null, true)); ?>
-<?php $text = (isset($text) ? $text . ": " : "") . $url; ?>
+<?php
+$url = urlencode(Router::url(null, true));
+$text = (isset($text) ? $text . ": " : "") . $url;
+?>
 <div class="share">
     <a href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $url; ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
     <a href="https://twitter.com/intent/tweet?url=<?php echo $url; ?>&text=<?php echo $text; ?>&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>

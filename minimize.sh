@@ -28,4 +28,8 @@ yuglify app/webroot/css/bootstrap.min.css app/webroot/css/bootstrap-theme.min.cs
 
 yuglify app/webroot/js/jquery.js app/webroot/js/bootstrap.js app/webroot/js/bootstrap-datepicker.js app/webroot/js/typeahead.js app/webroot/js/bootstrap-datepicker.sv.js app/webroot/js/matchMedia.js app/webroot/js/partisk.js -c app/webroot/js/partisk
 
-yuglify app/webroot/js/d3.v2.js app/webroot/js/nv.d3.js -c app/webroot/js/graph
+# <= IE 8
+yuglify app/webroot/js/jquery-ie.js app/webroot/js/respond.min.js app/webroot/js/bootstrap.js app/webroot/js/bootstrap-datepicker.js app/webroot/js/typeahead.js app/webroot/js/bootstrap-datepicker.sv.js app/webroot/js/matchMedia.js app/webroot/js/partisk.js -c app/webroot/js/partisk-ie
+
+
+yuglify app/webroot/js/jquery.cookie.js app/webroot/js/d3.v2.js app/webroot/js/nv.d3.js -c app/webroot/js/graph

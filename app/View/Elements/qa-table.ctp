@@ -47,7 +47,7 @@
           <?php } ?>
         </div>
         <?php foreach ($questions as $question): ?>
-        <?php if (isset($answers[$question["Question"]["id"]])) { ?>
+        <?php if (isset($answers[$question["Question"]["question_id"]])) { ?>
         <div class="table-row">
           <div class="table-cell table-header table-header-text">
             <?php 
@@ -69,12 +69,16 @@
           <?php foreach ($parties as $party): ?>
           <?php 
 
-            if (isset($answers[$question["Question"]["id"]]) && isset($answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]])) {
-              echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["id"]]['answers'][$party["Party"]["id"]],
+            if (isset($answers[$question["Question"]["question_id"]]) && isset($answers[$question["Question"]["question_id"]]['answers'][$party["Party"]["id"]])) {
+              echo $this->element('answerCell', array('answer' => $answers[$question["Question"]["question_id"]]['answers'][$party["Party"]["id"]],
                                                       'question' => $question, 'party' => $party['Party']));
             } else { ?>
-            <div class="table-cell"></div>
-            <?php }?>
+            <div class="table-cell empty">
+                <span class="empty-answer-popover" data-question-id="<?php echo $question["Question"]["question_id"]; ?>"
+                      data-party-id="<?php echo $party["Party"]["id"]; ?>"><i class='fa fa-times'></i></span></div>
+            <?php }
+          
+          ?>
           <?php endforeach; ?>
           <?php if ($this->Permissions->isLoggedIn()) { ?>
             <div class="table-cell">

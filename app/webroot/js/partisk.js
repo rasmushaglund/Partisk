@@ -49,25 +49,53 @@ $(document).ready(function() {
         }
     ]).bind('typeahead:selected', function(event, obj) {
         if (obj.key) {
-            window.location = appRoot + "fr%C3%A5gor/" + encodeURI(obj.value.split(' ').join('_').toLowerCase()).replace('?', '%3f');
+            window.location = appRoot + "fr%C3%A5gor/" + encodeString(obj.value);
         }
 
         $(this).val("");
     }).focus();
        
-    $('#accordion .panel-collapse').on('show.bs.collapse', function () {
+    attachAccordions($('#accordion'));
+    
+    if (!supportsSvg()) {
+        $("#graphs").hide();
+        $("#no-svg").show();
+    }
+    
+    initPopovers($("body"));
+
+    $('body').on('click', function(e) {
+        $('.popover.in').prev().not(e.target).not($(e.target).parent()).popover('toggle');
+    });
+
+    // Open modal without fade if it contains an error
+    $('.modal').each(function(index, modal) {
+        if ($(modal).find('p.error').size() > 0 || $(modal).hasClass('open-modal-on-load')) {
+            $(modal).removeClass('fade');
+            $(modal).on('shown.bs.modal', function() {
+                $(this).addClass('fade in');
+                $('.modal-backdrop').addClass('fade in');
+            });
+            $(modal).modal('show');
+
+        }
+    });
+});
+
+var attachAccordions = function (accordion) {
+    accordion.find('.panel-collapse').on('show.bs.collapse', function () {
        $(this).parent().find(".toggle").removeClass("fa-plus-square").addClass("fa-minus-square");
        $(this).parent().addClass("accordion-expanded");
        $(this).find('.table-head-container').removeClass('table-fixed').show();
        $(this).find('.table-with-fixed-header').removeClass('table-fixed-header');
     });
 
-    $('#accordion .panel-collapse').on('hide.bs.collapse', function () {
+    accordion.find('.panel-collapse').on('hide.bs.collapse', function () {
        $(this).parent().find(".toggle").removeClass("fa-minus-square").addClass("fa-plus-square");
        $(this).parent().removeClass("accordion-expanded");
     });
     
-    $('#accordion .panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
+    accordion.find('.panel-collapse.ajax-load-table').on('show.bs.collapse', function () {
        var id = $(this).attr('data-id');
        var type = $(this).attr('data-type');
        var container = $(this);
@@ -93,31 +121,11 @@ $(document).ready(function() {
         });
         }
     });
-    
-    if (!supportsSvg()) {
-        $("#graphs").hide();
-        $("#no-svg").show();
-    }
-    
-    initPopovers($("body"));
+}
 
-    $('body').on('click', function(e) {
-        $('.popover.in').prev().not(e.target).popover('toggle');
-    });
-
-    // Open modal without fade if it contains an error
-    $('.modal').each(function(index, modal) {
-        if ($(modal).find('p.error').size() > 0 || $(modal).hasClass('open-modal-on-load')) {
-            $(modal).removeClass('fade');
-            $(modal).on('shown.bs.modal', function() {
-                $(this).addClass('fade in');
-                $('.modal-backdrop').addClass('fade in');
-            });
-            $(modal).modal('show');
-
-        }
-    });
-});
+var encodeString = function(str) {
+    return encodeURI(str.split(' ').join('_').toLowerCase()).replace('?', '%3f');
+};
 
 var initPopovers = function($container) {
     $container.find('.popover-hover-link').popover({
@@ -134,6 +142,21 @@ var initPopovers = function($container) {
     $container.find('.popover-link').bind('click', function() {
         var $popover = $(this);
         $.ajax({url: appRoot + "answers/info/" + $popover.attr('data-id'), success: function(data) {
+                $popover.unbind('click');
+                $popover.popover({
+                    html: true,
+                    placement: "auto",
+                    content: function() {
+                        return data;
+                    }
+                }).popover('show');
+            }});
+    });
+    
+    $container.find('.empty-answer-popover').bind('click', function() {
+        var $popover = $(this);
+        $.ajax({url: appRoot + "questions/empty_answer/" + $popover.attr('data-question-id') + "/" 
+                    + $popover.attr('data-party-id'), success: function(data) {
                 $popover.unbind('click');
                 $popover.popover({
                     html: true,
@@ -212,9 +235,10 @@ var setupFixedHeader = function (table) {
             });
 };
 
-var openModal = function(controller, action, id) {
+var openModal = function(controller, action, parameters) {
+    
     $.ajax({
-        url: appRoot + controller + '/' + action + '/' + id,
+        url: appRoot + controller + '/' + action + '/' + parameters.join("/"),
         success: function(data) {
             $modal = $(data);
             $("body").append($modal);
@@ -273,7 +297,57 @@ function getPointsPercentage() {
 
 
 $(document).ready(function() {
-    if (typeof data !== 'undefined') {
+    if (typeof data !== 'undefined' && data != null) {
+        $("#quiz-summary").show();
+        $("#graphs").show();
+        
+        if ($.cookie('p[q]') === quizId) {
+            $.ajax({
+                url: appRoot + "quiz/session_results/" + quizId,
+                success: function(data) {
+                    var container = $("#session-results");
+                    var content = $(data);
+                    content.hide();
+                    container.append(content);
+                    
+                    attachAccordions(container);
+                    
+                    content.fadeIn('slow');
+                }
+        });
+       }
+        
+        var items = [];
+        
+        for (party in parties) {
+            var item = {plus: data.question_agree_rate[party].plus_points,
+                minus: data.question_agree_rate[party].minus_points,
+                party: party,
+                agree_rate: data.question_agree_rate[party].result,
+                percentage: data.points_percentage[party].result};
+            items.push(item);
+        }
+        
+        items.sort(function(a, b) {
+            return (b.plus - b.minus) - (a.plus - a.minus);
+        });
+        
+        for (current_item in items) {
+            var item = items[current_item];
+            var points = (item.plus - item.minus);
+            $row = $('<tr class="' + (points > 0 ? "plus" : (points < 0 ? "minus" : "")) + '-points"></tr>');
+            $row.append('<td><a href="' + appRoot + 'partier/' + encodeString(parties[item.party].name) + 
+                        '" class="party-logo-link"><div class="party-logo-small party-logo-small-' + item.party + 
+                        '"></div><div class="party-title">' + capitalizeFirstLetter(parties[item.party].name) + '</div></a></td>');
+            $row.append("<td>" + item.plus + "p</td>");
+            $row.append("<td>" + item.minus + "p</td>");
+            $row.append('<td class="result"><span class="result">' + (points > 0 ? "+" : "") + points + 'p</span></td>');
+            $row.append('<td class="percent">' + item.percentage + "%</td>");
+            $("#result-table tbody").append($row);
+        }
+        
+        
+
     nv.addGraph(function() {
         var data = getPointsPercentage();
         var chart = nv.models.pieChart()
@@ -333,7 +407,7 @@ $(document).ready(function() {
                 .y(function (d) {
                     return d.value;
                 })
-                .margin({left: 40, top: 0, bottom: 40, right: 0})
+                .margin({left: 40, top: 5, bottom: 40, right: 0})
                 .staggerLabels(false)
                 .tooltips(true)
                 .tooltipContent(function (id, key, value, item) {

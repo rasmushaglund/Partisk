@@ -24,7 +24,42 @@
  * 
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
- * @package     app.View.Elements
+ * @package     app.View.Quizzes
  * @license     http://opensource.org/licenses/MIT MIT
  */
-?><!--nocache--><?php configure::write('debug',0); header('Content-type: text/x-json'); ?><!--/nocache--><?php echo $data; ?>
+
+if ($quizSession) { ?>
+
+    <div class="row">
+        <div class="col-md-12 share-line">
+            <p>Innehållet nedan visas inte vid delning</p>
+            <hr></hr>
+        </div>
+    </div>
+
+    <h3>Resultat per fråga</h3>
+    <div class="panel-group" id="accordion">
+
+    <ul class="list-unstyled question-summary-list">
+
+    <?php foreach ($quizSession['QuizSession']['points']['questions'] as $question) { 
+      ?>
+      <li>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $question['question_id']; ?>" class="collapsed">
+                  <i class="fa fa-plus-square toggle"></i> <?php echo $question['title']; ?>
+                </a>
+              </h4>
+            </div>
+            <div id="collapse<?php echo $question['question_id']; ?>" data-type="quiz-question" data-id="<?php echo $question['question_id']; ?>" 
+                 class="ajax-load-table panel-collapse collapse">
+            </div>
+          </div>
+      </li>
+    <?php } ?>
+    </ul>
+    </div>
+
+<?php } ?>

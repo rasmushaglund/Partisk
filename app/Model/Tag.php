@@ -117,6 +117,24 @@ class Tag extends AppModel {
         return $result;
     }
     
+    public function getQuestionTags($id) {
+        $this->recursive = -1;
+        $this->virtualFields['number_of_questions'] = 0;
+        return $this->find('all', array(
+                        'joins' => array(
+                            array(
+                                'table' => 'question_tags as QuestionTag',
+                                'type' => 'inner',
+                                'conditions' => array(
+                                    'QuestionTag.question_id' => $id,
+                                    'QuestionTag.tag_id = Tag.id'
+                                )
+                            )
+                        ),
+                        'fields' => 'Tag.*'
+                ));
+    }
+    
     public function getAllApprovedTags() {
         $result = Cache::read('all_approved_tags', 'tag');
         if (!$result) {
@@ -234,6 +252,50 @@ class Tag extends AppModel {
         
         return $result;
     }
+   
+    public function getTagApi($id = null){
+        $result = Cache::read('tagApi' . $id, 'tag');
+        
+        if (!$result) {
+            
+            $this->recursive = -1;
+            
+            $result = $this->find('all', array(
+                'conditions' => array(
+                    'id' => $id
+                ),
+                'fields' => array('Tag.id', 'Tag.name')
+            ));
+        
+            Cache::write('tagApi' . $id, $result, 'tag');
+        }
+        
+        return Set::extract($result, "/Tag/.");
+    }
+    
+
+    public function getApiQuestionTags($id) {
+         $result = Cache::read('api_question_tags_' . $id, 'question');
+         if (!$result) {
+            $this->recursive = -1;
+        
+	     $result = $this->find('all', array(
+                    'joins' => array(
+                        array(
+                            'type' => 'left',
+                            'table' => 'question_tags',
+                            'conditions' => array(
+                                'question_tags.question_id' => $id)
+                            )
+                        )
+                    )
+                    );
+	     
+             Cache::write('api_question_tags_' . $id, $result, 'question');
+         }
+         
+         return $result;
+     }
     
     public function afterSave($created, $options = array()) {
         parent::afterSave($created, $options);

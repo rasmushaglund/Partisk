@@ -29,6 +29,7 @@
  */
 
 App::uses('Permissions', 'Utils');
+App::uses('Url', 'Utils');
 
 class AppController extends Controller {
     public $helpers = array('Session', 'Permissions', 'Url');
@@ -59,6 +60,7 @@ class AppController extends Controller {
         $this->set("description_for_layout", "");
         
         $this->Permissions = new Permissions();
+        $this->Url = new Url();
     }
     
     public function isAuthorized($user) {
@@ -120,5 +122,30 @@ class AppController extends Controller {
             $this->set('ajax', $args['setAjax']);
             $this->render('/Elements/' . $modalView);
         }      
+    }
+    
+    public function renderJson($data, $singleAsObject = false) {  
+        $this->cacheAction = "+1h";
+        $this->layout = 'ajax';
+        $this->autoRender = false;
+              
+        if ($singleAsObject) {
+            $data = count($data) == 1 ? $data[0] : $data;  
+        }
+        
+        $this->set('data', json_encode($data, JSON_UNESCAPED_SLASHES));
+        $this->render('/Elements/json');        
+    }
+    
+    // http://stackoverflow.com/questions/6826106/generate-random-string
+    public function randomString($length = 40) {
+        $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $str = "";    
+
+        for ($i = 0; $i < $length; $i++) {
+            $str .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+
+        return $str;
     }
 }

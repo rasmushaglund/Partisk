@@ -75,18 +75,18 @@ class Quiz extends AppModel {
     
     public $virtualFields = array(
         'questions' => 'select count(QuestionQuiz.id) from question_quizzes as QuestionQuiz
-                join questions as Question on Question.id = QuestionQuiz.question_id
+                join questions as Question on Question.question_id = QuestionQuiz.question_id
                 and Question.deleted = false and Question.approved = true
                 where QuestionQuiz.quiz_id = Quiz.id'
     );
     
     public function calculatePoints($quizSession) {
+        
         $answerModel = ClassRegistry::init('Answer');
         $questionModel = ClassRegistry::init('Question');
         $partiesModel = ClassRegistry::init('Party');
 
         $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quizSession);
-        
         $answersConditions = array('deleted' => false, 'approved' => true, 'questionId' => $questionIds);
         $answers = $answerModel->getAnswers($answersConditions); 
 
@@ -109,7 +109,7 @@ class Quiz extends AppModel {
         foreach ($quizSession as $qResult) {
             if (empty($qResult['Question'])) continue;
 
-            $questionId = $qResult['Question']['id'];
+            $questionId = $qResult['Question']['question_id'];
             $answer = $qResult['Question']['answer'];
             $importance = $qResult['Question']['importance'];
 
@@ -130,8 +130,9 @@ class Quiz extends AppModel {
         }
 
         foreach ($questions as $question) {
-            $questionId = $question['Question']['id'];
+            $questionId = $question['Question']['question_id'];
             $matrixQuestion = $answersMatrix[$questionId];
+            
             $userAnswer = $matrixQuestion['answer'];
             $importanceIndex = $matrixQuestion['importance'];
             $importance = 0;
@@ -151,9 +152,9 @@ class Quiz extends AppModel {
             
             $questionsResult[$questionId] = array();
             $questionsResult[$questionId]['title'] = $question['Question']['title'];
-            $questionsResult[$questionId]['id'] = $question['Question']['id'];
+            $questionsResult[$questionId]['question_id'] = $question['Question']['question_id'];
             $questionsResult[$questionId]['parties'] = array();
-
+                        
             $results[$questionId] = array();
 
             foreach ($parties as $party) { 
@@ -168,7 +169,6 @@ class Quiz extends AppModel {
 
                 if (isset($matrixQuestion['answers'][$partyId])) {
                     $partyAnswer = $matrixQuestion['answers'][$partyId]['Answer'];
-     
                     $currentQuestionResult['answer'] = $partyAnswer;
                     if ($userAnswer !== null && $partyAnswer['answer'] !== null) {
                         if ($partyAnswer['answer'] == $userAnswer) {
@@ -176,6 +176,7 @@ class Quiz extends AppModel {
                             $partiesResult[$partyId]['points'] += $importance;
                             $partiesResult[$partyId]['plus_points'] += $importance;
 				            $partiesResult[$partyId]['matched_questions'] += 1;
+                                            //debug ($partiesResult);
                         } else {
                             $currentQuestionResult['points'] = -$importance;
                             $partiesResult[$partyId]['points'] -= $importance;
@@ -192,6 +193,7 @@ class Quiz extends AppModel {
                 }
 
                 $partiesResult[$partyId]['no_questions'] += 1;
+                
             }
         }
 
@@ -283,7 +285,7 @@ class Quiz extends AppModel {
 
     private function getQuestionIdFromQuiz($quizSession) {
         if (!empty($quizSession['Question'])) {
-            return $quizSession['Question']['id'];
+            return $quizSession['Question']['question_id'];
         }
     }
 
@@ -306,13 +308,25 @@ class Quiz extends AppModel {
 
         $quizSession["QuizSession"] = array(
             'index' => 0,
-            'id' => String::uuid(),
+            'id' => Security::hash($this->randomString() . microtime()),
             'quiz_id' => $id, 
             'has_answers' => false,
             'questions' => sizeof($quizSession)
         );
 
         return $quizSession;
+    }
+    
+    private function randomString() {
+        $length = 20;
+        $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $str = "";    
+
+        for ($i = 0; $i < $length; $i++) {
+            $str .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+
+        return $str;
     }
     
     public function getAllQuiz() {

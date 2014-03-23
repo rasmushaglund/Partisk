@@ -94,14 +94,16 @@ class Party extends AppModel {
         }
         return $result;
     }
-    
-    
-    public function getByIdOrName($id) {
+
+    public function getByIdOrName($id, $includeModificationAttrs = true) {
         $result = Cache::read('party_' . $id, 'party');
         if (!$result) {
             
             $this->recursive = -1;
-            $this->contain(array('CreatedBy', 'UpdatedBy'));
+            
+            if ($includeModificationAttrs) {
+                $this->contain(array('CreatedBy', 'UpdatedBy'));
+            }
             
             if (is_numeric($id)) {
                 $result = $this->findById($id);

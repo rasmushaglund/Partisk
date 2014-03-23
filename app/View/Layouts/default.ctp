@@ -33,7 +33,7 @@
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
-        <title>Partisk.nu Beta - <?php echo $title_for_layout; ?></title>
+        <title>Partisk.nu - <?php echo $title_for_layout; ?></title>
 
         <script type="text/javascript">
             var appRoot = "<?php echo Router::url('/', false); ?>";
@@ -69,6 +69,7 @@
             echo $this->Html->css('datepicker');
             echo $this->Html->css('style');
             echo $this->Html->script('jquery');
+            echo $this->Html->script('jquery.cookie');
             echo $this->Html->script('bootstrap');
             echo $this->Html->script('bootstrap-datepicker');
             echo $this->Html->script('bootstrap-datepicker.sv.js', false);
@@ -84,12 +85,10 @@
             $version = Configure::read('PartiskVersion'); 
             $versionString = $version != null ? "-v" . $version : "";?>
             <style>.party-logo,.party-logo-small{background:url('<?php echo Router::url('/', false); ?>img/partisk-sprite<?php echo $versionString; ?>.png') no-repeat;}</style>
+            <?php echo $this->Html->css("partisk$versionString.min"); ?>
             
-            <?php
-            echo $this->Html->css("partisk$versionString.min");
-            echo $this->Html->script("partisk$versionString.min");
-            ?>
-            
+            <!--[if lte IE 8]><?php echo $this->Html->script("partisk-ie$versionString.min"); ?><![endif]-->
+            <!--[if gt IE 8]><!--><?php echo $this->Html->script("partisk$versionString.min"); ?><!-- <![endif]-->
         <?php } ?>
     </head>
     <body>        
@@ -190,6 +189,7 @@
                             <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quiz', array('controller' => 'quizzes', 'action' => 'index'), array('escape' => false)); ?></li>
                             <li><?php echo $this->Html->link('<i class="fa fa-info-circle"></i> Om sidan', array('controller' => 'pages', 'action' => 'about'), array('escape' => false)); ?></li>
                             <li><?php echo $this->Html->link('<i class="fa fa-envelope"></i> Kontakt', array('controller' => 'pages', 'action' => 'contact'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link('<i class="fa fa-gears"></i> API', array('controller' => 'api', 'action' => 'index'), array('escape' => false)); ?></li>
                         </ul>
                     </div>
                     <div class="col-md-3">
@@ -212,8 +212,7 @@
                             </li>
                             <li>
                                 <p><b>Media</b> <br />
-                                    Rasmus Haglund <br />
-                                    <a href="mailto:rasmus.haglund@partisk.nu">rasmus.haglund@partisk.nu</a>
+                                    <a href="mailto:media@partisk.nu">media@partisk.nu</a>
                                 </p>
                             </li>
                         </ul>
@@ -230,7 +229,7 @@
                 <div class="row info">
                     <div class="col-md-12">
                         <p><i class="fa fa-check-square"></i> Partisk.nu är skapad med kärlek 2013-2014.
-                            Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://opensource.org/licenses/MIT">MIT</a>.
+                            Sidan bygger på <a href="http://sv.wikipedia.org/wiki/%C3%96ppen_k%C3%A4llkod">öppen källkod</a> och är licensierad under <a href="http://opensource.org/licenses/MIT">MIT</a> (förutom profilbilderna).
                     </div>
                 </div>
             </div>

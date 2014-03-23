@@ -53,9 +53,8 @@
 
                 <h2>Öppen källkod</h2>
                 <p>Tjänsten drivs idag ideellt och koden är släppt som öppen källkod. Källkoden kan laddas ner på 
-                    <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Planen är att släppa all data i ett öppet format
-                så att vem som helst kan skapa en liknande och eventuellt konkurrerande verksamhet. Datan kommer i framtiden att bli tillgänglig via
-                ett API och så småning om även i andra användbara format.</p>
+                    <a href ="https://github.com/rasmushaglund/Partisk">GitHub</a>. Data om tjänstens frågor, svar, partier och taggar kan hämtas
+                    via <?php echo $this->Html->link('vårt API', array('controller' => 'api', 'action' => 'index')); ?>.</p>
                 <p>Sidan bygger helt på öppen källkod och allt från operativsystem till webbserver drivs enbart av mjukvara med öppen kod.</p>
                 <p>Målet är att skapa en tjänst som människor har nytta av, och om det innebär att någon annan tar tjänsten och gör den 
                     bättre har de vår välsignelse. Vi vill och uppmanar er att ta det vi gjort och göra bättre. Vi uppmanar er även att
@@ -64,6 +63,8 @@
                 <h2>Kakor</h2>
                 <p>Vi använder cookies (så kallade "kakor") på hemsidan. Denna används endast för att göra det möjligt för besökarna att
                     göra våra quiz på ett lätt sätt. Likt övriga delar av tjänsten är våra kakor bakade med mycket kärlek och omsorg.
+                    
+                
         </div>
            <div class="col-md-6">     
 		<h2>Personerna bakom tjänsten</h2>
@@ -80,7 +81,7 @@
                             <a href="https://plus.google.com/+RasmusHaglund" rel="publisher" title="Google+"><i class="fa fa-google-plus-square"></i></a>
                             <a href="http://www.linkedin.com/in/rasmushaglund" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                             <a href="https://github.com/rasmushaglund/" title="GitHub"><i class="fa fa-github"></i></a>
-                            <a href="mailto:rasmus.haglund@gmail.com" title="Mail"><i class="fa fa-envelope"></i></a></p>
+                            <a href="mailto:rasmus.haglund@partisk.nu" title="Mail"><i class="fa fa-envelope"></i></a></p>
                         </div>
                     </li>
                     <li>
@@ -93,15 +94,15 @@
                             <a href="https://github.com/RikardNordstrom" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
                     </li>
-                   <!-- <li>
+                    <li>
                         <div class="alert alert-info">
                             <img src="img/johan.jpg" alt="Johan Gudmundsson" class="img-thumbnail">
                             <b>Johan Gudmundsson</b>
-                            <p>...</p>
+                            <p>Entreprenör med stort intresse för politik, integritetfrågor och IT. Till vardags jobbar Johan som konstruktör på ABB Power Transformers.</p>
                             <p class="social">
                             <a href="mailto:johan.gudmundsson2012@gmail.com" title="Mail"><i class="fa fa-envelope"></i></a></p>
                         </div>
-                    </li>-->
+                    </li>
                     <li>
                         <div class="alert alert-info">
                             <img src="img/emil.jpg" alt="Emil Wall" class="img-thumbnail">
@@ -116,13 +117,20 @@
                     </li>
                    <li>
                         <div class="alert alert-info">
-                            <img src="img/kristoffer.png" alt="Kristoffer Bjelkmark" class="img-thumbnail">
+                            <img src="img/kristoffer.jpg" alt="Kristoffer Bjelkmark" class="img-thumbnail">
                             <b>Kristoffer Bjelkmark</b>
                             <p>Studerande på Nackademin YH, Sharepointutveckling.</p>
                             <p class="social"><a href="https://www.facebook.com/Poffn" title="Facebook"><i class="fa fa-facebook-square"></i></a>
                             <a href="https://plus.google.com/u/0/109899012980016136654" title="Google+"><i class="fa fa-google-plus-square"></i></a>
                             <a href="http://www.linkedin.com/profile/view?id=293245801" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                             <a href="https://github.com/poffn/" title="GitHub"><i class="fa fa-github"></i></a></p>
+                        </div>
+                    </li>
+                   <li>
+                        <div class="alert alert-info">
+                            <img src="img/sara.jpg" alt="Sara Klasson" class="img-thumbnail">
+                            <b>Sara Klasson</b>
+                            <p>Retorikstuderande vid Uppsala universitet med intresse för politik och kommunikation.</p>
                         </div>
                     </li>
                 </ul>

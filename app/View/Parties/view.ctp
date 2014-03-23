@@ -50,12 +50,15 @@ $deleted = $party['Party']['deleted'];
 <p><a href="<?php echo $party['Party']['website'];?>"><?php echo $party['Party']['website'];?></a></p>
 <p><?php echo $party['Party']['description']; ?></p>
  
-<?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
-<?php  echo $this->element('saveQuestion'); 
-  echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>
+<?php if ($this->Permissions->isLoggedIn()) { ?>
+    <?php  echo $this->element('saveQuestion'); 
+        echo $this->element('saveAnswer', array('partyId' => $party['Party']['id'])); ?>
+<?php } ?>    
+    <?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
+       'name' => $this->Url->slug($party['Party']['name'])), array('class' => 'btn btn-s btn-info', 'escape' => false)); ?>
+
 </div>
-<?php } ?>
 
 <?php
   if (!empty($answers)) {
@@ -74,15 +77,6 @@ $deleted = $party['Party']['deleted'];
   </div>
 
 <?php } ?>
-
-<div class="row">
-    <div class="col-md-6">
-<?php 
-   echo $this->Html->link('<i class="fa fa-question-circle"></i> Visa ej besvarade frågor', array('controller' => 'parties', 'action' => 'notAnswered', 
-       'name' => $this->Url->slug($party['Party']['name'])), array('class' => 'btn btn-s btn-info', 'escape' => false));          
-?>
-    </div>
-</div>
 
 
 <?php echo $this->element('authorInfo', array('object' => $party, 'model' => 'Party')); ?>

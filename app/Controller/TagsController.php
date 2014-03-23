@@ -71,7 +71,9 @@ class TagsController extends AppController {
 
         $this->loadModel('Answer');
         
-        $conditions = array('tagId' => $tag['Tag']['id'], 'includeParty' => true, 'deleted' => false);
+        $questionIds = $this->Tag->getIdsFromModel('Question', $questions, 'question_id');
+        
+        $conditions = array('questionId' => $questionIds, 'includeParty' => true, 'deleted' => false);
         
         if(!$this->Permissions->isLoggedIn()) {
              $conditions['approved'] = true;

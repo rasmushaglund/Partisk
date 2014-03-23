@@ -37,11 +37,7 @@
 $quizInSession = !empty($quizSession) && $quizSession['QuizSession']['quiz_id'] == $quiz['Quiz']['id'];
 
 if ($quizInSession) { 
-    if (isset($quizSession['QuizSession']['done']) && $quizSession['QuizSession']['done']) {
-        echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> Till resultatet', 
-                                array('controller' => 'quizzes', 'action' => 'results', $quizSession['QuizSession']['id']), 
-                                array('class' => 'btn btn-success', 'escape' => false)); 
-    } else {
+    if (!isset($quizSession['QuizSession']['done']) || !$quizSession['QuizSession']['done']) {
         echo $this->Html->link('<i class="fa fa-repeat"></i> Fortsätt quizen', 
                                 array('controller' => 'quizzes', 'action' => 'resume', 'id' => $quizSession['QuizSession']['quiz_id']), 
                                 array('class' => 'btn btn-info', 'escape' => false)); 
