@@ -32,7 +32,9 @@
 <div class="row">
     <div class="col-md-6">
 <h1>Kontakt</h1>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+    "text" => "Kontakt info@partisk.nu eller ge feedback direkt på sidan"
+)); ?>
 <p>Vid frågor om sidans innehåll eller andra ärenden som har med tjänsten att göra maila <a href="mailto:info@partisk.nu">info@partisk.nu</a> eller 
     <a data-toggle="modal" href="#feedbacksModal">ge oss feedback</a>.</p>
 <p>För relationer med media kan ni kontakta <a href="mailto:media@partisk.nu">media@partisk.nu</a>.</p>

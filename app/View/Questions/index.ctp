@@ -56,7 +56,9 @@ $this->Html->addCrumb('Frågor');
     </div>
 </div>
 
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+    "text" => "Så här tycker partierna"
+)); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
     <div class="tools">
         <?php  echo $this->element('saveQuestion'); 

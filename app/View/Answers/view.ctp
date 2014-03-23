@@ -52,7 +52,9 @@ $deleted = $answer['Answer']['deleted'];
     <div class="col-md-6">
 <h2><?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'title' => true)); ?>
     <span class="party-answer">: <?php echo ucfirst(h($answer['Answer']['answer'])); ?></span></h2>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+  "text" => $title_for_layout
+)); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>

@@ -53,7 +53,9 @@ if (Configure::read('minimizeResources')==1) {
                 <h1>Resultat för <?php echo ucfirst($quizName); ?> 
                     <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
 
-                <?php echo $this->element("share"); ?>
+                <?php echo $this->element("share", array(
+    "text" => "Mitt quizresultat"
+)); ?>
             </div>
             <div class="col-md-6">
                 <a href="#quizCalculationInfo" data-toggle="modal" data-target="#quizCalculationInfo" class="btn btn-primary quizCalculationInfo">

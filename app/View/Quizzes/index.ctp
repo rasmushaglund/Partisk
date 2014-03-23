@@ -32,7 +32,9 @@ $this->Html->addCrumb('Quiz');
 ?>
 
 <h1>Quiz</h1>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+    "text" => "Se vilka partier du håller med mest i olika frågor"
+)); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
     <div class="tools">
     <?php echo $this->element('saveQuiz'); ?>

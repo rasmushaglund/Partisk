@@ -31,7 +31,9 @@
 $this->Html->addCrumb('Partier');
 ?>
 <h1>Partier</h1>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+    "text" => "Se listan över partier och deras valresultat"
+)); ?>
 <?php if ($this->Permissions->isLoggedIn()) { ?>
 <div class="tools">
   <?php echo $this->element('saveParty'); ?>
