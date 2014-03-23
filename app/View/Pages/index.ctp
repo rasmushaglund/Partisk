@@ -49,7 +49,7 @@
         <p>Antal frågor: <b><?php echo $this->requestAction('questions/getNumberOfQuestions'); ?></b>, 
             antal svar: <b><?php echo $this->requestAction('answers/getNumberOfAnswers'); ?></b>.</p>
         <?php echo $this->element("share", array(
-    "text" => "Partisk.nu är ett ideelt och politiskt oberoende initiativ för att göra Sveriges största partiers åsikter lättare att förstå"
+    "text" => "Partisk.nu gör Sveriges största partiers åsikter lättare att förstå"
         )); ?>
     </div>
     <div class="col-md-6">

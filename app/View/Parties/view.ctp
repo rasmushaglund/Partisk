@@ -40,7 +40,9 @@ $deleted = $party['Party']['deleted'];
   <?php echo $this->element('party_header', array('party' => $party['Party'], 'link' => true, 'title' => true)); ?>
   <?php if ($this->Permissions->isLoggedIn()) { echo $this->element('partyAdminToolbox', array('party' => $party)); } ?> 
 </h1>
-<?php echo $this->element("share"); ?>
+<?php echo $this->element("share", array(
+  "text" => "Så här tycker " . ucfirst($party['Party']['name'])
+)); ?>
 <?php if ($deleted) { ?>
 <p class="deleted">(Borttagen)</p>
 <?php } ?>
