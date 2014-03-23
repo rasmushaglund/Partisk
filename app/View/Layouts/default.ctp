@@ -287,7 +287,7 @@
                   <h4 class="modal-title" id="myModalLabel">Om frågorna och svaren</h4>
                 </div>
                 <div class="modal-body">
-                    <h4>Ofullständiga eller felaktiva svar</h4>
+                    <h4>Ofullständiga eller felaktiga svar</h4>
                     <p>
                         Att ett svar saknas betyder oftast att det inte framgår på partiets hemsida
                         och att ansträngningar ännu inte gjorts för att hitta en annan källa som
