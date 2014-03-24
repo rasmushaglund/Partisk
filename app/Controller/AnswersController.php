@@ -37,11 +37,11 @@ class AnswersController extends AppController {
         "view" => "+999 days",
         "info" => "+999 days");
     
-    public $components = array('Session');
+    public $components = array('Session', 'Api');
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi', 'tip', 'tipAnswer'));
+        $this->Auth->allow(array('getNumberOfAnswers', 'getAnswersApi', 'tip', 'tipAnswer', 'api_index', 'api_view'));
     }
     
     public function beforeRender() {
@@ -256,6 +256,9 @@ class AnswersController extends AppController {
         $answers = $this->Answer->getUserAnswers($this->Auth->user('id'));
         $this->set('answers', $answers);
     }
+    
+    function api_index() { $this->Api->dispatch(); }
+    function api_view($args) { $this->Api->dispatch($args); }
 }
 
 ?>

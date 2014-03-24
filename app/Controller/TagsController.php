@@ -38,11 +38,11 @@ class TagsController extends AppController {
         "view" => "+999 days",
         "all" => "+999 days");
 
-    public $components = array('Session');
+    public $components = array('Session', 'Api');
     
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('getIndexVars', 'getViewVars'));
+        $this->Auth->allow(array('getIndexVars', 'getViewVars', 'api_index', 'api_view'));
     }
 
     public function beforeRender() {
@@ -233,6 +233,9 @@ class TagsController extends AppController {
         UserLogger::write(array('model' => 'category', 'action' => $action,
                                 'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
     }
+    
+    function api_index() { $this->Api->dispatch(); }
+    function api_view($args) { $this->Api->dispatch($args); }
 }
 
 ?>

@@ -40,7 +40,7 @@ class QuestionsController extends AppController {
         "emptyAnswer" => "+999 days",
         "all" => "+999 days");
 
-    public $components = array('Session');
+    public $components = array('Session', 'Api');
 
     public function beforeRender() {
         parent::beforeRender();
@@ -49,7 +49,7 @@ class QuestionsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions', 'getQuestionsApi', 'emptyAnswer'));
+        $this->Auth->allow(array('search', 'getCategoryTable', 'getNumberOfQuestions', 'getQuestionsApi', 'emptyAnswer', 'api_index', 'api_view'));
     }
 
     public function  noDescription(){
@@ -469,6 +469,9 @@ class QuestionsController extends AppController {
             $this->render('/Elements/emptyAnswer');
         }
     }
+    
+    function api_index() { $this->Api->dispatch(); }
+    function api_view($args) { $this->Api->dispatch($args); }
     
     public function search($string) {
         $this->renderJson($this->Question->searchQuestion($string, $this->Permissions->isLoggedIn()), false);       

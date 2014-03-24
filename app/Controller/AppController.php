@@ -127,8 +127,9 @@ class AppController extends Controller {
     public function renderJson($data, $singleAsObject = false) {  
         $this->cacheAction = "+1h";
         $this->layout = 'ajax';
+        $this->response->type('json');
         $this->autoRender = false;
-              
+        
         if ($singleAsObject) {
             $data = count($data) == 1 ? $data[0] : $data;  
         }

@@ -37,13 +37,13 @@ $this->Html->addCrumb('Api');
 <table class="table table-striped table-bordered">
     <tr>
         <td><b>Alla frågor</b></td>
-        <td><span>/api/questions</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'questions')); ?></td>
+        <td><span>/api/<?php echo $version; ?>/questions</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/questions/">Exempel</a></td>
     </tr>
     <tr>
         <td><b>Visa fråga</b></td>
-        <td><span>/api/questions/{question_id}</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'questions', 18)); ?></td>
+        <td><span>/api/<?php echo $version; ?>/questions/{question_id}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/questions/18">Exempel</a></td>
     </tr>
 </table>
 
@@ -51,13 +51,13 @@ $this->Html->addCrumb('Api');
 <table class="table table-striped table-bordered">
     <tr>
         <td><b>Alla svar</b></td>
-        <td><span>/api/answers</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'answers')); ?></td>
+        <td><span>/api/<?php echo $version; ?>/answers</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/answers/">Exempel</a></td>
     </tr>
     <tr>
         <td><b>Visa svar</b></td>
-        <td><span>/api/answers/{answer_id}</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'answers', 18)); ?></td>
+        <td><span>/api/<?php echo $version; ?>/answers/{answer_id}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/answers/18">Exempel</a></td>
     </tr>
 </table>
 
@@ -65,13 +65,13 @@ $this->Html->addCrumb('Api');
 <table class="table table-striped table-bordered">
     <tr>
         <td><b>Alla partier</b></td>
-        <td><span>/api/parties</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'parties')); ?></td>
+        <td><span>/api/<?php echo $version; ?>/parties</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/parties/">Exempel</a></td>
     </tr>
     <tr>
         <td><b>Visa parti</b></td>
-        <td><span>/api/parties/{party_id}</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'parties', 1)); ?></td>
+        <td><span>/api/<?php echo $version; ?>/parties/{party_id}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo Configure::read('apiVersion'); ?>/parties/1">Exempel</a></td>
     </tr>
 </table>
 
@@ -79,12 +79,12 @@ $this->Html->addCrumb('Api');
 <table class="table table-striped table-bordered">
     <tr>
         <td><b>Alla taggar</b></td>
-        <td><span>/api/tags</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'tags')); ?></td>
+        <td><span>/api/<?php echo $version; ?>/tags</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/tags/">Exempel</a></td>
     </tr>
     <tr>
         <td><b>Visa tagg</b></td>
-        <td><span>/api/tags/{tag_id}</span></td>
-        <td><?php echo $this->Html->link('Exempel', array('controller' => 'api', 'action' => 'tags', 35)); ?></td>
+        <td><span>/api/<?php echo $version; ?>/tags/{tag_id}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/tags/35">Exempel</a></td>
     </tr>
 </table>

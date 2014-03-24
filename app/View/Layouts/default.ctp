@@ -28,7 +28,6 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -318,5 +317,4 @@
             </div>
          </div>
     </body>
-
 </html>

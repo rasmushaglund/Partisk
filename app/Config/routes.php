@@ -60,6 +60,12 @@ Router::connect('/api/answers/:id', array('controller' => 'api', 'action' => 'an
 Router::connect('/api/tags', array('controller' => 'api', 'action' => 'tags'));
 Router::connect('/api/tags/:id', array('controller' => 'api', 'action' => 'tags'), array('pass' => array('id')));
 
+// http://deadlytechnology.com/php/cakephp-api-component/
+Router::connect('/api/:version', array('controller' => 'api', 'action' => 'info'), array('pass' => array('version')));
+Router::connect('/api/:version/:controller/', array('prefix' => 'api', 'action' => 'index', 'api' => true), array('version'=>'[0-9]+\.[0-9]+'));
+Router::connect('/api/:version/:controller/:args', array('prefix' => 'api', 'action' => 'view', 'api' => true), 
+        array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
+
 CakePlugin::routes();
 
 require CAKE . 'Config' . DS . 'routes.php';
