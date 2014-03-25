@@ -40,7 +40,9 @@ class Question extends AppModel {
 
     public $hasMany = array(
         'Answer' => array(
-            'className' => 'Answer'
+            'className' => 'Answer',
+            'foreignKey' => false,
+            'finderQuery' => 'select Answer.* from answers Answer where Answer.question_id in (select question_id from questions where id = {$__cakeID__$})'
         )
     );
 
@@ -412,7 +414,8 @@ class Question extends AppModel {
             $this->recursive = -1;
             $result = $this->find('all',array(
                 'conditions' => array(
-                    '!Question.deleted',               
+                    'Question.deleted' => false,
+                    'Question.approved' => true,
                     'Answer.id' => null,                
                     ),
                 'joins' => array(
@@ -421,7 +424,7 @@ class Question extends AppModel {
                         'type' => 'left',
                         'conditions' => array(
                             'Answer.question_id = Question.question_id',
-                            'Answer.party_id' => $partyId                        
+                            'Answer.party_id' => $partyId
                         )
                     )
                 ),
