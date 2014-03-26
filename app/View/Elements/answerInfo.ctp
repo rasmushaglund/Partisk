@@ -33,7 +33,7 @@
 <p class="answer-not-approved">Ej godkänd</p>
 <?php } ?>
 <?php echo $this->element('party_header', array('party' => $answer['Party'], 'link' => true, 'small' => true, 'title' => false)); ?>
-<b><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id']));?></b>:
+<b><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['revision_id']));?></b>:
 <?php echo $this->Html->link($answer['Answer']['answer'],
                 array('controller' => 'answers', 'action' => 'view', 'id' => $answer['Answer']['id']), array('escape' => false, 'class' => 'popover-link')); ?>
 <p class="popover-description"><?php echo $answer['Answer']['description']; ?></p>

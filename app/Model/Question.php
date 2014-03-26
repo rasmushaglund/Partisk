@@ -72,6 +72,8 @@ class Question extends AppModel {
             'joinTable' => "question_quizzes"
             )
     );
+    
+    public $primaryKey = 'revision_id';
 
     // TODO: Handle all answer types here (like YESNO)
     public function getChoicesFromQuestion($question) {
@@ -102,7 +104,7 @@ class Question extends AppModel {
         $deleted = isset($args['deleted']) ? $args['deleted'] : null;
         $approved = isset($args['approved']) ? $args['approved'] : null;
         $tagId = isset($args['tagId']) ? $args['tagId'] : null;
-        $fields = isset($args['fields']) ? $args['fields'] : array('question_id', 'id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted', 'done');
+        $fields = isset($args['fields']) ? $args['fields'] : array('question_id', 'revision_id', 'title', 'type', 'approved', 'created_by', 'description', 'deleted', 'done');
         $conditions = isset($args['conditions']) ? $args['conditions'] : array();
         $order = isset($args['order']) ? $args['order'] : 'Question.title';
         $limit = isset($args['limit']) ? $args['limit'] : '5000';
@@ -119,11 +121,11 @@ class Question extends AppModel {
             array_push($joins, array(
                                 'table' => 'question_tags as QuestionTag',
                                 'conditions' => array('QuestionTag.tag_id' => $tagId,
-                                                      'Question.id = QuestionTag.question_id')
+                                                      'Question.revision_id = QuestionTag.question_id')
                             ));
            } else {
             array_push($conditions, array(
-			      'Question.id not in (select question_id from question_tags inner join tags on tags.id = question_tags.tag_id and tags.is_category = true where question_tags.question_id = Question.id and Question.approved = true)')
+			      'Question.revision_id not in (select question_id from question_tags inner join tags on tags.id = question_tags.tag_id and tags.is_category = true where question_tags.question_id = Question.revision_id and Question.approved = true)')
                             );
 	   }
         }
@@ -163,7 +165,7 @@ class Question extends AppModel {
             if (is_numeric($id) || $isId) {
                 if ($entityId) {
                     $conditions = array(
-                                    'Question.id' => $id
+                                    'Question.revision_id' => $id
                                 );
                 } else {
                     $conditions = array(
@@ -185,7 +187,7 @@ class Question extends AppModel {
             $this->Tag->virtualFields['number_of_questions'] = 0;
             $questions = $this->find('all', array(
                     'conditions' => $conditions,
-                    'fields' => array('Question.id, Question.question_id, Question.title, Question.version, Question.created_date, Question.updated_date, Question.description, Question.type, 
+                    'fields' => array('Question.revision_id, Question.question_id, Question.title, Question.version, Question.created_date, Question.updated_date, Question.description, Question.type, 
                                        Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date, Question.done'),
                     'order' => 'Question.version'
                 ));
@@ -193,7 +195,7 @@ class Question extends AppModel {
             
             if (!empty($question)) {
                 $this->Tag->recursive = -1;
-                $question['Tag'] = Set::extract('/Tag/.', $this->Tag->getQuestionTags($question['Question']['id']));
+                $question['Tag'] = Set::extract('/Tag/.', $this->Tag->getQuestionTags($question['Question']['revision_id']));
             }
             
             $result = $question;
@@ -215,7 +217,7 @@ class Question extends AppModel {
                                 'Question.question_id' => $id,
                                 "Question.updated_date >= " => $date
                             ),
-                    'fields' => array('Question.id, Question.question_id, Question.title, Question.version, Question.created_date, Question.updated_date, Question.description, Question.type, 
+                    'fields' => array('Question.revision_id, Question.question_id, Question.title, Question.version, Question.created_date, Question.updated_date, Question.description, Question.type, 
                                        Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date, Question.done'),
                     'order' => 'Question.updated_date desc'
                 ));
@@ -224,6 +226,21 @@ class Question extends AppModel {
         
         return $result;
     } 
+    
+    public function getNewQuestionId() {
+        $question_id = Cache::read('question_id', 'question');
+        
+        if (!$question_id) {
+            $result = $this->query('select max(question_id) as question_id from questions');
+            $question_id = $result[0][0]['question_id'];
+        }
+        
+        $question_id++;
+        
+        Cache::write('question_id', $question_id, 'question');
+        
+        return $question_id;
+    }
     
     public function getRevision($id) {
         $result = Cache::read('revision_' . $id, 'question');
@@ -234,7 +251,7 @@ class Question extends AppModel {
             $this->Tag->virtualFields['number_of_questions'] = 0;
             $revisions = $this->find('all', array(
                     'conditions' => array(
-                                'Question.id' => $id
+                                'Question.revision_id' => $id
                             )));
             $result = array_pop($revisions);
             Cache::write('revision_' . $id, $result, 'question');
@@ -254,7 +271,7 @@ class Question extends AppModel {
 
             $result = $this->getQuestions(array(
                     'conditions' => $conditions,
-                    'fields' => array('Question.question_id', 'Question.id', 'Question.title', 'Question.approved', 'Question.deleted'),
+                    'fields' => array('Question.question_id', 'Question.revision_id', 'Question.title', 'Question.approved', 'Question.deleted'),
                     'groupBy' => 'Question.question_id'
                 ));
             
@@ -358,7 +375,7 @@ class Question extends AppModel {
             $result = $this->find('all', array(
                  'conditions' => array('Question.deleted' => false, 
                                        'Question.approved' => true),
-                 'fields' => array('Question.id')
+                 'fields' => array('Question.revision_id')
                 ));
             Cache::write('visible_question_ids', $result, 'question');
         }
@@ -465,7 +482,7 @@ class Question extends AppModel {
             'conditions' => array('Question.deleted' => false, 
                                   'Question.approved' => true,
                                   "Question.question_id not in (select question_id from question_quizzes as QuestionQuiz where quiz_id = $quizId)"),
-            'fields' => array('Question.question_id', 'Question.id',
+            'fields' => array('Question.question_id', 'Question.revision_id',
                               'Question.title', '1 < (select count(distinct party_id) from answers where question_id = Question.question_id and approved) as multiple_answers'),
             'order' => 'multiple_answers desc, Question.title',
             'group' => 'Question.question_id'

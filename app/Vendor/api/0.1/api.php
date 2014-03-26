@@ -6,12 +6,17 @@ class Api_0_1 extends Api
 {
     public $version = 0.1;
     
+    private $questionFields = array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
+    private $partyFields = array('id', 'name', 'last_result_parliment', 'last_result_eu', 'color', 'short_name', 'website');
+    private $answerFields = array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
+    private $tagFields = array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
+    
     public function questionsIndex(){
         $json = Cache::read('questions', 'api');
 
         if (!$json) {
             $result = Set::extract($this->controller->Question->getQuestions(array('approved' => true, 'deleted' => false, 
-                    'fields' => array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'description'))), "/Question/.");
+                    'fields' => $this->questionFields)), "/Question/.");
             
             if (empty($result)) {
                 throw new NotFoundException("Ogiltigt question");
@@ -34,6 +39,7 @@ class Api_0_1 extends Api
             $this->controller->Question->Tag->virtualFields['number_of_questions'] = 0;
             $questions = $this->controller->Question->find('all', array(
                 'conditions' => array('question_id' => $ids),
+                'fields' => $this->questionFields,
                 'contain' => array(
                     'Answer' => array(
                         'fields' => array('id')
@@ -74,7 +80,11 @@ class Api_0_1 extends Api
         if (!$json) {     
             $this->controller->loadModel('Party');
             
-            $result = Set::extract($this->controller->Party->getPartiesOrdered(),"/Party/.");
+            $this->controller->Party->recursive = -1;
+            $result = Set::extract($this->controller->Party->find('all', array(
+                    'conditions' => array('Party.deleted' => false),
+                    'fields' => $this->partyFields)
+                ),"/Party/.");
             
             if (empty($result)) {
                 throw new NotFoundException("Ogiltigt parti");
@@ -99,6 +109,7 @@ class Api_0_1 extends Api
                 'conditions' => array(
                     'id' => $ids
                 ),
+                'fields' => $this->partyFields,
                 'contain' => array(
                     'Answer' => array(
                         'conditions' => array(

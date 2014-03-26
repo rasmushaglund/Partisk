@@ -29,8 +29,8 @@
  */
 
 if ($this->Permissions->canDeleteQuestion()) {
-    echo $this->element('deleteModal', array('model' => 'Question', 'action' => 'deleteRevision/' . $question['Question']['id'],
-        'label' => "Ta bort revision " . $question['Question']['id'], 'itemText' => $question['Question']['title']));
+    echo $this->element('deleteModal', array('model' => 'Question', 'action' => 'deleteRevision/' . $question['Question']['revision_id'],
+        'label' => "Ta bort revision " . $question['Question']['revision_id'], 'itemText' => $question['Question']['title']));
 }
 
 ?>

@@ -303,7 +303,7 @@ class QuestionsController extends AppController {
 
      public function edit($id = null) { 
         if (empty($id)) {
-            $id = $this->request->data['Question']['id'];
+            $id = $this->request->data['Question']['revision_id'];
         }
         
         if (!$this->Permissions->canEditQuestion($id)) {
@@ -360,8 +360,8 @@ class QuestionsController extends AppController {
         $this->Question->create();
         $data['Question']['created_by'] = $this->Auth->user('id');
         $data['Question']['created_date'] = date('c');
-        $data['Question']['question_id'] = String::uuid();
-
+        $data['Question']['question_id'] = $this->Question->getNewQuestionId();
+        
         if ($this->Question->save($data)) {
             if ($this->Permissions->canAddTag()) {
                 $id = $this->Question->getLastInsertId();
@@ -379,8 +379,8 @@ class QuestionsController extends AppController {
     }
 
     private function saveQuestion($data) {
-        $id = $data['Question']['id'];
-        unset($data['Question']['id']);
+        $id = $data['Question']['revision_id'];
+        unset($data['Question']['revision_id']);
 
         $existingQuestion = $this->Question->getByIdOrTitle($id, false, true, true);
         

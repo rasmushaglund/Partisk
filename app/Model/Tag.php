@@ -58,7 +58,7 @@ class Tag extends AppModel {
         'QuestionTag'
     );
 
-    public $virtualFields = array('number_of_questions' => "count(Question.id)");
+    public $virtualFields = array('number_of_questions' => "count(Question.revision_id)");
 
     public function getTags($args = null) {
         $id = isset($args['id']) ? $args['id'] : null;
@@ -86,7 +86,7 @@ class Tag extends AppModel {
                         ),
                     array(
                             'table' => 'questions as Question',
-                            'conditions' => 'Question.id = QuestionTag.question_id'
+                            'conditions' => 'Question.revision_id = QuestionTag.question_id'
                         )
                     ),
                 'order' => array('Tag.name'),

@@ -29,7 +29,7 @@
  */
 
 if ($this->Permissions->canDeleteQuestion()) {
-    echo $this->element('deleteModal', array('model' => 'Question', 'action' => 'delete/' . $question['Question']['id'],
+    echo $this->element('deleteModal', array('model' => 'Question', 'action' => 'delete/' . $question['Question']['revision_id'],
         'label' => "Ta bort fråga", 'itemText' => $question['Question']['title']));
 }
 

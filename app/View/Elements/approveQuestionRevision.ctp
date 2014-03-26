@@ -30,6 +30,6 @@
 
     if ($this->Permissions->canApproveQuestion()) {    
         echo $this->Html->link('<i class="fa fa-thumbs-up"></i> Godkänn','#' ,	
-             array('class' => 'btn btn-success', 'escape' => false, 'onclick' => 'openModal(\'questions\',\'approveRevision\',[' . $question['id'] . ']);return false;')); 
+             array('class' => 'btn btn-success', 'escape' => false, 'onclick' => 'openModal(\'questions\',\'approveRevision\',[' . $question['revision_id'] . ']);return false;')); 
     }
 ?>

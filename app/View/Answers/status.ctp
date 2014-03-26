@@ -51,7 +51,7 @@ $this->Html->addCrumb('Status');
             if (!$answer['Answer']['approved'] && !$answer['Answer']['deleted']) {
                 ?>
                 <tr>
-                    <td><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?></td>
+                    <td><?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['revision_id'])); ?></td>
                     <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?></td>
                     <?php echo $this->element('answerTableCell', array('answer' => $answer,
                         'question' => $answer));
@@ -85,7 +85,7 @@ $this->Html->addCrumb('Status');
                 ?>
                 <tr>
                     <td>
-        <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
+        <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['revision_id'])); ?>
                     </td>
                     <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?>
                     </td>
@@ -120,7 +120,7 @@ $this->Html->addCrumb('Status');
                 ?>
                 <tr>
                     <td>
-        <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['id'])); ?>
+        <?php echo $this->Html->link($answer['Question']['title'], array('controller' => 'questions', 'action' => 'view', $answer['Question']['revision_id'])); ?>
                     </td>
                     <td><?php echo $this->Html->link($answer['Party']['name'], array('controller' => 'parties', 'action' => 'view', $answer['Party']['id'])); ?>
                     </td>

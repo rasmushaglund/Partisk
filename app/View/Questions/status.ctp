@@ -48,7 +48,7 @@ $this->Html->addCrumb('Status');
     <?php foreach ($questions as $question) { 
         if (!$question['Question']['approved'] && !$question['Question']['deleted']) { ?>
             <tr><td><?php 
-            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id'])); ?>
+            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['revision_id'])); ?>
             </td>
             <td><?php echo $this->element('questionAdminToolbox', array('question' => $question));  ?></td>
             </tr>
@@ -66,7 +66,7 @@ $this->Html->addCrumb('Status');
     <?php foreach ($questions as $question) { 
         if ($question['Question']['approved'] && !$question['Question']['deleted']) { ?>
             <tr><td><?php 
-            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id'])); ?>
+            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['revision_id'])); ?>
             </td></tr>
     <?php }
     } ?>
@@ -81,7 +81,7 @@ $this->Html->addCrumb('Status');
     <?php foreach ($questions as $question) { 
         if ($question['Question']['deleted']) { ?>
             <tr><td><?php 
-            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['id'])); ?>
+            echo $this->Html->link($question['Question']['title'], array('controller' => 'questions', 'action' => 'view', $question['Question']['revision_id'])); ?>
             </td></tr>
     <?php }
     } ?>

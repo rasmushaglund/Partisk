@@ -30,6 +30,6 @@
 
     if ($this->Permissions->canApproveQuestion()) {    
         echo $this->Html->link('<i class="fa fa-times"></i> Ta bort','#' ,	
-             array('class' => 'btn btn-danger', 'escape' => false, 'onclick' => 'openModal(\'questions\',\'deleteRevision\',[' . $question['id'] . ']);return false;')); 
+             array('class' => 'btn btn-danger', 'escape' => false, 'onclick' => 'openModal(\'questions\',\'deleteRevision\',[' . $question['revision_id'] . ']);return false;')); 
     }
 ?>

@@ -49,7 +49,7 @@ $approved = $question['Question']['approved'];
 <?php } ?>
 <?php if (!$approved) { ?>
 <div class="alert alert-warning">Revision 
-    <?php echo $question['Question']['id']; ?>
+    <?php echo $question['Question']['revision_id']; ?>
     <?php echo !(int)$question['Question']['updated_date'] ? "(Orginal)":"";?>
 </div>
 <?php } ?>
@@ -118,7 +118,7 @@ $approved = $question['Question']['approved'];
                     
                     if ($revision['Question']['approved']) {
                         $alertClass = "success";
-                    } else if ($revision['Question']['id'] === $question['Question']['id']) {
+                    } else if ($revision['Question']['revision_id'] === $question['Question']['revision_id']) {
                         $alertClass = "primary";
                     }
                     
@@ -126,7 +126,7 @@ $approved = $question['Question']['approved'];
                 <div class="panel panel-<?php echo $alertClass ?> panel-revision">
                     <div class="panel-heading">
                         <h3 class="panel-title"> 
-                            <i><?php echo $this->Html->link("Revision med id " . $revision['Question']['id'] . ", " . $revisionText, array('controller' => 'questions', 'action' => 'view', $revision['Question']['id'])); ?></i></h3>
+                            <i><?php echo $this->Html->link("Revision med id " . $revision['Question']['revision_id'] . ", " . $revisionText, array('controller' => 'questions', 'action' => 'view', $revision['Question']['revision_id'])); ?></i></h3>
                     </div>
                         <table class="table table-striped table-bordered">
                             <tbody>

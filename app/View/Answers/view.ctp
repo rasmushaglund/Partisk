@@ -71,7 +71,7 @@ $deleted = $answer['Answer']['deleted'];
 
 <?php if ($this->Permissions->isLoggedIn()) { ?>
   <div class="tools">
-<?php echo $this->element('saveAnswer', array('partyId' => $answer['Party']['id'], 'questionId' => $answer['Question']['id'])); ?>
+<?php echo $this->element('saveAnswer', array('partyId' => $answer['Party']['id'], 'questionId' => $answer['Question']['revision_id'])); ?>
   </div>
 <?php } ?>
 

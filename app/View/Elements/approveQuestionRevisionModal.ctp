@@ -29,8 +29,8 @@
  */
 
 if ($this->Permissions->canDeleteQuestion()) {
-    echo $this->element('approveModal', array('model' => 'Question', 'action' => 'approveRevision/' . $question['Question']['id'],
-        'label' => "Godkänn revision " . $question['Question']['id'], 'itemText' => $question['Question']['title']));
+    echo $this->element('approveModal', array('model' => 'Question', 'action' => 'approveRevision/' . $question['Question']['revision_id'],
+        'label' => "Godkänn revision " . $question['Question']['revision_id'], 'itemText' => $question['Question']['title']));
 }
 
 ?>
