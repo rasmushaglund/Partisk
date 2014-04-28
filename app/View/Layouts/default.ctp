@@ -120,18 +120,20 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><?php echo $this->Html->link('<i class="fa fa-info-circle"></i> Information', array('controller' => 'users', 'action' => 'start'), array('escape' => false));
                     ?></li>
+                        <li><?php echo $this->Html->link('<i class="fa fa-group"></i> Ej godkända användare', array('controller' => 'users', 'action' => 'notApproved'), array('escape' => false));
+                    ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-group"></i> Användare', array('controller' => 'users', 'action' => 'index'), array('escape' => false));
                     ?></li>
+                        <li><?php echo $this->Html->link('<i class="fa fa-thumbs-o-up"></i> Ej godkända frågor', array('controller' => 'questions', 'action' => 'notApproved'), array('escape' => false));
+                    ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-thumbs-o-up"></i> Mina frågor', array('controller' => 'questions', 'action' => 'status'), array('escape' => false));
+                    ?></li>
+                        <li><?php echo $this->Html->link('<i class="fa fa-check"></i> Ej godkända svar', array('controller' => 'answers', 'action' => 'notApproved'), array('escape' => false));
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-check"></i> Mina svar', array('controller' => 'answers', 'action' => 'status'), array('escape' => false));
                     ?></li>
                         <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Mina quizzar', array('controller' => 'quizzes', 'action' => 'status'), array('escape' => false));
                     ?></li>
-                        <?php if ($this->Permissions->isAdmin()) { ?>
-                        <li><?php echo $this->Html->link('<i class="fa fa-check-square-o"></i> Quizöversikt', array('controller' => 'quizzes', 'action' => 'overview'), array('escape' => false));
-                    ?></li>
-                        <?php } ?>
                         <li><?php echo $this->Html->link('<i class="fa fa-sign-out"></i> Logga ut', array('controller' => 'users', 'action' => 'logout'), array('escape' => false));
                         ?></li>
                         </ul>

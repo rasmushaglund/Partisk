@@ -395,12 +395,18 @@ class QuizzesController extends AppController {
         
         if ($data) {
             $results = array();
+            $highest = -1;
             foreach ($data->points_percentage as $key => $value) {
                 if ($value->result > 0) {
+                    $highest = $value->result;
+                }
+            }
+            
+            foreach ($data->points_percentage as $key => $value) {
+                if ($value->result >= $highest) {
                     $results[$key] = $value->result;
                 }
             }
-            arsort($results);
         } else {
             $results = null;
         }
@@ -517,11 +523,6 @@ class QuizzesController extends AppController {
         $this->set('questions', $questions);
         $this->set('quiz', $this->Quiz->getById($id));
         $this->set('availableQuestions', $availableQuestions);
-    }
-
-    public function overview() {
-        $this->loadModel('QuizResult');
-        $this->set('results', $this->QuizResult->getQuizResults());
     }
 
     public function addQuestion() {

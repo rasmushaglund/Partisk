@@ -34,7 +34,8 @@
 	Configure::write('debug', 2);
 	Configure::write('minimizeResources', false);
 	Configure::write('cache', false);
-        //Configure::write('PartiskVersion', '0.2.8');
+	Configure::write('apiVersion', "0.1");
+        Configure::write('PartiskVersion', '0.2.8');
         
         // Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
         $prefix = 'partisk_';

@@ -85,4 +85,11 @@
 		<p>Ni kan läsa mer om sidans öppna källkod och data 
                     <?php echo $this->Html->link('här', array('controller' => 'pages', 'action' => 'about')); ?>.</p>
  	</div>
+        <div class="col-md-6">
+            <h3>Användare som väntar på att godkännas</h3>
+            
+            <h3>Svar som väntar på att godkännas</h3>
+            
+            <h3>Frågor som väntar på att godkännas</h3>
+        </div>
 </div>

@@ -6,10 +6,9 @@ class Api_0_1 extends Api
 {
     public $version = 0.1;
     
-    private $questionFields = array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
+    private $questionFields = array('question_id', 'title', 'type', 'revision_id', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
     private $partyFields = array('id', 'name', 'last_result_parliment', 'last_result_eu', 'color', 'short_name', 'website');
-    private $answerFields = array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
-    private $tagFields = array('question_id', 'title', 'type', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
+    private $answerFields = array('id', 'answer', 'party_id', 'question_id', 'source', 'created_date', 'updated_date', 'approved_date', 'date');
     
     public function questionsIndex(){
         $json = Cache::read('questions', 'api');
@@ -149,7 +148,7 @@ class Api_0_1 extends Api
             $this->controller->Answer->recursive = -1;
             
             $result = Set::extract($this->controller->Answer->find('all', array('conditions' => 
-                    array('deleted' => false, 'approved' => true))), "/Answer/.");
+                    array('deleted' => false, 'approved' => true), 'fields' => $this->answerFields)), "/Answer/.");
             
             if (empty($result)) {
                 throw new NotFoundException("Ogiltigt svar");
@@ -171,7 +170,7 @@ class Api_0_1 extends Api
             $this->controller->Answer->recursive = -1;
             
             $result = Set::extract($this->controller->Answer->find('all', array(
-                'conditions' => array('id' => $ids))), '/Answer/.');
+                'conditions' => array('id' => $ids), 'fields' => $this->answerFields)), '/Answer/.');
             
             if (sizeof($result) === 1) {
                 $result = $result[0];
@@ -241,6 +240,7 @@ class Api_0_1 extends Api
                 $result = $result[0];
             }
             
+            $result['number_of_questions'] = sizeof($result['questions']);
             $json = $this->getJson($result);
             Cache::write('tags' . $idString, $json, 'api');
         }

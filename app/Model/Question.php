@@ -151,7 +151,7 @@ class Question extends AppModel {
         $this->recursive = -1;
         $this->contain(array('Answer.answer', 'Answer.id'));
         $questions = $this->find('all', array(
-            'conditions' => array('Question.question_id' => $id),
+            'conditions' => array('Question.question_id' => $id, 'Question.approved' => true),
             'contain' => array('Answer.deleted' => false, 'Answer.approved' => true),
             'fields' => array('Question.question_id', 'Question.title', 'Question.description', 'Question.type')
             ));

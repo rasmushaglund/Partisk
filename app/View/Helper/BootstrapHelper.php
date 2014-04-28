@@ -169,6 +169,9 @@ class BootstrapHelper extends AppHelper {
 
         $args['controller'] = strtolower(Inflector::pluralize($model));
         $args['model'] = $model;
+        if (!isset($args['idName'])) {
+            $args['idName'] = 'id';
+        }
         if (!isset($args['id'])) {
             $args['id'] = null;
         }

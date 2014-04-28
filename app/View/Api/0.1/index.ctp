@@ -31,7 +31,7 @@
 $this->Html->addCrumb('Api');
 ?>
 
-<h1>API</h1>
+<h1>API version <?php echo Configure::read('apiVersion'); ?></h1>
 <p>Följande API används för att hämta ut frågor, svar, partier och taggar.</p>
 <h2>Frågor</h2>
 <table class="table table-striped table-bordered">
@@ -46,6 +46,7 @@ $this->Html->addCrumb('Api');
         <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/questions/18">Exempel</a></td>
     </tr>
 </table>
+
 <div class="row">
     <div class="col-md-6">
         <table class="table table-striped table-bordered">
@@ -98,9 +99,14 @@ $this->Html->addCrumb('Api');
                     <td>Lista med svarsidn</td>
                 </tr>
                 <tr>
-                    <th>tags</th>>
+                    <th>tags</th>
                     <td>[integer]</td>
                     <td>Lista med taggidn</td>
+                </tr>
+                <tr>
+                    <th>revision_id</th>
+                    <td>integer</td>
+                    <td>Unikt id på frågans revision</td>
                 </tr>
             </tbody>
         </table>
@@ -138,6 +144,11 @@ $this->Html->addCrumb('Api');
                     <td>Svarets unika id</td>
                 </tr>
                 <tr>
+                    <th>answer</th>
+                    <td>string</td>
+                    <td>Svaret (ofta ja/nej)</td>
+                </tr>
+                <tr>
                     <th>party_id</th>
                     <td>integer</td>
                     <td>Partiet svaret hör till</td>
@@ -151,7 +162,22 @@ $this->Html->addCrumb('Api');
                     <th>source</th>
                     <td>string</td>
                     <td>Länk till källan</td>
-                </tr
+                </tr>
+                <tr>
+                    <th>created_date</th>
+                    <td>timestamp</td>
+                    <td>När svaret skapades</td>
+                </tr>
+                <tr>
+                    <th>updated_date</th>
+                    <td>timestamp</td>
+                    <td>När svaret senast uppdaterades</td>
+                </tr>
+                <tr>
+                    <th>approved_date</th>
+                    <td>timestamp</td>
+                    <td>När svaret senast godkändes</td>
+                </tr>
                 <tr>
                     <th>date</th>
                     <td>timestamp</td>

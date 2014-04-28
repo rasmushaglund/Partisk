@@ -366,7 +366,6 @@ class QuestionsController extends AppController {
             if ($this->Permissions->canAddTag()) {
                 $id = $this->Question->getLastInsertId();
                 $this->Question->recursive = -1;
-                $newQuestion = $this->Question->findById($id);
                 $this->Question->Tag->addTags($data, $id);
             }
             $this->customFlash(__('Frågan skapad.'));

@@ -36,7 +36,7 @@ echo $this->Bootstrap->create('Answer', array('modal' => true, 'ajax' => true, '
 echo $this->Bootstrap->dropdown('party_id', 'Party', array('label' => 'Parti', 'options' => $parties, 
     				'selected' => isset($partyId) ? $partyId : null)); 
 echo $this->Bootstrap->dropdown('question_id', 'Question', array('label' => 'Fråga', 'options' => $questions, 'titleField' => 'title', 
-    				'selected' => isset($questionId) ? $questionId : null)); 
+    				'selected' => isset($questionId) ? $questionId : null), 'question_id'); 
 echo $this->Bootstrap->input('answer', array('label' => 'Svar', 'placeholder' => 'Skriv in partiets svar för frågan (obligatoriskt)'));
 echo $this->Bootstrap->input('source', array('label' => 'Källa', 'placeholder' => 'Skriv in vart du hittade svaret (obligatoriskt)'));
 echo $this->Bootstrap->date('date', array('label' => 'Datum för källa', 'placeholder' => 'Datumet källan är ifrån. Skriv dagens datum om inget datum anges (obligatoriskt)')); 

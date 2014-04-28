@@ -54,6 +54,6 @@
 			    <div style="display:none;">
 			        <input type="hidden" name="_method" value="<?php echo $method; ?>">
 			        <?php if ($id) { ?>
-			        <input type="hidden" name="data[<?php echo $model; ?>][id]" value="<?php echo $id; ?>">
+			        <input type="hidden" name="data[<?php echo $model; ?>][<?php echo $idName; ?>]" value="<?php echo $id; ?>">
 			        <?php } ?>
 			    </div>

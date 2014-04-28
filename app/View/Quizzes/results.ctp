@@ -70,16 +70,29 @@ if (Configure::read('minimizeResources')==1) {
         
             <div class="row">
                 <div class="col-md-12">
-        <?php
-            foreach ($winners as $key => $value) { 
-                if ($first) {
-                    $first = false; ?>
-                <div class="alert alert-info results">
-                    <?php echo $this->element('party_header', array('party' => $parties[$key], 'link' => true, 'small' => false, 'title' => false)); ?>
-                    <h4>Dina åsikter stämmer bäst överens med 
-                        <b><?php echo $this->Html->link(ucfirst($parties[$key]['name']), array('controller' => 'parties', 'action' => 'view', 
-                'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
-                        (<?php echo $value; ?>%)</h4>
+                    <div class="alert alert-info results">
+                        <h4>
+                            <?php 
+                            $noWinners = sizeof($winners);
+                            if ($noWinners == 1) {
+                                foreach ($winners as $key => $value) { 
+                                    echo $this->element('party_header', array('party' => $parties[$key], 'link' => true, 'small' => false, 'title' => false));
+                                }
+                            } ?>
+                            Dina åsikter stämmer bäst överens med 
+                            <?php
+                            $index = 0;
+                            foreach ($winners as $key => $value) { 
+                                $index++; ?>
+                                <b><?php echo $this->Html->link(ucfirst($parties[$key]['name']), array('controller' => 'parties', 'action' => 'view', 
+                                'name' => $this->Url->slug($parties[$key]['name']))); ?></b>
+                                (<?php echo $value; ?>%)<?php
+                                if ($noWinners == $index) { echo "."; }
+                                else if ($noWinners == $index + 1) { echo " och "; }
+                                else { echo ", "; }
+                            } ?>
+                        </h4> 
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -92,8 +105,7 @@ if (Configure::read('minimizeResources')==1) {
                     </p>
                 </div>
             </div>
-                <?php }
-            }
+                <?php
             } else { ?>
             <div class="alert alert-danger">För att kunna visa detta resultat måste du ange rätt nyckel.</div>
             <?php }
@@ -105,32 +117,7 @@ if (Configure::read('minimizeResources')==1) {
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-    </div>
-</div>
-<div class="row">
-    <div id="graphs">
-    <div class="col-md-6">
-        <div id="points-percentage-graph" class="graph">
-          <svg></svg>
-          <p class="description">Grafen visar hur många poäng partierna fått relativt varandra. Partier med en negativ poängsumma visas ej.</p>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div id="question-agree-rate-graph" class="graph">
-          <svg></svg>
-          <p class="description">Diagrammet visar hur mycket du håller med svaren för varje parti.</p>
-        </div>
-    </div>
-    </div>
-    <div id="no-svg">
-        <div class="col-md-6">
-            <p class="alert alert-danger">Graferna kunde ej visas då din browser inte har stöd för <a href="http://caniuse.com/svg">SVG</a>. 
-                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a></p>
-        </div>
-    </div>
-</div>
+
 
 <div id="quiz-summary">
     <h3>Sammanställning av resultatet</h3>
@@ -146,6 +133,35 @@ if (Configure::read('minimizeResources')==1) {
           <tbody>
         </tbody>
         </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+    </div>
+</div>
+<div class="row">
+    <div id="graphs">
+    <div class="col-md-6">
+        <div id="points-percentage-graph" class="graph">
+          <div class="graph-title">Fördelning av poäng</div>
+          <svg></svg>
+          <p class="description">Grafen visar hur många poäng partierna fått relativt varandra. Partier med en negativ poängsumma visas ej.</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="question-agree-rate-graph" class="graph">
+          <div class="graph-title">Sympati per parti</div>
+          <svg></svg>
+          <p class="description">Diagrammet visar hur mycket du håller med svaren för varje parti.</p>
+        </div>
+    </div>
+    </div>
+    <div id="no-svg">
+        <div class="col-md-6">
+            <p class="alert alert-danger">Graferna kunde ej visas då din browser inte har stöd för <a href="http://caniuse.com/svg">SVG</a>. 
+                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a></p>
+        </div>
     </div>
 </div>
     
