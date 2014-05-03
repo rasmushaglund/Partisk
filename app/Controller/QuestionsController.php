@@ -117,15 +117,12 @@ class QuestionsController extends AppController {
         }  else {
             $questions = $this->Question->getLoggedInTagQuestions($tagId);
         }
-        
         $this->loadModel('Party');
         $parties = $this->Party->getPartiesOrdered();
         
         $questionIds = $this->Question->getIdsFromModel('Question', $questions, 'question_id');
         $partyIds = $this->Party->getIdsFromModel('Party', $parties);
-        
-        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
-
+        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => array(158)); //$questionIds);
         if(!$this->Permissions->isLoggedIn()) {
             $answersConditions['approved'] = true;
         }
