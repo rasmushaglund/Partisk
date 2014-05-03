@@ -439,7 +439,7 @@ class QuestionsController extends AppController {
         
         $newApprovedQuestion = array('Question' => 
             array(
-                  'id' => $id,
+                  'revision_id' => $id,
                   'approved_date' => date('c'),
                   'approved' => true));
         
