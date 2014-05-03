@@ -412,7 +412,7 @@ class QuestionsController extends AppController {
                   'updated_date' => date('c'));
                 
         $data = array_merge($question['Question'], $params);
-        unset($data['id']);
+        unset($data['revision_id']);
         
         if ($this->Question->save($data)) {
             $this->customFlash(__('Tog bort frågan med id: %s.', h($id)));
