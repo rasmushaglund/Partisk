@@ -122,7 +122,7 @@ class QuestionsController extends AppController {
         
         $questionIds = $this->Question->getIdsFromModel('Question', $questions, 'question_id');
         $partyIds = $this->Party->getIdsFromModel('Party', $parties);
-        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => array(158)); //$questionIds);
+        $answersConditions = array('deleted' => false, 'partyId' => $partyIds, 'questionId' => $questionIds);
         if(!$this->Permissions->isLoggedIn()) {
             $answersConditions['approved'] = true;
         }
@@ -149,7 +149,7 @@ class QuestionsController extends AppController {
             throw new NotFoundException(__('Ogiltig fråga'));
         }
 
-        $question = $this->Question->getByIdOrTitle(urldecode($title), false, true);
+        $question = $this->Question->getByIdOrTitle(urldecode($title), true, true);
         
         if ($this->Auth->loggedIn()) {
             $emptyQuestion = false;
@@ -165,6 +165,7 @@ class QuestionsController extends AppController {
         }
         
         if (empty($question)) {
+            $this->customFlash("Kunde inte hitta frågan.", "danger");
             return $this->redirect(array('controller' => 'questions', 'action' => 'index'));
         }
         
