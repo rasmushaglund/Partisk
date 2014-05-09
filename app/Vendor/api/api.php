@@ -37,14 +37,14 @@ class Api extends Object
      * @return void
      */
     function render($json = null) {        
-        //$this->checkEtag($json);
+        $this->checkEtag($json);
         
         $this->controller->set('data', $json['data']);
         $this->controller->cacheAction = "+1h";
-        $this->controller->layout = 'ajax';
+        $this->controller->layout = 'json';
         $this->controller->response->type('json');
         $this->controller->autoRender = false;
-        $this->controller->render('/Elements/json'); 
+        $this->controller->render('/Layouts/json'); 
         $this->rendered = true;
     }
     

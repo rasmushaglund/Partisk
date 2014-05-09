@@ -135,7 +135,7 @@ class AppController extends Controller {
         }
         
         $this->set('data', json_encode($data, JSON_UNESCAPED_SLASHES));
-        $this->render('/Elements/json');        
+        $this->render('/Layouts/json');        
     }
     
     // http://stackoverflow.com/questions/6826106/generate-random-string

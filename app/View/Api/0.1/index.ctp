@@ -45,6 +45,11 @@ $this->Html->addCrumb('Api');
         <td><span>/api/<?php echo $version; ?>/questions/{question_id}</span></td>
         <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/questions/18">Exempel</a></td>
     </tr>
+    <tr>
+        <td><b>Visa flera frågor</b></td>
+        <td><span>/api/<?php echo $version; ?>/questions/{id 1},{id 2},{...},{id n}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/questions/18,116">Exempel</a></td>
+    </tr>
 </table>
 
 <div class="row">
@@ -125,6 +130,11 @@ $this->Html->addCrumb('Api');
         <td><span>/api/<?php echo $version; ?>/answers/{answer_id}</span></td>
         <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/answers/18">Exempel</a></td>
     </tr>
+    <tr>
+        <td><b>Visa flera svar</b></td>
+        <td><span>/api/<?php echo $version; ?>/answers/{id 1},{id 2},{...},{id n}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/answers/18,14">Exempel</a></td>
+    </tr>
 </table>
 
 <div class="row">
@@ -200,6 +210,11 @@ $this->Html->addCrumb('Api');
         <td><span>/api/<?php echo $version; ?>/parties/{party_id}</span></td>
         <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo Configure::read('apiVersion'); ?>/parties/1">Exempel</a></td>
     </tr>
+    <tr>
+        <td><b>Visa flera partier</b></td>
+        <td><span>/api/<?php echo $version; ?>/parties/{id 1},{id 2},{...},{id n}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo Configure::read('apiVersion'); ?>/parties/1,2">Exempel</a></td>
+    </tr>
 </table>
 
 <div class="row">
@@ -270,6 +285,11 @@ $this->Html->addCrumb('Api');
         <td><b>Visa tagg</b></td>
         <td><span>/api/<?php echo $version; ?>/tags/{tag_id}</span></td>
         <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/tags/35">Exempel</a></td>
+    </tr>
+    <tr>
+        <td><b>Visa flera taggar</b></td>
+        <td><span>/api/<?php echo $version; ?>/tags/{id 1},{id 2},{...},{id 3}</span></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/tags/35,120">Exempel</a></td>
     </tr>
 </table>
 

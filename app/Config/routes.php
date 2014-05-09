@@ -51,20 +51,29 @@ Router::connect('/frågor/search/:string', array('controller' => 'questions', 'a
 Router::connect('/frågor/getCategoryTable/:tagId', array('controller' => 'questions', 'action' => 'getCategoryTable'), array('pass' => array('tagId')));
 Router::connect('/frågor/getQuestionSummaryTable/:questionId', array('controller' => 'quizzes', 'action' => 'getQuestionSummaryTable'), array('pass' => array('questionId')));
 
-Router::connect('/api/questions', array('controller' => 'api', 'action' => 'questions'));
-Router::connect('/api/questions/:id', array('controller' => 'api', 'action' => 'questions'), array('pass' => array('id')));
-Router::connect('/api/parties', array('controller' => 'api', 'action' => 'parties'));
-Router::connect('/api/parties/:id', array('controller' => 'api', 'action' => 'parties'), array('pass' => array('id')));
-Router::connect('/api/answers', array('controller' => 'api', 'action' => 'answers'));
-Router::connect('/api/answers/:id', array('controller' => 'api', 'action' => 'answers'), array('pass' => array('id')));
-Router::connect('/api/tags', array('controller' => 'api', 'action' => 'tags'));
-Router::connect('/api/tags/:id', array('controller' => 'api', 'action' => 'tags'), array('pass' => array('id')));
-
 // http://deadlytechnology.com/php/cakephp-api-component/
+
+// For compability before versioning of the api
+Router::redirect('/api/', array('controller' => 'api', 'action' => 'index'), array('version' => Configure::read('apiVersion')));
+
+Router::connect('/api/questions/', array('version' => Configure::read('apiVersion'), 'controller' => 'questions', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+Router::connect('/api/tags/', array('version' => Configure::read('apiVersion'), 'controller' => 'tags', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+Router::connect('/api/parties/', array('version' => Configure::read('apiVersion'), 'controller' => 'parties', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+Router::connect('/api/answers/', array('version' => Configure::read('apiVersion'), 'controller' => 'answers', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+
+Router::connect('/api/questions/:args', array('version' => Configure::read('apiVersion'), 'controller' => 'questions', 'prefix' => 'api', 'action' => 'view', 'api' => true), 
+       array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
+Router::connect('/api/tags/:args', array('version' => Configure::read('apiVersion'), 'controller' => 'tags', 'prefix' => 'api', 'action' => 'view', 'api' => true), 
+       array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
+Router::connect('/api/parties/:args', array('version' => Configure::read('apiVersion'), 'controller' => 'parties', 'prefix' => 'api', 'action' => 'view', 'api' => true), 
+       array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
+Router::connect('/api/answers/:args', array('version' => Configure::read('apiVersion'), 'controller' => 'answers', 'prefix' => 'api', 'action' => 'view', 'api' => true), 
+       array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
+
 Router::connect('/api/:version', array('controller' => 'api', 'action' => 'info'), array('pass' => array('version')));
 Router::connect('/api/:version/:controller/', array('prefix' => 'api', 'action' => 'index', 'api' => true), array('version'=>'[0-9]+\.[0-9]+'));
 Router::connect('/api/:version/:controller/:args', array('prefix' => 'api', 'action' => 'view', 'api' => true), 
-        array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
+       array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
 
 CakePlugin::routes();
 
