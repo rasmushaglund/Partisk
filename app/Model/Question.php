@@ -206,7 +206,7 @@ class Question extends AppModel {
     }
     
     public function getRevisions($id, $date = 0) {
-        $result = Cache::read('revisions', 'question');
+        $result = Cache::read('revisions_' . $id, 'question');
         if (!$result) {
             
             $this->recursive = -1;
@@ -221,7 +221,7 @@ class Question extends AppModel {
                                        Question.deleted, Question.approved, Question.created_by, Question.approved_by, Question.approved_date, Question.done'),
                     'order' => 'Question.updated_date desc'
                 ));
-            Cache::write('revisions', $result, 'question');
+            Cache::write('revisions_' . $id, $result, 'question');
         }
         
         return $result;
