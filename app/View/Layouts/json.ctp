@@ -31,13 +31,12 @@
 configure::write('debug',0); 
 header('Content-type: text/x-json');
 if (isset($etag)) {
-    
     // Only send the not modified header when the view is cached
-    if (isset($controller) && !$modified) {
-        //$controller->header("HTTP/1.1 304 Not Modified");
+    if ($_SERVER["HTTP_IF_NONE_MATCH"] === $etag) {
+        $controller->header("HTTP/1.1 304 Not Modified");
     }
     
     header('Etag: ' . $etag);
 }
-?><!--/nocache--><?php echo $data;?>
+?><!--/nocache--><?php echo $data; ?>
 
