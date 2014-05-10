@@ -228,6 +228,7 @@ class Api_0_1 extends Api
             foreach ($tags as $key => &$value) {
                 $value['Tag']['questions'] = Set::extract($value['Question'], '/question_id');
                 unset($value['Question']);
+                unset($value['Tag']['number_of_questions']);
             }
             
             $result = Set::extract($tags, "/Tag/.");
@@ -240,7 +241,7 @@ class Api_0_1 extends Api
                 $result = $result[0];
             }
             
-            $result['number_of_questions'] = sizeof($result['questions']);
+            //$result['number_of_questions'] = sizeof($result['questions']);
             $json = $this->getJson($result);
             Cache::write('tags' . $idString, $json, 'api');
         }
