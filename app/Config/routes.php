@@ -61,6 +61,11 @@ Router::connect('/api/tags/', array('version' => Configure::read('apiVersion'), 
 Router::connect('/api/parties/', array('version' => Configure::read('apiVersion'), 'controller' => 'parties', 'prefix' => 'api', 'action' => 'index', 'api' => true));
 Router::connect('/api/answers/', array('version' => Configure::read('apiVersion'), 'controller' => 'answers', 'prefix' => 'api', 'action' => 'index', 'api' => true));
 
+Router::connect('/api/questions', array('version' => Configure::read('apiVersion'), 'controller' => 'questions', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+Router::connect('/api/tags', array('version' => Configure::read('apiVersion'), 'controller' => 'tags', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+Router::connect('/api/parties', array('version' => Configure::read('apiVersion'), 'controller' => 'parties', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+Router::connect('/api/answers', array('version' => Configure::read('apiVersion'), 'controller' => 'answers', 'prefix' => 'api', 'action' => 'index', 'api' => true));
+
 Router::connect('/api/questions/:args', array('version' => Configure::read('apiVersion'), 'controller' => 'questions', 'prefix' => 'api', 'action' => 'view', 'api' => true), 
        array('version'=>'[0-9]+\.[0-9]+', 'pass' => array('args')));
 Router::connect('/api/tags/:args', array('version' => Configure::read('apiVersion'), 'controller' => 'tags', 'prefix' => 'api', 'action' => 'view', 'api' => true), 
