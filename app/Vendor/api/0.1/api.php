@@ -81,7 +81,7 @@ class Api_0_1 extends Api
             
             $this->controller->Party->recursive = -1;
             $result = Set::extract($this->controller->Party->find('all', array(
-                    'conditions' => array('Party.deleted' => false, 'Party.approved' => true),
+                    'conditions' => array('Party.deleted' => false),
                     'fields' => $this->partyFields)
                 ),"/Party/.");
             
@@ -106,8 +106,7 @@ class Api_0_1 extends Api
             $this->controller->Party->recursive = 1;
             $parties = $this->controller->Party->find('all', array(
                 'conditions' => array(
-                    'id' => $ids,
-                    'approved' => true
+                    'id' => $ids
                 ),
                 'fields' => $this->partyFields,
                 'contain' => array(
