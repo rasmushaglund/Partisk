@@ -38,17 +38,18 @@ class Api extends Object
      */
     function render($json = null) {      
         $etag = $this->controller->response->etag($json['etag']);
+        $this->controller->set('etag', $etag);
         
         // Only set the data if it is 
         if (!$this->controller->response->checkNotModified($this->controller->request)) {
             $this->controller->set('data', $json['data']);
-        
-            $this->controller->set('etag', $etag);
             $this->controller->cacheAction = "+1h";
             $this->controller->layout = 'json';
             $this->controller->response->type('json');
             $this->controller->render('/Layouts/json'); 
             $this->rendered = true;
+        } else {
+            echo "hejsan";
         }
         
         $this->controller->autoRender = false;
