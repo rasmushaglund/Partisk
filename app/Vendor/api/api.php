@@ -36,24 +36,21 @@ class Api extends Object
      * 
      * @return void
      */
-    function render($json = null) {        
-        $this->checkEtag($json);
+    function render($json = null) {      
+        $etag = $this->controller->response->etag($json['etag']);
         
-        $this->controller->set('data', $json['data']);
+        // Only set the data if it is 
+        if (!$this->controller->response->checkNotModified($this->controller->request)) {
+            $this->controller->set('data', $json['data']);
+        }
+        
+        $this->controller->set('etag', $etag);
         $this->controller->cacheAction = "+1h";
         $this->controller->layout = 'json';
         $this->controller->response->type('json');
         $this->controller->autoRender = false;
         $this->controller->render('/Layouts/json'); 
         $this->rendered = true;
-    }
-    
-    function checkEtag($json) {
-        $this->controller->response->etag($json['etag']);
-        
-        if ($this->controller->response->checkNotModified($this->controller->request)) {
-            return $this->controller->response;
-        }
     }
     
     function getJson($data) {
