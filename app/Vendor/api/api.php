@@ -42,15 +42,16 @@ class Api extends Object
         // Only set the data if it is 
         if (!$this->controller->response->checkNotModified($this->controller->request)) {
             $this->controller->set('data', $json['data']);
+        
+            $this->controller->set('etag', $etag);
+            $this->controller->cacheAction = "+1h";
+            $this->controller->layout = 'json';
+            $this->controller->response->type('json');
+            $this->controller->render('/Layouts/json'); 
+            $this->rendered = true;
         }
         
-        $this->controller->set('etag', $etag);
-        $this->controller->cacheAction = "+1h";
-        $this->controller->layout = 'json';
-        $this->controller->response->type('json');
         $this->controller->autoRender = false;
-        $this->controller->render('/Layouts/json'); 
-        $this->rendered = true;
     }
     
     function getJson($data) {
