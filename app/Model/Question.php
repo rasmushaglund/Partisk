@@ -42,7 +42,7 @@ class Question extends AppModel {
         'Answer' => array(
             'className' => 'Answer',
             'foreignKey' => false,
-            'finderQuery' => 'select Answer.* from answers Answer where Answer.question_id in (select question_id from questions where id = {$__cakeID__$})'
+            'finderQuery' => 'select Answer.* from answers Answer where Answer.question_id in (select question_id from questions where revision_id = {$__cakeID__$})'
         )
     );
 
