@@ -37,7 +37,7 @@ class Api_0_1 extends Api
             $this->controller->Question->recursive = -1;
             $this->controller->Question->Tag->virtualFields['number_of_questions'] = 0;
             $questions = $this->controller->Question->find('all', array(
-                'conditions' => array('question_id' => $ids),
+                'conditions' => array('question_id' => $ids, 'approved' => true),
                 'fields' => $this->questionFields,
                 'contain' => array(
                     'Answer' => array(
@@ -81,7 +81,7 @@ class Api_0_1 extends Api
             
             $this->controller->Party->recursive = -1;
             $result = Set::extract($this->controller->Party->find('all', array(
-                    'conditions' => array('Party.deleted' => false),
+                    'conditions' => array('Party.deleted' => false, 'Party.approved' => true),
                     'fields' => $this->partyFields)
                 ),"/Party/.");
             
@@ -106,7 +106,8 @@ class Api_0_1 extends Api
             $this->controller->Party->recursive = 1;
             $parties = $this->controller->Party->find('all', array(
                 'conditions' => array(
-                    'id' => $ids
+                    'id' => $ids,
+                    'approved' => true
                 ),
                 'fields' => $this->partyFields,
                 'contain' => array(
@@ -170,7 +171,7 @@ class Api_0_1 extends Api
             $this->controller->Answer->recursive = -1;
             
             $result = Set::extract($this->controller->Answer->find('all', array(
-                'conditions' => array('id' => $ids), 'fields' => $this->answerFields)), '/Answer/.');
+                'conditions' => array('id' => $ids, 'approved' => true), 'fields' => $this->answerFields)), '/Answer/.');
             
             if (sizeof($result) === 1) {
                 $result = $result[0];
