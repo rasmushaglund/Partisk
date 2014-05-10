@@ -34,7 +34,7 @@ if (isset($etag)) {
     
     // Only send the not modified header when the view is cached
     if (isset($controller) && !$modified) {
-        $controller->header("HTTP/1.1 304 Not Modified");
+        //$controller->header("HTTP/1.1 304 Not Modified");
     }
     
     header('Etag: ' . $etag);
