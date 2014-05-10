@@ -48,8 +48,6 @@ class Api extends Object
             $this->controller->response->type('json');
             $this->controller->render('/Layouts/json'); 
             $this->rendered = true;
-        } else {
-            echo "hejsan";
         }
         
         $this->controller->autoRender = false;

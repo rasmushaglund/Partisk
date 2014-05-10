@@ -208,12 +208,12 @@ $this->Html->addCrumb('Api');
     <tr>
         <td><b>Visa parti</b></td>
         <td><span>/api/<?php echo $version; ?>/parties/{party_id}</span></td>
-        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo Configure::read('apiVersion'); ?>/parties/1">Exempel</a></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/parties/1">Exempel</a></td>
     </tr>
     <tr>
         <td><b>Visa flera partier</b></td>
         <td><span>/api/<?php echo $version; ?>/parties/{id 1},{id 2},{...},{id n}</span></td>
-        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo Configure::read('apiVersion'); ?>/parties/1,2">Exempel</a></td>
+        <td><a href="<?php echo Router::url('/', false); ?>api/<?php echo $version; ?>/parties/1,2">Exempel</a></td>
     </tr>
 </table>
 
