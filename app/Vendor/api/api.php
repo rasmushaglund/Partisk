@@ -39,6 +39,7 @@ class Api extends Object
     function render($json = null) {      
         $etag = $this->controller->response->etag($json['etag']);
         $this->controller->set('etag', $etag);
+        $modified = false;
         
         // Only set the data if it is 
         if (!$this->controller->response->checkNotModified($this->controller->request)) {
@@ -48,7 +49,10 @@ class Api extends Object
             $this->controller->response->type('json');
             $this->controller->render('/Layouts/json'); 
             $this->rendered = true;
+            $modified = true;
         }
+        
+        $this->controller->set('modified', $modified);
         
         $this->controller->autoRender = false;
     }
