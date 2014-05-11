@@ -397,11 +397,10 @@ class QuizzesController extends AppController {
             $results = array();
             $highest = -1;
             foreach ($data->points_percentage as $key => $value) {
-                if ($value->result > 0) {
+                if ($value->result > 0 && $value->result > $highest) {
                     $highest = $value->result;
                 }
             }
-            
             foreach ($data->points_percentage as $key => $value) {
                 if ($value->result >= $highest) {
                     $results[$key] = $value->result;
