@@ -54,7 +54,7 @@ if (Configure::read('minimizeResources')==1) {
                     <i class="date"><?php echo date('Y-m-d', strtotime($quizResults['QuizResult']['created'])); ?></i></h1>
 
                 <?php echo $this->element("share", array(
-    "text" => "Mitt quizresultat"
+    "text" => "Mitt quizresultat", "params" => "key=" . $key
 )); ?>
             </div>
             <div class="col-md-6">

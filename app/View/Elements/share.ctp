@@ -30,10 +30,11 @@
 
 <?php
 $url = urlencode(Router::url(null, true));
-$text = (isset($text) ? $text . ": " : "") . $url;
+$text = isset($text) ? $text : "";
+$params = isset($params) ? "?" . $params : "";
 ?>
 <div class="share">
-    <a href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $url; ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
-    <a href="https://twitter.com/intent/tweet?url=<?php echo $url; ?>&text=<?php echo $text; ?>&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
-    <a href="https://plus.google.com/share?url=<?php echo $url; ?>" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+    <a href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $url . $params; ?>" title="Facebook"><i class="fa fa-facebook-square"></i></a>
+    <a href="https://twitter.com/intent/tweet?url=<?php echo $url . $params; ?>&text=<?php echo $text; ?>&via=partisknu" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+    <a href="https://plus.google.com/share?url=<?php echo $url . $params; ?>" title="Google+"><i class="fa fa-google-plus-square"></i></a>
 </div>

@@ -8,7 +8,7 @@ class Api_0_1 extends Api
     
     private $questionFields = array('question_id', 'title', 'type', 'revision_id', 'description', 'created_date', 'updated_date', 'approved_date', 'description');
     private $partyFields = array('id', 'name', 'last_result_parliment', 'last_result_eu', 'color', 'short_name', 'website');
-    private $answerFields = array('id', 'answer', 'party_id', 'question_id', 'source', 'created_date', 'updated_date', 'approved_date', 'date');
+    private $answerFields = array('id', 'answer', 'party_id', 'question_id', 'source', 'created_date', 'updated_date', 'approved_date', 'date', 'description');
     
     public function questionsIndex(){
         $json = Cache::read('questions', 'api');
