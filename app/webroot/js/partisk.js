@@ -263,10 +263,12 @@ function getQuestionAgreeRate() {
     var agree_rate = data["question_agree_rate"];
 
     for (var value in agree_rate) {
-        result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
-            label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'],
-            party_id: parties[value].id, short_label: parties[value].short_name,
-            color: parties[value].color, order: parties[value].order});
+	if (parties[value] !== undefined) {
+            result.values.push({value: agree_rate[value]['result'], range: agree_rate[value]['range'], plus_points: agree_rate[value]['plus_points'],
+				label: capitalizeFirstLetter(parties[value].name), minus_points: agree_rate[value]['minus_points'],
+				party_id: parties[value].id, short_label: parties[value].short_name,
+				color: parties[value].color, order: parties[value].order});
+	}
     }
 
     result.values.sort(function(a, b) {
@@ -281,7 +283,7 @@ function getPointsPercentage() {
     var points_percentage = data['points_percentage'];
 
     for (var value in points_percentage) {
-        if (points_percentage[value]['result'] > 0) {
+        if (parties[value] !== undefined && points_percentage[value]['result'] > 0) {
             result.values.push({value: points_percentage[value]['result'], range: points_percentage[value]['range'],
                 points: points_percentage[value]['points'], label: capitalizeFirstLetter(parties[value].name),
                 party_id: parties[value].id, short_label: parties[value].short_name,
