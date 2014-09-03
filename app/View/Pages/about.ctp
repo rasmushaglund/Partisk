@@ -115,7 +115,7 @@
                             <a href="https://github.com/emilwall" title="GitHub"><i class="fa fa-github"></i></a></p>
                         </div>
                     </li>
-                   <li>
+<!--                   <li>
                         <div class="alert alert-info">
                             <img src="img/kristoffer.jpg" alt="Kristoffer Bjelkmark" class="img-thumbnail">
                             <b>Kristoffer Bjelkmark</b>
@@ -132,7 +132,13 @@
                             <b>Sara Klasson</b>
                             <p>Retorikstuderande vid Uppsala universitet med intresse för politik och kommunikation.</p>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
+		<h2>Med stor hjälp från</h2>
+		<ul class="list-unstyled">
+			<li>Kristoffer Bjelkmark</li>
+			<li>Sara Klasson</li>
+			<li>Tommy Dahlin</li>
+			</ul>	  
 	</div>
 </div>
