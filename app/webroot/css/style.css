@@ -1,0 +1,1430 @@
+/*
+ * Copyright 2013-2014 Partisk.nu Team
+ * https://www.partisk.nu/
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @copyright   Copyright 2013-2014 Partisk.nu Team
+ * @link        https://www.partisk.nu
+ * @package     app.webroot.css
+ * @license     http://opensource.org/licenses/MIT MIT
+ */
+
+body { 
+    padding-top: 0px; 
+}
+
+.navbar-default .navbar-nav>li>a.active, .navbar-nav>a:hover.active, .navbar-nav>a:focus.active {
+    color: #555;
+    background-color: #e7e7e7;
+}
+
+div.logo.small {
+	max-height: 25px;
+	max-width: 25px;
+	margin-right: 5px;
+}
+
+.table-nonfluid {
+   width: auto;
+}
+
+h1 {
+    display: inline-block;
+    font-size: 27px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 40px;
+}
+
+h1 a {
+	color: black;
+}
+
+h1 a:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
+h1 .party-logo, h2 .party-logo {
+	margin-right: 8px;
+}
+
+h1 .party-title, h2 .party-title {
+    left: 0px;
+    top: -15px;
+    position: relative;
+}
+
+h2 .party-answer {
+    display: inline;
+    top: -15px;
+    left: -6px;
+    position: relative;
+}
+
+.source {
+    font-size: 12px;
+    color: #666;
+    top: -1px;
+    position: relative;
+}
+
+
+
+.table.table-nonfluid tbody > tr > th {
+	vertical-align: middle;
+}
+
+tr.disabled {
+	background-color: lightgray;
+}
+
+#partyMenu {
+	width: 50px;
+}
+
+#partyMenu button {
+	background-color: transparent;
+	border: none;
+}
+
+table.party-table > tbody > tr > td, table.party-table > tbody > tr > th {
+	vertical-align: middle;
+}
+
+.qa-table .table-head.table-row .table-header {
+    text-align: center;
+}
+
+.qa-table .table-cell {
+    text-align: center;
+    overflow: hidden;
+    vertical-align: middle;
+    height: 57px;
+}
+
+.table .party-title {
+    position: relative;
+    margin-left: 6px;
+    top: -6px;
+    font-weight: 200;
+}
+
+.party-table .table-row {
+	height: 16px;
+}
+
+.party-table .table-row .table-header {
+	width: 10px;
+	border-top: none;
+	padding: 2px;
+}
+
+.party-table > tbody > tr > td {
+	padding: 10px 3px;
+}
+
+.yes {
+	background-color: #ddffdd !important;
+}
+
+.no {
+	background-color: #ffdddd !important;
+}
+
+.answer-cell {
+    display: table-cell;
+}
+
+.narrow-table.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.narrow-table td {
+    width: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#question-agree-rate-graph svg {
+  height: 400px;
+}
+
+#points-percentage-graph svg {
+  height: 400px;
+}
+
+.graph {
+    margin-top: 30px;
+}
+
+.quiz-answers label {
+    margin-left: 6px;
+}
+
+.quiz-answers .input.radio {
+    margin-bottom: 30px;
+}
+
+.quiz-answers h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.quiz-answers .modal-body p {
+    margin-bottom: 20px;
+}
+
+td.category {
+    text-align: left;
+    border-left: none;
+    border-right: none;
+    background-color: transparent !important; 
+}
+
+td.category h3 {
+    margin-bottom: 0px;
+}
+
+table .header-fixed {
+    top: 50px;
+}
+
+table.table-bordered > thead.header-fixed {
+    border-bottom: none;
+}
+
+
+table.table-bordered > thead.header-copy > tr > th:last-child {
+    border-right: none;
+    
+}
+
+.alert thead {
+    background-color: transparent;
+}
+
+.alert tbody {
+    background-color: transparent;
+}
+
+.label a {
+    color: white;
+}
+
+form {
+    position: relative;
+    margin: 0 0px 15px;
+    margin: 0;
+    border: none;
+    padding-bottom: 0px;
+}
+
+.modal form {
+    
+    padding: 0px 15px 15px;
+}
+
+.form-box {
+    max-width: 400px;
+}
+
+.admin-box {
+    margin-top: 60px;
+}
+
+tr .btn, .table-row .btn {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.btn {
+    margin-right: 6px;
+}
+
+.data-table td > i, .data-table td > a {
+    margin-left: 5px;
+}
+
+
+table.qa-table thead th, table.qa-table tbody td {
+    text-align: center;
+}
+
+.table {
+    margin-bottom: 30px;
+}
+
+tr {
+    border-radius: 4px;
+}
+
+table .tools, .table .tools {
+    border-bottom: none;
+    margin: 0px;
+}
+
+.table-bordered>thead>tr>th, .table-bordered>thead>tr>td {
+    border-bottom-width: 1px;
+}
+
+.error {
+    color: #ff2222;
+}
+
+.navbar-fixed-top {
+    top: 100px;
+}
+
+#logo {
+    position: relative;
+    top: 29px;
+    width: 400px;
+    margin-left: auto;
+    z-index: 9;
+    right: 20px;
+}
+
+#logo p {
+    font-size: 60px;
+    display: inline-block;
+    font-weight: bold;
+    top: -42px;
+    font-size: 50px;
+    font-weight: bold;
+    letter-spacing: -6px;
+    text-shadow: 0 0 2px #000;
+    color: #f8f8f8;
+    z-index: 0;
+}
+
+.navbar-brand i {
+    margin-right: 2px;
+}
+
+.navbar-default .navbar-brand {
+    color: #555;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #111;
+}
+
+.modal .modal-footer {
+    margin-top: 0px;
+}
+
+#feedbacksModalLink {
+    opacity: 0.8;
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+}
+
+#feedbacksModalLink:hover {
+    opacity: 1;
+}
+
+.datepicker {
+    z-index: 1151 !important;
+}
+
+select.form-control {
+    padding: 6px 7px;
+    /*max-width: 200px;*/
+    width: auto;
+}
+
+select {
+    max-width: 100%;
+}
+
+/* Hack to solve https://github.com/twbs/bootstrap/issues/9855 */
+.modal-open #feedbacksModalLink {
+    right: 20px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+input.datepicker {
+    padding-left: 12px;
+}
+
+.navbar-collapse .navbar-nav.navbar-left:first-child {
+    margin-left: 0px;
+}
+
+.description {
+    font-size: 11px;
+    color: #777;
+    text-align: center;
+}
+
+.author-info .description {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.author-info {
+    margin-bottom: 0px;
+    margin-top: 40px;
+}
+
+h1.deleted, h2.deleted {
+    text-decoration: line-through;
+}
+
+p.deleted {
+    display: inline;
+    color: #777;
+}
+
+.btn-group > form + .btn {
+    border-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
+    border-top-right-radius: 3px !important;
+}
+
+.admin-toolbox {
+    width: 50px;
+}
+
+.admin-toolbox.btn-group .btn {
+    margin-right: 0px;
+}
+
+h1 .admin-toolbox {
+    margin-left: 7px;
+}
+
+#footer {
+    margin-top: 50px;
+    color: #777;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+}
+
+#footer .follow .fa {
+    font-size: 1.7em;
+}
+
+#footer .list-unstyled li {
+    margin-bottom: 4px;
+    margin-left: 1px;
+}
+
+#footer ul a {
+    text-decoration: none;
+}
+
+#footer .info {
+    margin-top: 30px;
+}
+
+#footer h4 {
+    padding-top: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1px;
+}
+
+#footer .contact li:first-child {
+    margin-bottom: 18px;
+}
+
+.tools {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.history {
+    margin-top: 60px;
+}
+
+.tags {
+    margin-bottom: 10px;
+}
+
+.matching-answer > span{
+    font-weight: bold;
+}
+
+.party-result-table {
+    max-width: 600px;
+    margin-bottom: 0px;
+}
+
+.plus-points .result, .plus-points .answer {
+    color: #0a0;
+}
+
+.minus-points .result, .minus-points .answer {
+    color: #f00;
+}
+
+.result{
+    font-weight: bold;
+    margin-left: 7px;
+}
+
+.plus-points .result {
+    margin-left: 0px;
+}
+
+.minus-points .result {
+    margin-left: 2px;
+}
+
+.super-message {
+    background-color: yellow;
+    border-bottom: 1px solid #556;
+    border-top: 1px solid #556;
+    position: relative;
+    z-index: 10000;
+    box-shadow: 0px 0px 16px #334;
+}
+
+.super-message p, .super-message h3 {
+    color: #334;
+    position: relative;
+    letter-spacing: 1px;
+    display: inline-block;
+    background-color: #ff0;
+    text-shadow: 0px 0px 7px #aaa;
+    margin-left: 15px;  
+}
+
+.super-message h3 {
+    font-weight: bold;
+    margin-top: 18px;
+    margin-left: 15px;   
+}
+
+.super-message p {
+    margin-top: 10px;
+}
+
+.popover-data {
+    display: none;
+}
+
+.popover-link {
+    cursor: pointer;
+    color: #428bca;
+}
+
+.popover-link:hover {
+    color: #2a6496;
+text-decoration: underline;
+}
+
+.popover {
+  max-width: 600px;
+}
+
+.popover-description {
+    margin-top: 8px;
+    font-weight: 200;
+}
+
+.qa-table th a {
+    display: inline-block;
+}
+
+.no-questions {
+    font-size: 14px;
+    color: #999;
+    margin-left: 6px;
+}
+
+.credits.list-unstyled li {
+    margin-top: 30px;
+}
+
+.dropdown-deleted {
+    color: red;
+}
+
+.dropdown-not-approved {
+    color: #bbb;
+}
+
+.dropdown-few-answers {
+    color: #f0f;
+}
+
+.answer-not-approved {
+    color: #ff6666;
+    font-weight: bold;
+}
+
+.question-not-approved {
+    color: #aaa;
+}
+
+.popover-content .admin-toolbox {
+    float: right;
+}
+
+.popover-click-link:focus, .popover-click-link:active {
+    color: red;
+}
+
+.table {
+    display: table;
+  max-width: 100%;
+  background-color: transparent;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    padding: 5px 0;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.popover .btn {
+    margin-left: 0px;
+}
+
+.table-cell.empty span {
+    font-size: 14px;
+    cursor: pointer;
+    color: #ddd;
+}
+
+.table-cell.empty span:hover {
+    color: #bbb;
+}
+
+.table-header {
+  text-align: left;
+    display: table-cell;
+}
+
+.table-head.table-row .table-cell {
+    border: 1px solid #ddd;
+    border-top: 0;
+    border-bottom-width: 1px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 2px solid #ddd;
+    padding: 8px;
+}
+
+.table-bordered {
+    border-left: 0;
+    border-right: 0;
+}
+
+.table-striped .table-row:nth-child(even)>.table-cell {
+    background-color: #f9f9f9;
+}
+
+.table-cell {
+    padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+}
+
+.table-header {
+    vertical-align: bottom;
+    border-top: 1px solid #dddddd;
+    padding: 8px;
+    line-height: 1.428571429;
+    font-weight: bold;
+}
+
+.table-bordered .table-row .table-header, .table-bordered .table-row .table-cell {
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    line-height: 1.428571429;
+}
+
+.table-striped .table-row -table-header, .table-striped .table-row .table-cell {
+    border-top: 1px solid #ddd;
+}
+
+.table-header.table-header-text {
+    padding: 8px;
+}
+
+.table-striped .table-row.table-head .table-header {
+    border-top: none;
+}
+
+.qa-table.table-bordered {
+    border-right: none;
+    border-left: 1px solid #ddd;
+    
+}
+
+.table-head-container .qa-table.table-bordered {
+    border-bottom: none;
+}
+
+.qa-table.table-bordered .table-head .table-header {
+    border-top: none;    
+}
+
+.qa-table .table-header, .qa-table .table-cell {
+    width: 76px;
+}
+
+.qa-table .table-header-text, .qa-table .table-head.table-row .table-header-text {
+    width: 300px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.qa-table .table-header-text {
+    font-weight: 200;
+}
+
+.qa-table .table-head.table-row .table-header-text {
+    position: relative;
+}
+
+.qa-table .table-head.table-row .table-header {
+    padding: 8px;
+}
+
+
+.qa-table .table-head.table-row .table-header-text a {
+    margin: 0;
+    padding: 0;
+}
+
+.table-head-container .table {
+    display: none;
+}
+
+.table-fixed .table {
+    top: 0px;
+    position: fixed;
+    display: block;
+}
+
+.qa-table {
+    margin-bottom: 0px;
+}
+
+.qa-table .popover-hover-link {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.qa-table .table-row.table-head {
+    position: relative;
+    height: 68px;
+}
+
+.table-head-container .table-bordered  .table-header {
+    border-bottom: 0px;
+}
+
+.table-head-container.table-fixed .table-bordered {
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.table-header-bg {
+    left: 0px;
+    top: 0px;
+    position: fixed;
+    height: 72px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 2px 17px #999;
+    opacity: 0.93;
+}
+
+
+.table-head-container .table-header-bg {
+    display: none;
+    z-index: 501;
+}
+
+.table-head-container .table {
+    z-index: 502;
+}
+
+.table-head-container.table-fixed .table-header-bg {
+    display: block;
+}
+
+.table-date-column {
+    width: 108px;
+}
+
+.party-logo {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+
+.party-title {
+    display: inline-block;
+}
+
+.party-logo-small {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+
+.table-header .party-logo {
+    margin: 0 auto;
+}
+
+
+.party-logo-small-1 { background-position: -150px -175px; }
+.party-logo-small-2 { background-position: -100px -175px; }
+.party-logo-small-3 { background-position: -25px -175px; }
+.party-logo-small-4 { background-position: -125px -175px; }
+.party-logo-small-5 { background-position: -0px -175px; }
+.party-logo-small-6 { background-position: -50px -175px; }
+.party-logo-small-7 { background-position: -200px -175px; }
+.party-logo-small-8 { background-position: -175px -175px; }
+.party-logo-small-9 { background-position: -75px -175px; }
+.party-logo-small-10 { background-position: -225px -175px; }
+.party-logo-small-11 { background-position: -250px -175px; }
+
+
+.party-logo-1 { background-position: -100px -50px; }
+.party-logo-2 { background-position: 0px -50px; }
+.party-logo-3 { background-position: -50px 0px; }
+.party-logo-4 { background-position: -50px -50px; }
+.party-logo-5 { background-position: -0px 0px; }
+.party-logo-6 { background-position: -100px 0px; }
+.party-logo-7 { background-position: -0px -100px; }
+.party-logo-8 { background-position: -150px -50px; }
+.party-logo-9 { background-position: -150px -0px; }
+.party-logo-10 { background-position: -50px -100px; }
+.party-logo-11 { background-position: -100px -100px; }
+
+.tt-hint {
+    visibility:hidden;
+}
+
+#partisk-search{
+    margin-bottom: 20px;
+}
+
+#partisk-search .twitter-typeahead, .tt-dropdown-menu {
+    width: 100%;
+}
+
+.tt-suggestion {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.tt-suggestions .tt-suggestion:last-child {
+    border-bottom: none;
+}
+
+.table, .table-head-container {
+    table-layout: fixed;
+}
+
+.table-head-container.table-fixed .table-bordered {
+    border-bottom: none;
+    border-left: none;
+    display: table;
+    width: 1139px;
+} 
+
+.nvd3 .nv-x.nv-axis text {
+    font-size: 0px;
+}
+
+.nvd3 .nv-label text {
+    font-size: 0px;
+}
+
+.party-column {
+    width: 198px;
+}
+
+#accordion h3 {
+    margin-top: 40px;
+}
+
+.date {
+    font-size: 15px;
+    color: #777;
+}
+
+.share {
+    margin-bottom: 15px;
+}
+
+.share.share-inline {
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.share a {
+    font-size: 1.7em;
+}
+
+#accordion .list-unstyled li {
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-top: 60px;
+}
+
+.navbar-collapse .navbar-nav.navbar-right {
+    margin-top: 0;
+    margin-left: 0px;
+}
+
+.navbar-collapse .navbar-nav.navbar-left {
+    margin-bottom: 0;
+    margin-left: 0px;
+}
+
+.answer-party-cell {
+    display: none;
+}
+
+.quizCalculationInfo {
+    margin-top: 20px;
+    float: right;
+}
+
+.progress {
+    background-color: white;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0px;
+}
+
+.quiz-progress {
+    margin-bottom: 0px;
+    color: #777;
+}
+
+.popover-content .party-logo-small {
+    top: 7px;
+    position: relative;
+    margin-right: 3px;
+}
+
+.party-answer {
+    display: none;
+}
+
+
+.collapsable-table .table-header .party-logo-small, .table-head-container .table-header .party-logo-small {
+    display: none;
+}
+      
+.table-head-container , .table-head-container .qa-table {
+    min-width: 1140px;
+}
+
+.table-scrolled-overflow-container {
+    overflow: auto;
+}
+
+.table-scrolled-overflow-container .table {
+    min-width: 350px;
+}
+        
+/* Credits: http://css-tricks.com/responsive-data-tables/ */
+@media (max-width: 1199px) {
+	/*.collapsable-table .table-head .table-row { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+        .collapsable-table .table-head .table-header, .qa-table .table-head .table-header {
+            display: none;
+        }
+        
+        .collapsable-table .table-row.table-head {
+            display: none;
+        }
+        
+        .collapsable-table .table-head-container {
+            display: none;
+        }
+        
+        .collapsable-table.table-bordered .table-row .table-header, .collapsable-table.table-bordered .table-row .table-cell {
+            border: none;
+        }
+        
+        .table-bordered .table-row .table-header {
+            background-color: transparent !important;
+            font-size: 17px;
+        }
+	
+	.table-bordered .table-row .table-cell { 
+		border-bottom: none;
+                padding: 0;
+	}
+        
+        .qa-table.table-bordered {
+            border: none;
+        }
+	
+	.collapsable-table .table-cell:before { 
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+        .collapsable-table .table-cell {
+            display: inline-block;
+        }
+        
+        .collapsable-table .table-header-text {
+            width: 100% !important;
+        }
+        
+        .empty-cell {
+            display: none;
+        }
+        
+        .collapsable-table .table-row {
+            margin-top: 40px;
+        }
+        
+        .collapsable-table .answer-cell {
+            display: block;
+        }
+        
+        .answer-party-cell {
+            display: inline-block;
+        }	
+        
+        .collapsable-table .table-cell {
+            width: auto;
+            text-align: left;
+        }
+        
+        .collapsable-table .party-answer, .collapsable-table .popover-link {
+            display: inline-block;
+        }
+        
+        .collapsable-table .party-answer {
+            width: 180px;
+        }
+        
+        .collapsable-table .party-title {
+            font-weight: 200;
+        }
+        
+        .collapsable-table .popover-link {
+            position: relative;
+            top: -7px;
+        }
+        
+        .collapsable-table .table-cell {
+            background-color: transparent;
+            font-weight: 700;
+        }
+        
+        .collapsable-table .yes .popover-link {
+            color: green;
+        }
+        .collapsable-table .no .popover-link {
+            color: red;
+        }
+        
+        .collapsable-table.table-striped .table-row > .table-cell {
+            background-color: transparent !important;
+        }
+        
+        .collapsable-table .table-header-text {
+            margin-bottom: 10px;
+        }*/
+        .qa-table .table-header, .qa-table .table-cell {
+            width: 58px;
+        }
+        
+        .qa-table .table-head.table-row .table-header {
+            padding: 8px 0px;
+        }
+        
+        .qa-table .table-head.table-row .table-header.table-header-text {
+            padding: 8px;
+        }
+        
+        .table-head-container.table-fixed .table-bordered, .table-head-container {
+            width: 940px;
+            min-width: 940px;
+        }
+        
+}
+
+@media (max-width: 991px) {
+    #feedbacksModalLink {
+        display: none;
+    }
+    
+    .collapsable-head {
+        display: none;
+    }
+    
+    .modal { 
+        position: fixed; 
+        width: auto; 
+        margin: 0; 
+    }
+
+    .quizCalculationInfo {
+        float: none;
+    }
+    
+    .modal-body { 
+        height: 60%; 
+    }
+
+    .modal-body { 
+        max-height: 350px; 
+        padding: 15px; 
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; 
+     }
+     
+     .party-table thead {
+         display: none;
+     }
+     
+     .party-table td {
+         display: none;
+     }
+     
+     
+    .qa-table .table-header, .qa-table .table-cell {
+        width: 38px;
+    }
+
+    .collapsable-table .table-header .party-logo, .table-head-container .table-header .party-logo {
+        display: none;
+    }
+
+    .collapsable-table .table-header .party-logo-small, .table-head-container .table-header .party-logo-small {
+        display: inline-block;
+    }
+    
+    
+    .table-head-container.table-fixed .table-bordered, .table-head-container {
+        width: 720px;
+        min-width: 720px;
+    }
+
+    .qa-table .table-row.table-head {
+        height: 38px;
+    }
+
+    .table-header-bg {
+        height: 39px;
+    }
+
+
+    .qa-table .table-head.table-row .table-header {
+        padding: 2px;
+    }
+}
+
+
+
+@media (max-width: 767px) {     
+    .qa-table .table-header, .qa-table .table-cell {
+        width: 6%;
+    }
+    
+    .qa-table .table-row .table-cell {
+        padding: 8px 0px;
+    }
+    
+    
+    .qa-table .table-header.table-cell {
+        padding: 8px;
+    }
+    
+    .qa-table .table-header-text, .qa-table .table-head.table-row .table-header-text {
+        width: 200px;
+    }
+    
+    .table-head-container.table-fixed .table-bordered, .table-head-container {
+        width: 100%;
+        min-width: 100%;
+        padding-right: 30px;
+    }
+}
+
+
+@media (max-width: 540px) {     
+    .qa-table .table-header, .qa-table .table-cell {
+        width: 6%;
+    }
+    
+    
+    .qa-table .table-row .table-cell {
+        padding: 8px 8px;
+    }
+    
+    .qa-table .table-header-text, .qa-table .table-head.table-row .table-header-text {
+        width: 150px;
+    }
+}
+@media (max-width: 463px) {
+    .qa-table {
+        min-width: 419px;
+        
+    }
+    
+    .qa-table .table-head{
+        display: none;
+    }
+    
+    .qa-table .party-answer{
+        display: none;
+    }
+    
+    .qa-table .table-cell.no{
+        display: none;
+    }
+    
+    .qa-table .table-cell.yes{
+        display: none;
+    }
+
+    .qa-table .table-cell.empty{
+        display: none;
+    }
+    
+    .qa-table .table-cell.etc{
+        display: none;
+    }
+    
+    .collapsable-table-container {
+        overflow-x: scroll;
+    }
+    
+    .table-head-container.table-fixed .table-header-bg, .table-head-container.table-fixed .table {
+        display: none;
+    }
+    
+    .table-head-container.table-fixed .table-bordered, .table-head-container {
+            width: 100%;
+            min-width: 100%;
+            padding-right: 30px;
+        }
+    
+    
+}
+
+
+
+@media (max-width: 360px) {
+  
+    .qa-table {
+        min-width: 200px;  
+        
+    }
+    
+    .qa-table .party-title {
+        display: none;        
+    }
+    
+    .qa-table th{
+        width: 60px;  
+         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+     
+    h1{
+        font-size: 20px;         
+    
+    }
+
+}
+
+
+@media (max-width: 500px) {     
+     .popover {
+         left: 0 !important;
+         width: 100%;
+     }
+     
+     .popover.top .arrow {
+         display: none;
+     }
+}
+
+
+
+.breadcrumb {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.credits img {
+    float: left;
+    width: 110px;
+    margin-right: 10px;
+}
+
+.credits .alert {
+    min-height: 142px;
+}
+
+.credits .social {
+    font-size: 19px;    
+}
+
+.label {
+    font-weight: 200;
+}
+
+h1.label {
+    font-size: 20px;
+    padding: 0.2em 0.6em 0.2em;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+#no-svg {
+    margin-top: 20px;
+    display: none;
+}
+
+#accordion .accordion-expanded.panel {
+    border: none;
+}
+
+#accordion .accordion-expanded .panel-heading {
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.table-hover .table-row:hover > .table-cell {
+background-color: #f5f5f5;
+}
+
+.results .party-logo-link {
+    margin-right: 10px;
+}
+
+.results h4, .results .party-logo-link {
+    vertical-align: middle;
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+.results {
+    margin-top: 40px;
+}
+
+.share-line {
+    margin-top: 44px;
+}
+
+.share-line p {
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+.share-line hr {
+    position: relative;
+    width: 100%;
+    margin-top: 0px;
+    border-top: 2px dashed #f77;
+}
+
+.stats p {
+    margin-bottom: 2px;
+    text-align: right;
+    color: #333;
+    font-size: 13px;
+}
+
+.stats {
+    float: right;
+}
+
+#result-table .percent {
+    font-weight: bold;
+}
+
+#graphs {
+    display: none;
+}
+
+#quiz-summary {
+    display: none;
+}
+    
+.panel .btn {
+    margin-right: 0px;
+}
+
+.panel-revision {
+    margin-bottom: 20px;
+}
+
+.panel-primary .panel-heading a {
+    color: white;
+}
+
+.disclaimer-warning {
+    font-size: 13px;
+    color: #888;
+}
+
+.disclaimer-warning .fa {
+    color: #aaa;
+    font-size: 69px;
+    float: left;
+    margin: 0 10px 0px 5px;
+}
+
+.disclaimer {
+    margin-top: 40px;
+}
+
+.graph-title {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
