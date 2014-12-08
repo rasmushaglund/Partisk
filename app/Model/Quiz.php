@@ -1,8 +1,8 @@
-<?php 
+<?php
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -21,7 +21,7 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.Model
@@ -43,11 +43,11 @@ class Quiz extends AppModel {
             )
         )
     );
-    
+
     const NOT_IMPORTANT_POINTS = 1;
     const IMPORTANT_POINTS = 3;
     const VERY_IMPORTANT_POINTS = 9;
-    
+
     public $hasAndBelongsToMany = array(
         'Question' => array(
             'joinTable' => "question_quizzes"
@@ -56,7 +56,7 @@ class Quiz extends AppModel {
 
     public $belongsTo = array(
         'CreatedBy' => array(
-            'className' => 'User', 
+            'className' => 'User',
             'foreignKey' => 'created_by',
             'fields' => array('id', 'username')
         ),
@@ -72,32 +72,32 @@ class Quiz extends AppModel {
         ),
         'QuestionTag'
     );
-    
+
     public $virtualFields = array(
         'questions' => 'select count(QuestionQuiz.id) from question_quizzes as QuestionQuiz
                 join questions as Question on Question.question_id = QuestionQuiz.question_id
                 and Question.deleted = false and Question.approved = true
                 where QuestionQuiz.quiz_id = Quiz.id'
     );
-    
+
     public function calculatePoints($quizSession) {
-        
+
         $answerModel = ClassRegistry::init('Answer');
         $questionModel = ClassRegistry::init('Question');
         $partiesModel = ClassRegistry::init('Party');
 
         $questionIds = array_map(array($this,"getQuestionIdFromQuiz"), $quizSession);
         $answersConditions = array('deleted' => false, 'approved' => true, 'questionId' => $questionIds);
-        $answers = $answerModel->getAnswers($answersConditions); 
+        $answers = $answerModel->getAnswers($answersConditions);
 
-        $questionModel->recursive = -1;  
+        $questionModel->recursive = -1;
         //$questions = $questionModel->find('all', array('conditions' => array('Question.revision_id' => $questionIds)));
         $questions = $questionModel->getQuestionsByQuizId($quizSession['QuizSession']['quiz_id']);
         $answersMatrix = $answerModel->getAnswersMatrix($questions, $answers);
 
         $partiesModel->recursive = -1;
         $parties = $partiesModel->getPartiesOrdered();
-        
+
 
         $results = array();
         $results['parties'] = array();
@@ -105,7 +105,7 @@ class Quiz extends AppModel {
 
         $partiesResult = array();
         $questionsResult = array();
-        
+
         foreach ($quizSession as $qResult) {
             if (empty($qResult['Question'])) continue;
 
@@ -115,7 +115,7 @@ class Quiz extends AppModel {
 
             $answersMatrix[$questionId]['answer'] = $answer;
             $answersMatrix[$questionId]['importance'] = $importance;
-        }	
+        }
 
         foreach ($parties as $party) {
             $partyResult = &$partiesResult[$party['Party']['id']];
@@ -132,13 +132,13 @@ class Quiz extends AppModel {
         foreach ($questions as $question) {
             $questionId = $question['Question']['question_id'];
             $matrixQuestion = $answersMatrix[$questionId];
-            
+
             $userAnswer = $matrixQuestion['answer'];
             $importanceIndex = $matrixQuestion['importance'];
             $importance = 0;
-            
+
             switch ($importanceIndex) {
-                case 1: 
+                case 1:
                     $importance = self::NOT_IMPORTANT_POINTS;
                     break;
                 case 2:
@@ -147,19 +147,19 @@ class Quiz extends AppModel {
                 case 3:
                     $importance = self::VERY_IMPORTANT_POINTS;
                     break;
-                    
+
             }
-            
+
             $questionsResult[$questionId] = array();
             $questionsResult[$questionId]['title'] = $question['Question']['title'];
             $questionsResult[$questionId]['question_id'] = $question['Question']['question_id'];
             $questionsResult[$questionId]['parties'] = array();
-                        
+
             $results[$questionId] = array();
 
-            foreach ($parties as $party) { 
-                $partyId = $party['Party']['id']; 
-                $sameAnswer = null; 
+            foreach ($parties as $party) {
+                $partyId = $party['Party']['id'];
+                $sameAnswer = null;
 
                 $questionsResult[$questionId]['parties'][$partyId] = array();
                 $currentQuestionResult = &$questionsResult[$questionId]['parties'][$partyId];
@@ -193,13 +193,13 @@ class Quiz extends AppModel {
                 }
 
                 $partiesResult[$partyId]['no_questions'] += 1;
-                
+
             }
         }
 
         $result['questions'] = $questionsResult;
         $result['parties'] = $partiesResult;
-        
+
         return $result;
     }
 
@@ -210,12 +210,12 @@ class Quiz extends AppModel {
                 'conditions' => array(
                         'Quiz.id' => $id
                     ),
-                'fields' => array('Quiz.id, Quiz.name, Quiz.created_date, Quiz.updated_date, Quiz.description, 
+                'fields' => array('Quiz.id, Quiz.name, Quiz.created_date, Quiz.updated_date, Quiz.description,
                                    Quiz.deleted, Quiz.approved, Quiz.created_by, Quiz.approved_by, Quiz.approved_date')
             ));
         return array_pop($quiz);
     }
-    
+
     public function getVisibleQuizzes() {
         $result = Cache::read('visible', 'quiz');
         if (!$result) {
@@ -226,10 +226,10 @@ class Quiz extends AppModel {
             ));
             Cache::write('visible', $result, 'quiz');
         }
-        
+
         return $result;
     }
-    
+
     public function getLoggedInQuizzes() {
         $result = Cache::read('loggedin', 'quiz');
         if (!$result) {
@@ -240,7 +240,7 @@ class Quiz extends AppModel {
             ));
             Cache::write('loggedin', $result, 'quiz');
         }
-        
+
         return $result;
     }
 
@@ -253,7 +253,7 @@ class Quiz extends AppModel {
     	$totalPoints = 0;
         foreach ($partyPoints as $partyPoint) {
             if ($maxPoints > 0) $maxPoints = $partyPoint['points'];
-            if ($partyPoint['points'] > 0) { $totalPoints += $partyPoint['points']; } 
+            if ($partyPoint['points'] > 0) { $totalPoints += $partyPoint['points']; }
         }
 
         foreach ($partyPoints as $id => $partyPoint) {
@@ -274,7 +274,7 @@ class Quiz extends AppModel {
 
             $points_percentage[$id]['result'] = $partyPoint['points'] > 0 ? round(($partyPoint['points'] / $totalPoints) * 100) : 0;
             $points_percentage[$id]['range'] = $totalPoints;
-            $points_percentage[$id]['points'] = $partyPoint['points']; 
+            $points_percentage[$id]['points'] = $partyPoint['points'];
         }
 
     	$result['question_agree_rate'] = $question_agree_rate;
@@ -293,34 +293,34 @@ class Quiz extends AppModel {
 	$questionModel = ClassRegistry::init('Question');
 
         $questionModel->recursive = -1;
-        
+
         if ($id === 'all') {
             $quizSession = $questionModel->getAllVisibleQuestionIds();
         } else {
             $quizSession = $questionModel->getAllQuizQuestions($id);
         }
-        
+
         if (sizeof($quizSession) < 1) {
             throw new InvalidArgumentException('A quiz has to have at least 1 question');
         }
-        
+
         shuffle($quizSession);
 
         $quizSession["QuizSession"] = array(
             'index' => 0,
             'id' => Security::hash($this->randomString() . microtime()),
-            'quiz_id' => $id, 
+            'quiz_id' => $id,
             'has_answers' => false,
             'questions' => sizeof($quizSession)
         );
 
         return $quizSession;
     }
-    
+
     private function randomString() {
         $length = 20;
         $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        $str = "";    
+        $str = "";
 
         for ($i = 0; $i < $length; $i++) {
             $str .= $chars[mt_rand(0, strlen($chars) - 1)];
@@ -328,7 +328,7 @@ class Quiz extends AppModel {
 
         return $str;
     }
-    
+
     public function getAllQuiz() {
         $result = Cache::read('allquiz', 'quiz');
         if (!$result) {
@@ -340,25 +340,25 @@ class Quiz extends AppModel {
                 'questions' => $this->Question->find('count', array(
                     'conditions' => array('deleted' => false, 'approved' => true)
                 ))
-            ));            
+            ));
             Cache::write('allquiz', $result, 'quiz');
         }
-        
+
         return $result;
     }
-    
+
     public function getUserQuizzes($userId) {
         $this->recursive = -1;
         return $this->find('all', array(
-           'conditions' => array('created_by' => $userId) 
+           'conditions' => array('created_by' => $userId)
         ));
     }
-    
+
     public function afterSave($created, $options = array()) {
         parent::afterSave($created, $options);
         Cache::clear(false, 'quiz');
     }
-    
+
     public function afterDelete() {
         parent::afterDelete();
         Cache::clear(false, 'quiz');

@@ -2,7 +2,7 @@
 /**
  * Copyright 2013-2014 Partisk.nu Team
  * https://www.partisk.nu/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -21,7 +21,7 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * @copyright   Copyright 2013-2014 Partisk.nu Team
  * @link        https://www.partisk.nu
  * @package     app.Controller
@@ -45,73 +45,73 @@ class PartiesController extends AppController {
         parent::beforeRender();
         $this->set("currentPage", "parties");
     }
-    
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(array('notAnswered','getPartiesApi', 'api_index', 'api_view'));
     }
 
-    public function index() {        
+    public function index() {
         $this->set('parties', $this->Party->getPartiesOrdered());
         $this->set('title_for_layout', 'Partier');
-        $this->set('description_for_layout', 'Alla partier');       
+        $this->set('description_for_layout', 'Alla partier');
     }
-    
-    public function view($name = null) { 
+
+    public function view($name = null) {
         $name = $this->deSlugUrl($name);
-        
+
         if (!$name) {
             throw new NotFoundException("Ogiltigt parti");
         }
-       
+
         $party = $this->Party->getByIdOrName($name);
 
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
         }
-                    
-        
+
+
         if(!$this->Permissions->isLoggedIn()) {
             $questions = $this->Party->Answer->Question->getVisibleQuestions();
         } else {
             $questions = $this->Party->Answer->Question->getLoggedInQuestions();
         }
-        
+
         $questionIds = array();
 
         foreach ($questions as $question) {
-            array_push($questionIds, $question['Question']['question_id']);  
+            array_push($questionIds, $question['Question']['question_id']);
         }
 
-        $conditions = array('partyId' => $party['Party']['id'], 'questionId' => $questionIds, 'includeParty' => true, 
+        $conditions = array('partyId' => $party['Party']['id'], 'questionId' => $questionIds, 'includeParty' => true,
                         'includeQuestion' => true, 'deleted' => false);
-        
+
         if(!$this->Permissions->isLoggedIn()) {
             $conditions['approved'] = true;
         }
-        
+
         $party["Answer"] = $this->Party->Answer->getAnswers($conditions);
 
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));
         $this->set('description_for_layout', ucfirst($party['Party']['name']));
     }
-    
+
     public function notAnswered($name) {
         $name = $this->deSlugUrl($name);
-        
+
         if (!$name) {
             throw new NotFoundException("Ogiltigt parti");
         }
-       
+
         $party = $this->Party->getByIdOrName($name);
 
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
         }
-        
-        $questions = $this->Party->Answer->Question->getNotAnswered($party['Party']['id']);  
-        
+
+        $questions = $this->Party->Answer->Question->getNotAnswered($party['Party']['id']);
+
         $this->set('questions', $questions);
         $this->set('party', $party);
         $this->set('title_for_layout', ucfirst($party['Party']['name']));
@@ -163,21 +163,21 @@ class PartiesController extends AppController {
 
             return $this->redirect($this->referer());
         }
-        
+
         if (!$id) {
             throw new NotFoundException("Ogiltigt parti");
         }
 
         $party = $this->Party->getByIdOrName($id);
-        
+
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
         }
         if (!$this->request->data) {
             $this->request->data = $party;
         }
-        $this->set('party', $party);  
-             
+        $this->set('party', $party);
+
         $this->renderModal('deletePartyModal', array('setAjax' => true));
      }
 
@@ -200,11 +200,11 @@ class PartiesController extends AppController {
                 $this->customFlash(__('Partiet har sparats.'));
                 $this->logUser('edit', $this->request->data['Party']['id']);
             } else {
-                $this->customFlash(__('Partiet kunde inte sparas.'), 'danger'); 
+                $this->customFlash(__('Partiet kunde inte sparas.'), 'danger');
                 $this->Session->write('validationErrors', array('Party' => $this->Party->validationErrors, 'mode' => 'update'));
                 $this->Session->write('formData', $this->data);
             }
-            
+
             return $this->redirect(array('controller' => 'parties', 'action' => 'index'));
         }
 
@@ -217,25 +217,25 @@ class PartiesController extends AppController {
         if (empty($party)) {
             throw new NotFoundException("Ogiltigt parti");
         }
-        
+
         if (!$this->request->data) {
             $this->request->data = $party;
         }
 
         $this->set('party', $party);
-        
+
         $this->renderModal('saveParty', array(
             'setEdit' => true,
             'setModal' => true,
             'setAjax' => true,));
-   
+
     }
 
     public function logUser($action, $object_id, $text = "") {
         UserLogger::write(array('model' => 'party', 'action' => $action,
                                 'user_id' => $this->Auth->user('id'), 'object_id' => $object_id, 'text' => $text, 'ip' => $this->request->clientIp()));
     }
-    
+
     function api_index() { $this->Api->dispatch(); }
     function api_view($args) { $this->Api->dispatch($args); }
 }

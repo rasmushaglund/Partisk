@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 // Credits: http://deadlytechnology.com/php/cakephp-api-component/
 
 App::import('Vendor', 'Api_0_1', array('file' =>'api'.DS.'0.1'.DS.'api.php'));
+App::import('Vendor', 'Api_0_2', array('file' =>'api'.DS.'0.2'.DS.'api.php'));
 class ApiComponent extends Component
 {
     public $api = null;
